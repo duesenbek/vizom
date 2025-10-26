@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- SEO Meta Tags -->
+  <title>Templates - VIZOM | Pre-built Visualization Templates</title>
+  <meta name="description" content="Browse and use pre-built visualization templates for business, academic, and marketing use cases. Start with professional templates.">
+  <meta name="keywords" content="chart templates, dashboard templates, visualization templates, business charts">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://vizom.app/templates.html">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://api.deepseek.com">
+  
+  <link rel="stylesheet" href="dist/output.css">
+  <link rel="stylesheet" href="styles/minimal.css">
+  <script src="src/i18n.js" defer></script>
+  <script src="src/templates.js" defer></script>
+  <!-- Favicon -->
+  <link rel="icon" href="./images/vizom.png" type="image/png">
+  <link rel="shortcut icon" href="./images/vizom.png" type="image/png">
+  <link rel="apple-touch-icon" href="./images/vizom.png">
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body class="min-h-screen bg-white text-black flex flex-col">
+  <header class="site-header">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2" aria-label="VIZOM">
+        <img src="images/vizom.png" alt="VIZOM" class="h-16 w-16 rounded-lg" />
+      </a>
+      <div class="flex items-center gap-4">
+        <nav class="hidden sm:flex items-center gap-6">
+          <a href="index.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.home">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-7 9 7v7a2 2 0 01-2 2h-3a2 2 0 01-2-2v-3H10v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-7z"/></svg>
+            <span data-i18n-text>Home</span>
+          </a>
+          <a href="generator.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.generator">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span data-i18n-text>Generator</span>
+          </a>
+          <a href="templates.html" class="nav-link is-active inline-flex items-center gap-2" data-i18n="nav.templates">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+            <span data-i18n-text>Templates</span>
+          </a>
+        </nav>
+        <div class="relative" data-i18n-skip>
+          <button id="language-toggle" class="btn btn-ghost" aria-label="Change language">
+            <span id="language-flag" class="text-2xl">🇺🇸</span>
+          </button>
+          <div id="language-menu" class="absolute right-0 mt-2 hidden w-48 rounded-xl surface shadow-lg p-3 space-y-2" role="menu">
+            <div class="grid grid-cols-3 gap-2">
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="en" aria-label="English">🇺🇸</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="kk" aria-label="Kazakh">🇰🇿</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="ru" aria-label="Russian">🇷🇺</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="es" aria-label="Spanish">🇪🇸</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="pt" aria-label="Portuguese">🇵🇹</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="tr" aria-label="Turkish">🇹🇷</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="de" aria-label="German">🇩🇪</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="generator.html" class="sm:hidden btn btn-accent">Start</a>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div class="site-header">
+    <div class="max-w-7xl mx-auto px-6 py-3">
+      <nav class="flex items-center gap-2 text-sm text-slate-600">
+        <a href="index.html" class="hover:text-slate-900" data-i18n="nav.home">Home</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <span class="text-slate-900 font-medium" data-i18n="nav.templates">Templates</span>
+      </nav>
+    </div>
+  </div>
+
+  <main class="flex-1">
+    <!-- Hero / Intro -->
+    <section class="relative overflow-hidden py-16">
+      <div class="absolute inset-0 bg-gradient-to-br from-white via-slate-50 to-blue-50"></div>
+      <div class="absolute -top-24 -right-24 w-[340px] h-[340px] rounded-full bg-gradient-to-br from-blue-200 via-purple-200 to-transparent opacity-70 blur-3xl"></div>
+      <div class="relative max-w-7xl mx-auto px-6">
+        <div class="glass-panel p-10 md:p-14 flex flex-col gap-8">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="hero-chip">
+              <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a1 1 0 01.894.553l1.382 2.764 3.05.443a1 1 0 01.554 1.705l-2.203 2.148.52 3.031a1 1 0 01-1.451 1.054L10 12.347l-2.742 1.441a1 1 0 01-1.45-1.054l.52-3.03L4.124 7.465a1 1 0 01.554-1.705l3.05-.443L9.448 2.553A1 1 0 0110 2z"/></svg>
+              Curated by VIZOM
+            </span>
+            <span class="hero-chip is-accent">AI-ready Layouts</span>
+          </div>
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+            <div class="max-w-3xl space-y-5">
+              <h1 class="hero-title leading-tight" data-i18n="templates.header.title">Designer-grade templates that generate visuals in seconds</h1>
+              <p class="section-subtitle max-w-2xl" data-i18n="templates.header.subtitle">Start from production-ready dashboards, charts, and analytic layouts built for analysts, marketers, and researchers. Each template includes live previews, AI prompts, and customization paths.</p>
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="tag-pill">60+ AI prompts included</span>
+                <span class="tag-pill">Instant previews</span>
+                <span class="tag-pill">No API key required</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 min-w-[260px]">
+              <div class="quick-stat-card">
+                <span class="text-xs uppercase tracking-widest text-muted">Live dashboards</span>
+                <span class="quick-stat-value">18</span>
+                <span class="text-xs text-muted">Business & marketing ready</span>
+              </div>
+              <div class="quick-stat-card">
+                <span class="text-xs uppercase tracking-widest text-muted">Average rating</span>
+                <span class="quick-stat-value">4.87</span>
+                <span class="text-xs text-muted">From 1,200+ teams</span>
+              </div>
+              <div class="quick-stat-card">
+                <span class="text-xs uppercase tracking-widest text-muted">Setups</span>
+                <span class="quick-stat-value">6</span>
+                <span class="text-xs text-muted">Visualization archetypes</span>
+              </div>
+              <div class="quick-stat-card">
+                <span class="text-xs uppercase tracking-widest text-muted">Time saved</span>
+                <span class="quick-stat-value">72%</span>
+                <span class="text-xs text-muted">Compared to manual builds</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="relative z-10 -mt-16 pb-20">
+      <div class="max-w-7xl mx-auto px-6 space-y-8">
+        <div class="glass-panel p-6 md:p-8">
+          <div class="flex flex-wrap items-center justify-between gap-6 mb-6">
+            <div>
+              <h2 class="text-xl font-semibold text-slate-900">Template Library</h2>
+              <p class="text-sm text-muted mt-1">Browse designed experiences by category, visualize instantly, export anywhere.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <button class="view-toggle is-active" id="view-grid" aria-label="Grid view">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+              </button>
+              <button class="view-toggle" id="view-list" aria-label="List view">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+              </button>
+              <div class="h-6 w-px bg-slate-200"></div>
+              <div class="flex gap-1" id="template-category-chips">
+                <button class="badge-outline filter-btn" data-filter="all" data-i18n="templates.sidebar.all">All</button>
+                <button class="badge-outline filter-btn" data-filter="business" data-i18n="templates.sidebar.business">Business</button>
+                <button class="badge-outline filter-btn" data-filter="academic" data-i18n="templates.sidebar.academic">Academic</button>
+                <button class="badge-outline filter-btn" data-filter="marketing" data-i18n="templates.sidebar.marketing">Marketing</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 mb-8" id="template-meta-bar">
+            <span class="hero-chip is-accent">Live charts included</span>
+            <span class="hero-chip">Export-ready layouts</span>
+            <span class="hero-chip">Guided prompts</span>
+          </div>
+
+          <div id="template-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="template-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-6">
+    <div class="glass-panel max-w-5xl w-full max-h-[92vh] overflow-hidden flex flex-col">
+      <div class="flex items-center justify-between px-6 py-5">
+        <div>
+          <h2 id="modal-title" class="text-2xl font-semibold text-slate-900">Template Preview</h2>
+          <div id="modal-tags" class="modal-meta mt-2"></div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="copy-code-btn" class="btn-icon" aria-label="Copy code">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8l6 6v4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 16h2a2 2 0 012 2v2a2 2 0 01-2 2H10a2 2 0 01-2-2v-2a2 2 0 012-2h2"/></svg>
+          </button>
+          <button id="close-modal" class="btn-icon" aria-label="Close">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-tab-bar">
+        <div class="modal-tabs" role="tablist">
+          <button class="modal-tab is-active" data-tab="preview" role="tab">Preview</button>
+          <button class="modal-tab" data-tab="code" role="tab">Code</button>
+          <button class="modal-tab" data-tab="customize" role="tab">Customize</button>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="live-indicator">
+            <span class="live-dot"></span>
+            Live data ready
+          </span>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto">
+        <div class="modal-pane is-active" id="modal-preview-pane">
+          <div class="template-preview-media" id="modal-preview-media"></div>
+          <div id="modal-description" class="mt-6 space-y-4"></div>
+        </div>
+        <div class="modal-pane" id="modal-code-pane">
+          <pre class="code-block" id="modal-code-block"><code></code></pre>
+        </div>
+        <div class="modal-pane" id="modal-customize-pane">
+          <ul class="customize-list space-y-4" id="modal-customize-list"></ul>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-3 px-6 py-5 bg-slate-50/70 border-t border-slate-200/70">
+        <button id="modal-use-template" class="btn btn-accent w-full md:flex-1 justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Use this template
+        </button>
+        <button id="modal-close" class="btn btn-outline w-full md:w-auto">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="border-t bg-white">
+    <div class="max-w-7xl mx-auto px-6 py-6 text-center text-slate-500 text-sm">
+      © <span id="year"></span> VIZOM. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

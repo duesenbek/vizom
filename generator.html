@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- SEO Meta Tags -->
+  <title>Generator - VIZOM | Create AI-Powered Visualizations</title>
+  <meta name="description" content="Describe your visual and generate charts, tables, and dashboards with VIZOM. AI-powered data visualization tool.">
+  <meta name="keywords" content="chart generator, AI visualization, data charts, dashboard builder">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://vizom.app/generator.html">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://api.deepseek.com">
+  
+  <link rel="stylesheet" href="dist/output.css">
+  <link rel="stylesheet" href="styles/minimal.css">
+  <!-- Favicon -->
+  <link rel="icon" href="./images/vizom.png" type="image/png">
+  <link rel="shortcut icon" href="./images/vizom.png" type="image/png">
+  <link rel="apple-touch-icon" href="./images/vizom.png">
+  
+  <script src="src/i18n.js" defer></script>
+  <!-- Export Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="src/app.js" defer></script>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body class="min-h-screen bg-white text-black flex flex-col">
+  <header class="site-header">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2" aria-label="VIZOM">
+        <img src="images/vizom.png" alt="VIZOM" class="h-16 w-16 rounded-lg" />
+      </a>
+      <div class="flex items-center gap-4">
+        <nav class="hidden sm:flex items-center gap-6">
+          <a href="index.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.home">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-7 9 7v7a2 2 0 01-2 2h-3a2 2 0 01-2-2v-3H10v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-7z"/></svg>
+            <span data-i18n-text>Home</span>
+          </a>
+          <a href="generator.html" class="nav-link is-active inline-flex items-center gap-2" data-i18n="nav.generator">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span data-i18n-text>Generator</span>
+          </a>
+          <a href="templates.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.templates">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+            <span data-i18n-text>Templates</span>
+          </a>
+          <a href="#" class="nav-link inline-flex items-center gap-2" data-i18n="nav.docs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h6M5 4h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>
+            <span data-i18n-text>Docs</span>
+          </a>
+        </nav>
+        <div class="relative" data-i18n-skip>
+          <button id="language-toggle" class="btn btn-ghost" aria-label="Change language">
+            <span id="language-flag" class="text-2xl">🇺🇸</span>
+          </button>
+          <div id="language-menu" class="absolute right-0 mt-2 hidden w-48 rounded-xl surface shadow-lg p-3 space-y-2" role="menu">
+            <div class="grid grid-cols-3 gap-2">
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="en" aria-label="English">🇺🇸</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="kk" aria-label="Kazakh">🇰🇿</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="ru" aria-label="Russian">🇷🇺</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="es" aria-label="Spanish">🇪🇸</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="pt" aria-label="Portuguese">🇵🇹</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="tr" aria-label="Turkish">🇹🇷</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="de" aria-label="German">🇩🇪</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="generator.html" class="sm:hidden btn btn-accent" data-i18n="nav.startShort">Start</a>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div class="site-header">
+    <div class="max-w-7xl mx-auto px-6 py-3">
+      <nav class="flex items-center gap-2 text-sm text-slate-600">
+        <a href="index.html" class="hover:text-slate-900" data-i18n="nav.home">Home</a>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <span class="text-slate-900 font-medium" data-i18n="nav.generator">Generator</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+        <span id="breadcrumb-chart-type" class="text-slate-500" data-i18n="generator.chartTypes.custom">Custom</span>
+      </nav>
+    </div>
+  </div>
+
+  <main class="flex-1">
+    <div class="max-w-7xl mx-auto px-6 py-8 space-y-6">
+      
+      <!-- Chart Type Selector -->
+      <section class="surface p-6">
+        <h2 class="text-lg font-semibold mb-4" data-i18n="generator.chartSection.title">Select Chart Type</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          
+          <!-- Bar Chart Card -->
+          <button class="chart-type-card group relative p-4 rounded-lg border muted-border hover:shadow-md transition-all duration-200 text-left focus:outline-none" data-type="bar" data-chart-key="bar">
+            <div class="space-y-2">
+              <div class="template-preview-media h-24">
+                <svg viewBox="0 0 160 80" width="100%" height="100%">
+                  <defs>
+                    <linearGradient id="cardBar" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#3B82F6"/>
+                      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.2"/>
+                    </linearGradient>
+                  </defs>
+                  <g transform="translate(10,10)">
+                    <rect rx="3" x="0" y="40" width="20" height="0" fill="url(#cardBar)"><animate attributeName="height" from="0" to="30" dur="0.35s" fill="freeze"/><animate attributeName="y" from="40" to="10" dur="0.35s" fill="freeze"/></rect>
+                    <rect rx="3" x="28" y="40" width="20" height="0" fill="url(#cardBar)"><animate attributeName="height" from="0" to="22" dur="0.35s" fill="freeze"/><animate attributeName="y" from="40" to="18" dur="0.35s" fill="freeze"/></rect>
+                    <rect rx="3" x="56" y="40" width="20" height="0" fill="url(#cardBar)"><animate attributeName="height" from="0" to="36" dur="0.35s" fill="freeze"/><animate attributeName="y" from="40" to="4" dur="0.35s" fill="freeze"/></rect>
+                    <rect rx="3" x="84" y="40" width="20" height="0" fill="url(#cardBar)"><animate attributeName="height" from="0" to="26" dur="0.35s" fill="freeze"/><animate attributeName="y" from="40" to="14" dur="0.35s" fill="freeze"/></rect>
+                  </g>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-sm" data-i18n="generator.chartTypes.bar">Bar Chart</div>
+                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.chartDescriptions.bar">Compare values</div>
+              </div>
+            </div>
+            <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-slate-300 group-hover:border-blue-500 hidden group-[.selected]:block group-[.selected]:bg-blue-500"></div>
+          </button>
+
+          <!-- Line Chart Card -->
+          <button class="chart-type-card group relative p-4 rounded-lg border muted-border hover:shadow-md transition-all duration-200 text-left focus:outline-none" data-type="line" data-chart-key="line">
+            <div class="space-y-2">
+              <div class="template-preview-media h-24">
+                <svg viewBox="0 0 160 80" width="100%" height="100%">
+                  <defs>
+                    <linearGradient id="cardLine" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6" stop-opacity="0.5"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient>
+                  </defs>
+                  <polyline points="10,60 40,52 70,48 100,42 130,36" fill="none" stroke="#3B82F6" stroke-width="3" stroke-linecap="round"><animate attributeName="stroke-dasharray" from="0,999" to="999,0" dur="0.6s" fill="freeze"/></polyline>
+                  <polygon points="10,60 40,52 70,48 100,42 130,36 130,70 10,70" fill="url(#cardLine)"/>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-sm" data-i18n="generator.chartTypes.line">Line Chart</div>
+                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.chartDescriptions.line">Show trends</div>
+              </div>
+            </div>
+            <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-slate-300 group-hover:border-purple-500 hidden group-[.selected]:block group-[.selected]:bg-purple-500"></div>
+          </button>
+
+          <!-- Pie Chart Card -->
+          <button class="chart-type-card group relative p-4 rounded-lg border muted-border hover:shadow-md transition-all duration-200 text-left focus:outline-none" data-type="pie" data-chart-key="pie">
+            <div class="space-y-2">
+              <div class="template-preview-media h-24 grid place-items-center">
+                <svg viewBox="0 0 80 80" width="64" height="64">
+                  <circle cx="40" cy="40" r="28" fill="#e5e7eb"></circle>
+                  <path d="M40 40 L40 12 A28 28 0 0 1 67 48 Z" fill="#3B82F6"></path>
+                  <path d="M40 40 L67 48 A28 28 0 0 1 22 56 Z" fill="#8B5CF6"></path>
+                  <path d="M40 40 L22 56 A28 28 0 0 1 40 12 Z" fill="#06D6A0"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-sm" data-i18n="generator.chartTypes.pie">Pie Chart</div>
+                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.chartDescriptions.pie">Show parts</div>
+              </div>
+            </div>
+            <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-slate-300 group-hover:border-green-500 hidden group-[.selected]:block group-[.selected]:bg-green-500"></div>
+          </button>
+
+          <!-- Table Card -->
+          <button class="chart-type-card group relative p-4 rounded-lg border muted-border hover:shadow-md transition-all duration-200 text-left focus:outline-none" data-type="table" data-chart-key="table">
+            <div class="space-y-2">
+              <div class="template-preview-media h-24 bg-white">
+                <div class="w-full h-full" style="padding:8px;font-family:Inter,system-ui,sans-serif;color:#0f172a">
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:10px">
+                    <div style="font-weight:600">Product</div><div style="font-weight:600">Units</div><div style="font-weight:600">Revenue</div>
+                    <div>Alpha</div><div>150</div><div>$4.5K</div>
+                    <div style="background:#f8fafc">Beta</div><div style="background:#f8fafc">120</div><div style="background:#f8fafc">$3.6K</div>
+                    <div>Gamma</div><div>200</div><div>$6.0K</div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="font-medium text-sm" data-i18n="generator.chartTypes.table">Table</div>
+                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.chartDescriptions.table">Structured data</div>
+              </div>
+            </div>
+            <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-slate-300 group-hover:border-orange-500 hidden group-[.selected]:block group-[.selected]:bg-orange-500"></div>
+          </button>
+
+          <!-- Dashboard Card -->
+          <button class="chart-type-card group relative p-4 rounded-lg border muted-border hover:shadow-md transition-all duration-200 text-left focus:outline-none" data-type="dashboard" data-chart-key="dashboard">
+            <div class="space-y-2">
+              <div class="template-preview-media h-24">
+                <div class="w-full h-full" style="padding:8px;color:#0f172a;font-family:Inter,system-ui,sans-serif">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                    <div style="border:1px solid #e2e8f0;border-radius:8px;padding:6px;font-size:10px"><div style="color:#64748b">Revenue</div><div style="font-weight:700">$125K</div></div>
+                    <div style="border:1px solid #e2e8f0;border-radius:8px;padding:6px;font-size:10px"><div style="color:#64748b">Customers</div><div style="font-weight:700">2.4K</div></div>
+                    <div style="grid-column: span 2;border:1px solid #e2e8f0;border-radius:8px;padding:6px"> 
+                      <svg viewBox="0 0 140 40" width="100%" height="40">
+                        <polyline points="0,35 20,32 40,30 60,28 80,24 100,20 120,18 140,16" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="font-medium text-sm" data-i18n="generator.chartTypes.dashboard">Dashboard</div>
+                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.chartDescriptions.dashboard">Multiple views</div>
+              </div>
+            </div>
+            <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-slate-300 group-hover:border-pink-500 hidden group-[.selected]:block group-[.selected]:bg-pink-500"></div>
+          </button>
+
+        </div>
+      </section>
+
+      <!-- Split: Data (left) + Live Preview (right) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Left: Data + Tools -->
+        <section class="surface p-6 space-y-6" id="data-panel">
+          <div>
+            <h2 class="text-lg font-semibold mb-4" data-i18n="generator.dataInput.title">Data Input</h2>
+            <div class="flex border-b mb-4">
+              <button class="data-tab px-4 py-2 text-sm font-medium border-b-2 border-slate-900 text-slate-900" data-tab="manual" data-i18n="generator.dataTabs.manual">Manual</button>
+              <button class="data-tab px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700" data-tab="upload" data-i18n="generator.dataTabs.upload">Upload CSV</button>
+              <button class="data-tab px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700" data-tab="examples" data-i18n="generator.dataTabs.examples">Examples</button>
+            </div>
+            <div id="manual-tab" class="data-tab-content">
+              <label class="block text-sm font-medium text-slate-700 mb-2" data-i18n="generator.manual.label">Describe your data</label>
+              <textarea id="prompt-input" class="w-full h-64 rounded-lg border-2 border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none p-3 resize-y transition-colors" placeholder="Example: Create a bar chart showing monthly sales:\nJanuary: $12,000\nFebruary: $15,000\nMarch: $18,000" data-i18n-placeholder="generator.manual.placeholder"></textarea>
+              <div id="validation-message" class="hidden mt-2 p-3 rounded-lg border"></div>
+            </div>
+            <div id="upload-tab" class="data-tab-content hidden">
+              <div id="drop-zone" class="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center hover:border-blue-500 hover:bg-blue-50 transition-colors cursor-pointer">
+                <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13л-3-3m0 0л-3 3m3-3v12"/></svg>
+                <p class="mt-2 text-sm text-slate-600" data-i18n="generator.upload.drop">Drop CSV file here or click to browse</p>
+                <p class="mt-1 text-xs text-slate-500" data-i18n="generator.upload.maxSize">Maximum file size: 5MB</p>
+                <input type="file" id="csv-upload" accept=".csv" class="hidden">
+              </div>
+              <div id="file-info" class="hidden mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800"></div>
+            </div>
+            <div id="examples-tab" class="data-tab-content hidden space-y-2">
+              <button class="example-template w-full text-left p-3 rounded-lg border border-slate-200 hover:border-blue-500 hover:bg-blue-50 transition-colors" data-example="sales">
+                <div class="font-medium text-sm" data-i18n="generator.examples.sales.title">Monthly Sales</div>
+                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.examples.sales.desc">Bar chart with 6 months of data</div>
+              </button>
+              <button class="example-template w-full text-left p-3 rounded-lg border border-slate-200 hover:border-purple-500 hover:bg-purple-50 transition-colors" data-example="traffic">
+                <div class="font-medium text-sm" data-i18n="generator.examples.traffic.title">Website Traffic</div>
+                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.examples.traffic.desc">Line chart showing growth trend</div>
+              </button>
+              <button class="example-template w-full text-left p-3 rounded-lg border border-slate-200 hover:border-green-500 hover:bg-green-50 transition-colors" data-example="market">
+                <div class="font-medium text-sm" data-i18n="generator.examples.market.title">Market Share</div>
+                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.examples.market.desc">Pie chart with percentages</div>
+              </button>
+              <button class="example-template w-full text-left p-3 rounded-lg border border-slate-200 hover:border-orange-500 hover:bg-orange-50 transition-colors" data-example="products">
+                <div class="font-medium text-sm" data-i18n="generator.examples.products.title">Product Performance</div>
+                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.examples.products.desc">Table with sales metrics</div>
+              </button>
+            </div>
+          </div>
+          <div class="surface p-4">
+            <button id="smart-parse-btn" class="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-lg border-2 border-blue-500 text-blue-600 font-medium hover:bg-blue-50 focus:ring-4 focus-ring-blue-200 transition-all" data-i18n="generator.smartParse">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657л-.707-.707m2.828 9.9a5 5 0 117.072 0л-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0 -.895-.356-1.754-.988-2.386л-.548-.547z"/></svg>
+              Smart Parse
+            </button>
+          </div>
+          <div class="surface p-4">
+            <h3 class="text-sm font-semibold mb-3" data-i18n="generator.export.title">Export Format</h3>
+            <div class="grid grid-cols-2 gap-2">
+              <button class="format-btn px-3 py-2 rounded-lg border-2 border-slate-900 bg-slate-900 text-white hover:bg-slate-800 transition-colors text-xs font-medium" data-i18n="generator.export.png">PNG</button>
+              <button class="format-btn px-3 py-2 rounded-lg border-2 border-slate-200 hover:border-slate-300 transition-colors text-xs font-medium" data-i18n="generator.export.pdf">PDF</button>
+              <button class="format-btn px-3 py-2 rounded-lg border-2 border-slate-200 hover:border-slate-300 transition-colors text-xs font-medium" data-i18n="generator.export.csv">CSV</button>
+              <button class="format-btn px-3 py-2 rounded-lg border-2 border-slate-200 hover:border-сlate-300 transition-colors text-xs font-medium" data-i18n="generator.export.svg">SVG</button>
+            </div>
+          </div>
+          <div class="surface">
+            <button class="settings-toggle w-full flex items-center justify-between p-4 text-left hover:bg-slate-50 transition-colors" data-target="settings-content">
+              <span class="text-sm font-semibold" data-i18n="generator.settings.title">Settings</span>
+              <svg class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="settings-content" class="hidden p-4 pt-0 space-y-3 border-t">
+              <div>
+                <label class="block text-xs font-medium text-slate-700 mb-1" data-i18n="generator.settings.theme.label">Theme</label>
+                <select class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option data-i18n-option="generator.settings.theme.options.light">Light</option>
+                  <option data-i18n-option="generator.settings.theme.options.dark">Dark</option>
+                  <option data-i18n-option="generator.settings.theme.options.auto">Auto</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-700 mb-1" data-i18n="generator.settings.animation.label">Animation</label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="rounded" checked><span class="text-xs text-slate-600" data-i18n="generator.settings.animation.toggle">Enable animations</span></label>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Right: Live Preview -->
+        <section class="surface p-6 relative">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold" data-i18n="generator.preview.title">Preview</h2>
+            <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div><span class="text-xs text-slate-500" data-i18n="generator.preview.status">Live</span></div>
+          </div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="inline-flex rounded-lg border border-slate-200 overflow-hidden">
+              <button id="toggle-example" class="px-3 py-1.5 text-sm font-medium bg-slate-900 text-white">Example</button>
+              <button id="toggle-user" class="px-3 py-1.5 text-sm font-medium text-slate-600">Your data</button>
+            </div>
+            <div id="floating-actions" class="sticky top-4 z-10 flex gap-2">
+              <button id="generate-btn" class="btn btn-accent" data-i18n="generator.preview.generate"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Generate</button>
+              <button id="download-btn" class="btn btn-outline" data-i18n="generator.preview.download"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0л-4-4m4 4V4"/></svg>Download</button>
+            </div>
+          </div>
+          <div id="loading" class="hidden">
+            <div class="flex items-center justify-center gap-3 text-slate-600 p-8"><svg class="animate-spin h-6 w-6 text-slate-600" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg><span class="font-medium" data-i18n="generator.preview.loading">Generating your visual…</span></div>
+          </div>
+          <div class="preview-shell min-h-[500px]">
+            <div id="preview" class="preview-stage"></div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t bg-white">
+    <div class="max-w-7xl mx-auto px-6 py-6 text-center text-slate-500 text-sm">
+      &copy; <span id="year"></span> VIZOM. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Settings accordion toggle
+    document.querySelectorAll('.settings-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        const icon = btn.querySelector('svg');
+        if (target.classList.contains('hidden')) {
+          target.classList.remove('hidden');
+          icon.style.transform = 'rotate(180deg)';
+        } else {
+          target.classList.add('hidden');
+          icon.style.transform = 'rotate(0deg)';
+        }
+      });
+    });
+    
+    // Update breadcrumb when chart type is selected
+    document.querySelectorAll('.chart-type-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const type = card.dataset.type;
+        const breadcrumb = document.getElementById('breadcrumb-chart-type');
+        if (breadcrumb) {
+          breadcrumb.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+        }
+      });
+    });
+    // Live Preview (SVG) — non-invasive, works before AI generation
+    (function(){
+      const preview = document.getElementById('preview');
+      const loading = document.getElementById('loading');
+      const input = document.getElementById('prompt-input');
+      const toggleExample = document.getElementById('toggle-example');
+      const toggleUser = document.getElementById('toggle-user');
+      const cards = Array.from(document.querySelectorAll('.chart-type-card'));
+      let useExample = true;
+      let selectedType = 'bar';
+
+      function hasIframe(){
+        return !!preview?.querySelector('iframe');
+      }
+
+      function setToggle(active){
+        useExample = active === 'example';
+        if (toggleExample && toggleUser){
+          if (useExample){
+            toggleExample.classList.add('bg-slate-900','text-white');
+            toggleUser.classList.remove('bg-slate-900','text-white');
+            toggleUser.classList.add('text-slate-600');
+          } else {
+            toggleUser.classList.add('bg-slate-900','text-white');
+            toggleExample.classList.remove('bg-slate-900','text-white');
+            toggleExample.classList.add('text-slate-600');
+          }
+        }
+      }
+
+      // Parsing "Jan 12K, Feb 15K" -> [{label, value}]
+      function parseSeries(text){
+        const cleaned = (text||'').replace(/\n/g,' ').trim();
+        const parts = cleaned.split(/[,;]+/).map(s=>s.trim()).filter(Boolean);
+        const res = [];
+        for (const p of parts){
+          const m = p.match(/([A-Za-zА-Яа-я]+)\s*[:\-]?\s*\$?([\d,.]+)\s*%?\s*K?/);
+          if (m){
+            const label = m[1];
+            let v = parseFloat(m[2].replace(/,/g,''));
+            if (/K/i.test(p)) v *= 1000;
+            res.push({label, value:v});
+          }
+        }
+        if (!res.length) return [ {label:'Jan',value:12000},{label:'Feb',value:15000},{label:'Mar',value:18000} ];
+        return res;
+      }
+
+      // SVG renderers
+      function barChartSVG(series, {w=720,h=380,pad=36}={}){
+        const max = Math.max(...series.map(s=>s.value))||1;
+        const cw = w - pad*2; const ch = h - pad*2;
+        const bw = cw / series.length * 0.7; const gap = cw / series.length * 0.3;
+        let x = pad;
+        const grad = `<defs><linearGradient id="gbar" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.15"/></linearGradient></defs>`;
+        let bars = '';
+        series.forEach((s)=>{
+          const bh = Math.max(2, (s.value/max)*ch);
+          bars += `<g transform="translate(${x},${pad})"><rect rx="8" width="${bw}" height="0" y="${ch}" fill="url(#gbar)"><title>${s.label}: ${s.value}</title><animate attributeName="height" from="0" to="${bh}" dur="0.45s" fill="freeze"/><animate attributeName="y" from="${ch}" to="${ch-bh}" dur="0.45s" fill="freeze"/></rect><text x="${bw/2}" y="${ch+16}" text-anchor="middle" fill="#64748b" font-size="12">${s.label}</text></g>`;
+          x += bw + gap;
+        });
+        return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" role="img" aria-label="Bar chart">${grad}${bars}</svg>`;
+      }
+      function lineChartSVG(series, {w=720,h=380,pad=36}={}){
+        const max = Math.max(...series.map(s=>s.value))||1;
+        const cw=w-pad*2, ch=h-pad*2, step=cw/Math.max(1,series.length-1);
+        const pts = series.map((s,i)=>`${pad+i*step},${pad+(1-s.value/max)*ch}`).join(' ');
+        const gradId='lgrad';
+        const grad = `<defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6" stop-opacity="0.5"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs>`;
+        const area = `${pad},${h-pad} ${pts} ${pad+cw},${h-pad}`;
+        const circles = series.map((s,i)=>{
+          const x = pad + i*step; const y = pad + (1 - s.value/max)*ch;
+          return `<circle cx="${x}" cy="${y}" r="3" fill="#3B82F6"><title>${s.label}: ${s.value}</title></circle>`;
+        }).join('');
+        return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" role="img" aria-label="Line chart">${grad}<polyline points="${pts}" fill="none" stroke="#3B82F6" stroke-width="3" stroke-linecap="round"><animate attributeName="stroke-dasharray" from="0,9999" to="9999,0" dur="0.6s" fill="freeze"/></polyline><polygon points="${area}" fill="url(#${gradId})"/>${circles}</svg>`;
+      }
+      function pieChartSVG(series,{w=380,h=380}={}){
+        const cx=w/2, cy=h/2, r=Math.min(w,h)/3; const total=series.reduce((a,b)=>a+b.value,0)||1; let a=0;
+        const colors=["#3B82F6","#8B5CF6","#06D6A0","#60A5FA","#A78BFA"]; let paths='';
+        series.forEach((s,i)=>{ const f=s.value/total; const a2=a+f*Math.PI*2; const x1=cx+r*Math.cos(a), y1=cy+r*Math.sin(a); const x2=cx+r*Math.cos(a2), y2=cy+r*Math.sin(a2); const large=f>0.5?1:0; const d=`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`; paths+=`<path d="${d}" fill="${colors[i%colors.length]}" opacity="0"><animate attributeName="opacity" from="0" to="0.9" dur="0.4s" fill="freeze"/></path>`; a=a2; });
+        return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" role="img" aria-label="Pie chart">${paths}</svg>`;
+      }
+      function tableHTML(){
+        return `<div style="padding:12px;font-family:Inter,system-ui,sans-serif;color:#0f172a"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:14px"><div style="font-weight:600">Product</div><div style="font-weight:600">Units</div><div style="font-weight:600">Revenue</div><div>Alpha</div><div>150</div><div>$4.5K</div><div style=\"background:#f8fafc\">Beta</div><div style=\"background:#f8fafc\">120</div><div style=\"background:#f8fafc\">$3.6K</div><div>Gamma</div><div>200</div><div>$6.0K</div></div></div>`;
+      }
+
+      function exampleTextByType(type){
+        // Prefer app.js exampleTemplates if available
+        try{
+          if (typeof exampleTemplates !== 'undefined'){
+            if (type==='bar' && exampleTemplates.sales) return exampleTemplates.sales;
+            if (type==='line' && exampleTemplates.traffic) return exampleTemplates.traffic;
+            if (type==='pie' && exampleTemplates.market) return exampleTemplates.market;
+            if (type==='table' && exampleTemplates.products) return exampleTemplates.products;
+          }
+        }catch(e){}
+        // Fallbacks
+        const map={
+          bar:'Monthly sales: Jan $12K, Feb $15K, Mar $18K, Apr $20K',
+          line:'Visitors: Jan 1200, Feb 1500, Mar 1800, Apr 2100, May 2400, Jun 2800',
+          pie:'Market share: A 45%, B 30%, C 25%',
+          table:'Product | Units | Revenue\nAlpha | 150 | $4,500\nBeta | 120 | $3,600\nGamma | 200 | $6,000',
+          dashboard:'Revenue $125K, Customers 2.4K; Market: A 45%, B 30%, C 25%'
+        };
+        return map[type] || map.bar;
+      }
+
+      function render(){
+        if (!preview || hasIframe()) return; // don't override generated content
+        const sourceText = useExample ? exampleTextByType(selectedType) : (input?.value || '');
+        const s = parseSeries(sourceText);
+        let html = '';
+        if (selectedType==='bar') html = barChartSVG(s);
+        else if (selectedType==='line') html = lineChartSVG(s);
+        else if (selectedType==='pie') html = pieChartSVG(s);
+        else if (selectedType==='table') html = tableHTML();
+        else html = barChartSVG(s);
+        preview.innerHTML = html;
+      }
+
+      // Events
+      input?.addEventListener('input', ()=>{ if (!useExample) render(); });
+      toggleExample?.addEventListener('click', ()=>{ setToggle('example'); render(); });
+      toggleUser?.addEventListener('click', ()=>{ setToggle('user'); render(); });
+      cards.forEach(c=>{
+        c.addEventListener('click', ()=>{
+          selectedType = c.dataset.type || 'bar';
+          // Simulated quick loading pulse
+          if (loading){ loading.classList.remove('hidden'); loading.classList.add('flex'); }
+          setTimeout(()=>{ if (loading){ loading.classList.add('hidden'); loading.classList.remove('flex'); } render(); }, 250);
+        });
+      });
+
+      // Init default selection
+      const preselected = document.querySelector('.chart-type-card.selected');
+      if (preselected) selectedType = preselected.dataset.type || 'bar';
+      else if (cards[0]) { cards[0].classList.add('selected'); selectedType = cards[0].dataset.type || 'bar'; }
+      setToggle('example');
+      // Seed with example text into textarea when switching from index page, keep user text otherwise
+      if (!input?.value) input.value = exampleTextByType('bar');
+      render();
+    })();
+  </script>
+</body>
+</html>

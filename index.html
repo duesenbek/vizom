@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- SEO Meta Tags -->
+  <title>VIZOM - AI Visual Builder | Create Charts & Dashboards in Seconds</title>
+  <meta name="description" content="Build beautiful charts, tables, and dashboards in seconds with VIZOM - AI Visual Builder. Transform your data into stunning visualizations using AI.">
+  <meta name="keywords" content="chart builder, data visualization, AI charts, dashboard creator, business intelligence, data analytics">
+  <meta name="author" content="VIZOM">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://vizom.app/">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vizom.app/">
+  <meta property="og:title" content="VIZOM - AI Visual Builder">
+  <meta property="og:description" content="Build beautiful charts, tables, and dashboards in seconds using AI">
+  <meta property="og:image" content="https://vizom.app/og-image.png">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://vizom.app/">
+  <meta property="twitter:title" content="VIZOM - AI Visual Builder">
+  <meta property="twitter:description" content="Build beautiful charts, tables, and dashboards in seconds using AI">
+  <meta property="twitter:image" content="https://vizom.app/og-image.png">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="VIZOM">
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://api.deepseek.com">
+  
+  <link rel="stylesheet" href="dist/output.css">
+  <link rel="stylesheet" href="styles/minimal.css">
+  <script src="src/i18n.js" defer></script>
+  <!-- Favicon -->
+  <link rel="icon" href="./images/vizom.png" type="image/png">
+  <link rel="shortcut icon" href="./images/vizom.png" type="image/png">
+  <link rel="apple-touch-icon" href="./images/vizom.png">
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+</head>
+<body class="min-h-screen bg-white text-black flex flex-col">
+  <header class="w-full site-header">
+    <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2" aria-label="VIZOM">
+        <img src="images/vizom.png" alt="VIZOM" class="h-16 w-16 rounded-lg" />
+      </a>
+      <div class="flex items-center gap-4">
+        <nav class="hidden sm:flex items-center gap-6">
+          <a href="index.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.home">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-7 9 7v7a2 2 0 01-2 2h-3a2 2 0 01-2-2v-3H10v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-7z"/></svg>
+            <span data-i18n-text>Home</span>
+          </a>
+          <a href="generator.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.generator">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span data-i18n-text>Generator</span>
+          </a>
+          <a href="templates.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.templates">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+            <span data-i18n-text>Templates</span>
+          </a>
+          <a href="#" class="nav-link inline-flex items-center gap-2" data-i18n="nav.docs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h6M5 4h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>
+            <span data-i18n-text>Docs</span>
+          </a>
+        </nav>
+        <div class="relative" data-i18n-skip>
+          <button id="language-toggle" class="btn btn-ghost" aria-label="Change language">
+            <span id="language-flag" class="text-2xl">🇺🇸</span>
+          </button>
+          <div id="language-menu" class="absolute right-0 mt-2 hidden w-48 rounded-xl surface shadow-lg p-3 space-y-2" role="menu">
+            <div class="grid grid-cols-3 gap-2">
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="en" aria-label="English">🇺🇸</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="kk" aria-label="Kazakh">🇰🇿</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="ru" aria-label="Russian">🇷🇺</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="es" aria-label="Spanish">🇪🇸</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="pt" aria-label="Portuguese">🇵🇹</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="tr" aria-label="Turkish">🇹🇷</button>
+              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="de" aria-label="German">🇩🇪</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="generator.html" class="sm:hidden btn btn-accent" data-i18n="nav.startShort">Start</a>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <!-- HERO: Live demo -->
+    <section class="relative overflow-hidden py-16">
+      <div class="absolute inset-0 bg-gradient-to-br from-white via-slate-50 to-blue-50"></div>
+      <div class="absolute -top-32 -right-32 w-[460px] h-[460px] rounded-full bg-gradient-to-br from-blue-200 via-purple-200 to-transparent opacity-70 blur-3xl"></div>
+      <div class="relative max-w-7xl mx-auto px-6">
+        <div class="glass-panel p-8 md:p-12">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+            <div class="space-y-6">
+              <h1 class="hero-title leading-tight" data-i18n="hero.title">
+                Turn Text into Beautiful Data Visualizations in Seconds
+              </h1>
+              <p class="section-subtitle" data-i18n="hero.subtitle">
+                Describe your data in plain English → Get production-ready charts, tables, and dashboards.
+              </p>
+              <div class="space-y-3">
+                <label for="hero-input" class="label-muted">Try a prompt</label>
+                <div class="surface p-3 flex items-center gap-3">
+                  <input id="hero-input" class="input-base" value="Monthly sales: Jan $12K, Feb $15K, Mar $18K, Apr $14K, May $19K, Jun $22K" />
+                  <button id="hero-try-btn" class="btn btn-accent whitespace-nowrap inline-flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    Try it free
+                  </button>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <button class="badge-outline example-pill" data-example="sales">Monthly revenue</button>
+                  <button class="badge-outline example-pill" data-example="traffic">Website traffic</button>
+                  <button class="badge-outline example-pill" data-example="market">Market share</button>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center gap-4 pt-2">
+                <div class="inline-flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-md bg-gradient-to-br from-blue-500 to-purple-500"></div>
+                  <span class="text-sm text-muted">Trusted by 5,000+ data professionals</span>
+                </div>
+                <div class="inline-flex items-center gap-2">
+                  <span>⭐️⭐️⭐️⭐️⭐️</span>
+                  <span class="text-sm text-muted">4.9/5 from 500+ reviews</span>
+                </div>
+                <div class="inline-flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-md bg-emerald-400"></div>
+                  <span class="text-sm text-muted">98% time saved on visualization</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="preview-shell" id="hero-preview-shell">
+                <div class="preview-stage" id="hero-preview"></div>
+              </div>
+              <div class="flex justify-end mt-3">
+                <a id="hero-open-generator" class="btn btn-outline inline-flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M3 12h18"/></svg>
+                  Open in Generator
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISUAL EXAMPLES -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="surface p-5">
+            <h3 class="font-semibold mb-3">Monthly Sales (Bar)</h3>
+            <div class="template-preview-media h-[260px]">
+              <div id="ex-bar" class="preview-thumb"></div>
+            </div>
+          </div>
+          <div class="surface p-5">
+            <h3 class="font-semibold mb-3">Revenue Trend (Line)</h3>
+            <div class="template-preview-media h-[260px]">
+              <div id="ex-line" class="preview-thumb"></div>
+            </div>
+          </div>
+          <div class="surface p-5">
+            <h3 class="font-semibold mb-3">Mini Dashboard</h3>
+            <div class="template-preview-media h-[260px]">
+              <div id="ex-dash" class="preview-thumb"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="section-title text-center">Where VIZOM shines</h2>
+        <p class="section-subtitle text-center">Built for analysts, marketers, researchers, and business teams</p>
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="info-card">
+            <div class="font-semibold">🏢 Business Intelligence</div>
+            <p class="text-muted text-sm">Sales dashboards, revenue reports</p>
+          </div>
+          <div class="info-card">
+            <div class="font-semibold">🎓 Academic Research</div>
+            <p class="text-muted text-sm">Data tables, survey results</p>
+          </div>
+          <div class="info-card">
+            <div class="font-semibold">📱 Marketing Analytics</div>
+            <p class="text-muted text-sm">Campaign performance, social media</p>
+          </div>
+          <div class="info-card">
+            <div class="font-semibold">💼 Consulting</div>
+            <p class="text-muted text-sm">Client reports, presentation decks</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE DEMO -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="glass-panel p-6 md:p-10">
+          <div class="flex flex-col lg:flex-row gap-8">
+            <div class="flex-1 space-y-3">
+              <h3 class="text-xl font-semibold">See it in action</h3>
+              <textarea id="demo-text" class="input-base" rows="5">Monthly revenue: January 1200, February 1500, March 1800, April 2100, May 2400, June 2800</textarea>
+              <div class="flex flex-wrap gap-2">
+                <button class="badge-outline example-pill" data-example="sales">Try: Monthly revenue</button>
+                <button class="badge-outline example-pill" data-example="traffic">Try: Website traffic</button>
+                <button class="badge-outline example-pill" data-example="market">Try: Market share</button>
+              </div>
+            </div>
+            <div class="flex-1">
+              <div class="preview-shell h-full min-h-[360px]">
+                <div class="preview-stage" id="demo-preview"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="section-title text-center">Loved by modern teams</h2>
+        <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6" id="testimonials"></div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="py-16">
+      <div class="max-w-7xl mx-auto px-6">
+        <h2 class="section-title text-center">Why VIZOM</h2>
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="stat-tile">
+            <div class="font-semibold">🤖 AI-Powered</div>
+            <p class="text-muted text-sm">Describe in plain English</p>
+          </div>
+          <div class="stat-tile">
+            <div class="font-semibold">🎨 Pixel-Perfect</div>
+            <p class="text-muted text-sm">Production-ready visuals</p>
+          </div>
+          <div class="stat-tile">
+            <div class="font-semibold">⚡ Instant Results</div>
+            <p class="text-muted text-sm">Generate in seconds</p>
+          </div>
+          <div class="stat-tile">
+            <div class="font-semibold">🔧 Multiple Formats</div>
+            <p class="text-muted text-sm">Charts, tables, dashboards</p>
+          </div>
+          <div class="stat-tile">
+            <div class="font-semibold">📤 Easy Export</div>
+            <p class="text-muted text-sm">PNG, PDF, SVG, CSV</p>
+          </div>
+          <div class="stat-tile">
+            <div class="font-semibold">🌍 Multi-Language</div>
+            <p class="text-muted text-sm">7+ languages supported</p>
+          </div>
+        </div>
+        <div class="text-center mt-12">
+          <a href="generator.html" class="btn btn-accent inline-flex items-center gap-2 cta-shadow">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Try it free — No signup required
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="max-w-7xl mx-auto px-6 py-6 text-center text-sm text-muted">
+      © <span id="year"></span> VIZOM. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href');
+        if (id && id.length > 1) {
+          e.preventDefault();
+          document.querySelector(id)?.scrollIntoView({behavior:'smooth'});
+        }
+      });
+    });
+
+    // Simple parsing: "Jan 12K, Feb 15K" -> [{label, value}]
+    function parseSeries(text){
+      const cleaned = text.replace(/\n/g,' ').trim();
+      const parts = cleaned.split(/[,;]+/).map(s=>s.trim()).filter(Boolean);
+      const res = [];
+      for (const p of parts){
+        const m = p.match(/([A-Za-zА-Яа-я]+)\s*[:\-]?\s*\$?([\d,.]+)\s*K?/);
+        if (m){
+          const label = m[1];
+          let val = parseFloat(m[2].replace(/[,]/g,''));
+          if (/K/i.test(p)) val *= 1000;
+          res.push({label, value: val});
+        }
+      }
+      if (!res.length){
+        return [
+          {label:'Jan', value:12000}, {label:'Feb', value:15000}, {label:'Mar', value:18000}
+        ];
+      }
+      return res;
+    }
+
+    // SVG Helpers
+    function gradientDef(id, from, to){
+      return `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${from}"/><stop offset="100%" stop-color="${to}" stop-opacity="0.15"/></linearGradient></defs>`
+    }
+
+    function barChartSVG(series, {w=680,h=320,pad=36}={}){
+      const max = Math.max(...series.map(s=>s.value))||1;
+      const cw = w - pad*2; const ch = h - pad*2;
+      const bw = cw / series.length * 0.7; const gap = cw / series.length * 0.3;
+      let x = pad;
+      const grad = gradientDef('g1','#3B82F6','#8B5CF6');
+      let bars = '';
+      series.forEach((s,i)=>{
+        const bh = Math.max(2, (s.value/max)*ch);
+        bars += `<g transform="translate(${x},${pad})"><rect rx="6" width="${bw}" height="0" y="${ch}" fill="url(#g1)"><animate attributeName="height" from="0" to="${bh}" dur="0.45s" fill="freeze"/><animate attributeName="y" from="${ch}" to="${ch-bh}" dur="0.45s" fill="freeze"/></rect><text x="${bw/2}" y="${ch+16}" text-anchor="middle" fill="#64748b" font-size="12">${s.label}</text></g>`;
+        x += bw + gap;
+      });
+      return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" role="img" aria-label="Bar chart"><g>${grad}${bars}</g></svg>`;
+    }
+
+    function lineChartSVG(series, {w=680,h=320,pad=36}={}){
+      const max = Math.max(...series.map(s=>s.value))||1;
+      const cw = w - pad*2; const ch = h - pad*2;
+      const step = cw / Math.max(1, series.length-1);
+      const pts = series.map((s,i)=>{
+        const x = pad + i*step;
+        const y = pad + (1 - s.value/max)*ch;
+        return `${x},${y}`;
+      }).join(' ');
+      const gradId = 'lg1';
+      const grad = `<defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6" stop-opacity="0.5"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs>`;
+      const area = `${pad},${h-pad} ${pts} ${pad+cw},${h-pad}`;
+      return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" role="img" aria-label="Line chart">${grad}<polyline points="${pts}" fill="none" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><animate attributeName="stroke-dasharray" from="0,9999" to="9999,0" dur="0.6s" fill="freeze"/></polyline><polygon points="${area}" fill="url(#${gradId})"/></svg>`;
+    }
+
+    function pieChartSVG(series, {w=320,h=320}={}){
+      const cx=w/2, cy=h/2, r=Math.min(w,h)/3;
+      const total = series.reduce((a,b)=>a+b.value,0)||1;
+      let angle=0; const colors=["#3B82F6","#8B5CF6","#06D6A0","#60A5FA","#A78BFA"];
+      let paths='';
+      series.forEach((s,i)=>{
+        const frac=s.value/total; const a2=angle+frac*Math.PI*2;
+        const x1=cx+r*Math.cos(angle), y1=cy+r*Math.sin(angle);
+        const x2=cx+r*Math.cos(a2), y2=cy+r*Math.sin(a2);
+        const large= frac>0.5 ? 1:0;
+        const d=`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`;
+        paths+=`<path d="${d}" fill="${colors[i%colors.length]}" opacity="0.9"><animate attributeName="opacity" from="0" to="0.9" dur="0.4s" fill="freeze"/></path>`;
+        angle=a2;
+      });
+      return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" role="img" aria-label="Pie chart">${paths}</svg>`;
+    }
+
+    // HERO live demo
+    const heroInput = document.getElementById('hero-input');
+    const heroPreview = document.getElementById('hero-preview');
+    const heroTry = document.getElementById('hero-try-btn');
+    const heroOpen = document.getElementById('hero-open-generator');
+
+    function renderHero(){
+      const s = parseSeries(heroInput.value || '');
+      heroPreview.innerHTML = barChartSVG(s, {w:700,h:360});
+    }
+    heroInput?.addEventListener('input', ()=>{ renderHero(); });
+    heroTry?.addEventListener('click', ()=>{
+      try { sessionStorage.setItem('templatePrompt', heroInput.value || ''); } catch(e){}
+      window.location.href = 'generator.html';
+    });
+    heroOpen?.addEventListener('click', (e)=>{
+      e.preventDefault();
+      try { sessionStorage.setItem('templatePrompt', heroInput.value || ''); } catch(e){}
+      window.location.href = 'generator.html';
+    });
+
+    // Example chips
+    const examples = {
+      sales: 'Monthly sales: Jan $12K, Feb $15K, Mar $18K, Apr $14K, May $19K, Jun $22K',
+      traffic: 'Website traffic: Jan 1200, Feb 1500, Mar 1800, Apr 2100, May 2400, Jun 2800',
+      market: 'Market share: Product A 45%, Product B 30%, Product C 25%'
+    };
+    document.querySelectorAll('.example-pill').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const key = btn.getAttribute('data-example');
+        const val = examples[key] || '';
+        if (btn.closest('section')?.querySelector('#hero-input')) {
+          heroInput.value = val;
+          renderHero();
+        }
+        const demoTA = document.getElementById('demo-text');
+        if (demoTA) {
+          demoTA.value = val;
+          renderDemo();
+        }
+      });
+    });
+
+    // Visual examples static renders
+    function renderExamples(){
+      const s1 = parseSeries(examples.sales);
+      const s2 = parseSeries(examples.traffic);
+      const s3 = [
+        {label:'KPI', value:1}, {label:'Pie', value:1}
+      ];
+      document.getElementById('ex-bar').innerHTML = barChartSVG(s1, {w:560,h:240});
+      document.getElementById('ex-line').innerHTML = lineChartSVG(s2, {w:560,h:240});
+      document.getElementById('ex-dash').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px;color:#0f172a;font-family:Inter,system-ui,sans-serif">
+          <div style="border:1px solid #e2e8f0;border-radius:12px;padding:10px"><div style="font-size:12px;color:#64748b">Revenue</div><div style="font-weight:700;font-size:18px">$125K <span style="color:#06d6a0">↑15%</span></div></div>
+          <div style="border:1px solid #e2e8f0;border-radius:12px;padding:10px"><div style="font-size:12px;color:#64748b">Customers</div><div style="font-weight:700;font-size:18px">2.4K <span style="color:#06d6a0">↑8%</span></div></div>
+          <div style="grid-column: span 2;border:1px solid #e2e8f0;border-radius:12px;padding:10px">${pieChartSVG([{label:'A',value:45},{label:'B',value:30},{label:'C',value:25}],{w:520,h:180})}</div>
+        </div>`;
+    }
+
+    // Interactive demo
+    const demoText = document.getElementById('demo-text');
+    const demoPreview = document.getElementById('demo-preview');
+    function renderDemo(){
+      const s = parseSeries(demoText.value || '');
+      // Alternate between bar and line for variety
+      if (s.length > 4) demoPreview.innerHTML = lineChartSVG(s, {w:700,h:360});
+      else demoPreview.innerHTML = barChartSVG(s, {w:700,h:360});
+    }
+    demoText?.addEventListener('input', renderDemo);
+
+    // Testimonials
+    const testimonials = [
+      { name:'Elena, Data Analyst', text:'VIZOM cut our dashboard build time from hours to minutes.', company:'FinTech Co.' },
+      { name:'Marcus, Marketing Lead', text:'I paste metrics, it spits out clean, on-brand visuals.', company:'GrowthHub' },
+      { name:'Aya, Researcher', text:'Finally a tool that turns messy survey data into clear charts.', company:'UniLab' },
+      { name:'Jamal, BI Engineer', text:'From text to dashboards without the overhead. Game-changer.', company:'RetailX' },
+      { name:'Sofia, PM', text:'Stakeholders love the speed and polish of the visuals.', company:'SaaSly' }
+    ];
+    let tIndex = 0;
+    function renderTestimonials(){
+      const wrap = document.getElementById('testimonials');
+      const visible = [];
+      const count = Math.min(3, testimonials.length);
+      for (let i = 0; i < count; i++) visible.push(testimonials[(tIndex + i) % testimonials.length]);
+      wrap.innerHTML = visible.map(t=>`<div class=\"info-card\"><div class=\"font-semibold\">${t.name}</div><p class=\"text-muted\">${t.company}</p><p>${t.text}</p></div>`).join('');
+    }
+
+    // Init
+    renderHero();
+    renderExamples();
+    renderDemo();
+    renderTestimonials();
+
+    // Auto-rotate testimonials
+    setInterval(()=>{ tIndex = (tIndex + 1) % testimonials.length; renderTestimonials(); }, 5000);
+
+    // PWA SW register
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(()=>{});
+      });
+    }
+  </script>
+</body>
+</html>
