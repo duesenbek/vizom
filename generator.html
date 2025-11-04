@@ -1,517 +1,1955 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <!-- SEO Meta Tags -->
-  <title>Generator - VIZOM | Create AI-Powered Visualizations</title>
-  <meta name="description" content="Describe your visual and generate charts, tables, and dashboards with VIZOM. AI-powered data visualization tool.">
-  <meta name="keywords" content="chart generator, AI visualization, data charts, dashboard builder">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://vizom.app/generator.html">
-  
-  <!-- PWA -->
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#3b82f6">
-  
-  <!-- Preconnect for performance -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="preconnect" href="https://api.deepseek.com">
-  
-  <link rel="stylesheet" href="dist/output.css">
-  <link rel="stylesheet" href="styles/minimal.css">
-  <!-- Favicon -->
-  <link rel="icon" href="./images/vizom.png" type="image/png">
-  <link rel="shortcut icon" href="./images/vizom.png" type="image/png">
-  <link rel="apple-touch-icon" href="./images/vizom.png">
-  
-  <script src="src/i18n.js" defer></script>
-  <!-- Export Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-  <script src="src/app.js" defer></script>
-  
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIZOM - AI Chart Generator</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="styles/font-awesome.min.css" />
+    
+    <!-- Modern Styles -->
+    <link rel="stylesheet" href="src/styles/modern-saas.css" />
+    <link rel="stylesheet" href="src/styles/components/improvements.css" />
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- D3.js global bridge -->
+    <script type="module">
+        import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+        if (typeof window !== 'undefined') {
+            window.d3 = d3;
+        }
+    </script>
+
+    <!-- Supabase client -->
+    <script type="module" src="src/supabase-client.js"></script>
+
+    <!-- Supabase auth and payment handlers -->
+    <script type="module" src="src/supabase-auth.js"></script>
+    <script type="module" src="src/payments/stripe-client.js"></script>
 </head>
-<body class="min-h-screen bg-white text-black flex flex-col">
-  <header class="site-header">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-2" aria-label="VIZOM">
-        <img src="images/vizom.png" alt="VIZOM" class="h-16 w-16 rounded-lg" />
-      </a>
-      <div class="flex items-center gap-4">
-        <nav class="hidden sm:flex items-center gap-6">
-          <a href="index.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.home">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-7 9 7v7a2 2 0 01-2 2h-3a2 2 0 01-2-2v-3H10v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-7z"/></svg>
-            <span data-i18n-text>Home</span>
-          </a>
-          <a href="generator.html" class="nav-link is-active inline-flex items-center gap-2" data-i18n="nav.generator">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            <span data-i18n-text>Generator</span>
-          </a>
-          <a href="templates.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.templates">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
-            <span data-i18n-text>Templates</span>
-          </a>
-          <a href="#" class="nav-link inline-flex items-center gap-2" data-i18n="nav.docs">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h6M5 4h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>
-            <span data-i18n-text>Docs</span>
-          </a>
-        </nav>
-        <div class="relative" data-i18n-skip>
-          <button id="language-toggle" class="btn btn-ghost" aria-label="Change language">
-            <span id="language-flag" class="text-2xl">🇺🇸</span>
-          </button>
-          <div id="language-menu" class="absolute right-0 mt-2 hidden w-48 rounded-xl surface shadow-lg p-3 space-y-2" role="menu">
-            <div class="grid grid-cols-3 gap-2">
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="en" aria-label="English">🇺🇸</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="kk" aria-label="Kazakh">🇰🇿</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="ru" aria-label="Russian">🇷🇺</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="es" aria-label="Spanish">🇪🇸</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="pt" aria-label="Portuguese">🇵🇹</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="tr" aria-label="Turkish">🇹🇷</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="de" aria-label="German">🇩🇪</button>
-            </div>
-          </div>
+<style>
+    /* Three-Panel Layout Styles */
+    .generator-layout {
+      display: flex;
+      height: calc(100vh - 64px);
+      overflow: hidden;
+    }
+
+    /* Left Sidebar Styles */
+    .left-sidebar {
+      width: 320px;
+      background: white;
+      border-right: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chart-type-card {
+      transition: all 0.2s ease;
+    }
+
+    .chart-type-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .chart-type-card.selected {
+      border-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    /* Tab Navigation Styles */
+    .tab-nav {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: #f1f5f9;
+      border-radius: 8px;
+    }
+
+    .tab-button {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      background: transparent;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+    }
+
+    .tab-button.active {
+      background: white;
+      color: #3b82f6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Center Panel Styles */
+    .center-panel {
+      flex: 1;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .workspace-header {
+      padding: 24px 32px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .workspace-content {
+      flex: 1;
+      padding: 32px;
+      overflow-y: auto;
+    }
+
+    /* Textarea Styles */
+    .prompt-textarea {
+      width: 100%;
+      height: 256px;
+      padding: 24px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      line-height: 1.6;
+      resize: none;
+      transition: all 0.2s ease;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .prompt-textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      outline: none;
+    }
+
+    /* Quick Action Buttons */
+    .quick-action-btn {
+      padding: 8px 16px;
+      background: #f1f5f9;
+      color: #475569;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quick-action-btn:hover {
+      background: #e2e8f0;
+      transform: translateY(-1px);
+    }
+
+    /* Generate Button */
+    .generate-btn {
+      width: 100%;
+      padding: 16px;
+      background: #3b82f6;
+      color: white;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .generate-btn:hover {
+      background: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    .generate-btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Right Sidebar Styles */
+    .right-sidebar {
+      width: 384px;
+      background: white;
+      border-left: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .preview-container {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .chart-preview {
+      border: 2px dashed #e2e8f0;
+      border-radius: 12px;
+      height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      transition: all 0.2s ease;
+    }
+
+    .chart-preview.has-chart {
+      border-style: solid;
+      border-color: #3b82f6;
+      background: white;
+    }
+
+    .preview-placeholder {
+      text-align: center;
+      color: #64748b;
+    }
+
+    /* Export Controls */
+    .export-controls {
+      padding: 24px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .format-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .format-btn {
+      padding: 8px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      background: white;
+      color: #475569;
+      cursor: pointer;
+    }
+
+    .format-btn:hover {
+      background: #f1f5f9;
+      border-color: #3b82f6;
+    }
+
+    .format-btn.active {
+      background: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+
+    .download-section {
+      display: flex;
+      gap: 8px;
+    }
+
+    .download-btn {
+      flex: 1;
+      padding: 12px;
+      background: #3b82f6;
+      color: white;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .download-btn:hover {
+      background: #2563eb;
+    }
+
+    .download-btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .share-btn {
+      padding: 12px;
+      background: white;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .share-btn:hover {
+      background: #f1f5f9;
+      border-color: #3b82f6;
+    }
+
+    .share-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Project Management */
+    .project-controls {
+      padding: 24px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .project-btn {
+      width: 100%;
+      padding: 12px;
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .project-btn:hover {
+      background: #e2e8f0;
+      border-color: #3b82f6;
+    }
+
+    .project-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .project-btn:last-child {
+      margin-bottom: 0;
+    }
+
+    .project-btn.primary {
+      background: white;
+    }
+
+    /* Settings Panel */
+    .settings-panel {
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .settings-toggle {
+      width: 100%;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .settings-toggle:hover {
+      background: #f8fafc;
+    }
+
+    .settings-content {
+      padding: 16px 24px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .setting-group {
+      margin-bottom: 16px;
+    }
+
+    .setting-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .setting-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    .setting-select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      color: #334155;
+    }
+
+    .setting-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: #e2e8f0;
+      border-radius: 12px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .toggle-switch.active {
+      background: #3b82f6;
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-switch.active::after {
+      transform: translateX(20px);
+    }
+
+    /* Loading States */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .loading-content {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .loading-spinner {
+      margin-bottom: 16px;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #e2e8f0;
+      border-top: 4px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .progress-container {
+      margin: 16px 0;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #3b82f6;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .loading-steps {
+      text-align: left;
+      margin-top: 16px;
+    }
+
+    .step {
+      padding: 4px 0;
+      font-size: 14px;
+      color: #64748b;
+      transition: all 0.2s ease;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .step::before {
+      content: "○";
+      position: absolute;
+      left: 0;
+      font-size: 12px;
+    }
+
+    .step.active {
+      color: #3b82f6;
+      font-weight: 500;
+    }
+
+    .step.active::before {
+      content: "●";
+      color: #3b82f6;
+    }
+
+    .step.completed {
+      color: #10b981;
+    }
+
+    .step.completed::before {
+      content: "✓";
+      color: #10b981;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1023px) {
+      .generator-layout {
+        flex-direction: column;
+      }
+
+      .left-sidebar,
+      .right-sidebar {
+        width: 100%;
+        height: auto;
+        border: none;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .center-panel {
+        flex: 1;
+        min-height: 400px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .workspace-content {
+        padding: 16px;
+      }
+
+      .prompt-textarea {
+        height: 200px;
+        padding: 16px;
+        font-size: 14px;
+      }
+
+      .format-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .quick-action-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+    }
+
+    /* Scrollbar Styling */
+    .scrollbar-thin {
+      scrollbar-width: thin;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Animation Classes */
+    .fade-in {
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in {
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Validation Feedback */
+    .input-feedback {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .input-feedback.valid {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .input-feedback.invalid {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    .input-feedback.warning {
+      background: #fef3c7;
+      color: #d97706;
+      border: 1px solid #fde68a;
+    }
+
+    .feedback-icon {
+      font-size: 16px;
+    }
+
+    .feedback-text {
+      flex: 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-simple"></i>
+                    </div>
+                    VIZOM
+                </a>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="generator.html" class="nav-link active">Generator</a>
+                    <a href="templates.html" class="nav-link">Templates</a>
+                    <a href="pricing.html" class="nav-link">Pricing</a>
+                    <a href="#" class="nav-link" id="auth-signin">Sign In</a>
+                    <a href="#" class="btn btn-primary" id="auth-getstarted" data-action="get-started">Get Started</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Generator -->
+    <div class="container">
+        <div class="generator-layout">
+            <!-- Left: Chart Picker -->
+            <aside class="chart-picker">
+                <h3 class="section-title">Chart Type</h3>
+                <div class="chart-options">
+                    <div class="chart-option selected" data-type="bar">
+                        <div class="chart-preview">📊</div>
+                        <span class="chart-name">Bar Chart</span>
+                    </div>
+                    <div class="chart-option" data-type="line">
+                        <div class="chart-preview">📈</div>
+                        <span class="chart-name">Line Chart</span>
+                    </div>
+                    <div class="chart-option" data-type="pie">
+                        <div class="chart-preview">🟣</div>
+                        <span class="chart-name">Pie Chart</span>
+                    </div>
+                    <div class="chart-option" data-type="doughnut">
+                        <div class="chart-preview">⭕</div>
+                        <span class="chart-name">Doughnut</span>
+                    </div>
+                    <div class="chart-option" data-type="area">
+                        <div class="chart-preview">📉</div>
+                        <span class="chart-name">Area Chart</span>
+                    </div>
+                    <div class="chart-option" data-type="scatter">
+                        <div class="chart-preview">⚡</div>
+                        <span class="chart-name">Scatter Plot</span>
+                    </div>
+                    <div class="chart-option" data-type="bubble">
+                        <div class="chart-preview">🫧</div>
+                        <span class="chart-name">Bubble Chart</span>
+                    </div>
+                    <div class="chart-option" data-type="radar">
+                        <div class="chart-preview">🎯</div>
+                        <span class="chart-name">Radar Chart</span>
+                    </div>
+                    <div class="chart-option" data-type="polar">
+                        <div class="chart-preview">🌐</div>
+                        <span class="chart-name">Polar Area</span>
+                    </div>
+                    <div class="chart-option" data-type="force">
+                        <div class="chart-preview">🕸️</div>
+                        <span class="chart-name">Force Graph</span>
+                    </div>
+                    <div class="chart-option" data-type="treemap">
+                        <div class="chart-preview">🗂️</div>
+                        <span class="chart-name">TreeMap</span>
+                    </div>
+                    <div class="chart-option" data-type="sankey">
+                        <div class="chart-preview">🌊</div>
+                        <span class="chart-name">Sankey</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center: Input Panel -->
+            <main class="input-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Describe Your Chart</h2>
+                    <p class="panel-subtitle">Tell AI what kind of chart you want to create</p>
+                </div>
+
+                <div class="panel-content">
+                    <!-- Prompt Input -->
+                    <div class="input-group">
+                        <label class="input-label">Chart Description</label>
+                        <textarea 
+                            id="prompt-input"
+                            class="prompt-textarea"
+                            placeholder="Example: Create a bar chart showing monthly sales data for Q1 2024 with products A, B, and C. Use blue colors and add a trend line."
+                        ></textarea>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button id="generate-chart" class="generate-btn">
+                        <i class="fas fa-magic"></i>
+                        <span>Generate Chart</span>
+                    </button>
+
+                    <!-- Quick Prompts -->
+                    <div class="quick-prompts">
+                        <h4 class="quick-title">Quick Prompts</h4>
+                        <div class="prompt-suggestions">
+                            <button class="prompt-btn" data-prompt="Create a pie chart showing market share percentages for tech companies" data-type="pie">
+                                📊 Market Share Pie
+                            </button>
+                            <button class="prompt-btn" data-prompt="Generate a line chart showing temperature trends over 12 months" data-type="line">
+                                📈 Temperature Trends
+                            </button>
+                            <button class="prompt-btn" data-prompt="Build a bar chart comparing sales performance across 4 quarters" data-type="bar">
+                                📉 Sales Comparison
+                            </button>
+                            <button class="prompt-btn" data-prompt="Create a scatter plot showing correlation between age and income" data-type="scatter">
+                                ⚡ Correlation Plot
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right: Preview Panel -->
+            <aside class="preview-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Live Preview</h2>
+                    <div class="preview-actions">
+                        <button id="refresh-preview" class="action-btn" title="Refresh">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button id="fullscreen-preview" class="action-btn" title="Fullscreen">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel-content">
+                    <!-- Chart Display -->
+                    <div class="chart-display">
+                        <div id="chart-container" class="chart-container">
+                            <div class="empty-state">
+                                <i class="fas fa-chart-line empty-icon"></i>
+                                <p class="empty-text">Your chart will appear here</p>
+                                <p class="empty-subtext">Describe your chart and click Generate</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Export Options -->
+                    <div class="export-options">
+                        <h4 class="export-title">Export Options</h4>
+                        <div class="export-buttons">
+                            <button class="export-btn" data-format="png">
+                                <i class="fas fa-image"></i>
+                                PNG
+                            </button>
+                            <button class="export-btn" data-format="svg">
+                                <i class="fas fa-vector-square"></i>
+                                SVG
+                            </button>
+                            <button class="export-btn" data-format="pdf">
+                                <i class="fas fa-file-pdf"></i>
+                                PDF
+                            </button>
+                            <button class="export-btn" data-format="html">
+                                <i class="fas fa-code"></i>
+                                HTML
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">AI is creating your chart...</p>
+            <p class="loading-subtext">This usually takes 2-3 seconds</p>
+        </div>
+    </div>
+
+    <!-- Main Scripts -->
+    <script type="module" src="scripts/main.js"></script>
+    
+    <!-- Generator Script -->
+    <script type="module">
+        import { chartTypes } from './scripts/core/ChartTypes.js';
+        import { d3Visualizations } from './scripts/core/D3Visualizations.js';
+
+        // Chart Generator Class
+        class ChartGenerator {
+            constructor() {
+                this.currentChart = null;
+                this.currentChartType = 'bar';
+                this.initializeEventListeners();
+                this.setupQuickPrompts();
+                this.setupQuickActions();
+                this.selectChartType(this.currentChartType);
+            }
+
+            initializeEventListeners() {
+                // Generate button
+                document.getElementById('generate-chart').addEventListener('click', () => {
+                    this.generateChart();
+                });
+
+                // Chart type selection
+                document.querySelectorAll('.chart-option').forEach(option => {
+                    option.addEventListener('click', () => {
+                        this.selectChartType(option.dataset.type);
+                    });
+                });
+
+                // Export buttons
+                document.querySelectorAll('.export-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.exportChart(btn.dataset.format);
+                    });
+                });
+
+                // Refresh preview
+                document.getElementById('refresh-preview').addEventListener('click', () => {
+                    this.refreshPreview();
+                });
+
+                // Fullscreen preview
+                document.getElementById('fullscreen-preview').addEventListener('click', () => {
+                    this.toggleFullscreen();
+                });
+
+                const watchAdBtn = document.getElementById('watch-ad-btn');
+                if (watchAdBtn) {
+                    watchAdBtn.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        this.handleWatchAd();
+                    });
+                }
+
+                this.bindUpgradeButtons();
+            }
+
+            setupQuickPrompts() {
+                document.querySelectorAll('.prompt-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const prompt = btn.dataset.prompt;
+                        document.getElementById('prompt-input').value = prompt;
+                        if (btn.dataset.type) {
+                            this.selectChartType(btn.dataset.type);
+                        }
+                        this.generateChart();
+                    });
+                });
+            }
+
+            setupQuickActions() {
+                document.querySelectorAll('.quick-action-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const prompt = btn.dataset.prompt;
+                        if (prompt) {
+                            document.getElementById('prompt-input').value = prompt;
+                        }
+
+                        if (btn.dataset.type) {
+                            this.selectChartType(btn.dataset.type);
+                        }
+
+                        this.generateChart();
+                    });
+                });
+            }
+
+            selectChartType(type) {
+                if (!type) return;
+                this.currentChartType = type;
+                document.querySelectorAll('.chart-option').forEach(option => {
+                    option.classList.toggle('selected', option.dataset.type === type);
+                });
+            }
+
+            async generateChart() {
+                const prompt = document.getElementById('prompt-input').value.trim();
+                if (!prompt) {
+                    alert('Please describe the chart you want to create');
+                    return;
+                }
+
+                this.showLoading();
+
+                const quota = await this.enforceQuota();
+                if (!quota || quota.allowed === false) {
+                    this.hideLoading();
+                    return;
+                }
+
+                // Simulate AI processing
+                setTimeout(() => {
+                    this.createChart(this.currentChartType, quota);
+                    this.hideLoading();
+                }, 2000);
+            }
+
+            createChart(type, quotaResult) {
+                const container = document.getElementById('chart-container');
+                container.innerHTML = ''; // Clear previous chart
+
+                if (quotaResult?.shouldShowAd) {
+                    this.showAdOverlay();
+                }
+
+                // Create chart based on type
+                if (['bar', 'line', 'pie', 'doughnut', 'area', 'scatter', 'bubble', 'radar', 'polar'].includes(type)) {
+                    this.createChartJSChart(type);
+                } else if (['force', 'treemap', 'sankey'].includes(type)) {
+                    this.createD3Chart(type);
+                }
+            }
+
+            async enforceQuota() {
+                try {
+                    const response = await fetch('/.netlify/functions/check-quota', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ action: 'generate-chart' })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Quota check failed');
+                    }
+
+                    const result = await response.json();
+                    this.updateQuotaBanner(result);
+
+                    if (!result.allowed) {
+                        alert(result.message || 'Daily generation limit reached.');
+                        return result;
+                    }
+
+                    return result;
+                } catch (error) {
+                    console.warn('Quota check unavailable, proceeding without limits.', error);
+                    return { allowed: true, shouldShowAd: false };
+                }
+            }
+
+            updateQuotaBanner(result) {
+                const banner = document.getElementById('quota-banner');
+                const message = document.getElementById('quota-banner-message');
+                const watchAdBtn = document.getElementById('watch-ad-btn');
+
+                if (!banner || !message) return;
+
+                if (result && result.bannerText) {
+                    message.textContent = result.bannerText;
+                } else {
+                    message.textContent = `You have ${result?.remaining ?? 'unknown'} generations left today.`;
+                }
+
+                if (result && result.showBanner) {
+                    banner.classList.remove('hidden');
+                } else {
+                    banner.classList.add('hidden');
+                }
+
+                if (watchAdBtn) {
+                    watchAdBtn.disabled = !result?.canWatchAd;
+                }
+            }
+
+            handleWatchAd() {
+                this.showAdOverlay();
+                document.dispatchEvent(new CustomEvent('billing:watchAd'));
+            }
+
+            bindUpgradeButtons(root = document) {
+                const scope = root || document;
+                scope.querySelectorAll('[data-action="upgrade-pro"]').forEach((btn) => {
+                    if (btn.dataset.upgradeBound === 'true') return;
+                    btn.dataset.upgradeBound = 'true';
+                    btn.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        document.dispatchEvent(new CustomEvent('billing:upgrade'));
+                    });
+                });
+            }
+
+            showAdOverlay() {
+                if (document.getElementById('ad-overlay')) {
+                    return;
+                }
+
+                const overlay = document.createElement('div');
+                overlay.id = 'ad-overlay';
+                overlay.className = 'fixed inset-0 z-50 bg-black/70 flex items-center justify-center';
+
+                const dialog = document.createElement('div');
+                dialog.className = 'bg-white rounded-2xl shadow-2xl max-w-lg w-full mx-4 p-8 text-center space-y-6';
+                overlay.appendChild(dialog);
+
+                const icon = document.createElement('div');
+                icon.className = 'text-4xl';
+                icon.textContent = '📺';
+                dialog.appendChild(icon);
+
+                const title = document.createElement('h3');
+                title.className = 'text-xl font-semibold text-slate-900';
+                title.textContent = 'Enjoy a quick break!';
+                dialog.appendChild(title);
+
+                const description = document.createElement('p');
+                description.className = 'text-slate-600';
+                description.textContent = 'A short ad is playing so you can unlock the next chart. Upgrade to Pro to remove ads and limits.';
+                dialog.appendChild(description);
+
+                const actions = document.createElement('div');
+                actions.className = 'space-y-3';
+                dialog.appendChild(actions);
+
+                const upgradeBtn = document.createElement('button');
+                upgradeBtn.className = 'w-full px-4 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition';
+                upgradeBtn.dataset.action = 'upgrade-pro';
+                upgradeBtn.textContent = 'Upgrade to Pro';
+                actions.appendChild(upgradeBtn);
+
+                const closeBtn = document.createElement('button');
+                closeBtn.id = 'close-ad-overlay';
+                closeBtn.className = 'w-full px-4 py-3 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition';
+                closeBtn.textContent = 'Close';
+                actions.appendChild(closeBtn);
+
+                document.body.appendChild(overlay);
+
+                closeBtn.addEventListener('click', () => {
+                    overlay.remove();
+                });
+
+                overlay.addEventListener('click', (event) => {
+                    if (event.target === overlay) {
+                        overlay.remove();
+                    }
+                });
+
+                this.bindUpgradeButtons(overlay);
+            }
+
+            createChartJSChart(type) {
+                const container = document.getElementById('chart-container');
+                const canvas = document.createElement('canvas');
+                container.appendChild(canvas);
+
+                const ctx = canvas.getContext('2d');
+                const data = chartTypes.generateSampleData(type);
+
+                let chart;
+                switch (type) {
+                    case 'bar':
+                        chart = chartTypes.createBarChart(ctx, data);
+                        break;
+                    case 'line':
+                        chart = chartTypes.createLineChart(ctx, data);
+                        break;
+                    case 'area':
+                        chart = chartTypes.createAreaChart(ctx, data);
+                        break;
+                    case 'pie':
+                        chart = chartTypes.createPieChart(ctx, data);
+                        break;
+                    case 'doughnut':
+                        chart = chartTypes.createDoughnutChart(ctx, data);
+                        break;
+                    case 'scatter':
+                        chart = chartTypes.createScatterChart(ctx, data);
+                        break;
+                    case 'bubble':
+                        chart = chartTypes.createBubbleChart(ctx, data);
+                        break;
+                    case 'radar':
+                        chart = chartTypes.createRadarChart(ctx, data);
+                        break;
+                    case 'polar':
+                        chart = chartTypes.createPolarAreaChart(ctx, data);
+                        break;
+                }
+
+                this.currentChart = chart;
+            }
+
+            createD3Chart(type) {
+                const container = document.getElementById('chart-container');
+                const data = d3Visualizations.generateSampleData(type);
+
+                let viz;
+                switch (type) {
+                    case 'force':
+                        viz = d3Visualizations.createForceGraph('chart-container', data.nodes, data.links, {
+                            width: 350,
+                            height: 300
+                        });
+                        break;
+                    case 'treemap':
+                        viz = d3Visualizations.createTreeMap('chart-container', data, {
+                            width: 350,
+                            height: 300
+                        });
+                        break;
+                    case 'sankey':
+                        viz = d3Visualizations.createSankeyDiagram('chart-container', data, {
+                            width: 350,
+                            height: 300
+                        });
+                        break;
+                }
+
+                this.currentChart = viz;
+            }
+
+            exportChart(format) {
+                if (!this.currentChart) {
+                    alert('Please generate a chart first');
+                    return;
+                }
+
+                // Export based on format
+                switch (format) {
+                    case 'png':
+                        this.exportAsPNG();
+                        break;
+                    case 'svg':
+                        this.exportAsSVG();
+                        break;
+                    case 'pdf':
+                        this.exportAsPDF();
+                        break;
+                    case 'html':
+                        this.exportAsHTML();
+                        break;
+                }
+            }
+
+            exportAsPNG() {
+                if (this.currentChart.canvas) {
+                    const link = document.createElement('a');
+                    link.download = 'chart.png';
+                    link.href = this.currentChart.toBase64Image();
+                    link.click();
+                }
+            }
+
+            exportAsSVG() {
+                // For D3 charts
+                if (this.currentChart && this.currentChart.svg) {
+                    const svgData = this.currentChart.svg.node().outerHTML;
+                    const blob = new Blob([svgData], { type: 'image/svg+xml' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'chart.svg';
+                    link.href = url;
+                    link.click();
+                }
+            }
+
+            exportAsPDF() {
+                alert('PDF export would be implemented with a library like jsPDF');
+            }
+
+            exportAsHTML() {
+                const htmlContent = this.generateHTMLCode();
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'chart.html';
+                link.href = url;
+                link.click();
+            }
+
+            generateHTMLCode() {
+                return `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generated Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <canvas id="chart" width="400" height="300"></canvas>
+    <script>
+        // Chart code would go here
+    </script>
+</body>
+</html>`;
+            }
+
+            refreshPreview() {
+                if (this.currentChartType) {
+                    this.createChart(this.currentChartType);
+                }
+            }
+
+            toggleFullscreen() {
+                const container = document.getElementById('chart-container');
+                if (!document.fullscreenElement) {
+                    container.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            }
+
+            showLoading() {
+                document.getElementById('loading-overlay').classList.remove('hidden');
+            }
+
+            hideLoading() {
+                document.getElementById('loading-overlay').classList.add('hidden');
+            }
+        }
+
+        // Initialize the generator when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            new ChartGenerator();
+        });
+    </script>
+</body>
+</html>
+
+  <!-- Projects Modal -->
+  <div id="projects-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[80vh] overflow-hidden">
+      <div class="flex items-center justify-between p-6 border-b border-slate-200">
+        <h3 class="text-xl font-semibold text-slate-900">Мои проекты</h3>
+        <button id="close-projects-modal" class="text-slate-400 hover:text-slate-600 transition">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto max-h-[60vh]">
+        <div id="projects-list" class="grid gap-4">
+          <!-- Projects will be dynamically loaded here -->
+        </div>
+        <div id="no-projects" class="hidden text-center py-12">
+          <i class="fas fa-folder-open text-4xl text-slate-300 mb-4"></i>
+          <p class="text-slate-500">У вас пока нет сохраненных проектов</p>
+          <p class="text-sm text-slate-400 mt-2">Создайте свой первый проект и сохраните его</p>
         </div>
       </div>
-      <a href="generator.html" class="sm:hidden btn btn-accent" data-i18n="nav.startShort">Start</a>
-    </div>
-  </header>
-
-  <!-- Breadcrumbs -->
-  <div class="site-header">
-    <div class="max-w-7xl mx-auto px-6 py-3">
-      <nav class="flex items-center gap-2 text-sm text-slate-600">
-        <a href="index.html" class="hover:text-slate-900" data-i18n="nav.home">Home</a>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-        </svg>
-        <span class="text-slate-900 font-medium" data-i18n="nav.generator">Generator</span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-        </svg>
-        <span id="breadcrumb-chart-type" class="text-slate-500" data-i18n="generator.chartTypes.custom">Custom</span>
-      </nav>
     </div>
   </div>
 
-  <main class="flex-1">
-    <div class="max-w-7xl mx-auto px-6 py-8 space-y-6">
-      
-      <!-- Chart Type Selector -->
-      <section class="surface p-6">
-        <h2 class="text-lg font-semibold mb-4" data-i18n="generator.chartSection.title">Select Chart Type</h2>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          
-          <!-- Bar Chart Card -->
-          <button class="chart-type-card group relative p-4 rounded-lg border muted-border hover:shadow-md transition-all duration-200 text-left focus:outline-none" data-type="bar" data-chart-key="bar">
-            <div class="space-y-2">
-              <div class="template-preview-media h-24">
-                <svg viewBox="0 0 160 80" width="100%" height="100%">
-                  <defs>
-                    <linearGradient id="cardBar" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#3B82F6"/>
-                      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.2"/>
-                    </linearGradient>
-                  </defs>
-                  <g transform="translate(10,10)">
-                    <rect rx="3" x="0" y="40" width="20" height="0" fill="url(#cardBar)"><animate attributeName="height" from="0" to="30" dur="0.35s" fill="freeze"/><animate attributeName="y" from="40" to="10" dur="0.35s" fill="freeze"/></rect>
-                    <rect rx="3" x="28" y="40" width="20" height="0" fill="url(#cardBar)"><animate attributeName="height" from="0" to="22" dur="0.35s" fill="freeze"/><animate attributeName="y" from="40" to="18" dur="0.35s" fill="freeze"/></rect>
-                    <rect rx="3" x="56" y="40" width="20" height="0" fill="url(#cardBar)"><animate attributeName="height" from="0" to="36" dur="0.35s" fill="freeze"/><animate attributeName="y" from="40" to="4" dur="0.35s" fill="freeze"/></rect>
-                    <rect rx="3" x="84" y="40" width="20" height="0" fill="url(#cardBar)"><animate attributeName="height" from="0" to="26" dur="0.35s" fill="freeze"/><animate attributeName="y" from="40" to="14" dur="0.35s" fill="freeze"/></rect>
-                  </g>
-                </svg>
+  <!-- Save Project Modal -->
+  <div id="save-project-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-slate-900">Сохранить проект</h3>
+        <button id="close-save-modal" class="text-slate-400 hover:text-slate-600 transition">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-slate-700">Название проекта</label>
+        <input type="text" id="project-title" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500" placeholder="Мои продажи Q1 2024">
+      </div>
+      <div class="flex gap-3">
+        <button id="confirm-save-project" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          Сохранить
+        </button>
+        <button id="cancel-save-project" class="flex-1 border border-slate-200 text-slate-700 px-4 py-2 rounded-lg hover:border-slate-300 transition">
+          Отмена
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-slate-900">Вход в VIZOM</h3>
+        <button id="close-auth-modal" class="text-slate-400 hover:text-slate-600 transition">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p class="text-sm text-slate-500">Войдите через Google для доступа к генератору визуализаций</p>
+      <button id="google-signin" class="w-full inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-lg hover:bg-slate-50 transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Continue with Google
+      </button>
+    </div>
+  </div>
+
+  <main>
+    <!-- Three-Panel Generator Layout -->
+    <section class="min-h-screen bg-slate-50">
+      <div class="flex h-[calc(100vh-64px)]">
+        
+        <!-- LEFT SIDEBAR - Chart Configuration -->
+        <aside class="w-80 bg-white border-r border-slate-200 flex flex-col">
+          <!-- Chart Type Selector -->
+          <div class="p-6 border-b border-slate-200">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+                <i class="fas fa-chart-column"></i>
               </div>
               <div>
-                <div class="font-medium text-sm" data-i18n="generator.chartTypes.bar">Bar Chart</div>
-                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.chartDescriptions.bar">Compare values</div>
+                <h3 class="text-lg font-semibold text-slate-900">Chart Type</h3>
+                <p class="text-xs text-slate-500">Select visualization type</p>
               </div>
             </div>
-            <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-slate-300 group-hover:border-blue-500 hidden group-[.selected]:block group-[.selected]:bg-blue-500"></div>
-          </button>
-
-          <!-- Line Chart Card -->
-          <button class="chart-type-card group relative p-4 rounded-lg border muted-border hover:shadow-md transition-all duration-200 text-left focus:outline-none" data-type="line" data-chart-key="line">
+            
             <div class="space-y-2">
-              <div class="template-preview-media h-24">
-                <svg viewBox="0 0 160 80" width="100%" height="100%">
-                  <defs>
-                    <linearGradient id="cardLine" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6" stop-opacity="0.5"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient>
-                  </defs>
-                  <polyline points="10,60 40,52 70,48 100,42 130,36" fill="none" stroke="#3B82F6" stroke-width="3" stroke-linecap="round"><animate attributeName="stroke-dasharray" from="0,999" to="999,0" dur="0.6s" fill="freeze"/></polyline>
-                  <polygon points="10,60 40,52 70,48 100,42 130,36 130,70 10,70" fill="url(#cardLine)"/>
-                </svg>
-              </div>
-              <div>
-                <div class="font-medium text-sm" data-i18n="generator.chartTypes.line">Line Chart</div>
-                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.chartDescriptions.line">Show trends</div>
-              </div>
-            </div>
-            <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-slate-300 group-hover:border-purple-500 hidden group-[.selected]:block group-[.selected]:bg-purple-500"></div>
-          </button>
-
-          <!-- Pie Chart Card -->
-          <button class="chart-type-card group relative p-4 rounded-lg border muted-border hover:shadow-md transition-all duration-200 text-left focus:outline-none" data-type="pie" data-chart-key="pie">
-            <div class="space-y-2">
-              <div class="template-preview-media h-24 grid place-items-center">
-                <svg viewBox="0 0 80 80" width="64" height="64">
-                  <circle cx="40" cy="40" r="28" fill="#e5e7eb"></circle>
-                  <path d="M40 40 L40 12 A28 28 0 0 1 67 48 Z" fill="#3B82F6"></path>
-                  <path d="M40 40 L67 48 A28 28 0 0 1 22 56 Z" fill="#8B5CF6"></path>
-                  <path d="M40 40 L22 56 A28 28 0 0 1 40 12 Z" fill="#06D6A0"></path>
-                </svg>
-              </div>
-              <div>
-                <div class="font-medium text-sm" data-i18n="generator.chartTypes.pie">Pie Chart</div>
-                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.chartDescriptions.pie">Show parts</div>
-              </div>
-            </div>
-            <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-slate-300 group-hover:border-green-500 hidden group-[.selected]:block group-[.selected]:bg-green-500"></div>
-          </button>
-
-          <!-- Table Card -->
-          <button class="chart-type-card group relative p-4 rounded-lg border muted-border hover:shadow-md transition-all duration-200 text-left focus:outline-none" data-type="table" data-chart-key="table">
-            <div class="space-y-2">
-              <div class="template-preview-media h-24 bg-white">
-                <div class="w-full h-full" style="padding:8px;font-family:Inter,system-ui,sans-serif;color:#0f172a">
-                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:10px">
-                    <div style="font-weight:600">Product</div><div style="font-weight:600">Units</div><div style="font-weight:600">Revenue</div>
-                    <div>Alpha</div><div>150</div><div>$4.5K</div>
-                    <div style="background:#f8fafc">Beta</div><div style="background:#f8fafc">120</div><div style="background:#f8fafc">$3.6K</div>
-                    <div>Gamma</div><div>200</div><div>$6.0K</div>
+              <button class="chart-type-card w-full border-2 border-blue-500 bg-blue-50 rounded-xl p-3 text-left transition" data-type="bar" data-chart-key="bar">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-blue-500 text-white flex items-center justify-center">
+                    <i class="fas fa-chart-column"></i>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-slate-900">Bar Chart</p>
+                    <p class="text-xs text-slate-600">Compare categories</p>
                   </div>
                 </div>
-              </div>
-              <div>
-                <div class="font-medium text-sm" data-i18n="generator.chartTypes.table">Table</div>
-                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.chartDescriptions.table">Structured data</div>
+              </button>
+              
+              <button class="chart-type-card w-full border border-slate-200 hover:border-violet-400 rounded-xl p-3 text-left transition" data-type="line" data-chart-key="line">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center">
+                    <i class="fas fa-chart-line"></i>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-slate-900">Line Chart</p>
+                    <p class="text-xs text-slate-600">Show trends over time</p>
+                  </div>
+                </div>
+              </button>
+              
+              <button class="chart-type-card w-full border border-slate-200 hover:border-rose-400 rounded-xl p-3 text-left transition" data-type="pie" data-chart-key="pie">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center">
+                    <i class="fas fa-chart-pie"></i>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-slate-900">Pie Chart</p>
+                    <p class="text-xs text-slate-600">Show proportions</p>
+                  </div>
+                </div>
+              </button>
+              
+              <button class="chart-type-card w-full border border-slate-200 hover:border-emerald-400 rounded-xl p-3 text-left transition" data-type="table" data-chart-key="table">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                    <i class="fas fa-table"></i>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-slate-900">Data Table</p>
+                    <p class="text-xs text-slate-600">Structured data view</p>
+                  </div>
+                </div>
+              </button>
+              
+              <button class="chart-type-card w-full border border-slate-200 hover:border-amber-400 rounded-xl p-3 text-left transition" data-type="dashboard" data-chart-key="dashboard">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center">
+                    <i class="fas fa-chart-simple"></i>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-slate-900">Dashboard</p>
+                    <p class="text-xs text-slate-600">Combined charts</p>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Data Input Methods (Tabbed Interface) -->
+          <div class="flex-1 p-6 overflow-y-auto">
+            <div class="mb-4">
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">Data Input</h3>
+              <div class="tab-nav flex gap-1 p-1 bg-slate-100 rounded-lg" role="tablist">
+                <button class="tab-button flex-1 px-3 py-2 text-sm font-medium rounded-md transition" role="tab" data-tab="manual">
+                  📝 Text
+                </button>
+                <button class="tab-button flex-1 px-3 py-2 text-sm font-medium rounded-md transition" role="tab" data-tab="upload">
+                  📁 CSV
+                </button>
+                <button class="tab-button flex-1 px-3 py-2 text-sm font-medium rounded-md transition" role="tab" data-tab="examples">
+                  ⚡ Templates
+                </button>
               </div>
             </div>
-            <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-slate-300 group-hover:border-orange-500 hidden group-[.selected]:block group-[.selected]:bg-orange-500"></div>
-          </button>
+            
+            <div id="manual-tab" class="data-tab-content">
+              <div class="text-sm text-slate-600 mb-3">
+                Describe your data in natural language
+              </div>
+            </div>
+            
+            <div id="upload-tab" class="data-tab-content hidden">
+              <div class="text-sm text-slate-600 mb-3">
+                Upload CSV files with your data
+              </div>
+            </div>
+            
+            <div id="examples-tab" class="data-tab-content hidden">
+              <div class="text-sm text-slate-600 mb-3">
+                Use pre-built templates
+              </div>
+            </div>
+          </div>
 
-          <!-- Dashboard Card -->
-          <button class="chart-type-card group relative p-4 rounded-lg border muted-border hover:shadow-md transition-all duration-200 text-left focus:outline-none" data-type="dashboard" data-chart-key="dashboard">
-            <div class="space-y-2">
-              <div class="template-preview-media h-24">
-                <div class="w-full h-full" style="padding:8px;color:#0f172a;font-family:Inter,system-ui,sans-serif">
-                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-                    <div style="border:1px solid #e2e8f0;border-radius:8px;padding:6px;font-size:10px"><div style="color:#64748b">Revenue</div><div style="font-weight:700">$125K</div></div>
-                    <div style="border:1px solid #e2e8f0;border-radius:8px;padding:6px;font-size:10px"><div style="color:#64748b">Customers</div><div style="font-weight:700">2.4K</div></div>
-                    <div style="grid-column: span 2;border:1px solid #e2e8f0;border-radius:8px;padding:6px"> 
-                      <svg viewBox="0 0 140 40" width="100%" height="40">
-                        <polyline points="0,35 20,32 40,30 60,28 80,24 100,20 120,18 140,16" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/>
-                      </svg>
+          <!-- Settings Panel (Collapsible) -->
+          <div class="border-t border-slate-200">
+            <button class="w-full px-6 py-3 flex items-center justify-between text-left hover:bg-slate-50 transition" id="settings-toggle">
+              <div class="flex items-center gap-3">
+                <i class="fas fa-cog text-slate-400"></i>
+                <span class="font-medium text-slate-900">Settings</span>
+              </div>
+              <i class="fas fa-chevron-down text-slate-400 transition-transform" id="settings-chevron"></i>
+            </button>
+            
+            <div class="hidden px-6 pb-4" id="settings-panel">
+              <div class="space-y-4">
+                <!-- Theme Options -->
+                <div>
+                  <label class="text-sm font-medium text-slate-700 mb-2 block">Theme</label>
+                  <select class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                    <option>Light</option>
+                    <option>Dark</option>
+                    <option>Auto</option>
+                  </select>
+                </div>
+                
+                <!-- Animation Toggle -->
+                <div class="flex items-center justify-between">
+                  <label class="text-sm font-medium text-slate-700">Animations</label>
+                  <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-blue-600 transition-colors">
+                    <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+                  </button>
+                </div>
+                
+                <!-- Export Settings -->
+                <div>
+                  <label class="text-sm font-medium text-slate-700 mb-2 block">Export Quality</label>
+                  <select class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                    <option>Standard</option>
+                    <option>High</option>
+                    <option>Ultra</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- CENTER PANEL - Main Workspace -->
+        <main class="flex-1 flex flex-col bg-white">
+          <!-- Header -->
+          <div class="px-8 py-6 border-b border-slate-200">
+            <h1 class="text-2xl font-bold text-slate-900">Create Your Visualization</h1>
+            <p class="text-slate-600 mt-1">Describe your data or upload a file to generate professional charts</p>
+          </div>
+
+          <!-- Input Textarea (Large, Prominent) -->
+          <main class="flex-1 overflow-hidden">
+            <!-- Ad banner (visible for free users) -->
+            <div id="quota-banner" class="hidden bg-amber-100 border border-amber-300 text-amber-900 px-6 py-4 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <i class="fas fa-circle-info"></i>
+                <span id="quota-banner-message">You have 0 generations left today.</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <button id="watch-ad-btn" class="px-4 py-2 text-sm font-medium bg-white text-amber-800 rounded-lg border border-amber-300 hover:bg-amber-50 transition">
+                  Watch short ad
+                </button>
+                <button data-action="upgrade-pro" class="px-4 py-2 text-sm font-semibold bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">
+                  Upgrade to Pro
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 h-full">
+              <!-- Input Panel -->
+              <div id="manual-tab-content" class="space-y-6">
+                <div class="relative">
+                  <textarea 
+                    id="prompt-input" 
+                    class="w-full h-64 p-6 border-2 border-slate-200 rounded-xl text-lg resize-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                    placeholder="Describe your data in plain English... 🚀"
+                  ></textarea>
+                  <div class="mt-3 text-sm text-slate-500 leading-relaxed">
+                    <div class="font-medium text-slate-600 mb-1">📝 Examples:</div>
+                    <ul class="list-disc list-inside space-y-1">
+                      <li>'Monthly sales: January $12K, February $15K, March $18K'</li>
+                      <li>'Market share: Product A 45%, Product B 30%, Product C 25%'</li>
+                      <li>'Website traffic: Jan 1.2K, Feb 1.5K, Mar 1.8K, Apr 2.1K'</li>
+                      <li>'Team performance: Design 85%, Development 92%, Marketing 78%'</li>
+                    </ul>
+                    <div class="mt-2 text-slate-400">
+                      💡 Tips: Use formats like "Label: Value", separate entries with commas or new lines, add units (%, $, people) when helpful.
                     </div>
                   </div>
+                  <div class="absolute top-4 right-4">
+                    <button class="text-slate-400 hover:text-slate-600 p-2 rounded-lg hover:bg-slate-100 transition" id="clear-input">
+                      <i class="fas fa-eraser"></i>
+                    </button>
+                  </div>
+                </div>
+                
+                <!-- Validation Feedback -->
+                <div id="input-feedback" class="input-feedback hidden">
+                  <div class="feedback-content">
+                    <span class="feedback-icon">✓</span>
+                    <span class="feedback-text">Great! Ready to generate</span>
+                  </div>
                 </div>
               </div>
-              <div>
-                <div class="font-medium text-sm" data-i18n="generator.chartTypes.dashboard">Dashboard</div>
-                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.chartDescriptions.dashboard">Multiple views</div>
-              </div>
-            </div>
-            <div class="absolute top-2 right-2 w-4 h-4 rounded-full border-2 border-slate-300 group-hover:border-pink-500 hidden group-[.selected]:block group-[.selected]:bg-pink-500"></div>
-          </button>
 
-        </div>
-      </section>
+              <div id="upload-tab-content" class="hidden space-y-6">
+                <div id="drop-zone" class="border-2 border-dashed border-slate-300 rounded-xl p-12 text-center hover:border-blue-400 hover:bg-blue-50 transition cursor-pointer">
+                  <i class="fas fa-file-csv text-4xl text-slate-400 mb-4"></i>
+                  <h3 class="text-lg font-semibold text-slate-900 mb-2">Drop your CSV file here</h3>
+                  <p class="text-slate-600 mb-4">or click to browse from your computer</p>
+                  <input type="file" id="csv-upload" accept=".csv" class="hidden">
+                  <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                    Choose File
+                  </button>
+                </div>
+              </div>
 
-      <!-- Split: Data (left) + Live Preview (right) -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Left: Data + Tools -->
-        <section class="surface p-6 space-y-6" id="data-panel">
-          <div>
-            <h2 class="text-lg font-semibold mb-4" data-i18n="generator.dataInput.title">Data Input</h2>
-            <div class="flex border-b mb-4">
-              <button class="data-tab px-4 py-2 text-sm font-medium border-b-2 border-slate-900 text-slate-900" data-tab="manual" data-i18n="generator.dataTabs.manual">Manual</button>
-              <button class="data-tab px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700" data-tab="upload" data-i18n="generator.dataTabs.upload">Upload CSV</button>
-              <button class="data-tab px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700" data-tab="examples" data-i18n="generator.dataTabs.examples">Examples</button>
-            </div>
-            <div id="manual-tab" class="data-tab-content">
-              <label class="block text-sm font-medium text-slate-700 mb-2" data-i18n="generator.manual.label">Describe your data</label>
-              <textarea id="prompt-input" class="w-full h-64 rounded-lg border-2 border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none p-3 resize-y transition-colors" placeholder="Example: Create a bar chart showing monthly sales:\nJanuary: $12,000\nFebruary: $15,000\nMarch: $18,000" data-i18n-placeholder="generator.manual.placeholder"></textarea>
-              <div id="validation-message" class="hidden mt-2 p-3 rounded-lg border"></div>
-            </div>
-            <div id="upload-tab" class="data-tab-content hidden">
-              <div id="drop-zone" class="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center hover:border-blue-500 hover:bg-blue-50 transition-colors cursor-pointer">
-                <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13л-3-3m0 0л-3 3m3-3v12"/></svg>
-                <p class="mt-2 text-sm text-slate-600" data-i18n="generator.upload.drop">Drop CSV file here or click to browse</p>
-                <p class="mt-1 text-xs text-slate-500" data-i18n="generator.upload.maxSize">Maximum file size: 5MB</p>
-                <input type="file" id="csv-upload" accept=".csv" class="hidden">
+              <div id="examples-tab-content" class="hidden space-y-6">
+                <div class="grid gap-4">
+                  <div class="border border-slate-200 rounded-xl p-4 hover:border-blue-400 cursor-pointer transition">
+                    <h4 class="font-semibold text-slate-900 mb-2">Sales Performance</h4>
+                    <p class="text-sm text-slate-600 mb-2">Q1: $45,000, Q2: $52,000, Q3: $48,000, Q4: $61,000</p>
+                    <span class="text-xs text-blue-600 font-medium">Bar Chart →</span>
+                  </div>
+                  <div class="border border-slate-200 rounded-xl p-4 hover:border-blue-400 cursor-pointer transition">
+                    <h4 class="font-semibold text-slate-900 mb-2">Website Traffic</h4>
+                    <p class="text-sm text-slate-600 mb-2">Jan: 12.5K, Feb: 15.2K, Mar: 18.7K, Apr: 22.1K</p>
+                    <span class="text-xs text-blue-600 font-medium">Line Chart →</span>
+                  </div>
+                  <div class="border border-slate-200 rounded-xl p-4 hover:border-blue-400 cursor-pointer transition">
+                    <h4 class="font-semibold text-slate-900 mb-2">Market Share</h4>
+                    <p class="text-sm text-slate-600 mb-2">Product A: 35%, Product B: 28%, Product C: 22%, Others: 15%</p>
+                    <span class="text-xs text-blue-600 font-medium">Pie Chart →</span>
+                  </div>
+                </div>
               </div>
-              <div id="file-info" class="hidden mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800"></div>
-            </div>
-            <div id="examples-tab" class="data-tab-content hidden space-y-2">
-              <button class="example-template w-full text-left p-3 rounded-lg border border-slate-200 hover:border-blue-500 hover:bg-blue-50 transition-colors" data-example="sales">
-                <div class="font-medium text-sm" data-i18n="generator.examples.sales.title">Monthly Sales</div>
-                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.examples.sales.desc">Bar chart with 6 months of data</div>
-              </button>
-              <button class="example-template w-full text-left p-3 rounded-lg border border-slate-200 hover:border-purple-500 hover:bg-purple-50 transition-colors" data-example="traffic">
-                <div class="font-medium text-sm" data-i18n="generator.examples.traffic.title">Website Traffic</div>
-                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.examples.traffic.desc">Line chart showing growth trend</div>
-              </button>
-              <button class="example-template w-full text-left p-3 rounded-lg border border-slate-200 hover:border-green-500 hover:bg-green-50 transition-colors" data-example="market">
-                <div class="font-medium text-sm" data-i18n="generator.examples.market.title">Market Share</div>
-                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.examples.market.desc">Pie chart with percentages</div>
-              </button>
-              <button class="example-template w-full text-left p-3 rounded-lg border border-slate-200 hover:border-orange-500 hover:bg-orange-50 transition-colors" data-example="products">
-                <div class="font-medium text-sm" data-i18n="generator.examples.products.title">Product Performance</div>
-                <div class="text-xs text-slate-500 mt-1" data-i18n="generator.examples.products.desc">Table with sales metrics</div>
-              </button>
-            </div>
-          </div>
-          <div class="surface p-4">
-            <button id="smart-parse-btn" class="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-lg border-2 border-blue-500 text-blue-600 font-medium hover:bg-blue-50 focus:ring-4 focus-ring-blue-200 transition-all" data-i18n="generator.smartParse">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657л-.707-.707m2.828 9.9a5 5 0 117.072 0л-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0 -.895-.356-1.754-.988-2.386л-.548-.547z"/></svg>
-              Smart Parse
-            </button>
-          </div>
-          <div class="surface p-4">
-            <h3 class="text-sm font-semibold mb-3" data-i18n="generator.export.title">Export Format</h3>
-            <div class="grid grid-cols-2 gap-2">
-              <button class="format-btn px-3 py-2 rounded-lg border-2 border-slate-900 bg-slate-900 text-white hover:bg-slate-800 transition-colors text-xs font-medium" data-i18n="generator.export.png">PNG</button>
-              <button class="format-btn px-3 py-2 rounded-lg border-2 border-slate-200 hover:border-slate-300 transition-colors text-xs font-medium" data-i18n="generator.export.pdf">PDF</button>
-              <button class="format-btn px-3 py-2 rounded-lg border-2 border-slate-200 hover:border-slate-300 transition-colors text-xs font-medium" data-i18n="generator.export.csv">CSV</button>
-              <button class="format-btn px-3 py-2 rounded-lg border-2 border-slate-200 hover:border-сlate-300 transition-colors text-xs font-medium" data-i18n="generator.export.svg">SVG</button>
-            </div>
-          </div>
-          <div class="surface">
-            <button class="settings-toggle w-full flex items-center justify-between p-4 text-left hover:bg-slate-50 transition-colors" data-target="settings-content">
-              <span class="text-sm font-semibold" data-i18n="generator.settings.title">Settings</span>
-              <svg class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-            </button>
-            <div id="settings-content" class="hidden p-4 pt-0 space-y-3 border-t">
-              <div>
-                <label class="block text-xs font-medium text-slate-700 mb-1" data-i18n="generator.settings.theme.label">Theme</label>
-                <select class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option data-i18n-option="generator.settings.theme.options.light">Light</option>
-                  <option data-i18n-option="generator.settings.theme.options.dark">Dark</option>
-                  <option data-i18n-option="generator.settings.theme.options.auto">Auto</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-medium text-slate-700 mb-1" data-i18n="generator.settings.animation.label">Animation</label>
-                <label class="flex items-center gap-2"><input type="checkbox" class="rounded" checked><span class="text-xs text-slate-600" data-i18n="generator.settings.animation.toggle">Enable animations</span></label>
+
+              <!-- Quick Action Buttons -->
+              <div class="space-y-4">
+                <div class="flex flex-wrap gap-2">
+                  <button class="quick-action-btn px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition text-sm font-medium" data-prompt="Monthly sales: January $12K, February $15K, March $18K" data-type="bar">
+                    <i class="fas fa-chart-line mr-2"></i>Sales
+                  </button>
+                  <button class="quick-action-btn px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition text-sm font-medium" data-prompt="Website traffic: Jan 1.2K, Feb 1.5K, Mar 1.8K, Apr 2.1K" data-type="line">
+                    <i class="fas fa-users mr-2"></i>Traffic
+                  </button>
+                  <button class="quick-action-btn px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition text-sm font-medium" data-prompt="Team performance: Design 85%, Development 92%, Marketing 78%" data-type="radar">
+                    <i class="fas fa-chart-pie mr-2"></i>Performance
+                  </button>
+                  <button class="quick-action-btn px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition text-sm font-medium" data-prompt="Revenue: Q1 $120K, Q2 $145K, Q3 $168K, Q4 $195K" data-type="line">
+                    <i class="fas fa-dollar-sign mr-2"></i>Finance
+                  </button>
+                </div>
+
+                <!-- Smart Parse Button -->
+                <button id="smart-parse-btn" class="w-full py-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-3 text-lg">
+                  <i class="fas fa-bolt"></i>
+                  Generate Chart
+                </button>
               </div>
             </div>
           </div>
-        </section>
-        
-        <!-- Right: Live Preview -->
-        <section class="surface p-6 relative">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold" data-i18n="generator.preview.title">Preview</h2>
-            <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div><span class="text-xs text-slate-500" data-i18n="generator.preview.status">Live</span></div>
-          </div>
-          <div class="flex items-center justify-between mb-4">
-            <div class="inline-flex rounded-lg border border-slate-200 overflow-hidden">
-              <button id="toggle-example" class="px-3 py-1.5 text-sm font-medium bg-slate-900 text-white">Example</button>
-              <button id="toggle-user" class="px-3 py-1.5 text-sm font-medium text-slate-600">Your data</button>
+        </main>
+
+        <!-- RIGHT SIDEBAR - Preview & Export -->
+        <aside class="w-96 bg-white border-l border-slate-200 flex flex-col">
+          <!-- Live Preview Container -->
+          <div class="flex-1 p-6 overflow-y-auto">
+            <div class="mb-4">
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">Live Preview</h3>
+              <p class="text-sm text-slate-600">Your chart will appear here</p>
             </div>
-            <div id="floating-actions" class="sticky top-4 z-10 flex gap-2">
-              <button id="generate-btn" class="btn btn-accent" data-i18n="generator.preview.generate"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Generate</button>
-              <button id="download-btn" class="btn btn-outline" data-i18n="generator.preview.download"><svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0л-4-4m4 4V4"/></svg>Download</button>
+            
+            <div id="chart-preview" class="border-2 border-dashed border-slate-200 rounded-xl h-80 flex items-center justify-center bg-slate-50">
+              <div class="text-center">
+                <i class="fas fa-chart-simple text-4xl text-slate-300 mb-4"></i>
+                <p class="text-slate-500 font-medium">No chart yet</p>
+                <p class="text-sm text-slate-400 mt-1">Enter your data to generate a visualization</p>
+              </div>
+            </div>
+
+            <!-- Loading States -->
+            <div id="loading-overlay" class="loading-overlay hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div class="loading-content bg-white rounded-2xl p-8 max-w-sm mx-4">
+                <div class="loading-spinner mb-4">
+                  <div class="spinner"></div>
+                </div>
+                <h3 class="text-xl font-semibold text-slate-900 mb-2">AI is generating your chart</h3>
+                <p class="text-slate-600 mb-4">This usually takes 5-10 seconds</p>
+                <div class="progress-container">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                  </div>
+                  <span class="progress-text">Initializing...</span>
+                </div>
+                <div class="loading-steps mt-4">
+                  <div class="step active">✓ Processing your input</div>
+                  <div class="step">Generating visualization</div>
+                  <div class="step">Finalizing chart</div>
+                </div>
+                <button class="mt-4 w-full px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition">
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
-          <div id="loading" class="hidden">
-            <div class="flex items-center justify-center gap-3 text-slate-600 p-8"><svg class="animate-spin h-6 w-6 text-slate-600" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg><span class="font-medium" data-i18n="generator.preview.loading">Generating your visual…</span></div>
+
+          <!-- Export Controls -->
+          <div class="border-t border-slate-200 p-6">
+            <div class="mb-4">
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">Export Options</h3>
+            </div>
+            
+            <div class="space-y-3">
+              <!-- Format Selection -->
+              <div class="grid grid-cols-4 gap-2">
+                <button class="export-format-btn px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium hover:bg-blue-50 hover:border-blue-300 transition" data-format="png">
+                  PNG
+                </button>
+                <button class="export-format-btn px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium hover:bg-blue-50 hover:border-blue-300 transition" data-format="pdf">
+                  PDF
+                </button>
+                <button class="export-format-btn px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium hover:bg-blue-50 hover:border-blue-300 transition" data-format="svg">
+                  SVG
+                </button>
+                <button class="export-format-btn px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium hover:bg-blue-50 hover:border-blue-300 transition" data-format="csv">
+                  CSV
+                </button>
+              </div>
+
+              <!-- Download Buttons -->
+              <div class="flex gap-2">
+                <button class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium" disabled>
+                  <i class="fas fa-download mr-2"></i>Download
+                </button>
+                <button class="px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition" disabled>
+                  <i class="fas fa-share-alt"></i>
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="preview-shell min-h-[500px]">
-            <div id="preview" class="preview-stage"></div>
+
+          <!-- Project Management -->
+          <div class="border-t border-slate-200 p-6">
+            <div class="space-y-3">
+              <button id="save-project" class="w-full px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition font-medium" disabled>
+                <i class="fas fa-save mr-2"></i>Save Project
+              </button>
+              
+              <button id="view-projects" class="w-full px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium">
+                <i class="fas fa-folder mr-2"></i>Project History
+              </button>
+              
+              <button class="w-full px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium" disabled>
+                <i class="fas fa-cog mr-2"></i>Share Settings
+              </button>
+            </div>
           </div>
-        </section>
+        </aside>
       </div>
-
-    </div>
+    </section>
+    </section>
   </main>
 
-  <footer class="border-t bg-white">
-    <div class="max-w-7xl mx-auto px-6 py-6 text-center text-slate-500 text-sm">
-      &copy; <span id="year"></span> VIZOM. All rights reserved.
-    </div>
+  <!-- Unified Footer -->
+  <footer id="unified-footer">
+    <!-- Footer content will be dynamically loaded by UnifiedFooter.js -->
   </footer>
 
+  <link rel="stylesheet" href="src/styles/components/footer.css">
+
+  <!-- Подключения библиотек и модулей -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    
-    // Settings accordion toggle
-    document.querySelectorAll('.settings-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = document.getElementById(btn.dataset.target);
-        const icon = btn.querySelector('svg');
-        if (target.classList.contains('hidden')) {
-          target.classList.remove('hidden');
-          icon.style.transform = 'rotate(180deg)';
-        } else {
-          target.classList.add('hidden');
-          icon.style.transform = 'rotate(0deg)';
-        }
-      });
-    });
-    
-    // Update breadcrumb when chart type is selected
-    document.querySelectorAll('.chart-type-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const type = card.dataset.type;
-        const breadcrumb = document.getElementById('breadcrumb-chart-type');
-        if (breadcrumb) {
-          breadcrumb.textContent = type.charAt(0).toUpperCase() + type.slice(1);
-        }
-      });
-    });
-    // Live Preview (SVG) — non-invasive, works before AI generation
-    (function(){
-      const preview = document.getElementById('preview');
-      const loading = document.getElementById('loading');
-      const input = document.getElementById('prompt-input');
-      const toggleExample = document.getElementById('toggle-example');
-      const toggleUser = document.getElementById('toggle-user');
-      const cards = Array.from(document.querySelectorAll('.chart-type-card'));
-      let useExample = true;
-      let selectedType = 'bar';
-
-      function hasIframe(){
-        return !!preview?.querySelector('iframe');
-      }
-
-      function setToggle(active){
-        useExample = active === 'example';
-        if (toggleExample && toggleUser){
-          if (useExample){
-            toggleExample.classList.add('bg-slate-900','text-white');
-            toggleUser.classList.remove('bg-slate-900','text-white');
-            toggleUser.classList.add('text-slate-600');
-          } else {
-            toggleUser.classList.add('bg-slate-900','text-white');
-            toggleExample.classList.remove('bg-slate-900','text-white');
-            toggleExample.classList.add('text-slate-600');
-          }
-        }
-      }
-
-      // Parsing "Jan 12K, Feb 15K" -> [{label, value}]
-      function parseSeries(text){
-        const cleaned = (text||'').replace(/\n/g,' ').trim();
-        const parts = cleaned.split(/[,;]+/).map(s=>s.trim()).filter(Boolean);
-        const res = [];
-        for (const p of parts){
-          const m = p.match(/([A-Za-zА-Яа-я]+)\s*[:\-]?\s*\$?([\d,.]+)\s*%?\s*K?/);
-          if (m){
-            const label = m[1];
-            let v = parseFloat(m[2].replace(/,/g,''));
-            if (/K/i.test(p)) v *= 1000;
-            res.push({label, value:v});
-          }
-        }
-        if (!res.length) return [ {label:'Jan',value:12000},{label:'Feb',value:15000},{label:'Mar',value:18000} ];
-        return res;
-      }
-
-      // SVG renderers
-      function barChartSVG(series, {w=720,h=380,pad=36}={}){
-        const max = Math.max(...series.map(s=>s.value))||1;
-        const cw = w - pad*2; const ch = h - pad*2;
-        const bw = cw / series.length * 0.7; const gap = cw / series.length * 0.3;
-        let x = pad;
-        const grad = `<defs><linearGradient id="gbar" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6"/><stop offset="100%" stop-color="#8B5CF6" stop-opacity="0.15"/></linearGradient></defs>`;
-        let bars = '';
-        series.forEach((s)=>{
-          const bh = Math.max(2, (s.value/max)*ch);
-          bars += `<g transform="translate(${x},${pad})"><rect rx="8" width="${bw}" height="0" y="${ch}" fill="url(#gbar)"><title>${s.label}: ${s.value}</title><animate attributeName="height" from="0" to="${bh}" dur="0.45s" fill="freeze"/><animate attributeName="y" from="${ch}" to="${ch-bh}" dur="0.45s" fill="freeze"/></rect><text x="${bw/2}" y="${ch+16}" text-anchor="middle" fill="#64748b" font-size="12">${s.label}</text></g>`;
-          x += bw + gap;
-        });
-        return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" role="img" aria-label="Bar chart">${grad}${bars}</svg>`;
-      }
-      function lineChartSVG(series, {w=720,h=380,pad=36}={}){
-        const max = Math.max(...series.map(s=>s.value))||1;
-        const cw=w-pad*2, ch=h-pad*2, step=cw/Math.max(1,series.length-1);
-        const pts = series.map((s,i)=>`${pad+i*step},${pad+(1-s.value/max)*ch}`).join(' ');
-        const gradId='lgrad';
-        const grad = `<defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6" stop-opacity="0.5"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs>`;
-        const area = `${pad},${h-pad} ${pts} ${pad+cw},${h-pad}`;
-        const circles = series.map((s,i)=>{
-          const x = pad + i*step; const y = pad + (1 - s.value/max)*ch;
-          return `<circle cx="${x}" cy="${y}" r="3" fill="#3B82F6"><title>${s.label}: ${s.value}</title></circle>`;
-        }).join('');
-        return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" role="img" aria-label="Line chart">${grad}<polyline points="${pts}" fill="none" stroke="#3B82F6" stroke-width="3" stroke-linecap="round"><animate attributeName="stroke-dasharray" from="0,9999" to="9999,0" dur="0.6s" fill="freeze"/></polyline><polygon points="${area}" fill="url(#${gradId})"/>${circles}</svg>`;
-      }
-      function pieChartSVG(series,{w=380,h=380}={}){
-        const cx=w/2, cy=h/2, r=Math.min(w,h)/3; const total=series.reduce((a,b)=>a+b.value,0)||1; let a=0;
-        const colors=["#3B82F6","#8B5CF6","#06D6A0","#60A5FA","#A78BFA"]; let paths='';
-        series.forEach((s,i)=>{ const f=s.value/total; const a2=a+f*Math.PI*2; const x1=cx+r*Math.cos(a), y1=cy+r*Math.sin(a); const x2=cx+r*Math.cos(a2), y2=cy+r*Math.sin(a2); const large=f>0.5?1:0; const d=`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`; paths+=`<path d="${d}" fill="${colors[i%colors.length]}" opacity="0"><animate attributeName="opacity" from="0" to="0.9" dur="0.4s" fill="freeze"/></path>`; a=a2; });
-        return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="100%" role="img" aria-label="Pie chart">${paths}</svg>`;
-      }
-      function tableHTML(){
-        return `<div style="padding:12px;font-family:Inter,system-ui,sans-serif;color:#0f172a"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:14px"><div style="font-weight:600">Product</div><div style="font-weight:600">Units</div><div style="font-weight:600">Revenue</div><div>Alpha</div><div>150</div><div>$4.5K</div><div style=\"background:#f8fafc\">Beta</div><div style=\"background:#f8fafc\">120</div><div style=\"background:#f8fafc\">$3.6K</div><div>Gamma</div><div>200</div><div>$6.0K</div></div></div>`;
-      }
-
-      function exampleTextByType(type){
-        // Prefer app.js exampleTemplates if available
-        try{
-          if (typeof exampleTemplates !== 'undefined'){
-            if (type==='bar' && exampleTemplates.sales) return exampleTemplates.sales;
-            if (type==='line' && exampleTemplates.traffic) return exampleTemplates.traffic;
-            if (type==='pie' && exampleTemplates.market) return exampleTemplates.market;
-            if (type==='table' && exampleTemplates.products) return exampleTemplates.products;
-          }
-        }catch(e){}
-        // Fallbacks
-        const map={
-          bar:'Monthly sales: Jan $12K, Feb $15K, Mar $18K, Apr $20K',
-          line:'Visitors: Jan 1200, Feb 1500, Mar 1800, Apr 2100, May 2400, Jun 2800',
-          pie:'Market share: A 45%, B 30%, C 25%',
-          table:'Product | Units | Revenue\nAlpha | 150 | $4,500\nBeta | 120 | $3,600\nGamma | 200 | $6,000',
-          dashboard:'Revenue $125K, Customers 2.4K; Market: A 45%, B 30%, C 25%'
+    // Enhanced loading functions using the LoadingStatesManager
+    function showLoading(id = 'chart-generation', config = {}) {
+      if (window.loadingStates) {
+        const defaultConfig = {
+          title: 'AI is generating your chart',
+          description: 'This usually takes 5-10 seconds',
+          progressBar: true,
+          steps: true,
+          stepTexts: [
+            { text: 'Processing your input', threshold: 30 },
+            { text: 'Generating visualization', threshold: 70 },
+            { text: 'Finalizing chart', threshold: 100 }
+          ],
+          showCancel: true,
+          timeout: 30000
         };
-        return map[type] || map.bar;
+        
+        return window.loadingStates.showLoading(id, { ...defaultConfig, ...config });
+      } else {
+        // Fallback to basic loading
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.classList.remove('hidden');
+          return { hide: () => overlay.classList.add('hidden') };
+        }
       }
+    }
 
-      function render(){
-        if (!preview || hasIframe()) return; // don't override generated content
-        const sourceText = useExample ? exampleTextByType(selectedType) : (input?.value || '');
-        const s = parseSeries(sourceText);
-        let html = '';
-        if (selectedType==='bar') html = barChartSVG(s);
-        else if (selectedType==='line') html = lineChartSVG(s);
-        else if (selectedType==='pie') html = pieChartSVG(s);
-        else if (selectedType==='table') html = tableHTML();
-        else html = barChartSVG(s);
-        preview.innerHTML = html;
+    function hideLoading(id = 'chart-generation') {
+      if (window.loadingStates) {
+        return window.loadingStates.hideLoading(id);
+      } else {
+        // Fallback to basic loading
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+          overlay.classList.add('hidden');
+        }
+        return true;
       }
+    }
 
-      // Events
-      input?.addEventListener('input', ()=>{ if (!useExample) render(); });
-      toggleExample?.addEventListener('click', ()=>{ setToggle('example'); render(); });
-      toggleUser?.addEventListener('click', ()=>{ setToggle('user'); render(); });
-      cards.forEach(c=>{
-        c.addEventListener('click', ()=>{
-          selectedType = c.dataset.type || 'bar';
-          // Simulated quick loading pulse
-          if (loading){ loading.classList.remove('hidden'); loading.classList.add('flex'); }
-          setTimeout(()=>{ if (loading){ loading.classList.add('hidden'); loading.classList.remove('flex'); } render(); }, 250);
+    function updateProgress(id, progress, text) {
+      if (window.loadingStates) {
+        return window.loadingStates.updateProgress(id, progress, text);
+      }
+      return false;
+    }
+
+    // Example usage with Smart Parse button
+    document.addEventListener('DOMContentLoaded', () => {
+      const smartParseBtn = document.getElementById('smart-parse-btn');
+      
+      if (smartParseBtn) {
+        smartParseBtn.addEventListener('click', () => {
+          // Check if input is ready for generation
+          const isReady = window.inputValidation?.isReadyForGeneration('prompt-input');
+          
+          if (!isReady) {
+            // Show validation feedback instead of loading
+            const feedback = document.getElementById('input-feedback');
+            if (feedback && feedback.classList.contains('hidden')) {
+              window.inputValidation?.validate('prompt-input', 'input-feedback');
+            }
+            return;
+          }
+          
+          // Show enhanced loading
+          const loader = showLoading('chart-generation', {
+            title: 'AI is generating your chart',
+            description: 'Analyzing your data and creating the perfect visualization...',
+            steps: true,
+            progressBar: true
+          });
+          
+          // Simulate progress updates
+          let progress = 0;
+          const progressInterval = setInterval(() => {
+            progress += Math.random() * 10;
+            
+            if (progress < 30) {
+              updateProgress('chart-generation', progress, 'Processing your input...');
+            } else if (progress < 70) {
+              updateProgress('chart-generation', progress, 'Generating visualization...');
+            } else if (progress < 100) {
+              updateProgress('chart-generation', progress, 'Finalizing chart...');
+            } else {
+              progress = 100;
+              updateProgress('chart-generation', progress, 'Complete!');
+              clearInterval(progressInterval);
+              
+              // Hide loading after completion
+              setTimeout(() => {
+                hideLoading('chart-generation');
+              }, 1000);
+            }
+          }, 300);
+          
+          // Simulate completion after 5 seconds
+          setTimeout(() => {
+            clearInterval(progressInterval);
+            updateProgress('chart-generation', 100, 'Chart generated successfully!');
+            setTimeout(() => {
+              hideLoading('chart-generation');
+            }, 1000);
+          }, 5000);
         });
+      }
+
+      // Listen for validation events
+      document.addEventListener('input:validated', (e) => {
+        const { validation } = e.detail;
+        
+        // Enable/disable smart parse button based on validation
+        const smartParseBtn = document.getElementById('smart-parse-btn');
+        if (smartParseBtn) {
+          if (validation.isValid && validation.score >= 70) {
+            smartParseBtn.disabled = false;
+            smartParseBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+          } else {
+            smartParseBtn.disabled = true;
+            smartParseBtn.classList.add('opacity-50', 'cursor-not-allowed');
+          }
+        }
       });
 
-      // Init default selection
-      const preselected = document.querySelector('.chart-type-card.selected');
-      if (preselected) selectedType = preselected.dataset.type || 'bar';
-      else if (cards[0]) { cards[0].classList.add('selected'); selectedType = cards[0].dataset.type || 'bar'; }
-      setToggle('example');
-      // Seed with example text into textarea when switching from index page, keep user text otherwise
-      if (!input?.value) input.value = exampleTextByType('bar');
-      render();
-    })();
+      // Example with file upload
+      const csvUpload = document.getElementById('csv-upload');
+      if (csvUpload) {
+        csvUpload.addEventListener('change', (e) => {
+          if (e.target.files.length > 0) {
+            const loader = showLoading('file-upload', {
+              title: 'Processing your file',
+              description: 'Analyzing CSV data and preparing for visualization...',
+              progressBar: true,
+              steps: false
+            });
+            
+            // Simulate file processing
+            setTimeout(() => {
+              hideLoading('file-upload');
+            }, 3000);
+          }
+        });
+      }
+
+      // Example with project save
+      const saveProjectBtn = document.getElementById('save-project');
+      if (saveProjectBtn) {
+        saveProjectBtn.addEventListener('click', () => {
+          const buttonLoader = window.loadingStates?.showButtonLoading(saveProjectBtn, 'Saving...');
+          
+          setTimeout(() => {
+            if (buttonLoader) {
+              buttonLoader.hide();
+            }
+          }, 2000);
+        });
+      }
+
+      // Clear input functionality
+      const clearBtn = document.getElementById('clear-input');
+      const textarea = document.getElementById('prompt-input');
+      
+      if (clearBtn && textarea) {
+        clearBtn.addEventListener('click', () => {
+          textarea.value = '';
+          window.inputValidation?.validate('prompt-input', 'input-feedback');
+          window.inputValidation?.updateCharCount(textarea, 'char-count');
+          textarea.focus();
+        });
+      }
+    });
+
+    // Global error handling for loading timeouts
+    window.addEventListener('error', (e) => {
+      // Hide any active loading states on error
+      if (window.loadingStates) {
+        const activeLoaders = window.loadingStates.getActiveLoaders();
+        activeLoaders.forEach(id => {
+          window.loadingStates.hideLoading(id);
+        });
+      }
+    });
   </script>
 </body>
 </html>

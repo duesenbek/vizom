@@ -1,0 +1,1256 @@
+/* Export Options Clarity Enhancement Styles */
+
+/* Export Option Enhancement */
+.export-option {
+  position: relative;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  background: var(--background);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.export-option:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.export-option.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.export-option.recommended {
+  border-color: var(--success);
+  background: rgba(0, 200, 83, 0.05);
+  position: relative;
+}
+
+.export-option.recommended:hover {
+  border-color: var(--success);
+  background: rgba(0, 200, 83, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 200, 83, 0.2);
+}
+
+/* Option Title */
+.option-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.option-title .format-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.technical-name {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: monospace;
+  background: var(--surface);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Option Description */
+.option-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+/* Use Cases */
+.option-use-cases {
+  margin-bottom: 16px;
+}
+
+.option-use-cases h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.option-use-cases ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.option-use-cases li {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+
+/* Pros and Cons */
+.option-pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--surface);
+  border-radius: 8px;
+}
+
+.pros h5,
+.cons h5 {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pros h5 {
+  color: var(--success);
+}
+
+.cons h5 {
+  color: var(--warning);
+}
+
+.pros ul,
+.cons ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.pros li,
+.cons li {
+  font-size: 11px;
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+
+.pros li {
+  color: var(--text-secondary);
+}
+
+.cons li {
+  color: var(--text-muted);
+}
+
+/* Technical Specs */
+.option-specs {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.option-specs h5 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.spec-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.spec-value {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Recommendation Badge */
+.recommendation-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--success);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: recommendationBadgePulse 2s ease-in-out infinite;
+}
+
+@keyframes recommendationBadgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Use Case Selector */
+.use-case-selector {
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.selector-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.selector-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+}
+
+.selector-header p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.use-case-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.use-case-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.use-case-btn:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.use-case-btn.selected {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.use-case-btn i {
+  font-size: 20px;
+}
+
+.use-case-btn span {
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Recommendation Result */
+.recommendation-result {
+  padding: 16px;
+  background: var(--background);
+  border-radius: 8px;
+  border: 1px solid var(--success);
+  animation: recommendationSlideIn 0.3s ease;
+}
+
+@keyframes recommendationSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.recommendation-result h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recommended-format {
+  margin-bottom: 8px;
+}
+
+.format-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--surface);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.format-icon {
+  font-size: 24px;
+}
+
+.format-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.format-card .format-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.format-technical {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.recommendation-reasoning {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+  font-style: italic;
+}
+
+/* Format Comparison */
+.format-comparison {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.comparison-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.comparison-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toggle-comparison {
+  padding: 6px 12px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle-comparison:hover {
+  background: var(--primary-hover);
+}
+
+.comparison-table {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.comparison-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.comparison-table th {
+  background: var(--background);
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+}
+
+.comparison-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+}
+
+.comparison-table tr:hover {
+  background: var(--primary-light);
+}
+
+.format-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.format-cell .format-icon {
+  font-size: 16px;
+}
+
+.format-cell .format-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.format-cell .format-technical {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+/* Smart Suggestions */
+.smart-suggestions {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--primary);
+}
+
+.smart-suggestions h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.suggestion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.suggestion-item:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.suggestion-format {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.suggestion-format .format-icon {
+  font-size: 18px;
+}
+
+.suggestion-format .format-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.suggestion-reason {
+  font-size: 11px;
+  color: var(--text-muted);
+  flex: 1;
+  margin: 0 12px;
+  font-style: italic;
+}
+
+.suggestion-apply {
+  padding: 4px 8px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.suggestion-apply:hover {
+  background: var(--primary-hover);
+}
+
+/* Quick Export Dropdown */
+.quick-export-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  width: 200px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.quick-export-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.quick-export-header {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
+}
+
+.quick-export-header h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 2px 0;
+}
+
+.quick-export-header p {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.quick-export-options {
+  padding: 8px;
+}
+
+.quick-export-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.quick-export-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.quick-export-btn .format-icon {
+  font-size: 16px;
+}
+
+.quick-export-btn .format-name {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .export-option {
+    padding: 16px;
+  }
+  
+  .option-pros-cons {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .use-case-options {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 6px;
+  }
+  
+  .use-case-btn {
+    padding: 8px 6px;
+  }
+  
+  .use-case-btn i {
+    font-size: 16px;
+  }
+  
+  .use-case-btn span {
+    font-size: 10px;
+  }
+  
+  .comparison-table {
+    font-size: 11px;
+  }
+  
+  .comparison-table th,
+  .comparison-table td {
+    padding: 6px 8px;
+  }
+  
+  .suggestion-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .suggestion-reason {
+    margin: 0;
+  }
+  
+  .format-card {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .export-option {
+    padding: 12px;
+  }
+  
+  .option-title .format-name {
+    font-size: 16px;
+  }
+  
+  .option-description {
+    font-size: 13px;
+  }
+  
+  .use-case-selector {
+    padding: 16px;
+  }
+  
+  .selector-header h3 {
+    font-size: 16px;
+  }
+  
+  .use-case-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+  
+  .use-case-btn {
+    padding: 6px 4px;
+  }
+  
+  .use-case-btn i {
+    font-size: 14px;
+  }
+  
+  .use-case-btn span {
+    font-size: 9px;
+  }
+  
+  .format-comparison {
+    padding: 12px;
+  }
+  
+  .comparison-header {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  
+  .comparison-table {
+    font-size: 10px;
+  }
+  
+  .comparison-table th,
+  .comparison-table td {
+    padding: 4px 6px;
+  }
+  
+  .smart-suggestions {
+    padding: 12px;
+  }
+  
+  .suggestion-item {
+    padding: 8px;
+  }
+  
+  .quick-export-dropdown {
+    width: 180px;
+  }
+}
+
+/* High Contrast Mode */
+.high-contrast .export-option {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .export-option:hover {
+  border-color: white;
+  background: #333333;
+}
+
+.high-contrast .export-option.selected {
+  background: #333333;
+  border-color: white;
+}
+
+.high-contrast .export-option.recommended {
+  background: #003300;
+  border-color: #00AA00;
+}
+
+.high-contrast .option-title .format-name {
+  color: white;
+}
+
+.high-contrast .technical-name {
+  background: #333333;
+  color: #CCCCCC;
+}
+
+.high-contrast .option-description {
+  color: #CCCCCC;
+}
+
+.high-contrast .option-use-cases h4 {
+  color: white;
+}
+
+.high-contrast .option-use-cases li {
+  color: #CCCCCC;
+}
+
+.high-contrast .option-pros-cons {
+  background: #111111;
+}
+
+.high-contrast .pros h5 {
+  color: #00AA00;
+}
+
+.high-contrast .cons h5 {
+  color: #FFAA00;
+}
+
+.high-contrast .pros li,
+.high-contrast .cons li {
+  color: #CCCCCC;
+}
+
+.high-contrast .option-specs {
+  border-color: white;
+}
+
+.high-contrast .option-specs h5 {
+  color: white;
+}
+
+.high-contrast .spec-value {
+  color: #CCCCCC;
+}
+
+.high-contrast .recommendation-badge {
+  background: #00AA00;
+  color: white;
+}
+
+.high-contrast .use-case-selector {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .selector-header h3 {
+  color: white;
+}
+
+.high-contrast .selector-header p {
+  color: #CCCCCC;
+}
+
+.high-contrast .use-case-btn {
+  background: black;
+  border-color: white;
+  color: #CCCCCC;
+}
+
+.high-contrast .use-case-btn:hover {
+  background: #333333;
+  color: white;
+}
+
+.high-contrast .use-case-btn.selected {
+  background: white;
+  color: black;
+}
+
+.high-contrast .recommendation-result {
+  background: black;
+  border-color: #00AA00;
+}
+
+.high-contrast .recommendation-result h4 {
+  color: white;
+}
+
+.high-contrast .format-card {
+  background: #111111;
+  border-color: white;
+}
+
+.high-contrast .format-card .format-name {
+  color: white;
+}
+
+.high-contrast .format-technical {
+  color: #CCCCCC;
+}
+
+.high-contrast .recommendation-reasoning {
+  color: #CCCCCC;
+}
+
+.high-contrast .format-comparison {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .comparison-header h3 {
+  color: white;
+}
+
+.high-contrast .toggle-comparison {
+  background: white;
+  color: black;
+}
+
+.high-contrast .comparison-table th {
+  background: #111111;
+  color: white;
+  border-color: white;
+}
+
+.high-contrast .comparison-table td {
+  border-color: #333333;
+  color: #CCCCCC;
+}
+
+.high-contrast .comparison-table tr:hover {
+  background: #333333;
+}
+
+.high-contrast .format-cell .format-name {
+  color: white;
+}
+
+.high-contrast .format-cell .format-technical {
+  color: #CCCCCC;
+}
+
+.high-contrast .smart-suggestions {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .smart-suggestions h4 {
+  color: white;
+}
+
+.high-contrast .suggestion-item {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .suggestion-item:hover {
+  background: #333333;
+}
+
+.high-contrast .suggestion-format .format-name {
+  color: white;
+}
+
+.high-contrast .suggestion-reason {
+  color: #CCCCCC;
+}
+
+.high-contrast .suggestion-apply {
+  background: white;
+  color: black;
+}
+
+.high-contrast .quick-export-dropdown {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .quick-export-header {
+  background: #111111;
+  border-color: white;
+}
+
+.high-contrast .quick-export-header h4 {
+  color: white;
+}
+
+.high-contrast .quick-export-header p {
+  color: #CCCCCC;
+}
+
+.high-contrast .quick-export-btn {
+  color: #CCCCCC;
+}
+
+.high-contrast .quick-export-btn:hover {
+  background: #333333;
+  color: white;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .export-option {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .export-option:hover {
+    border-color: var(--primary);
+    background: var(--surface-dark);
+  }
+  
+  .export-option.selected {
+    background: var(--surface-dark);
+    border-color: var(--primary);
+  }
+  
+  .export-option.recommended {
+    background: rgba(0, 200, 83, 0.1);
+    border-color: var(--success);
+  }
+  
+  .option-title .format-name {
+    color: var(--text-primary-dark);
+  }
+  
+  .technical-name {
+    background: var(--surface-dark);
+    color: var(--text-muted-dark);
+  }
+  
+  .option-description {
+    color: var(--text-secondary-dark);
+  }
+  
+  .option-use-cases h4 {
+    color: var(--text-primary-dark);
+  }
+  
+  .option-use-cases li {
+    color: var(--text-secondary-dark);
+  }
+  
+  .option-pros-cons {
+    background: var(--surface-dark);
+  }
+  
+  .option-specs {
+    border-color: var(--border-dark);
+  }
+  
+  .option-specs h5 {
+    color: var(--text-primary-dark);
+  }
+  
+  .spec-value {
+    color: var(--text-secondary-dark);
+  }
+  
+  .use-case-selector {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .selector-header h3 {
+    color: var(--text-primary-dark);
+  }
+  
+  .selector-header p {
+    color: var(--text-secondary-dark);
+  }
+  
+  .use-case-btn {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+    color: var(--text-secondary-dark);
+  }
+  
+  .use-case-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+  
+  .use-case-btn.selected {
+    background: var(--primary);
+    color: white;
+  }
+  
+  .recommendation-result {
+    background: var(--background-dark);
+    border-color: var(--success);
+  }
+  
+  .recommendation-result h4 {
+    color: var(--text-primary-dark);
+  }
+  
+  .format-card {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .format-card .format-name {
+    color: var(--text-primary-dark);
+  }
+  
+  .format-technical {
+    color: var(--text-muted-dark);
+  }
+  
+  .recommendation-reasoning {
+    color: var(--text-secondary-dark);
+  }
+  
+  .format-comparison {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .comparison-header h3 {
+    color: var(--text-primary-dark);
+  }
+  
+  .comparison-table th {
+    background: var(--background-dark);
+    color: var(--text-primary-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .comparison-table td {
+    border-color: var(--border-light);
+    color: var(--text-secondary-dark);
+  }
+  
+  .comparison-table tr:hover {
+    background: var(--primary-light);
+  }
+  
+  .format-cell .format-name {
+    color: var(--text-primary-dark);
+  }
+  
+  .format-cell .format-technical {
+    color: var(--text-muted-dark);
+  }
+  
+  .smart-suggestions {
+    background: var(--surface-dark);
+    border-color: var(--primary);
+  }
+  
+  .smart-suggestions h4 {
+    color: var(--text-primary-dark);
+  }
+  
+  .suggestion-item {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .suggestion-item:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+  }
+  
+  .suggestion-format .format-name {
+    color: var(--text-primary-dark);
+  }
+  
+  .suggestion-reason {
+    color: var(--text-muted-dark);
+  }
+  
+  .quick-export-dropdown {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .quick-export-header {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .quick-export-header h4 {
+    color: var(--text-primary-dark);
+  }
+  
+  .quick-export-header p {
+    color: var(--text-muted-dark);
+  }
+  
+  .quick-export-btn {
+    color: var(--text-secondary-dark);
+  }
+  
+  .quick-export-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .export-option,
+  .use-case-btn,
+  .recommendation-badge,
+  .recommendation-result,
+  .quick-export-dropdown,
+  .suggestion-item {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Focus Management */
+.export-option:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.use-case-btn:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.suggestion-apply:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.quick-export-btn:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .use-case-selector,
+  .smart-suggestions,
+  .format-comparison,
+  .recommendation-badge,
+  .quick-export-dropdown {
+    display: none !important;
+  }
+}
+
+/* Loading States */
+.export-option.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.export-option.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-top: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Success/Error States */
+.export-option.success {
+  border-color: var(--success);
+  background: rgba(0, 200, 83, 0.05);
+}
+
+.export-option.error {
+  border-color: var(--error);
+  background: rgba(255, 59, 48, 0.05);
+}
+
+/* Custom Scrollbar */
+.comparison-table::-webkit-scrollbar,
+.smart-suggestions::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.comparison-table::-webkit-scrollbar-track,
+.smart-suggestions::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+.comparison-table::-webkit-scrollbar-thumb,
+.smart-suggestions::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.comparison-table::-webkit-scrollbar-thumb:hover,
+.smart-suggestions::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

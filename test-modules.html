@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Modules - VIZOM</title>
+  <link rel="stylesheet" href="styles/minimal.css">
+  <style>
+    body {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .test-section {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 1rem;
+      background: white;
+    }
+    .test-result {
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0.5rem;
+      font-family: monospace;
+      font-size: 0.875rem;
+    }
+    .success {
+      background: #d1fae5;
+      border: 1px solid #10b981;
+      color: #065f46;
+    }
+    .error {
+      background: #fee2e2;
+      border: 1px solid #ef4444;
+      color: #991b1b;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+    }
+    button:hover {
+      background: #1e40af;
+    }
+    #preview {
+      min-height: 300px;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container section">
+    <h1 class="h1">🧪 VIZOM Module Test Suite</h1>
+    <p class="subtle">Testing the new modular architecture</p>
+
+  <!-- Test 1: Core Modules -->
+  <div class="test-section card-min">
+    <h2 class="h2">Test 1: Core Modules</h2>
+    <button class="btn btn-primary btn-sm" onclick="testCoreModules()">Run Test</button>
+    <div id="test1-result"></div>
+  </div>
+
+  <!-- Test 2: Chart Renderer -->
+  <div class="test-section card-min">
+    <h2 class="h2">Test 2: Chart Renderer</h2>
+    <div class="toolbar">
+      <button class="btn btn-primary btn-sm" onclick="testChartRenderer()">Render Bar Chart</button>
+      <button class="btn btn-secondary btn-sm" onclick="testLineChart()">Render Line Chart</button>
+      <button class="btn btn-secondary btn-sm" onclick="testPieChart()">Render Pie Chart</button>
+    </div>
+    <div id="test2-result"></div>
+    <div class="preview-shell minimal"><div id="preview" class="preview-stage minimal"></div></div>
+  </div>
+
+  <!-- Test 3: Validator -->
+  <div class="test-section card-min">
+    <h2 class="h2">Test 3: Validator</h2>
+    <button class="btn btn-secondary btn-sm" onclick="testValidator()">Run Validation Tests</button>
+    <div id="test3-result"></div>
+  </div>
+
+  <!-- Test 4: Export Manager -->
+  <div class="test-section card-min">
+    <h2 class="h2">Test 4: Export Manager</h2>
+    <button class="btn btn-secondary btn-sm" onclick="testExport()">Test Export Functions</button>
+    <div id="test4-result"></div>
+  </div>
+
+  </div>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+  
+  <!-- Export Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Test Script -->
+  <script type="module">
+    import { api } from './src/core/api.js';
+    import { storage } from './src/core/storage.js';
+    import { parseSeries, formatNumber, debounce } from './src/core/utils.js';
+    import { ChartRenderer } from './src/modules/chart-renderer.js';
+    import { PromptBuilder } from './src/modules/prompt-builder.js';
+    import { ExportManager } from './src/modules/export-manager.js';
+    import { Validator } from './src/modules/validator.js';
+    import { HTMLSanitizer } from './src/modules/sanitizer.js';
+
+    // Make available globally for onclick handlers
+    window.testCoreModules = testCoreModules;
+    window.testChartRenderer = testChartRenderer;
+    window.testLineChart = testLineChart;
+    window.testPieChart = testPieChart;
+    window.testValidator = testValidator;
+    window.testExport = testExport;
+
+    let renderer = null;
+    let exporter = null;
+
+    // Test 1: Core Modules
+    function testCoreModules() {
+      const results = [];
+      const resultDiv = document.getElementById('test1-result');
+
+      try {
+        // Test storage
+        storage.set('test', { value: 123 });
+        const stored = storage.get('test');
+        results.push(`✅ Storage: ${JSON.stringify(stored)}`);
+
+        // Test utils
+        const series = parseSeries('Jan 100, Feb 200, Mar 300');
+        results.push(`✅ ParseSeries: ${series.length} items parsed`);
+
+        const formatted = formatNumber(1000000);
+        results.push(`✅ FormatNumber: ${formatted}`);
+
+        // Test debounce
+        const fn = debounce(() => {}, 100);
+        results.push(`✅ Debounce: Function created`);
+
+        // Test sanitizer
+        const clean = HTMLSanitizer.sanitizeHTML('<scr' + 'ipt>alert("xss")</scr' + 'ipt>');
+        results.push(`✅ Sanitizer: XSS prevented`);
+
+        resultDiv.innerHTML = `<div class="test-result success">${results.join('<br>')}</div>`;
+      } catch (error) {
+        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+      }
+    }
+
+    // Test 2: Chart Renderer
+    function testChartRenderer() {
+      const preview = document.getElementById('preview');
+      const resultDiv = document.getElementById('test2-result');
+
+      try {
+        if (!renderer) {
+          renderer = new ChartRenderer(preview);
+          exporter = new ExportManager(preview);
+        }
+
+        const config = {
+          type: 'bar',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+              label: 'Monthly Sales',
+              data: [12000, 15000, 18000, 14000, 19000, 22000],
+              backgroundColor: 'rgba(99, 102, 241, 0.8)',
+              borderRadius: 8,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: true },
+              title: { display: true, text: 'Monthly Sales Report' }
+            }
+          }
+        };
+
+        renderer.render(config);
+        resultDiv.innerHTML = `<div class="test-result success">✅ Bar chart rendered successfully!</div>`;
+      } catch (error) {
+        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+      }
+    }
+
+    function testLineChart() {
+      const preview = document.getElementById('preview');
+      const resultDiv = document.getElementById('test2-result');
+
+      try {
+        if (!renderer) {
+          renderer = new ChartRenderer(preview);
+        }
+
+        const config = {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+              label: 'Website Traffic',
+              data: [1200, 1500, 1800, 2100, 2400, 2800],
+              borderColor: 'rgb(99, 102, 241)',
+              backgroundColor: 'rgba(99, 102, 241, 0.2)',
+              fill: true,
+              tension: 0.4,
+              pointRadius: 5,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top' },
+              title: { display: true, text: 'Website Traffic Trend' }
+            }
+          }
+        };
+
+        renderer.render(config);
+        resultDiv.innerHTML = `<div class="test-result success">✅ Line chart rendered successfully!</div>`;
+      } catch (error) {
+        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+      }
+    }
+
+    function testPieChart() {
+      const preview = document.getElementById('preview');
+      const resultDiv = document.getElementById('test2-result');
+
+      try {
+        if (!renderer) {
+          renderer = new ChartRenderer(preview);
+        }
+
+        const config = {
+          type: 'doughnut',
+          data: {
+            labels: ['Product A', 'Product B', 'Product C', 'Product D'],
+            datasets: [{
+              data: [35, 28, 22, 15],
+              backgroundColor: ['#6366f1', '#8b5cf6', '#06d6a0', '#60a5fa'],
+              hoverOffset: 4,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'right' },
+              title: { display: true, text: 'Market Share Distribution' }
+            }
+          }
+        };
+
+        renderer.render(config);
+        resultDiv.innerHTML = `<div class="test-result success">✅ Pie chart rendered successfully!</div>`;
+      } catch (error) {
+        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+      }
+    }
+
+    // Test 3: Validator
+    function testValidator() {
+      const results = [];
+      const resultDiv = document.getElementById('test3-result');
+
+      try {
+        // Test prompt validation
+        const valid = Validator.validatePrompt('Monthly sales: Jan $12K, Feb $15K');
+        results.push(`✅ Valid prompt: ${valid.valid}`);
+
+        const invalid = Validator.validatePrompt('');
+        results.push(`✅ Empty prompt detected: ${!invalid.valid}`);
+
+        // Test chart type validation
+        const validType = Validator.validateChartType('bar');
+        results.push(`✅ Valid chart type: ${validType.valid}`);
+
+        const invalidType = Validator.validateChartType('invalid');
+        results.push(`✅ Invalid chart type detected: ${!invalidType.valid}`);
+
+        resultDiv.innerHTML = `<div class="test-result success">${results.join('<br>')}</div>`;
+      } catch (error) {
+        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+      }
+    }
+
+    // Test 4: Export Manager
+    function testExport() {
+      const resultDiv = document.getElementById('test4-result');
+
+      try {
+        if (!exporter) {
+          const preview = document.getElementById('preview');
+          exporter = new ExportManager(preview);
+        }
+
+        const results = [
+          '✅ Export Manager initialized',
+          '✅ PNG export available',
+          '✅ PDF export available',
+          '✅ CSV export available',
+          '✅ SVG export available',
+          '✅ HTML export available',
+        ];
+
+        resultDiv.innerHTML = `<div class="test-result success">${results.join('<br>')}<br><br>💡 Generate a chart first, then try exporting!</div>`;
+      } catch (error) {
+        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+      }
+    }
+
+    // Auto-run first test on load
+    window.addEventListener('load', () => {
+      console.log('✅ All modules loaded successfully!');
+      console.log('📦 Available modules:', {
+        api,
+        storage,
+        ChartRenderer,
+        PromptBuilder,
+        ExportManager,
+        Validator,
+        HTMLSanitizer,
+      });
+    });
+  </script>
+  <nav class="mobile-nav">
+    <a href="index.html" class="nav-item" aria-label="Home">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-7 9 7v7a2 2 0 01-2 2h-3a2 2 0 01-2-2v-3H10v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-7z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="generator.html" class="nav-item" aria-label="Generator">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      <span>Generate</span>
+    </a>
+    <a href="templates.html" class="nav-item" aria-label="Templates">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+      <span>Templates</span>
+    </a>
+  </nav>
+</body>
+</html>

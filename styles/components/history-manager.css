@@ -1,0 +1,1146 @@
+/* History Manager - Undo/Redo and Navigation Styles */
+
+/* History Container */
+.history-container {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.history-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.history-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.history-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.history-btn:hover:not(:disabled) {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.history-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--text-muted);
+}
+
+.history-btn:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* History List */
+.history-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.history-empty {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* History Items */
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  margin-bottom: 4px;
+  border: 1px solid transparent;
+}
+
+.history-item:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+}
+
+.history-item.current {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.history-item.future {
+  opacity: 0.6;
+  color: var(--text-muted);
+}
+
+.history-item-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  cursor: pointer;
+}
+
+.history-item-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.history-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.history-item-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-item-meta {
+  font-size: 10px;
+  color: inherit;
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-item-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.history-item:hover .history-item-actions {
+  opacity: 1;
+}
+
+.history-action-btn {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: inherit;
+  font-size: 10px;
+}
+
+.history-action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.history-item.current .history-action-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Cancel Generation Button */
+.cancel-generation-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--error);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+}
+
+.cancel-generation-btn:hover {
+  background: #d32f2f;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(211, 47, 47, 0.3);
+}
+
+.cancel-generation-btn:focus {
+  outline: 2px solid var(--error);
+  outline-offset: 2px;
+}
+
+.cancel-generation-btn i {
+  font-size: 12px;
+}
+
+/* Generation Loading State */
+.generating .history-item {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.generating .history-item.current {
+  opacity: 1;
+  background: var(--warning);
+  border-color: var(--warning);
+}
+
+.generating .history-item.current::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border: 2px solid white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Keyboard Shortcuts Indicator */
+.keyboard-shortcuts-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: var(--surface);
+  border-radius: 4px;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.keyboard-shortcuts-hint kbd {
+  padding: 2px 4px;
+  background: var(--text-primary);
+  color: white;
+  border-radius: 2px;
+  font-family: monospace;
+  font-size: 9px;
+}
+
+/* History Navigation Bar */
+.history-navigation-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.history-navigation-bar.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-history-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.nav-history-btn:hover:not(:disabled) {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.nav-history-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--text-muted);
+}
+
+.nav-history-info {
+  padding: 0 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* Quick Actions Panel */
+.quick-actions-panel {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.quick-actions-panel.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.quick-actions-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.quick-actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quick-action-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.quick-action-item:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.quick-action-item i {
+  width: 12px;
+  text-align: center;
+}
+
+/* State Comparison Modal */
+.state-comparison-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.state-comparison-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.state-comparison-modal .modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.state-comparison-modal .modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.comparison-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.comparison-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.comparison-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.comparison-state {
+  padding: 16px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.comparison-state-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.comparison-state.current {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.comparison-state.previous {
+  border-color: var(--text-muted);
+}
+
+.comparison-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comparison-detail {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.comparison-detail-label {
+  color: var(--text-muted);
+}
+
+.comparison-detail-value {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.comparison-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .history-container {
+    margin-bottom: 12px;
+  }
+  
+  .history-header {
+    padding: 10px 12px;
+  }
+  
+  .history-header h3 {
+    font-size: 13px;
+  }
+  
+  .history-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+  
+  .history-list {
+    max-height: 250px;
+    padding: 6px;
+  }
+  
+  .history-item {
+    padding: 6px 8px;
+  }
+  
+  .history-item-icon {
+    font-size: 14px;
+  }
+  
+  .history-item-title {
+    font-size: 11px;
+  }
+  
+  .history-item-meta {
+    font-size: 9px;
+  }
+  
+  .history-action-btn {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+  
+  .cancel-generation-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  
+  .history-navigation-bar {
+    bottom: 16px;
+    padding: 6px;
+    gap: 6px;
+  }
+  
+  .nav-history-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  
+  .nav-history-info {
+    font-size: 11px;
+  }
+  
+  .quick-actions-panel {
+    top: 60px;
+    right: 16px;
+    min-width: 180px;
+    padding: 10px;
+  }
+  
+  .comparison-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .history-header {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  
+  .history-controls {
+    align-self: stretch;
+    justify-content: flex-end;
+  }
+  
+  .history-list {
+    max-height: 200px;
+  }
+  
+  .history-item {
+    padding: 4px 6px;
+  }
+  
+  .history-item-content {
+    gap: 6px;
+  }
+  
+  .history-item-icon {
+    font-size: 12px;
+  }
+  
+  .history-item-title {
+    font-size: 10px;
+  }
+  
+  .history-item-meta {
+    font-size: 8px;
+  }
+  
+  .history-item-actions {
+    opacity: 1;
+  }
+  
+  .cancel-generation-btn {
+    padding: 4px 8px;
+    font-size: 10px;
+    gap: 4px;
+  }
+  
+  .history-navigation-bar {
+    bottom: 12px;
+    left: 16px;
+    right: 16px;
+    transform: none;
+  }
+  
+  .quick-actions-panel {
+    top: 50px;
+    right: 12px;
+    min-width: 160px;
+    padding: 8px;
+  }
+  
+  .quick-actions-title {
+    font-size: 11px;
+  }
+  
+  .quick-action-item {
+    padding: 4px 6px;
+    font-size: 10px;
+  }
+}
+
+/* High Contrast Mode */
+.high-contrast .history-container {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .history-header {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .history-header h3 {
+  color: white;
+}
+
+.high-contrast .history-btn {
+  background: black;
+  border-color: white;
+  color: white;
+}
+
+.high-contrast .history-btn:hover:not(:disabled) {
+  background: white;
+  color: black;
+}
+
+.high-contrast .history-btn:disabled {
+  color: #666666;
+}
+
+.high-contrast .history-item {
+  border-color: transparent;
+}
+
+.high-contrast .history-item:hover {
+  background: #333333;
+  border-color: white;
+}
+
+.high-contrast .history-item.current {
+  background: white;
+  color: black;
+  border-color: white;
+}
+
+.high-contrast .history-item.future {
+  color: #666666;
+}
+
+.high-contrast .history-item-title {
+  color: inherit;
+}
+
+.high-contrast .history-item-meta {
+  color: inherit;
+}
+
+.high-contrast .history-action-btn {
+  color: inherit;
+}
+
+.high-contrast .history-action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.high-contrast .cancel-generation-btn {
+  background: #FF0000;
+  color: white;
+}
+
+.high-contrast .cancel-generation-btn:hover {
+  background: #FF6666;
+}
+
+.high-contrast .keyboard-shortcuts-hint {
+  background: black;
+  color: #CCCCCC;
+}
+
+.high-contrast .keyboard-shortcuts-hint kbd {
+  background: white;
+  color: black;
+}
+
+.high-contrast .history-navigation-bar {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .nav-history-btn {
+  background: black;
+  border-color: white;
+  color: white;
+}
+
+.high-contrast .nav-history-btn:hover:not(:disabled) {
+  background: white;
+  color: black;
+}
+
+.high-contrast .nav-history-info {
+  color: #CCCCCC;
+}
+
+.high-contrast .quick-actions-panel {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .quick-actions-title {
+  color: white;
+}
+
+.high-contrast .quick-action-item {
+  color: #CCCCCC;
+}
+
+.high-contrast .quick-action-item:hover {
+  background: #333333;
+  color: white;
+}
+
+.high-contrast .state-comparison-modal .modal-container {
+  background: black;
+  border: 2px solid white;
+}
+
+.high-contrast .comparison-header {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .comparison-header h3 {
+  color: white;
+}
+
+.high-contrast .comparison-state {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .comparison-state.current {
+  background: #333333;
+  border-color: white;
+}
+
+.high-contrast .comparison-state-title {
+  color: white;
+}
+
+.high-contrast .comparison-detail-label {
+  color: #CCCCCC;
+}
+
+.high-contrast .comparison-detail-value {
+  color: #CCCCCC;
+}
+
+.high-contrast .comparison-footer {
+  background: black;
+  border-color: white;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .history-container {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .history-header {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .history-header h3 {
+    color: var(--text-primary-dark);
+  }
+  
+  .history-btn {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+    color: var(--text-secondary-dark);
+  }
+  
+  .history-btn:hover:not(:disabled) {
+    background: var(--primary);
+    color: white;
+  }
+  
+  .history-btn:disabled {
+    color: var(--text-muted-dark);
+  }
+  
+  .history-item:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+  }
+  
+  .history-item.current {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+  
+  .history-item.future {
+    color: var(--text-muted-dark);
+  }
+  
+  .history-item-title {
+    color: inherit;
+  }
+  
+  .history-item-meta {
+    color: inherit;
+  }
+  
+  .history-action-btn {
+    color: inherit;
+  }
+  
+  .cancel-generation-btn {
+    background: var(--error);
+    color: white;
+  }
+  
+  .keyboard-shortcuts-hint {
+    background: var(--surface-dark);
+    color: var(--text-muted-dark);
+  }
+  
+  .keyboard-shortcuts-hint kbd {
+    background: var(--text-primary-dark);
+    color: white;
+  }
+  
+  .history-navigation-bar {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .nav-history-btn {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+    color: var(--text-secondary-dark);
+  }
+  
+  .nav-history-btn:hover:not(:disabled) {
+    background: var(--primary);
+    color: white;
+  }
+  
+  .nav-history-info {
+    color: var(--text-secondary-dark);
+  }
+  
+  .quick-actions-panel {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .quick-actions-title {
+    color: var(--text-primary-dark);
+  }
+  
+  .quick-action-item {
+    color: var(--text-secondary-dark);
+  }
+  
+  .quick-action-item:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+  
+  .state-comparison-modal .modal-container {
+    background: var(--surface-dark);
+  }
+  
+  .comparison-header {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .comparison-header h3 {
+    color: var(--text-primary-dark);
+  }
+  
+  .comparison-state {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .comparison-state.current {
+    background: var(--primary-light);
+    border-color: var(--primary);
+  }
+  
+  .comparison-state-title {
+    color: var(--text-primary-dark);
+  }
+  
+  .comparison-detail-label {
+    color: var(--text-muted-dark);
+  }
+  
+  .comparison-detail-value {
+    color: var(--text-secondary-dark);
+  }
+  
+  .comparison-footer {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .history-item,
+  .history-btn,
+  .cancel-generation-btn,
+  .history-navigation-bar,
+  .quick-actions-panel,
+  .state-comparison-modal {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Focus Management */
+.history-item:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.history-btn:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.cancel-generation-btn:focus {
+  outline: 2px solid var(--error);
+  outline-offset: 2px;
+}
+
+.nav-history-btn:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.quick-action-item:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .history-container,
+  .history-navigation-bar,
+  .quick-actions-panel,
+  .cancel-generation-btn,
+  .state-comparison-modal {
+    display: none !important;
+  }
+}
+
+/* Custom Scrollbar */
+.history-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.history-list::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.history-list::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Loading Animation */
+@keyframes spin {
+  0% { transform: translateY(-50%) rotate(0deg); }
+  100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Success/Error States */
+.history-item.success {
+  border-color: var(--success);
+  background: rgba(0, 200, 83, 0.05);
+}
+
+.history-item.error {
+  border-color: var(--error);
+  background: rgba(255, 59, 48, 0.05);
+}
+
+/* Performance Optimizations */
+.history-item {
+  will-change: transform, background-color;
+}
+
+.history-btn {
+  will-change: transform, background-color;
+}
+
+/* Accessibility Enhancements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Keyboard Navigation */
+.history-item:first-child {
+  border-radius: 6px 6px 0 0;
+}
+
+.history-item:last-child {
+  border-radius: 0 0 6px 6px;
+}
+
+.history-item:only-child {
+  border-radius: 6px;
+}
+
+/* Visual Feedback */
+.history-item.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+.history-item.drop-target {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+/* Animation for State Restoration */
+.history-item.restoring {
+  animation: stateRestore 0.5s ease;
+}
+
+@keyframes stateRestore {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+    background: var(--success);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Tooltip for Keyboard Shortcuts */
+.keyboard-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-primary);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  white-space: nowrap;
+  z-index: 1000;
+  margin-bottom: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.keyboard-tooltip.show {
+  opacity: 1;
+  visibility: visible;
+}

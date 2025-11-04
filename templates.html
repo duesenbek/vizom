@@ -1,248 +1,1245 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <!-- SEO Meta Tags -->
-  <title>Templates - VIZOM | Pre-built Visualization Templates</title>
-  <meta name="description" content="Browse and use pre-built visualization templates for business, academic, and marketing use cases. Start with professional templates.">
-  <meta name="keywords" content="chart templates, dashboard templates, visualization templates, business charts">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://vizom.app/templates.html">
-  
-  <!-- PWA -->
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#3b82f6">
-  
-  <!-- Preconnect for performance -->
-  <link rel="preconnect" href="https://api.deepseek.com">
-  
-  <link rel="stylesheet" href="dist/output.css">
-  <link rel="stylesheet" href="styles/minimal.css">
-  <script src="src/i18n.js" defer></script>
-  <script src="src/templates.js" defer></script>
-  <!-- Favicon -->
-  <link rel="icon" href="./images/vizom.png" type="image/png">
-  <link rel="shortcut icon" href="./images/vizom.png" type="image/png">
-  <link rel="apple-touch-icon" href="./images/vizom.png">
-  
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
-</head>
-<body class="min-h-screen bg-white text-black flex flex-col">
-  <header class="site-header">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-2" aria-label="VIZOM">
-        <img src="images/vizom.png" alt="VIZOM" class="h-16 w-16 rounded-lg" />
-      </a>
-      <div class="flex items-center gap-4">
-        <nav class="hidden sm:flex items-center gap-6">
-          <a href="index.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.home">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-7 9 7v7a2 2 0 01-2 2h-3a2 2 0 01-2-2v-3H10v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-7z"/></svg>
-            <span data-i18n-text>Home</span>
-          </a>
-          <a href="generator.html" class="nav-link inline-flex items-center gap-2" data-i18n="nav.generator">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            <span data-i18n-text>Generator</span>
-          </a>
-          <a href="templates.html" class="nav-link is-active inline-flex items-center gap-2" data-i18n="nav.templates">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
-            <span data-i18n-text>Templates</span>
-          </a>
-        </nav>
-        <div class="relative" data-i18n-skip>
-          <button id="language-toggle" class="btn btn-ghost" aria-label="Change language">
-            <span id="language-flag" class="text-2xl">🇺🇸</span>
-          </button>
-          <div id="language-menu" class="absolute right-0 mt-2 hidden w-48 rounded-xl surface shadow-lg p-3 space-y-2" role="menu">
-            <div class="grid grid-cols-3 gap-2">
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="en" aria-label="English">🇺🇸</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="kk" aria-label="Kazakh">🇰🇿</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="ru" aria-label="Russian">🇷🇺</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="es" aria-label="Spanish">🇪🇸</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="pt" aria-label="Portuguese">🇵🇹</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="tr" aria-label="Turkish">🇹🇷</button>
-              <button class="language-option view-toggle h-12 w-12 text-2xl" data-lang="de" aria-label="German">🇩🇪</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a href="generator.html" class="sm:hidden btn btn-accent">Start</a>
-    </div>
-  </header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIZOM - Chart Templates | Professional Chart Gallery</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="styles/font-awesome.min.css" />
+    
+    <!-- Modern Styles -->
+    <link rel="stylesheet" href="src/styles/modern-saas.css" />
+    <link rel="stylesheet" href="src/styles/components/improvements.css" />
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- D3.js global bridge -->
+    <script type="module">
+      import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+      if (typeof window !== 'undefined') {
+        window.d3 = d3;
+      }
+    </script>
 
-  <!-- Breadcrumbs -->
-  <div class="site-header">
-    <div class="max-w-7xl mx-auto px-6 py-3">
-      <nav class="flex items-center gap-2 text-sm text-slate-600">
-        <a href="index.html" class="hover:text-slate-900" data-i18n="nav.home">Home</a>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+    <!-- Supabase client -->
+    <script type="module" src="src/supabase-client.js"></script>
+
+    <!-- Supabase auth and payment handlers -->
+    <script type="module" src="src/supabase-auth.js"></script>
+    <script type="module" src="src/payments/stripe-client.js"></script>
+</head>
+<body class="viz-body viz-bg-light viz-text-primary">
+  <script type="module" src="scripts/main.js"></script>
+
+  <!-- Main Content -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-slate-900">Вход в VIZOM</h3>
+        <button id="close-auth-modal" class="text-slate-400 hover:text-slate-600 transition">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p class="text-sm text-slate-500">Войдите через Google для доступа к генератору визуализаций</p>
+      <button id="google-signin" class="w-full inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-lg hover:bg-slate-50 transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
         </svg>
-        <span class="text-slate-900 font-medium" data-i18n="nav.templates">Templates</span>
-      </nav>
+        Continue with Google
+      </button>
     </div>
   </div>
 
-  <main class="flex-1">
-    <!-- Hero / Intro -->
-    <section class="relative overflow-hidden py-16">
-      <div class="absolute inset-0 bg-gradient-to-br from-white via-slate-50 to-blue-50"></div>
-      <div class="absolute -top-24 -right-24 w-[340px] h-[340px] rounded-full bg-gradient-to-br from-blue-200 via-purple-200 to-transparent opacity-70 blur-3xl"></div>
-      <div class="relative max-w-7xl mx-auto px-6">
-        <div class="glass-panel p-10 md:p-14 flex flex-col gap-8">
-          <div class="flex flex-wrap items-center gap-3">
-            <span class="hero-chip">
-              <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a1 1 0 01.894.553l1.382 2.764 3.05.443a1 1 0 01.554 1.705l-2.203 2.148.52 3.031a1 1 0 01-1.451 1.054L10 12.347l-2.742 1.441a1 1 0 01-1.45-1.054l.52-3.03L4.124 7.465a1 1 0 01.554-1.705l3.05-.443L9.448 2.553A1 1 0 0110 2z"/></svg>
-              Curated by VIZOM
-            </span>
-            <span class="hero-chip is-accent">AI-ready Layouts</span>
-          </div>
-          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
-            <div class="max-w-3xl space-y-5">
-              <h1 class="hero-title leading-tight" data-i18n="templates.header.title">Designer-grade templates that generate visuals in seconds</h1>
-              <p class="section-subtitle max-w-2xl" data-i18n="templates.header.subtitle">Start from production-ready dashboards, charts, and analytic layouts built for analysts, marketers, and researchers. Each template includes live previews, AI prompts, and customization paths.</p>
-              <div class="flex flex-wrap items-center gap-3">
-                <span class="tag-pill">60+ AI prompts included</span>
-                <span class="tag-pill">Instant previews</span>
-                <span class="tag-pill">No API key required</span>
+  <main>
+    <!-- HERO SECTION -->
+    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div class="max-w-7xl mx-auto px-4 lg:px-6 py-16 lg:py-20">
+        <div class="text-center max-w-4xl mx-auto space-y-6">
+          <span class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
+            <i class="fas fa-layer-group"></i>
+            Professional Template Gallery
+          </span>
+          <h1 class="text-4xl lg:text-6xl font-bold text-slate-900 leading-tight">
+            Professional Templates
+          </h1>
+          <p class="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
+            Jumpstart your data visualization with expert-designed templates. Save hours of work with pre-built charts, dashboards, and reports that are fully customizable and ready to use.
+          </p>
+          
+          <!-- Search Bar with Filters -->
+          <div class="max-w-2xl mx-auto">
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <i class="fas fa-search text-slate-400"></i>
+              </div>
+              <input 
+                type="text" 
+                id="template-search"
+                class="w-full pl-12 pr-12 py-4 text-lg border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm"
+                placeholder="Search templates by name, category, or use case..."
+              >
+              <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
+                <button class="text-slate-400 hover:text-slate-600 transition">
+                  <i class="fas fa-filter"></i>
+                </button>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-4 min-w-[260px]">
-              <div class="quick-stat-card">
-                <span class="text-xs uppercase tracking-widest text-muted">Live dashboards</span>
-                <span class="quick-stat-value">18</span>
-                <span class="text-xs text-muted">Business & marketing ready</span>
-              </div>
-              <div class="quick-stat-card">
-                <span class="text-xs uppercase tracking-widest text-muted">Average rating</span>
-                <span class="quick-stat-value">4.87</span>
-                <span class="text-xs text-muted">From 1,200+ teams</span>
-              </div>
-              <div class="quick-stat-card">
-                <span class="text-xs uppercase tracking-widest text-muted">Setups</span>
-                <span class="quick-stat-value">6</span>
-                <span class="text-xs text-muted">Visualization archetypes</span>
-              </div>
-              <div class="quick-stat-card">
-                <span class="text-xs uppercase tracking-widest text-muted">Time saved</span>
-                <span class="quick-stat-value">72%</span>
-                <span class="text-xs text-muted">Compared to manual builds</span>
-              </div>
+            <div class="flex items-center justify-center gap-6 mt-4 text-sm text-slate-500">
+              <span><i class="fas fa-bolt text-yellow-500"></i> Ready in 2 minutes</span>
+              <span><i class="fas fa-palette text-purple-500"></i> Fully customizable</span>
+              <span><i class="fas fa-download text-emerald-500"></i> Export in any format</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Gallery -->
-    <section class="relative z-10 -mt-16 pb-20">
-      <div class="max-w-7xl mx-auto px-6 space-y-8">
-        <div class="glass-panel p-6 md:p-8">
-          <div class="flex flex-wrap items-center justify-between gap-6 mb-6">
-            <div>
-              <h2 class="text-xl font-semibold text-slate-900">Template Library</h2>
-              <p class="text-sm text-muted mt-1">Browse designed experiences by category, visualize instantly, export anywhere.</p>
+    <!-- CATEGORY NAVIGATION -->
+    <section class="bg-white border-b border-slate-200 sticky top-0 z-40">
+      <div class="max-w-7xl mx-auto px-4 lg:px-6">
+        <div class="flex items-center justify-between py-4">
+          <div class="flex gap-2 overflow-x-auto">
+            <button class="category-tab active" data-category="all">
+              All Templates
+              <span class="category-count">24</span>
+            </button>
+            <button class="category-tab" data-category="business">
+              Business
+              <span class="category-count">8</span>
+            </button>
+            <button class="category-tab" data-category="marketing">
+              Marketing
+              <span class="category-count">6</span>
+            </button>
+            <button class="category-tab" data-category="academic">
+              Academic
+              <span class="category-count">5</span>
+            </button>
+            <button class="category-tab" data-category="finance">
+              Finance
+              <span class="category-count">5</span>
+            </button>
+          </div>
+          
+          <div class="flex items-center gap-4">
+            <select class="px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
+              <option>Most Popular</option>
+              <option>Newest First</option>
+              <option>Alphabetical</option>
+              <option>Most Used</option>
+            </select>
+            <div class="flex items-center gap-2 text-sm text-slate-500">
+              <span>View:</span>
+              <button class="view-toggle active" data-view="grid">
+                <i class="fas fa-th"></i>
+              </button>
+              <button class="view-toggle" data-view="list">
+                <i class="fas fa-list"></i>
+              </button>
             </div>
-            <div class="flex flex-wrap items-center gap-3">
-              <button class="view-toggle is-active" id="view-grid" aria-label="Grid view">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-              </button>
-              <button class="view-toggle" id="view-list" aria-label="List view">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-              </button>
-              <div class="h-6 w-px bg-slate-200"></div>
-              <div class="flex gap-1" id="template-category-chips">
-                <button class="badge-outline filter-btn" data-filter="all" data-i18n="templates.sidebar.all">All</button>
-                <button class="badge-outline filter-btn" data-filter="business" data-i18n="templates.sidebar.business">Business</button>
-                <button class="badge-outline filter-btn" data-filter="academic" data-i18n="templates.sidebar.academic">Academic</button>
-                <button class="badge-outline filter-btn" data-filter="marketing" data-i18n="templates.sidebar.marketing">Marketing</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEMPLATE GRID LAYOUT -->
+    <section class="bg-slate-50 py-12">
+      <div class="max-w-7xl mx-auto px-4 lg:px-6">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900">Template Gallery</h2>
+            <p class="text-slate-600 mt-1">Showing <span id="results-count">24</span> templates</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <label class="flex items-center gap-2 text-sm">
+              <input type="checkbox" id="show-premium" class="rounded">
+              <span>Show premium only</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm">
+              <input type="checkbox" id="show-free" class="rounded" checked>
+              <span>Show free templates</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="templates-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          
+          <!-- Template Card 1 - Sales Dashboard -->
+          <article class="template-card" data-category="business" data-template-id="sales-dashboard">
+            <div class="template-preview">
+              <div class="preview-image">
+                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg p-4 h-48 flex flex-col justify-between">
+                  <div class="flex items-center justify-between text-white text-xs">
+                    <span class="bg-white/20 px-2 py-1 rounded">Sales</span>
+                    <span>Dash 03</span>
+                  </div>
+                  <div class="flex gap-2">
+                    <div class="flex-1 h-20 bg-white/30 rounded"></div>
+                    <div class="flex-1 h-16 bg-white/40 rounded"></div>
+                    <div class="flex-1 h-24 bg-white/25 rounded"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="template-overlay">
+                <button class="preview-btn">
+                  <i class="fas fa-eye"></i>
+                  Preview
+                </button>
               </div>
             </div>
-          </div>
+            
+            <div class="template-content">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h3 class="template-title">Sales Intelligence Dashboard</h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="chart-type-badge">📊 Dashboard</span>
+                    <span class="template-badge free">Free</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p class="template-description">
+                Track MRR growth, churn rates, and sales team performance. Includes weekly summary prompts and investor presentation templates.
+              </p>
+              
+              <div class="template-stats">
+                <div class="stat-item">
+                  <i class="fas fa-users"></i>
+                  <span>1.2k uses</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <span>4.8</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <span>15 min setup</span>
+                </div>
+              </div>
+              
+              <div class="template-actions">
+                <button class="use-template-btn primary">
+                  <i class="fas fa-bolt"></i>
+                  Use Template
+                </button>
+                <button class="save-template-btn">
+                  <i class="far fa-bookmark"></i>
+                </button>
+              </div>
+            </div>
+          </article>
 
-          <div class="flex flex-wrap items-center gap-3 mb-8" id="template-meta-bar">
-            <span class="hero-chip is-accent">Live charts included</span>
-            <span class="hero-chip">Export-ready layouts</span>
-            <span class="hero-chip">Guided prompts</span>
-          </div>
+          <!-- Template Card 2 - Marketing Campaign -->
+          <article class="template-card" data-category="marketing" data-template-id="marketing-campaign">
+            <div class="template-preview">
+              <div class="preview-image">
+                <div class="bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg p-4 h-48 flex flex-col justify-between">
+                  <div class="flex items-center justify-between text-white text-xs">
+                    <span class="bg-white/20 px-2 py-1 rounded">Marketing</span>
+                    <span>Campaign 04</span>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="h-16 bg-white/30 rounded"></div>
+                    <div class="grid grid-cols-2 gap-2">
+                      <div class="h-14 bg-white/40 rounded"></div>
+                      <div class="h-14 bg-white/25 rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="template-overlay">
+                <button class="preview-btn">
+                  <i class="fas fa-eye"></i>
+                  Preview
+                </button>
+              </div>
+            </div>
+            
+            <div class="template-content">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h3 class="template-title">Marketing Campaign Overview</h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="chart-type-badge">📈 Analytics</span>
+                    <span class="template-badge free">Free</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p class="template-description">
+                Campaign performance metrics: CAC, CPL, ROI analysis. Complete with monthly report prompts and client presentation templates.
+              </p>
+              
+              <div class="template-stats">
+                <div class="stat-item">
+                  <i class="fas fa-users"></i>
+                  <span>856 uses</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <span>4.7</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <span>10 min setup</span>
+                </div>
+              </div>
+              
+              <div class="template-actions">
+                <button class="use-template-btn primary">
+                  <i class="fas fa-bolt"></i>
+                  Use Template
+                </button>
+                <button class="save-template-btn">
+                  <i class="far fa-bookmark"></i>
+                </button>
+              </div>
+            </div>
+          </article>
 
-          <div id="template-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
+          <!-- Template Card 3 - Financial Monitor -->
+          <article class="template-card" data-category="finance" data-template-id="financial-monitor">
+            <div class="template-preview">
+              <div class="preview-image">
+                <div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg p-4 h-48 flex flex-col justify-between">
+                  <div class="flex items-center justify-between text-white text-xs">
+                    <span class="bg-white/20 px-2 py-1 rounded">Finance</span>
+                    <span>Fin 02</span>
+                  </div>
+                  <div class="grid grid-cols-3 gap-2">
+                    <div class="h-14 bg-white/30 rounded"></div>
+                    <div class="h-20 bg-white/40 rounded"></div>
+                    <div class="h-12 bg-white/25 rounded"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="template-overlay">
+                <button class="preview-btn">
+                  <i class="fas fa-eye"></i>
+                  Preview
+                </button>
+              </div>
+            </div>
+            
+            <div class="template-content">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h3 class="template-title">Financial Health Monitor</h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="chart-type-badge">💰 Finance</span>
+                    <span class="template-badge premium">Premium</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p class="template-description">
+                Expense tracking, profit analysis, and cash flow monitoring. Perfect for CFOs and founders with quarterly report prompts included.
+              </p>
+              
+              <div class="template-stats">
+                <div class="stat-item">
+                  <i class="fas fa-users"></i>
+                  <span>643 uses</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <span>4.9</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <span>20 min setup</span>
+                </div>
+              </div>
+              
+              <div class="template-actions">
+                <button class="use-template-btn premium">
+                  <i class="fas fa-crown"></i>
+                  Use Template
+                </button>
+                <button class="save-template-btn">
+                  <i class="far fa-bookmark"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Template Card 4 - Academic Research -->
+          <article class="template-card" data-category="academic" data-template-id="academic-research">
+            <div class="template-preview">
+              <div class="preview-image">
+                <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg p-4 h-48 flex flex-col justify-between">
+                  <div class="flex items-center justify-between text-white text-xs">
+                    <span class="bg-white/20 px-2 py-1 rounded">Academic</span>
+                    <span>Research 01</span>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="h-12 bg-white/30 rounded"></div>
+                    <div class="grid grid-cols-2 gap-2">
+                      <div class="h-16 bg-white/40 rounded"></div>
+                      <div class="h-16 bg-white/25 rounded"></div>
+                    </div>
+                    <div class="h-8 bg-white/35 rounded"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="template-overlay">
+                <button class="preview-btn">
+                  <i class="fas fa-eye"></i>
+                  Preview
+                </button>
+              </div>
+            </div>
+            
+            <div class="template-content">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h3 class="template-title">Academic Research Dashboard</h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="chart-type-badge">📚 Research</span>
+                    <span class="template-badge free">Free</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p class="template-description">
+                Research data visualization with statistical analysis, publication-ready charts, and comprehensive data exploration tools.
+              </p>
+              
+              <div class="template-stats">
+                <div class="stat-item">
+                  <i class="fas fa-users"></i>
+                  <span>423 uses</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <span>4.6</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <span>25 min setup</span>
+                </div>
+              </div>
+              
+              <div class="template-actions">
+                <button class="use-template-btn primary">
+                  <i class="fas fa-bolt"></i>
+                  Use Template
+                </button>
+                <button class="save-template-btn">
+                  <i class="far fa-bookmark"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Template Card 5 - Business KPI -->
+          <article class="template-card" data-category="business" data-template-id="business-kpi">
+            <div class="template-preview">
+              <div class="preview-image">
+                <div class="bg-gradient-to-br from-blue-600 to-cyan-600 rounded-lg p-4 h-48 flex flex-col justify-between">
+                  <div class="flex items-center justify-between text-white text-xs">
+                    <span class="bg-white/20 px-2 py-1 rounded">Business</span>
+                    <span>KPI 05</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-3">
+                    <div class="h-20 bg-white/30 rounded"></div>
+                    <div class="space-y-2">
+                      <div class="h-8 bg-white/40 rounded"></div>
+                      <div class="h-8 bg-white/25 rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="template-overlay">
+                <button class="preview-btn">
+                  <i class="fas fa-eye"></i>
+                  Preview
+                </button>
+              </div>
+            </div>
+            
+            <div class="template-content">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h3 class="template-title">Business KPI Tracker</h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="chart-type-badge">🎯 KPI</span>
+                    <span class="template-badge free">Free</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p class="template-description">
+                Track key business metrics, goals vs actual performance, and team productivity with automated reporting and alerts.
+              </p>
+              
+              <div class="template-stats">
+                <div class="stat-item">
+                  <i class="fas fa-users"></i>
+                  <span>912 uses</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <span>4.8</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <span>12 min setup</span>
+                </div>
+              </div>
+              
+              <div class="template-actions">
+                <button class="use-template-btn primary">
+                  <i class="fas fa-bolt"></i>
+                  Use Template
+                </button>
+                <button class="save-template-btn">
+                  <i class="far fa-bookmark"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Template Card 6 - Social Media Analytics -->
+          <article class="template-card" data-category="marketing" data-template-id="social-media">
+            <div class="template-preview">
+              <div class="preview-image">
+                <div class="bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg p-4 h-48 flex flex-col justify-between">
+                  <div class="flex items-center justify-between text-white text-xs">
+                    <span class="bg-white/20 px-2 py-1 rounded">Marketing</span>
+                    <span>Social 02</span>
+                  </div>
+                  <div class="grid grid-cols-3 gap-2">
+                    <div class="h-16 bg-white/30 rounded"></div>
+                    <div class="h-20 bg-white/40 rounded"></div>
+                    <div class="h-12 bg-white/25 rounded"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="template-overlay">
+                <button class="preview-btn">
+                  <i class="fas fa-eye"></i>
+                  Preview
+                </button>
+              </div>
+            </div>
+            
+            <div class="template-content">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h3 class="template-title">Social Media Analytics</h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="chart-type-badge">📱 Social</span>
+                    <span class="template-badge premium">Premium</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p class="template-description">
+                Comprehensive social media performance tracking across platforms with engagement metrics and growth analytics.
+              </p>
+              
+              <div class="template-stats">
+                <div class="stat-item">
+                  <i class="fas fa-users"></i>
+                  <span>567 uses</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-star text-yellow-500"></i>
+                  <span>4.7</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  <span>18 min setup</span>
+                </div>
+              </div>
+              
+              <div class="template-actions">
+                <button class="use-template-btn premium">
+                  <i class="fas fa-crown"></i>
+                  Use Template
+                </button>
+                <button class="save-template-btn">
+                  <i class="far fa-bookmark"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Load More -->
+        <div class="text-center mt-12">
+          <button id="load-more-templates" class="px-6 py-3 bg-white border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium">
+            Load More Templates
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="bg-gradient-to-r from-blue-600 to-indigo-600 py-16">
+      <div class="max-w-4xl mx-auto px-4 lg:px-6 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">
+          Can't find the perfect template?
+        </h2>
+        <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          Our AI generator can create custom visualizations tailored to your specific needs and brand guidelines.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="generator.html" class="inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition font-semibold">
+            <i class="fas fa-bolt"></i>
+            Create Custom Template
+          </a>
+          <button class="inline-flex items-center justify-center gap-2 bg-white/20 text-white px-6 py-3 rounded-lg hover:bg-white/30 transition font-semibold border border-white/30" id="download-all-templates">
+            <i class="fas fa-download"></i>
+            Download All Templates
+          </button>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Modal -->
-  <div id="template-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-6">
-    <div class="glass-panel max-w-5xl w-full max-h-[92vh] overflow-hidden flex flex-col">
-      <div class="flex items-center justify-between px-6 py-5">
-        <div>
-          <h2 id="modal-title" class="text-2xl font-semibold text-slate-900">Template Preview</h2>
-          <div id="modal-tags" class="modal-meta mt-2"></div>
+  <!-- TEMPLATE DETAIL MODAL -->
+  <div id="template-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
+      <div class="flex flex-col lg:flex-row h-full">
+        <!-- Preview Section -->
+        <div class="lg:w-3/5 p-6 border-b lg:border-b-0 lg:border-r border-slate-200">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-semibold text-slate-900">Template Preview</h3>
+            <button id="close-template-modal" class="text-slate-400 hover:text-slate-600 transition">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          
+          <div id="modal-preview" class="bg-slate-50 rounded-xl p-8 h-96 flex items-center justify-center">
+            <!-- Dynamic preview content will be loaded here -->
+            <div class="text-center text-slate-500">
+              <i class="fas fa-chart-simple text-4xl mb-4"></i>
+              <p>Loading preview...</p>
+            </div>
+          </div>
+          
+          <div class="mt-6 flex gap-3">
+            <button class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+              <i class="fas fa-expand mr-2"></i>
+              Fullscreen Preview
+            </button>
+            <button class="px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition">
+              <i class="fas fa-images mr-2"></i>
+              View Screenshots
+            </button>
+          </div>
         </div>
-        <div class="flex items-center gap-2">
-          <button id="copy-code-btn" class="btn-icon" aria-label="Copy code">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8l6 6v4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 16h2a2 2 0 012 2v2a2 2 0 01-2 2H10a2 2 0 01-2-2v-2a2 2 0 012-2h2"/></svg>
-          </button>
-          <button id="close-modal" class="btn-icon" aria-label="Close">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
+        
+        <!-- Details Section -->
+        <div class="lg:w-2/5 p-6 overflow-y-auto">
+          <div class="space-y-6">
+            <!-- Template Info -->
+            <div>
+              <h3 id="modal-template-title" class="text-2xl font-bold text-slate-900 mb-2">Template Title</h3>
+              <div class="flex items-center gap-3 mb-4">
+                <span id="modal-template-category" class="chart-type-badge">📊 Dashboard</span>
+                <span id="modal-template-badge" class="template-badge free">Free</span>
+              </div>
+              <p id="modal-template-description" class="text-slate-600">
+                Template description will be loaded here...
+              </p>
+            </div>
+            
+            <!-- Use Cases -->
+            <div>
+              <h4 class="font-semibold text-slate-900 mb-3">Use Cases</h4>
+              <ul id="modal-use-cases" class="space-y-2 text-sm text-slate-600">
+                <li class="flex items-start gap-2">
+                  <i class="fas fa-check text-emerald-500 mt-0.5"></i>
+                  <span>Monthly business reviews</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i class="fas fa-check text-emerald-500 mt-0.5"></i>
+                  <span>Investor presentations</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <i class="fas fa-check text-emerald-500 mt-0.5"></i>
+                  <span>Team performance tracking</span>
+                </li>
+              </ul>
+            </div>
+            
+            <!-- Features -->
+            <div>
+              <h4 class="font-semibold text-slate-900 mb-3">Features</h4>
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-slate-600">Setup Time</span>
+                  <span class="font-medium text-slate-900">15 minutes</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-slate-600">Export Formats</span>
+                  <span class="font-medium text-slate-900">PNG, PDF, SVG, CSV</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-slate-600">Customization</span>
+                  <span class="font-medium text-slate-900">Full</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-slate-600">Data Sources</span>
+                  <span class="font-medium text-slate-900">CSV, API, Manual</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Customization Options -->
+            <div>
+              <h4 class="font-semibold text-slate-900 mb-3">Customization Options</h4>
+              <div class="space-y-3">
+                <div>
+                  <label class="text-sm text-slate-600 mb-1 block">Color Scheme</label>
+                  <select class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                    <option>Default Blue</option>
+                    <option>Professional Gray</option>
+                    <option>Vibrant Purple</option>
+                    <option>Emerald Green</option>
+                    <option>Custom Colors</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-sm text-slate-600 mb-1 block">Layout Style</label>
+                  <select class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                    <option>Compact</option>
+                    <option>Standard</option>
+                    <option>Spacious</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="space-y-3 pt-4 border-t border-slate-200">
+              <button id="modal-use-template" class="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">
+                <i class="fas fa-bolt mr-2"></i>
+                Use This Template
+              </button>
+              <div class="flex gap-3">
+                <button class="flex-1 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium">
+                  <i class="far fa-bookmark mr-2"></i>
+                  Save for Later
+                </button>
+                <button class="flex-1 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium">
+                  <i class="fas fa-share-alt mr-2"></i>
+                  Share
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div class="modal-tab-bar">
-        <div class="modal-tabs" role="tablist">
-          <button class="modal-tab is-active" data-tab="preview" role="tab">Preview</button>
-          <button class="modal-tab" data-tab="code" role="tab">Code</button>
-          <button class="modal-tab" data-tab="customize" role="tab">Customize</button>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="live-indicator">
-            <span class="live-dot"></span>
-            Live data ready
-          </span>
-        </div>
-      </div>
-
-      <div class="flex-1 overflow-y-auto">
-        <div class="modal-pane is-active" id="modal-preview-pane">
-          <div class="template-preview-media" id="modal-preview-media"></div>
-          <div id="modal-description" class="mt-6 space-y-4"></div>
-        </div>
-        <div class="modal-pane" id="modal-code-pane">
-          <pre class="code-block" id="modal-code-block"><code></code></pre>
-        </div>
-        <div class="modal-pane" id="modal-customize-pane">
-          <ul class="customize-list space-y-4" id="modal-customize-list"></ul>
-        </div>
-      </div>
-
-      <div class="flex flex-col md:flex-row gap-3 px-6 py-5 bg-slate-50/70 border-t border-slate-200/70">
-        <button id="modal-use-template" class="btn btn-accent w-full md:flex-1 justify-center">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          Use this template
-        </button>
-        <button id="modal-close" class="btn btn-outline w-full md:w-auto">Cancel</button>
       </div>
     </div>
   </div>
 
-  <footer class="border-t bg-white">
-    <div class="max-w-7xl mx-auto px-6 py-6 text-center text-slate-500 text-sm">
-      © <span id="year"></span> VIZOM. All rights reserved.
-    </div>
+  <!-- Unified Footer -->
+  <footer id="unified-footer">
+    <!-- Footer content will be dynamically loaded by UnifiedFooter.js -->
   </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <link rel="stylesheet" href="src/styles/components/footer.css">
+
+  <style>
+    /* Template Gallery Professional Styles */
+    
+    /* Category Navigation */
+    .category-tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .category-tab:hover {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .category-tab.active {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .category-count {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .category-tab.active .category-count {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* View Toggle */
+    .view-toggle {
+      padding: 6px 8px;
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .view-toggle:hover {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .view-toggle.active {
+      background: #3b82f6;
+      color: white;
+    }
+
+    /* Template Cards */
+    .template-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .template-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      border-color: #3b82f6;
+    }
+
+    .template-preview {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-image {
+      width: 100%;
+      height: 192px;
+      position: relative;
+    }
+
+    .template-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .template-card:hover .template-overlay {
+      opacity: 1;
+    }
+
+    .preview-btn {
+      padding: 10px 20px;
+      background: white;
+      color: #1e293b;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .preview-btn:hover {
+      background: #f8fafc;
+      transform: scale(1.05);
+    }
+
+    .template-content {
+      padding: 20px;
+    }
+
+    .template-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .chart-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      background: #f1f5f9;
+      color: #475569;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .template-badge {
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .template-badge.free {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .template-badge.premium {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .template-description {
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .template-stats {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .template-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .use-template-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .use-template-btn.primary {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .use-template-btn.primary:hover {
+      background: #2563eb;
+      transform: translateY(-1px);
+    }
+
+    .use-template-btn.premium {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+    }
+
+    .use-template-btn.premium:hover {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      transform: translateY(-1px);
+    }
+
+    .save-template-btn {
+      padding: 10px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .save-template-btn:hover {
+      background: #f8fafc;
+      border-color: #3b82f6;
+      color: #3b82f6;
+    }
+
+    .save-template-btn.saved {
+      background: #3b82f6;
+      color: white;
+      border-color: #3b82f6;
+    }
+
+    /* Template Modal */
+    #template-modal {
+      backdrop-filter: blur(4px);
+    }
+
+    #template-modal .bg-white {
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    /* Search Bar */
+    #template-search {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    #template-search:focus {
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Filter Options */
+    .filter-options {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 767px) {
+      .template-stats {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .template-actions {
+        flex-direction: column;
+      }
+
+      .use-template-btn {
+        width: 100%;
+      }
+
+      #template-modal .bg-white {
+        margin: 16px;
+        max-height: calc(100vh - 32px);
+      }
+
+      .category-tab {
+        font-size: 13px;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .preview-image {
+        height: 160px;
+      }
+
+      .template-content {
+        padding: 16px;
+      }
+
+      .template-title {
+        font-size: 16px;
+      }
+    }
+
+    /* Loading States */
+    .template-loading {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .template-loading::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-up {
+      animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Scrollbar Styling */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 3px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Premium Badge Animation */
+    .template-badge.premium {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .template-badge.premium::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    /* Hover Effects */
+    .template-card {
+      position: relative;
+    }
+
+    .template-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, transparent, rgba(59, 130, 246, 0.1));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .template-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Filter Pills */
+    .filter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-pill:hover {
+      background: #f8fafc;
+      border-color: #3b82f6;
+      color: #3b82f6;
+    }
+
+    .filter-pill.active {
+      background: #3b82f6;
+      border-color: #3b82f6;
+      color: white;
+    }
+
+    /* Success Animation */
+    @keyframes successPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .success-animation {
+      animation: successPulse 0.3s ease;
+    }
+  </style>
+  
+  <script type="module" src="src/app-refactored.js"></script>
+  <script type="module" src="src/components/UnifiedHeader.js"></script>
+  <script type="module" src="src/components/HeaderIntegration.js"></script>
+  <script type="module" src="src/components/TemplateGallery.js"></script>
+  <script type="module" src="src/components/UnifiedFooter.js"></script>
+  <script type="module" src="src/page-specific/templates.js"></script>
 </body>
 </html>

@@ -1,12 +1,17 @@
 // Service Worker for VIZOM PWA
-const CACHE_NAME = 'vizom-v1';
+const CACHE_NAME = 'vizom-v3';
 const urlsToCache = [
   '/',
   '/index.html',
   '/generator.html',
   '/templates.html',
   '/dist/output.css',
-  '/src/app.js',
+  '/styles/minimal.css',
+  '/auth-callback.html',
+  '/src/auth-ui.js',
+  '/src/lib/supabaseClient.js',
+  '/src/services/authService.js',
+  '/src/app-refactored.js',
   '/src/templates.js',
   '/manifest.json'
 ];
@@ -16,7 +21,6 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Opened cache');
         return cache.addAll(urlsToCache);
       })
   );

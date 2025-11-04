@@ -1,45 +1,168 @@
-// DeepSeek API Configuration
-const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
-const DEEPSEEK_API_KEY = ''; // Add your API key here or use environment variable
+// Backend API Configuration
+// SECURITY: API calls are proxied through backend to keep API keys secure
+const BACKEND_API_URL = '/api/generate'; // Backend endpoint that handles DeepSeek API calls
+const BACKEND_PARSE_URL = '/api/parse'; // Backend endpoint for data parsing
 
 // Optimized prompt templates for different visual types
 const chartPrompts = {
-  bar: `Create a production-grade bar chart using ONLY responsive HTML + CSS + inline SVG (no Canvas, no images). Data: {data}.
+  bar: `Generate a Chart.js configuration for a bar chart. Data: {data}. 
 Requirements:
-- Tailwind classes for layout and typography
-- Inline SVG bars with gradient fills (#3B82F6 → #8B5CF6), smooth animated appearance, labels beneath
-- Professional spacing (rounded-lg, p-6, shadow-sm, border)
-- Return ONLY a complete HTML snippet (no markdown, no explanations) with a single root <div>.`,
+- Use gradient colors (e.g., rgba(99, 102, 241, 0.8) to rgba(139, 92, 246, 0.8))
+- Include responsive: true and maintainAspectRatio: false in options
+- Add grid lines with color: 'rgba(0, 0, 0, 0.1)'
+- Enable tooltips with backgroundColor: 'rgba(0, 0, 0, 0.8)'
+- Set borderRadius: 8 for rounded bars
+- Add title with font: { size: 18, weight: 'bold' }
+Respond with ONLY the JSON object: { type: 'bar', data: { labels: [...], datasets: [{ label: '...', data: [...], backgroundColor: [...], borderRadius: 8 }] }, options: { responsive: true, plugins: { legend: { display: true }, title: { display: true, text: '...' } }, scales: { y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.1)' } } } } }`,
 
-  table: `Generate a responsive HTML table (no text mockups). Data: {data}.
+  line: `Generate a Chart.js configuration for a line chart with area fill. Data: {data}.
 Requirements:
-- Semantic <table> with <thead>, <tbody>, proper <th>/<td>
-- Tailwind styling (table-auto, even:bg-slate-50, hover:bg-slate-100, p-3, rounded-xl, shadow-sm)
-- Currency and percent cells styled with utility classes
-- Return ONLY a complete HTML snippet (no markdown, no explanations) with a single root <div> that contains the table.`,
+- Use multiple datasets if data has multiple series
+- Set tension: 0.4 for smooth curves
+- Use fill: true with gradient: backgroundColor: 'rgba(99, 102, 241, 0.2)'
+- borderColor: 'rgb(99, 102, 241)', borderWidth: 3
+- pointRadius: 5, pointHoverRadius: 7
+- Add legend at top position
+- Include grid lines and tooltips
+Respond with ONLY the JSON: { type: 'line', data: { labels: [...], datasets: [{ label: '...', data: [...], borderColor: '...', backgroundColor: '...', fill: true, tension: 0.4, pointRadius: 5 }] }, options: { responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: '...' } }, scales: { y: { beginAtZero: true } } } }`,
 
-  line: `Create a line chart using ONLY HTML + CSS + inline SVG (no Canvas). Data: {data}.
+  pie: `Generate a Chart.js configuration for a pie or doughnut chart. Data: {data}.
 Requirements:
-- Tailwind container (rounded-lg, p-6, shadow-sm, border)
-- Smooth polyline with area fill gradient (#3B82F6 with opacity), round line caps, points with tooltips
-- Responsive viewBox
-- Return ONLY a complete HTML snippet (no markdown, no explanations) with a single root <div>.`,
+- Use vibrant colors: ['#6366f1', '#8b5cf6', '#06d6a0', '#60a5fa', '#a78bfa', '#f59e0b']
+- Set cutout: '50%' for doughnut style
+- Add percentage labels in tooltips
+- Enable legend with position: 'right'
+- Include hover effects with hoverOffset: 4
+Respond with ONLY the JSON: { type: 'doughnut', data: { labels: [...], datasets: [{ data: [...], backgroundColor: [...], hoverOffset: 4 }] }, options: { responsive: true, plugins: { legend: { position: 'right' }, title: { display: true, text: '...' } } } }`,
 
-  pie: `Create a pie chart using ONLY inline SVG slices (no Canvas). Data: {data}.
+  scatter: `Generate a Chart.js configuration for a scatter plot. Data: {data}.
 Requirements:
-- Tailwind container (bg-white, rounded-xl, shadow-sm, p-6)
-- 3–6 slices with VIZOM palette (#3B82F6, #8B5CF6, #06D6A0, #60A5FA, #A78BFA)
-- Optional legend as a simple flex list
-- Return ONLY a complete HTML snippet (no markdown, no explanations) with a single root <div>.`,
+- Use different colors for different data groups
+- Set pointRadius based on data value (5-15 range)
+- Include x and y axes with proper labels
+- Add tooltips showing all data dimensions
+- Use rgba colors with 0.6 opacity
+Respond with ONLY the JSON: { type: 'scatter', data: { datasets: [{ label: '...', data: [{x: ..., y: ...}], backgroundColor: 'rgba(99, 102, 241, 0.6)', pointRadius: 8 }] }, options: { responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: '...' } }, scales: { x: { title: { display: true, text: '...' } }, y: { title: { display: true, text: '...' } } } } }`,
 
-  dashboard: `Create a dashboard layout using HTML + CSS + inline SVG charts (no Canvas). Data: {data}.
+  mixed: `Generate a Chart.js configuration for a mixed chart (bar + line). Data: {data}.
 Requirements:
-- Tailwind grid (grid grid-cols-1 md:grid-cols-2 gap-6)
-- KPI cards (rounded-xl, border, shadow-sm) and at least 2 SVG charts (bar + line)
-- Responsive, professional spacing and typography
-- Return ONLY a complete HTML snippet (no markdown, no explanations) with a single root <div>.`,
+- First dataset: type 'bar' with bars
+- Second dataset: type 'line' with line overlay
+- Use different y-axes if needed (yAxisID: 'y' and 'y1')
+- Bar colors: rgba(99, 102, 241, 0.8)
+- Line color: rgb(16, 185, 129), tension: 0.4
+- Include dual legends
+Respond with ONLY the JSON: { type: 'bar', data: { labels: [...], datasets: [{ type: 'bar', label: '...', data: [...], backgroundColor: '...', yAxisID: 'y' }, { type: 'line', label: '...', data: [...], borderColor: '...', tension: 0.4, yAxisID: 'y1' }] }, options: { responsive: true, plugins: { legend: { display: true } }, scales: { y: { type: 'linear', position: 'left' }, y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false } } } } }`,
 
-  custom: `{data}` // For custom user prompts
+  table: `Generate a professional HTML table with color-coded cells. Data: {data}.
+Requirements:
+- Use Tailwind CSS classes
+- Add header with dark background (bg-slate-700 text-white)
+- Alternate row colors (even:bg-slate-50)
+- Color-code numeric cells: green for good values (bg-green-100 text-green-800), red for bad (bg-red-100 text-red-800)
+- Add hover effects (hover:bg-slate-100)
+- Include rounded corners (rounded-xl) and shadow (shadow-lg)
+- Make it responsive with overflow-x-auto wrapper
+Return ONLY HTML: <div class="overflow-x-auto rounded-xl shadow-lg"><table class="min-w-full bg-white"><thead class="bg-slate-700 text-white"><tr><th class="px-6 py-3 text-left">...</th></tr></thead><tbody>...</tbody></table></div>`,
+
+  dashboard: `Generate a complete dashboard with multiple Chart.js charts and KPI cards. Data: {data}.
+Requirements:
+- Layout: Tailwind grid (grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6)
+- 2-3 KPI cards with icons, values, and trend indicators
+- 2-3 canvas elements for charts (bar, line, doughnut)
+- Each canvas must have unique id (chart1, chart2, chart3)
+- Cards: rounded-xl shadow-lg p-6 bg-white
+- Title: text-2xl font-bold mb-6
+Return JSON: { "layout": "<div class='p-6 bg-gray-50 min-h-screen'><h1 class='text-2xl font-bold mb-6'>Dashboard Title</h1><div class='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'><div class='bg-white rounded-xl shadow-lg p-6'>KPI Card</div></div><div class='grid grid-cols-1 lg:grid-cols-2 gap-6'><div class='bg-white rounded-xl shadow-lg p-6'><canvas id='chart1'></canvas></div></div></div>", "charts": [{ "canvasId": "chart1", "config": { type: 'bar', data: {...}, options: {...} } }] }`,
+
+  custom: `Analyze the data and generate the most appropriate visualization. Data: {data}.
+Choose between: bar chart, line chart, scatter plot, mixed chart, pie chart, or table.
+Follow the same requirements as the specific chart type prompts above.
+Respond with ONLY the Chart.js JSON configuration or HTML table.`
+};
+
+/**
+ * SECURITY: HTML Sanitization utilities to prevent XSS attacks
+ * Sanitizes user-generated and AI-generated HTML content
+ */
+const HTMLSanitizer = {
+  /**
+   * Escape HTML special characters
+   */
+  escapeHTML(text) {
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return String(text).replace(/[&<>"']/g, char => map[char]);
+  },
+
+  /**
+   * Sanitize SVG content - allow safe SVG elements only
+   */
+  sanitizeSVG(svg) {
+    if (!svg || typeof svg !== 'string') return '';
+    
+    // Create a temporary container
+    const temp = document.createElement('div');
+    temp.innerHTML = svg;
+    
+    // List of allowed SVG elements
+    const allowedElements = ['svg', 'g', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'text', 'tspan', 'defs', 'linearGradient', 'radialGradient', 'stop', 'use', 'symbol', 'image', 'foreignObject'];
+    
+    // Remove all disallowed elements
+    const allElements = temp.querySelectorAll('*');
+    allElements.forEach(el => {
+      if (!allowedElements.includes(el.tagName.toLowerCase())) {
+        el.remove();
+      }
+    });
+    
+    // Remove event handlers and dangerous attributes
+    allElements.forEach(el => {
+      Array.from(el.attributes).forEach(attr => {
+        if (attr.name.startsWith('on') || ['href', 'src'].includes(attr.name)) {
+          el.removeAttribute(attr.name);
+        }
+      });
+    });
+    
+    return temp.innerHTML;
+  },
+
+  /**
+   * Sanitize HTML content - allow safe HTML elements only
+   */
+  sanitizeHTML(html) {
+    if (!html || typeof html !== 'string') return '';
+    
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+    
+    // List of allowed HTML elements
+    const allowedElements = ['div', 'section', 'article', 'header', 'footer', 'main', 'aside', 'nav', 'p', 'span', 'a', 'strong', 'em', 'b', 'i', 'u', 'br', 'hr', 'ul', 'ol', 'li', 'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'svg', 'g', 'path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon', 'text', 'tspan', 'defs', 'linearGradient', 'radialGradient', 'stop', 'use', 'symbol', 'image', 'foreignObject', 'blockquote', 'pre', 'code', 'form', 'input', 'button', 'label', 'select', 'textarea', 'option', 'img', 'figure', 'figcaption'];
+    
+    const allElements = temp.querySelectorAll('*');
+    allElements.forEach(el => {
+      if (!allowedElements.includes(el.tagName.toLowerCase())) {
+        el.remove();
+      }
+    });
+    
+    // Remove event handlers and dangerous attributes
+    allElements.forEach(el => {
+      Array.from(el.attributes).forEach(attr => {
+        if (attr.name.startsWith('on')) {
+          el.removeAttribute(attr.name);
+        }
+      });
+    });
+    
+    return temp.innerHTML;
+  }
 };
 
 // Example data templates
@@ -70,7 +193,16 @@ Company D: 15%`,
 Product A | 150 units | $4,500 | +12%
 Product B | 120 units | $3,600 | -5%
 Product C | 200 units | $6,000 | +25%
-Product D | 180 units | $5,400 | +8%`
+Product D | 180 units | $5,400 | +8%`,
+
+  scatter: `Create a scatter plot showing algorithm scalability:
+Small graphs: (8, 48), (10, 45), (8, 43)
+Medium graphs: (15, 90), (18, 114), (20, 59)
+Large graphs: (30, 184), (40, 209), (50, 243)`,
+
+  mixed: `Create a mixed chart (bar + line) showing execution time analysis:
+Processing Time (bars): small_1: 3ms, small_2: 2ms, small_3: 2ms, medium_1: 3ms, medium_2: 3ms, large_1: 5ms, large_2: 4ms, large_3: 5ms
+Operations (line): small_1: 1.5, small_2: 1.2, small_3: 1.0, medium_1: 3.0, medium_2: 3.5, large_1: 5.0, large_2: 7.0, large_3: 8.0`
 };
 
 // DOM Elements
@@ -274,81 +406,32 @@ function attachEventListeners() {
 
 /**
  * Parse chaotic/messy data and convert to structured format
+ * SECURITY: Calls backend proxy instead of direct API
  */
 async function parseChaoticData(text) {
-  if (!DEEPSEEK_API_KEY) {
-    throw new Error('API key not configured');
-  }
-
-  const analysisPrompt = `You are a data analysis expert. Analyze this messy data and convert it to structured JSON.
-
-Data to analyze:
-${text}
-
-Instructions:
-1. Identify the data type (chart data, table data, or mixed)
-2. Extract all numbers, labels, and relationships
-3. Determine the best visualization type (bar, line, pie, table, dashboard)
-4. Structure the data appropriately
-
-Return ONLY valid JSON in this exact format:
-{
-  "type": "bar|line|pie|table|dashboard",
-  "title": "Descriptive title",
-  "data": {
-    "labels": ["label1", "label2", ...],
-    "values": [value1, value2, ...],
-    "datasets": [{"name": "Series 1", "data": [...]}]
-  },
-  "columns": ["col1", "col2", ...],
-  "rows": [[val1, val2, ...], ...]
-}
-
-Be smart about detecting patterns, separators, and data relationships.`;
-
   try {
-    const response = await fetch(DEEPSEEK_API_URL, {
+    const response = await fetch(BACKEND_PARSE_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'deepseek-chat',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a data parsing expert. Always return valid JSON only, no markdown or explanations.'
-          },
-          {
-            role: 'user',
-            content: analysisPrompt
-          }
-        ],
-        temperature: 0.3,
-        max_tokens: 1000
+        text: text
       })
     });
 
     if (!response.ok) {
-      throw new Error(`API request failed: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `Parse request failed with status ${response.status}`);
     }
 
     const data = await response.json();
-    const content = data.choices?.[0]?.message?.content;
     
-    if (!content) {
-      throw new Error('No response from API');
+    if (!data || typeof data !== 'object') {
+      throw new Error('Invalid response format from parse endpoint');
     }
 
-    // Extract JSON from response
-    const jsonMatch = content.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      throw new Error('Could not parse JSON from response');
-    }
-
-    const parsedData = JSON.parse(jsonMatch[0]);
-    return parsedData;
+    return data;
 
   } catch (error) {
     console.error('Data parsing failed:', error);
@@ -507,12 +590,16 @@ async function handleGenerate() {
 function detectChartType(prompt) {
   const lowerPrompt = prompt.toLowerCase();
   
-  if (lowerPrompt.includes('bar chart') || lowerPrompt.includes('bar graph')) {
+  if (lowerPrompt.includes('bar chart') || lowerPrompt.includes('bar graph') || lowerPrompt.includes('column chart')) {
     return 'bar';
-  } else if (lowerPrompt.includes('line chart') || lowerPrompt.includes('line graph')) {
+  } else if (lowerPrompt.includes('line chart') || lowerPrompt.includes('line graph') || lowerPrompt.includes('trend')) {
     return 'line';
-  } else if (lowerPrompt.includes('pie chart') || lowerPrompt.includes('doughnut')) {
+  } else if (lowerPrompt.includes('pie chart') || lowerPrompt.includes('doughnut') || lowerPrompt.includes('donut')) {
     return 'pie';
+  } else if (lowerPrompt.includes('scatter') || lowerPrompt.includes('correlation') || lowerPrompt.includes('bubble')) {
+    return 'scatter';
+  } else if (lowerPrompt.includes('mixed') || lowerPrompt.includes('combo') || lowerPrompt.includes('combination') || (lowerPrompt.includes('bar') && lowerPrompt.includes('line'))) {
+    return 'mixed';
   } else if (lowerPrompt.includes('table') || lowerPrompt.includes('data table')) {
     return 'table';
   } else if (lowerPrompt.includes('dashboard')) {
@@ -528,71 +615,33 @@ function detectChartType(prompt) {
  * @param {string} chartType - Type of chart to generate
  */
 async function generateVisual(prompt, chartType) {
-  // Show loading state
   showLoading(true);
-  
   try {
-    // Build the full prompt using template
     const fullPrompt = buildPrompt(prompt, chartType);
-    
-    // Call DeepSeek API
-    const response = await fetch(DEEPSEEK_API_URL, {
+    const response = await fetch(BACKEND_API_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'deepseek-chat',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a senior frontend developer. Output ONLY production-ready HTML/CSS/JS with responsive Tailwind markup and inline SVG for charts. Do NOT include markdown, explanations, or plain text descriptions. Tables must use semantic <table>. Charts must be real SVG (no ASCII, no placeholders). Wrap everything in a single root <div>.'
-          },
-          {
-            role: 'user',
-            content: fullPrompt
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 2000,
-        stream: false
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: fullPrompt, chartType }),
     });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error?.message || `API request failed with status ${response.status}`);
+      throw new Error(errorData.error || `Generation request failed with status ${response.status}`);
     }
 
     const data = await response.json();
-    
-    // Extract generated HTML from response
-    const generatedContent = data.choices?.[0]?.message?.content;
-    
+    const generatedContent = data.html || data.content;
+
     if (!generatedContent) {
       throw new Error('No content received from API');
     }
 
-    // Extract HTML from markdown code blocks if present
-    generatedHTML = extractHTML(generatedContent);
+    renderVisualization(generatedContent, chartType);
 
-    // Validate output and fallback to local SVG if needed
-    if (!isValidVisualHTML(generatedHTML)) {
-      const fallback = buildFallbackFromInput(prompt, currentChartType);
-      generatedHTML = fallback; // ensure export uses the fallback too
-      displayLocalHTML(generatedHTML);
-    } else {
-      // Display in preview (iframe)
-      displayGeneratedHTML(generatedHTML);
-    }
-    
-    // Hide loading state
-    showLoading(false);
-    
   } catch (error) {
+    showError(`Failed to generate visual: ${error.message}`);
+  } finally {
     showLoading(false);
-    throw error;
   }
 }
 
@@ -641,10 +690,13 @@ function isValidVisualHTML(html) {
 
 /**
  * Display local HTML (non-iframe) — used for fallbacks
+ * SECURITY: Sanitizes HTML before rendering
  */
 function displayLocalHTML(html) {
   if (!previewContainer) return;
-  previewContainer.innerHTML = html;
+  // SECURITY: Sanitize HTML to prevent XSS
+  const sanitizedHTML = HTMLSanitizer.sanitizeHTML(html);
+  previewContainer.innerHTML = sanitizedHTML;
 }
 
 /**
@@ -747,39 +799,38 @@ function buildTableHTML(series) {
 
 /**
  * Display generated HTML in preview container
+ * SECURITY: Sanitizes HTML before rendering in iframe
  */
-function displayGeneratedHTML(html) {
+function renderVisualization(content, type) {
   if (!previewContainer) return;
-  
-  // Clear previous content
-  previewContainer.innerHTML = '';
-  previewContainer.classList.remove('border-dashed', 'border-slate-300', 'text-slate-400');
-  previewContainer.classList.add('overflow-auto');
-  
-  // Create iframe for isolated rendering
-  const iframe = document.createElement('iframe');
-  iframe.classList.add('w-full', 'h-full', 'border-0', 'rounded-lg');
-  iframe.sandbox = 'allow-scripts allow-same-origin';
-  
-  previewContainer.appendChild(iframe);
-  
-  // Write HTML to iframe
-  const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-  const doc = `<!doctype html>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <script src="https://cdn.tailwindcss.com"></script>
-      <style>html,body{height:100%} body{margin:0; background:#ffffff;}</style>
-    </head>
-    <body>
-      ${html}
-    </body>
-  </html>`;
-  iframeDoc.open();
-  iframeDoc.write(doc);
-  iframeDoc.close();
+
+  previewContainer.innerHTML = ''; // Clear previous content
+
+  try {
+    // Try parsing as JSON (for Chart.js configs)
+    const chartConfig = JSON.parse(content);
+
+    if (type === 'dashboard' && chartConfig.layout && chartConfig.charts) {
+      // Handle dashboard case
+      const sanitizedLayout = HTMLSanitizer.sanitizeHTML(chartConfig.layout);
+      previewContainer.innerHTML = sanitizedLayout;
+      chartConfig.charts.forEach(chart => {
+        const canvas = previewContainer.querySelector(`#${chart.canvasId}`);
+        if (canvas) {
+          new Chart(canvas.getContext('2d'), chart.config);
+        }
+      });
+    } else {
+      // Handle single chart case
+      const canvas = document.createElement('canvas');
+      previewContainer.appendChild(canvas);
+      new Chart(canvas.getContext('2d'), chartConfig);
+    }
+  } catch (e) {
+    // If not JSON, assume it's an HTML table
+    const sanitizedHTML = HTMLSanitizer.sanitizeHTML(content);
+    previewContainer.innerHTML = sanitizedHTML;
+  }
 }
 
 /**

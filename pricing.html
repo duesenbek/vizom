@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIZOM - Pricing Plans | Choose Your Chart Generation Plan</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="styles/font-awesome.min.css" />
+    
+    <!-- Modern Styles -->
+    <link rel="stylesheet" href="src/styles/modern-saas.css" />
+    <link rel="stylesheet" href="src/styles/components/improvements.css" />
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- D3.js -->
+    <script type="module" src="https://cdn.jsdelivr.net/npm/d3@7/+esm"></script>
+
+    <!-- Supabase client -->
+    <script type="module" src="src/supabase-client.js"></script>
+
+    <!-- Supabase auth and payment handlers -->
+    <script type="module" src="src/supabase-auth.js"></script>
+    <script type="module" src="src/payments/stripe-client.js"></script>
+</head>
+<!-- Auth Modal -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-semibold text-slate-900">Вход в VIZOM</h3>
+        <button id="close-auth-modal" class="text-slate-400 hover:text-slate-600 transition">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p class="text-sm text-slate-500">Войдите через Google для доступа к генератору визуализаций</p>
+      <button id="google-signin" class="w-full inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-lg hover:bg-slate-50 transition">
+        <svg class="w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Continue with Google
+      </button>
+    </div>
+  </div>
+
+<body class="viz-body viz-bg-light viz-text-primary">
+  <script type="module" src="scripts/main.js"></script>
+
+  <!-- Hero Section -->
+  <section class="py-20 px-4">
+    <div class="max-w-6xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+        Choose Your Plan
+      </h1>
+      <p class="text-xl text-slate-600 max-w-3xl mx-auto mb-12">
+        Select the perfect plan for your data visualization needs. Start free and scale as you grow.
+      </p>
+      
+      <!-- Billing Toggle -->
+      <div class="flex items-center justify-center gap-4 mb-16">
+        <span class="text-slate-600 font-medium">Monthly</span>
+        <button class="relative inline-flex h-8 w-14 items-center rounded-full bg-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" id="billing-toggle">
+          <span class="inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-transform translate-x-1"></span>
+        </button>
+        <span class="text-slate-600 font-medium">Yearly <span class="text-green-600 font-semibold">(Save 20%)</span></span>
+      </div>
+
+      <!-- Pricing Cards -->
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <!-- Starter Plan -->
+        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-8 hover:shadow-xl transition-shadow">
+          <div class="mb-8">
+            <h3 class="text-2xl font-bold text-slate-900 mb-2">Starter</h3>
+            <p class="text-slate-600">Perfect for individuals and small projects</p>
+          </div>
+          <div class="mb-8">
+            <div class="flex items-baseline gap-2">
+              <span class="text-5xl font-bold text-slate-900">$0</span>
+              <span class="text-slate-600">/month</span>
+            </div>
+          </div>
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-green-500 mt-1"></i>
+              <span class="text-slate-700">Up to 10 charts per month</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-green-500 mt-1"></i>
+              <span class="text-slate-700">Basic chart types</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-green-500 mt-1"></i>
+              <span class="text-slate-700">Standard export options</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-green-500 mt-1"></i>
+              <span class="text-slate-700">Community support</span>
+            </li>
+          </ul>
+          <button class="w-full bg-slate-100 text-slate-700 px-6 py-3 rounded-lg font-semibold hover:bg-slate-200 transition">
+            Get Started
+          </button>
+        </div>
+
+        <!-- Professional Plan -->
+        <div class="bg-blue-600 rounded-2xl shadow-xl p-8 text-white relative transform scale-105">
+          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+            Most Popular
+          </div>
+          <div class="mb-8">
+            <h3 class="text-2xl font-bold mb-2">Professional</h3>
+            <p class="text-blue-100">For professionals and growing teams</p>
+          </div>
+          <div class="mb-8">
+            <div class="flex items-baseline gap-2">
+              <span class="text-5xl font-bold">$29</span>
+              <span class="text-blue-100">/month</span>
+            </div>
+          </div>
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-white mt-1"></i>
+              <span>Unlimited charts</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-white mt-1"></i>
+              <span>All chart types</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-white mt-1"></i>
+              <span>Advanced customization</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-white mt-1"></i>
+              <span>Priority support</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-white mt-1"></i>
+              <span>Team collaboration</span>
+            </li>
+          </ul>
+          <button class="w-full bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition" data-action="upgrade-pro">
+            Start Free Trial
+          </button>
+        </div>
+
+        <!-- Enterprise Plan -->
+        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-8 hover:shadow-xl transition-shadow">
+          <div class="mb-8">
+            <h3 class="text-2xl font-bold text-slate-900 mb-2">Enterprise</h3>
+            <p class="text-slate-600">Custom solutions for large organizations</p>
+          </div>
+          <div class="mb-8">
+            <div class="flex items-baseline gap-2">
+              <span class="text-5xl font-bold text-slate-900">$99</span>
+              <span class="text-slate-600">/month</span>
+            </div>
+          </div>
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-green-500 mt-1"></i>
+              <span class="text-slate-700">Everything in Professional</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-green-500 mt-1"></i>
+              <span class="text-slate-700">Custom integrations</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-green-500 mt-1"></i>
+              <span class="text-slate-700">Dedicated support</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-green-500 mt-1"></i>
+              <span class="text-slate-700">SLA guarantee</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <i class="fas fa-check text-green-500 mt-1"></i>
+              <span class="text-slate-700">Custom training</span>
+            </li>
+          </ul>
+          <button class="w-full bg-slate-900 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-800 transition" data-action="upgrade-pro">
+            Contact Sales
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-20 px-4 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+          Everything you need to create stunning visualizations
+        </h2>
+        <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+          Powerful features designed to help you turn data into insights
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="flex gap-4">
+          <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Advanced Charts</h3>
+            <p class="text-slate-600">Create professional charts with advanced customization options</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-bolt text-green-600 text-xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">AI-Powered</h3>
+            <p class="text-slate-600">Smart AI assistance to help you create the perfect visualization</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-users text-purple-600 text-xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Team Collaboration</h3>
+            <p class="text-slate-600">Work together with your team in real-time</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-download text-orange-600 text-xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Multiple Export Formats</h3>
+            <p class="text-slate-600">Export your charts in PNG, SVG, PDF, and more</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-shield-alt text-red-600 text-xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Secure & Private</h3>
+            <p class="text-slate-600">Your data is encrypted and kept private</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-headset text-indigo-600 text-xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">24/7 Support</h3>
+            <p class="text-slate-600">Get help whenever you need it from our expert team</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+          Frequently Asked Questions
+        </h2>
+        <p class="text-xl text-slate-600">
+          Got questions? We've got answers.
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="bg-white rounded-lg border border-slate-200 p-6">
+          <button class="w-full text-left flex items-center justify-between gap-4">
+            <h3 class="text-lg font-semibold text-slate-900">Can I change my plan later?</h3>
+            <i class="fas fa-chevron-down text-slate-400"></i>
+          </button>
+          <p class="text-slate-600 mt-4">
+            Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-lg border border-slate-200 p-6">
+          <button class="w-full text-left flex items-center justify-between gap-4">
+            <h3 class="text-lg font-semibold text-slate-900">Do you offer a free trial?</h3>
+            <i class="fas fa-chevron-down text-slate-400"></i>
+          </button>
+          <p class="text-slate-600 mt-4">
+            Yes! We offer a 14-day free trial for our Professional plan with full access to all features.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-lg border border-slate-200 p-6">
+          <button class="w-full text-left flex items-center justify-between gap-4">
+            <h3 class="text-lg font-semibold text-slate-900">What payment methods do you accept?</h3>
+            <i class="fas fa-chevron-down text-slate-400"></i>
+          </button>
+          <p class="text-slate-600 mt-4">
+            We accept all major credit cards, PayPal, and wire transfers for Enterprise plans.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-lg border border-slate-200 p-6">
+          <button class="w-full text-left flex items-center justify-between gap-4">
+            <h3 class="text-lg font-semibold text-slate-900">Is my data secure?</h3>
+            <i class="fas fa-chevron-down text-slate-400"></i>
+          </button>
+          <p class="text-slate-600 mt-4">
+            Absolutely. We use industry-standard encryption and security measures to protect your data.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 px-4 bg-blue-600">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+        Ready to get started?
+      </h2>
+      <p class="text-xl text-blue-100 mb-8">
+        Join thousands of users who are already creating beautiful data visualizations with VIZOM.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition">
+          Start Free Trial
+        </button>
+        <button class="bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition">
+          Schedule Demo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-white py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fas fa-chart-simple text-blue-400 text-xl"></i>
+            <span class="font-bold text-xl">VIZOM</span>
+          </div>
+          <p class="text-slate-400">
+            AI-powered data visualization made simple.
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="font-semibold mb-4">Product</h4>
+          <ul class="space-y-2 text-slate-400">
+            <li><a href="#" class="hover:text-white transition">Features</a></li>
+            <li><a href="#" class="hover:text-white transition">Pricing</a></li>
+            <li><a href="#" class="hover:text-white transition">Templates</a></li>
+            <li><a href="#" class="hover:text-white transition">API</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-semibold mb-4">Company</h4>
+          <ul class="space-y-2 text-slate-400">
+            <li><a href="#" class="hover:text-white transition">About</a></li>
+            <li><a href="#" class="hover:text-white transition">Blog</a></li>
+            <li><a href="#" class="hover:text-white transition">Careers</a></li>
+            <li><a href="#" class="hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-semibold mb-4">Support</h4>
+          <ul class="space-y-2 text-slate-400">
+            <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+            <li><a href="#" class="hover:text-white transition">Documentation</a></li>
+            <li><a href="#" class="hover:text-white transition">Community</a></li>
+            <li><a href="#" class="hover:text-white transition">Status</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-slate-400 text-sm">
+          © 2024 VIZOM. All rights reserved.
+        </p>
+        <div class="flex gap-6 mt-4 md:mt-0">
+          <a href="#" class="text-slate-400 hover:text-white transition">
+            <i class="fab fa-twitter text-xl"></i>
+          </a>
+          <a href="#" class="text-slate-400 hover:text-white transition">
+            <i class="fab fa-linkedin text-xl"></i>
+          </a>
+          <a href="#" class="text-slate-400 hover:text-white transition">
+            <i class="fab fa-github text-xl"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Billing toggle functionality
+    const billingToggle = document.getElementById('billing-toggle');
+    const monthlyPrices = ['$0', '$29', '$99'];
+    const yearlyPrices = ['$0', '$23', '$79'];
+    
+    if (billingToggle) {
+      billingToggle.addEventListener('click', () => {
+        const isYearly = billingToggle.querySelector('span').style.transform === 'translateX(1.5rem)';
+        
+        if (isYearly) {
+          billingToggle.querySelector('span').style.transform = 'translateX(0.25rem)';
+          updatePrices(monthlyPrices);
+        } else {
+          billingToggle.querySelector('span').style.transform = 'translateX(1.5rem)';
+          updatePrices(yearlyPrices);
+        }
+      });
+    }
+    
+    function updatePrices(prices) {
+      const priceElements = document.querySelectorAll('.text-5xl');
+      priceElements.forEach((el, index) => {
+        if (index < prices.length) {
+          el.textContent = prices[index];
+        }
+      });
+    }
+  </script>
+</body>
+</html>

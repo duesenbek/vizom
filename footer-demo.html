@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Footer Demo - VIZOM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="src/styles/minimal.css">
+    <link rel="stylesheet" href="src/styles/components/footer.css">
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .demo-content {
+            flex: 1;
+            padding: 60px 24px;
+            text-align: center;
+            color: white;
+        }
+        
+        .demo-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .demo-description {
+            font-size: 20px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .demo-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: left;
+        }
+        
+        .feature-icon {
+            font-size: 32px;
+            color: #fbbf24;
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .feature-text {
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <main class="demo-content">
+        <h1 class="demo-title">
+            <i class="fas fa-layer-group"></i>
+            Unified Footer Component
+        </h1>
+        <p class="demo-description">
+            A comprehensive, responsive footer system with consistent structure across all pages. 
+            Features newsletter signup, social links, app downloads, and organized navigation.
+        </p>
+        
+        <div class="demo-features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-sitemap"></i>
+                </div>
+                <h3 class="feature-title">5-Section Structure</h3>
+                <p class="feature-text">
+                    Product, Company, Resources, Legal, and Social & Newsletter sections 
+                    with comprehensive link organization.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="feature-title">App Downloads</h3>
+                <p class="feature-text">
+                    Direct links to App Store and Google Play with branded icons 
+                    and hover effects for better conversion.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3 class="feature-title">Newsletter Signup</h3>
+                <p class="feature-text">
+                    Integrated newsletter form with validation, loading states, 
+                    and success/error messaging.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-share-alt"></i>
+                </div>
+                <h3 class="feature-title">Social Integration</h3>
+                <p class="feature-text">
+                    Social media links with tracking, hover animations, 
+                    and new window opening for better UX.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3 class="feature-title">Professional Design</h3>
+                <p class="feature-text">
+                    Modern gradient background, glass morphism effects, 
+                    and smooth animations throughout.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile"></i>
+                </div>
+                <h3 class="feature-title">Fully Responsive</h3>
+                <p class="feature-text">
+                    Optimized for desktop, tablet, and mobile with 
+                    adaptive layouts and touch-friendly interactions.
+                </p>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down text-2xl opacity-70"></i>
+        </div>
+    </main>
+
+    <!-- Unified Footer -->
+    <footer id="unified-footer">
+        <!-- Footer content will be dynamically loaded by UnifiedFooter.js -->
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="src/components/UnifiedFooter.js"></script>
+    
+    <script>
+        // Demo enhancements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add smooth scroll behavior
+            document.querySelector('.scroll-indicator')?.addEventListener('click', () => {
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Track feature card interactions
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        card.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+            
+            // Add some demo newsletter functionality
+            if (window.unifiedFooter) {
+                console.log('Unified Footer loaded successfully!');
+                
+                // You can test the footer API here
+                setTimeout(() => {
+                    console.log('Current year:', window.unifiedFooter.getCurrentYear());
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

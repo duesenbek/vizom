@@ -1,0 +1,592 @@
+/* Onboarding System Styles */
+
+/* Onboarding Overlay */
+.onboarding-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9997;
+  background: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.onboarding-overlay.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+/* Highlight Area */
+.onboarding-highlight {
+  position: absolute;
+  background: transparent;
+  border: 3px solid var(--primary);
+  border-radius: 8px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+/* Onboarding Tooltip */
+.onboarding-tooltip {
+  position: absolute;
+  z-index: 9998;
+  max-width: 380px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.onboarding-tooltip.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.onboarding-tooltip.centered {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Tooltip Content */
+.onboarding-tooltip-content {
+  padding: 24px;
+  position: relative;
+}
+
+.onboarding-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.onboarding-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
+  line-height: 1.3;
+}
+
+.onboarding-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--background);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.onboarding-close:hover {
+  background: var(--error);
+  color: white;
+  transform: scale(1.1);
+}
+
+.onboarding-body {
+  margin-bottom: 20px;
+}
+
+.onboarding-content {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0 0 20px 0;
+}
+
+/* Progress Indicators */
+.onboarding-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.progress-dots {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+}
+
+.progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all 0.2s ease;
+}
+
+.progress-dot.active {
+  background: var(--primary);
+  transform: scale(1.2);
+}
+
+.progress-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-left: 12px;
+}
+
+/* Tooltip Footer */
+.onboarding-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.onboarding-skip {
+  font-size: 13px;
+  padding: 8px 16px;
+}
+
+.onboarding-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.onboarding-prev,
+.onboarding-next {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  padding: 10px 16px;
+}
+
+.onboarding-prev:disabled,
+.onboarding-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tooltip Arrow */
+.onboarding-tooltip-arrow {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: white;
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.onboarding-tooltip.centered .onboarding-tooltip-arrow {
+  display: none;
+}
+
+/* Arrow positioning based on tooltip position */
+.onboarding-tooltip[data-position="top"] .onboarding-tooltip-arrow {
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.onboarding-tooltip[data-position="bottom"] .onboarding-tooltip-arrow {
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.onboarding-tooltip[data-position="left"] .onboarding-tooltip-arrow {
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.onboarding-tooltip[data-position="right"] .onboarding-tooltip-arrow {
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* Highlight Target Animation */
+.onboarding-highlight-target {
+  position: relative;
+  z-index: 9999;
+  animation: onboardingPulse 2s ease-in-out infinite;
+}
+
+@keyframes onboardingPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 102, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(0, 102, 255, 0.1);
+  }
+}
+
+/* Completion Message */
+.onboarding-completion-message {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 400px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.onboarding-completion-message.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.completion-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--success), #00E676);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.completion-text h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+}
+
+.completion-text p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Pulse Animation for Demo Elements */
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Onboarding Trigger Button */
+.onboarding-trigger {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.onboarding-trigger:hover {
+  background: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+.onboarding-trigger:focus {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .onboarding-tooltip {
+    max-width: 320px;
+  }
+  
+  .onboarding-tooltip-content {
+    padding: 20px;
+  }
+  
+  .onboarding-title {
+    font-size: 18px;
+  }
+  
+  .onboarding-content {
+    font-size: 14px;
+  }
+  
+  .onboarding-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .onboarding-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .onboarding-skip {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .onboarding-completion-message {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    max-width: none;
+  }
+  
+  .onboarding-trigger {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+}
+
+/* High Contrast Mode */
+.high-contrast .onboarding-tooltip {
+  background: black;
+  border: 2px solid white;
+}
+
+.high-contrast .onboarding-title {
+  color: white;
+}
+
+.high-contrast .onboarding-content {
+  color: #CCCCCC;
+}
+
+.high-contrast .onboarding-close {
+  background: white;
+  color: black;
+}
+
+.high-contrast .onboarding-completion-message {
+  background: black;
+  border: 2px solid white;
+}
+
+.high-contrast .completion-text h4 {
+  color: white;
+}
+
+.high-contrast .completion-text p {
+  color: #CCCCCC;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .onboarding-overlay,
+  .onboarding-tooltip,
+  .onboarding-completion-message,
+  .onboarding-trigger,
+  .onboarding-highlight-target,
+  .pulse {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .onboarding-highlight {
+    transition: none !important;
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .onboarding-tooltip {
+    background: var(--surface-dark);
+  }
+  
+  .onboarding-title {
+    color: var(--text-primary-dark);
+  }
+  
+  .onboarding-content {
+    color: var(--text-secondary-dark);
+  }
+  
+  .onboarding-close {
+    background: var(--background-dark);
+    color: var(--text-secondary-dark);
+  }
+  
+  .onboarding-tooltip-arrow {
+    background: var(--surface-dark);
+  }
+  
+  .onboarding-completion-message {
+    background: var(--surface-dark);
+  }
+  
+  .completion-text h4 {
+    color: var(--text-primary-dark);
+  }
+  
+  .completion-text p {
+    color: var(--text-secondary-dark);
+  }
+}
+
+/* Focus Management */
+.onboarding-tooltip:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.onboarding-close:focus,
+.onboarding-skip:focus,
+.onboarding-prev:focus,
+.onboarding-next:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Screen Reader Support */
+.onboarding-tooltip[role="dialog"] {
+  /* Ensure proper dialog semantics */
+}
+
+.onboarding-tooltip[aria-labelledby] {
+  /* Proper labeling for screen readers */
+}
+
+/* Animation Variants */
+.onboarding-tooltip[data-animation="slide"] {
+  animation: slideInTooltip 0.3s ease;
+}
+
+@keyframes slideInTooltip {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.onboarding-tooltip[data-animation="fade"] {
+  animation: fadeInTooltip 0.3s ease;
+}
+
+@keyframes fadeInTooltip {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Progress Bar Alternative */
+.onboarding-progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+
+.onboarding-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.onboarding-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+/* Interactive Elements During Onboarding */
+.onboarding-active {
+  /* Style for elements that are interactive during onboarding */
+}
+
+.onboarding-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  /* Style for elements that should be disabled during onboarding */
+}
+
+/* Step-specific styles */
+.onboarding-step[data-step="welcome"] .onboarding-tooltip {
+  /* Special styling for welcome step */
+}
+
+.onboarding-step[data-step="completion"] .onboarding-tooltip {
+  /* Special styling for completion step */
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 480px) {
+  .onboarding-tooltip {
+    max-width: 280px;
+  }
+  
+  .onboarding-tooltip-content {
+    padding: 16px;
+  }
+  
+  .onboarding-title {
+    font-size: 16px;
+  }
+  
+  .onboarding-content {
+    font-size: 13px;
+  }
+}

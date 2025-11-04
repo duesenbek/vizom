@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Auth Callback • VIZOM</title>
+  <link rel="stylesheet" href="styles/minimal.css?v=2.0">
+  <style>
+    body{display:flex;min-height:100vh;align-items:center;justify-content:center}
+  </style>
+</head>
+<body>
+  <div class="surface p-6 rounded-lg text-center">
+    <div class="mb-2 text-sm text-muted">Completing sign-in…</div>
+    <div class="w-6 h-6 mx-auto rounded-full border-2 border-slate-300 border-t-slate-900 animate-spin"></div>
+  </div>
+  <script type="module">
+    import { authService } from './src/services/authService.js';
+
+    (async () => {
+      try {
+        const session = await authService.handleAuthCallback();
+        const redirect = sessionStorage.getItem('vizom_post_login_redirect') || '/index.html';
+        sessionStorage.removeItem('vizom_post_login_redirect');
+        location.replace(redirect);
+      } catch (e) {
+        console.error('[Auth Callback] Error:', e);
+        alert('Authentication failed. Please try again.');
+        location.replace('/index.html');
+      }
+    })();
+  </script>
+</body>
+</html>

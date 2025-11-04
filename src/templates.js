@@ -106,7 +106,7 @@ function renderTemplates() {
           <div class="flex items-center gap-3 text-xs text-slate-500 mb-2">${meta}</div>
           <p class="text-sm text-slate-600 mb-3">${t.description}</p>
           <div class="flex flex-col gap-2">
-            <button class="use-template-btn w-full btn btn-accent text-sm inline-flex items-center justify-center gap-2" data-i18n="templates.cards.use">
+            <button class="use-template-btn w-full btn btn-primary text-sm inline-flex items-center justify-center gap-2" data-i18n="templates.cards.use">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/></svg>
               Use
             </button>
