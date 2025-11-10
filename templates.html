@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional chart templates and data visualization gallery for VIZOM. Create beautiful charts and dashboards with our pre-built templates.">
+    <meta name="theme-color" content="#1a56db">
+    
     <title>VIZOM - Chart Templates | Professional Chart Gallery</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Preload critical assets -->
+    <link rel="preload" href="src/styles/modern-saas.css" as="style">
+    <link rel="preload" href="styles/font-awesome.min.css" as="style">
+    <link rel="modulepreload" href="src/templates.js">
+    
+    <!-- Tailwind CSS with version -->
+    <script src="https://cdn.tailwindcss.com?v=3.4.0" crossorigin="anonymous"></script>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="styles/font-awesome.min.css" />
@@ -18,9 +26,12 @@
     <!-- Modern Styles -->
     <link rel="stylesheet" href="src/styles/modern-saas.css" />
     <link rel="stylesheet" href="src/styles/components/improvements.css" />
+    <link rel="stylesheet" href="src/styles/components/responsive-fixes.css" />
     
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Chart.js with SRI hash -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" 
+            integrity="sha384-dLBldH4TwJVPpJ7zJ4Zj5hGxL4lqTrL0CHnHYU9U1Ne3YdK5wK8HpfEEHK3mmzef"
+            crossorigin="anonymous"></script>
     
     <!-- D3.js global bridge -->
     <script type="module">
@@ -39,6 +50,31 @@
 </head>
 <body class="viz-body viz-bg-light viz-text-primary">
   <script type="module" src="scripts/main.js"></script>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-chart-simple"></i>
+          </div>
+          VIZOM
+        </a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links" id="nav-links">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="generator.html" class="nav-link">Generator</a>
+          <a href="templates.html" class="nav-link active">Templates</a>
+          <a href="pricing.html" class="nav-link">Pricing</a>
+          <button class="nav-link" id="auth-signin" type="button">Sign In</button>
+          <a href="generator.html" class="btn btn-primary" data-action="get-started">Get Started</a>
+        </div>
+      </nav>
+    </div>
+  </header>
 
   <!-- Main Content -->
   <div id="auth-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
@@ -1241,5 +1277,41 @@
   <script type="module" src="src/components/TemplateGallery.js"></script>
   <script type="module" src="src/components/UnifiedFooter.js"></script>
   <script type="module" src="src/page-specific/templates.js"></script>
+  
+  <!-- Mobile Menu Script -->
+  <script>
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav') && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            }
+        });
+        
+        // Close menu when clicking a link
+        navLinks.querySelectorAll('a, button').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+    }
+  </script>
 </body>
 </html>

@@ -18,6 +18,7 @@
     <!-- Modern Styles -->
     <link rel="stylesheet" href="src/styles/modern-saas.css" />
     <link rel="stylesheet" href="src/styles/components/improvements.css" />
+    <link rel="stylesheet" href="src/styles/components/responsive-fixes.css" />
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -681,7 +682,10 @@
                     </div>
                     VIZOM
                 </a>
-                <div class="nav-links">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="nav-links" id="nav-links">
                     <a href="index.html" class="nav-link">Home</a>
                     <a href="generator.html" class="nav-link active">Generator</a>
                     <a href="templates.html" class="nav-link">Templates</a>
@@ -1370,388 +1374,6 @@
     </div>
   </div>
 
-  <main>
-    <!-- Three-Panel Generator Layout -->
-    <section class="min-h-screen bg-slate-50">
-      <div class="flex h-[calc(100vh-64px)]">
-        
-        <!-- LEFT SIDEBAR - Chart Configuration -->
-        <aside class="w-80 bg-white border-r border-slate-200 flex flex-col">
-          <!-- Chart Type Selector -->
-          <div class="p-6 border-b border-slate-200">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
-                <i class="fas fa-chart-column"></i>
-              </div>
-              <div>
-                <h3 class="text-lg font-semibold text-slate-900">Chart Type</h3>
-                <p class="text-xs text-slate-500">Select visualization type</p>
-              </div>
-            </div>
-            
-            <div class="space-y-2">
-              <button class="chart-type-card w-full border-2 border-blue-500 bg-blue-50 rounded-xl p-3 text-left transition" data-type="bar" data-chart-key="bar">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-lg bg-blue-500 text-white flex items-center justify-center">
-                    <i class="fas fa-chart-column"></i>
-                  </div>
-                  <div>
-                    <p class="font-semibold text-slate-900">Bar Chart</p>
-                    <p class="text-xs text-slate-600">Compare categories</p>
-                  </div>
-                </div>
-              </button>
-              
-              <button class="chart-type-card w-full border border-slate-200 hover:border-violet-400 rounded-xl p-3 text-left transition" data-type="line" data-chart-key="line">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-lg bg-violet-100 text-violet-600 flex items-center justify-center">
-                    <i class="fas fa-chart-line"></i>
-                  </div>
-                  <div>
-                    <p class="font-semibold text-slate-900">Line Chart</p>
-                    <p class="text-xs text-slate-600">Show trends over time</p>
-                  </div>
-                </div>
-              </button>
-              
-              <button class="chart-type-card w-full border border-slate-200 hover:border-rose-400 rounded-xl p-3 text-left transition" data-type="pie" data-chart-key="pie">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center">
-                    <i class="fas fa-chart-pie"></i>
-                  </div>
-                  <div>
-                    <p class="font-semibold text-slate-900">Pie Chart</p>
-                    <p class="text-xs text-slate-600">Show proportions</p>
-                  </div>
-                </div>
-              </button>
-              
-              <button class="chart-type-card w-full border border-slate-200 hover:border-emerald-400 rounded-xl p-3 text-left transition" data-type="table" data-chart-key="table">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                    <i class="fas fa-table"></i>
-                  </div>
-                  <div>
-                    <p class="font-semibold text-slate-900">Data Table</p>
-                    <p class="text-xs text-slate-600">Structured data view</p>
-                  </div>
-                </div>
-              </button>
-              
-              <button class="chart-type-card w-full border border-slate-200 hover:border-amber-400 rounded-xl p-3 text-left transition" data-type="dashboard" data-chart-key="dashboard">
-                <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center">
-                    <i class="fas fa-chart-simple"></i>
-                  </div>
-                  <div>
-                    <p class="font-semibold text-slate-900">Dashboard</p>
-                    <p class="text-xs text-slate-600">Combined charts</p>
-                  </div>
-                </div>
-              </button>
-            </div>
-          </div>
-
-          <!-- Data Input Methods (Tabbed Interface) -->
-          <div class="flex-1 p-6 overflow-y-auto">
-            <div class="mb-4">
-              <h3 class="text-lg font-semibold text-slate-900 mb-2">Data Input</h3>
-              <div class="tab-nav flex gap-1 p-1 bg-slate-100 rounded-lg" role="tablist">
-                <button class="tab-button flex-1 px-3 py-2 text-sm font-medium rounded-md transition" role="tab" data-tab="manual">
-                  📝 Text
-                </button>
-                <button class="tab-button flex-1 px-3 py-2 text-sm font-medium rounded-md transition" role="tab" data-tab="upload">
-                  📁 CSV
-                </button>
-                <button class="tab-button flex-1 px-3 py-2 text-sm font-medium rounded-md transition" role="tab" data-tab="examples">
-                  ⚡ Templates
-                </button>
-              </div>
-            </div>
-            
-            <div id="manual-tab" class="data-tab-content">
-              <div class="text-sm text-slate-600 mb-3">
-                Describe your data in natural language
-              </div>
-            </div>
-            
-            <div id="upload-tab" class="data-tab-content hidden">
-              <div class="text-sm text-slate-600 mb-3">
-                Upload CSV files with your data
-              </div>
-            </div>
-            
-            <div id="examples-tab" class="data-tab-content hidden">
-              <div class="text-sm text-slate-600 mb-3">
-                Use pre-built templates
-              </div>
-            </div>
-          </div>
-
-          <!-- Settings Panel (Collapsible) -->
-          <div class="border-t border-slate-200">
-            <button class="w-full px-6 py-3 flex items-center justify-between text-left hover:bg-slate-50 transition" id="settings-toggle">
-              <div class="flex items-center gap-3">
-                <i class="fas fa-cog text-slate-400"></i>
-                <span class="font-medium text-slate-900">Settings</span>
-              </div>
-              <i class="fas fa-chevron-down text-slate-400 transition-transform" id="settings-chevron"></i>
-            </button>
-            
-            <div class="hidden px-6 pb-4" id="settings-panel">
-              <div class="space-y-4">
-                <!-- Theme Options -->
-                <div>
-                  <label class="text-sm font-medium text-slate-700 mb-2 block">Theme</label>
-                  <select class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
-                    <option>Light</option>
-                    <option>Dark</option>
-                    <option>Auto</option>
-                  </select>
-                </div>
-                
-                <!-- Animation Toggle -->
-                <div class="flex items-center justify-between">
-                  <label class="text-sm font-medium text-slate-700">Animations</label>
-                  <button class="relative inline-flex h-6 w-11 items-center rounded-full bg-blue-600 transition-colors">
-                    <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
-                  </button>
-                </div>
-                
-                <!-- Export Settings -->
-                <div>
-                  <label class="text-sm font-medium text-slate-700 mb-2 block">Export Quality</label>
-                  <select class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
-                    <option>Standard</option>
-                    <option>High</option>
-                    <option>Ultra</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        <!-- CENTER PANEL - Main Workspace -->
-        <main class="flex-1 flex flex-col bg-white">
-          <!-- Header -->
-          <div class="px-8 py-6 border-b border-slate-200">
-            <h1 class="text-2xl font-bold text-slate-900">Create Your Visualization</h1>
-            <p class="text-slate-600 mt-1">Describe your data or upload a file to generate professional charts</p>
-          </div>
-
-          <!-- Input Textarea (Large, Prominent) -->
-          <main class="flex-1 overflow-hidden">
-            <!-- Ad banner (visible for free users) -->
-            <div id="quota-banner" class="hidden bg-amber-100 border border-amber-300 text-amber-900 px-6 py-4 flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <i class="fas fa-circle-info"></i>
-                <span id="quota-banner-message">You have 0 generations left today.</span>
-              </div>
-              <div class="flex items-center gap-3">
-                <button id="watch-ad-btn" class="px-4 py-2 text-sm font-medium bg-white text-amber-800 rounded-lg border border-amber-300 hover:bg-amber-50 transition">
-                  Watch short ad
-                </button>
-                <button data-action="upgrade-pro" class="px-4 py-2 text-sm font-semibold bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">
-                  Upgrade to Pro
-                </button>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 h-full">
-              <!-- Input Panel -->
-              <div id="manual-tab-content" class="space-y-6">
-                <div class="relative">
-                  <textarea 
-                    id="prompt-input" 
-                    class="w-full h-64 p-6 border-2 border-slate-200 rounded-xl text-lg resize-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                    placeholder="Describe your data in plain English... 🚀"
-                  ></textarea>
-                  <div class="mt-3 text-sm text-slate-500 leading-relaxed">
-                    <div class="font-medium text-slate-600 mb-1">📝 Examples:</div>
-                    <ul class="list-disc list-inside space-y-1">
-                      <li>'Monthly sales: January $12K, February $15K, March $18K'</li>
-                      <li>'Market share: Product A 45%, Product B 30%, Product C 25%'</li>
-                      <li>'Website traffic: Jan 1.2K, Feb 1.5K, Mar 1.8K, Apr 2.1K'</li>
-                      <li>'Team performance: Design 85%, Development 92%, Marketing 78%'</li>
-                    </ul>
-                    <div class="mt-2 text-slate-400">
-                      💡 Tips: Use formats like "Label: Value", separate entries with commas or new lines, add units (%, $, people) when helpful.
-                    </div>
-                  </div>
-                  <div class="absolute top-4 right-4">
-                    <button class="text-slate-400 hover:text-slate-600 p-2 rounded-lg hover:bg-slate-100 transition" id="clear-input">
-                      <i class="fas fa-eraser"></i>
-                    </button>
-                  </div>
-                </div>
-                
-                <!-- Validation Feedback -->
-                <div id="input-feedback" class="input-feedback hidden">
-                  <div class="feedback-content">
-                    <span class="feedback-icon">✓</span>
-                    <span class="feedback-text">Great! Ready to generate</span>
-                  </div>
-                </div>
-              </div>
-
-              <div id="upload-tab-content" class="hidden space-y-6">
-                <div id="drop-zone" class="border-2 border-dashed border-slate-300 rounded-xl p-12 text-center hover:border-blue-400 hover:bg-blue-50 transition cursor-pointer">
-                  <i class="fas fa-file-csv text-4xl text-slate-400 mb-4"></i>
-                  <h3 class="text-lg font-semibold text-slate-900 mb-2">Drop your CSV file here</h3>
-                  <p class="text-slate-600 mb-4">or click to browse from your computer</p>
-                  <input type="file" id="csv-upload" accept=".csv" class="hidden">
-                  <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                    Choose File
-                  </button>
-                </div>
-              </div>
-
-              <div id="examples-tab-content" class="hidden space-y-6">
-                <div class="grid gap-4">
-                  <div class="border border-slate-200 rounded-xl p-4 hover:border-blue-400 cursor-pointer transition">
-                    <h4 class="font-semibold text-slate-900 mb-2">Sales Performance</h4>
-                    <p class="text-sm text-slate-600 mb-2">Q1: $45,000, Q2: $52,000, Q3: $48,000, Q4: $61,000</p>
-                    <span class="text-xs text-blue-600 font-medium">Bar Chart →</span>
-                  </div>
-                  <div class="border border-slate-200 rounded-xl p-4 hover:border-blue-400 cursor-pointer transition">
-                    <h4 class="font-semibold text-slate-900 mb-2">Website Traffic</h4>
-                    <p class="text-sm text-slate-600 mb-2">Jan: 12.5K, Feb: 15.2K, Mar: 18.7K, Apr: 22.1K</p>
-                    <span class="text-xs text-blue-600 font-medium">Line Chart →</span>
-                  </div>
-                  <div class="border border-slate-200 rounded-xl p-4 hover:border-blue-400 cursor-pointer transition">
-                    <h4 class="font-semibold text-slate-900 mb-2">Market Share</h4>
-                    <p class="text-sm text-slate-600 mb-2">Product A: 35%, Product B: 28%, Product C: 22%, Others: 15%</p>
-                    <span class="text-xs text-blue-600 font-medium">Pie Chart →</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Quick Action Buttons -->
-              <div class="space-y-4">
-                <div class="flex flex-wrap gap-2">
-                  <button class="quick-action-btn px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition text-sm font-medium" data-prompt="Monthly sales: January $12K, February $15K, March $18K" data-type="bar">
-                    <i class="fas fa-chart-line mr-2"></i>Sales
-                  </button>
-                  <button class="quick-action-btn px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition text-sm font-medium" data-prompt="Website traffic: Jan 1.2K, Feb 1.5K, Mar 1.8K, Apr 2.1K" data-type="line">
-                    <i class="fas fa-users mr-2"></i>Traffic
-                  </button>
-                  <button class="quick-action-btn px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition text-sm font-medium" data-prompt="Team performance: Design 85%, Development 92%, Marketing 78%" data-type="radar">
-                    <i class="fas fa-chart-pie mr-2"></i>Performance
-                  </button>
-                  <button class="quick-action-btn px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition text-sm font-medium" data-prompt="Revenue: Q1 $120K, Q2 $145K, Q3 $168K, Q4 $195K" data-type="line">
-                    <i class="fas fa-dollar-sign mr-2"></i>Finance
-                  </button>
-                </div>
-
-                <!-- Smart Parse Button -->
-                <button id="smart-parse-btn" class="w-full py-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-3 text-lg">
-                  <i class="fas fa-bolt"></i>
-                  Generate Chart
-                </button>
-              </div>
-            </div>
-          </div>
-        </main>
-
-        <!-- RIGHT SIDEBAR - Preview & Export -->
-        <aside class="w-96 bg-white border-l border-slate-200 flex flex-col">
-          <!-- Live Preview Container -->
-          <div class="flex-1 p-6 overflow-y-auto">
-            <div class="mb-4">
-              <h3 class="text-lg font-semibold text-slate-900 mb-2">Live Preview</h3>
-              <p class="text-sm text-slate-600">Your chart will appear here</p>
-            </div>
-            
-            <div id="chart-preview" class="border-2 border-dashed border-slate-200 rounded-xl h-80 flex items-center justify-center bg-slate-50">
-              <div class="text-center">
-                <i class="fas fa-chart-simple text-4xl text-slate-300 mb-4"></i>
-                <p class="text-slate-500 font-medium">No chart yet</p>
-                <p class="text-sm text-slate-400 mt-1">Enter your data to generate a visualization</p>
-              </div>
-            </div>
-
-            <!-- Loading States -->
-            <div id="loading-overlay" class="loading-overlay hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-              <div class="loading-content bg-white rounded-2xl p-8 max-w-sm mx-4">
-                <div class="loading-spinner mb-4">
-                  <div class="spinner"></div>
-                </div>
-                <h3 class="text-xl font-semibold text-slate-900 mb-2">AI is generating your chart</h3>
-                <p class="text-slate-600 mb-4">This usually takes 5-10 seconds</p>
-                <div class="progress-container">
-                  <div class="progress-bar">
-                    <div class="progress-fill" style="width: 0%"></div>
-                  </div>
-                  <span class="progress-text">Initializing...</span>
-                </div>
-                <div class="loading-steps mt-4">
-                  <div class="step active">✓ Processing your input</div>
-                  <div class="step">Generating visualization</div>
-                  <div class="step">Finalizing chart</div>
-                </div>
-                <button class="mt-4 w-full px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition">
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Export Controls -->
-          <div class="border-t border-slate-200 p-6">
-            <div class="mb-4">
-              <h3 class="text-lg font-semibold text-slate-900 mb-2">Export Options</h3>
-            </div>
-            
-            <div class="space-y-3">
-              <!-- Format Selection -->
-              <div class="grid grid-cols-4 gap-2">
-                <button class="export-format-btn px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium hover:bg-blue-50 hover:border-blue-300 transition" data-format="png">
-                  PNG
-                </button>
-                <button class="export-format-btn px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium hover:bg-blue-50 hover:border-blue-300 transition" data-format="pdf">
-                  PDF
-                </button>
-                <button class="export-format-btn px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium hover:bg-blue-50 hover:border-blue-300 transition" data-format="svg">
-                  SVG
-                </button>
-                <button class="export-format-btn px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium hover:bg-blue-50 hover:border-blue-300 transition" data-format="csv">
-                  CSV
-                </button>
-              </div>
-
-              <!-- Download Buttons -->
-              <div class="flex gap-2">
-                <button class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium" disabled>
-                  <i class="fas fa-download mr-2"></i>Download
-                </button>
-                <button class="px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition" disabled>
-                  <i class="fas fa-share-alt"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Project Management -->
-          <div class="border-t border-slate-200 p-6">
-            <div class="space-y-3">
-              <button id="save-project" class="w-full px-4 py-2 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 transition font-medium" disabled>
-                <i class="fas fa-save mr-2"></i>Save Project
-              </button>
-              
-              <button id="view-projects" class="w-full px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium">
-                <i class="fas fa-folder mr-2"></i>Project History
-              </button>
-              
-              <button class="w-full px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium" disabled>
-                <i class="fas fa-cog mr-2"></i>Share Settings
-              </button>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
-    </section>
   </main>
 
   <!-- Unified Footer -->
@@ -1950,6 +1572,42 @@
         });
       }
     });
+  </script>
+  
+  <!-- Mobile Menu Script -->
+  <script>
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileMenuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav') && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            }
+        });
+        
+        // Close menu when clicking a link
+        navLinks.querySelectorAll('a, button').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+    }
   </script>
 </body>
 </html>

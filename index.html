@@ -18,6 +18,7 @@
     <!-- Modern Styles -->
     <link rel="stylesheet" href="src/styles/modern-saas.css" />
     <link rel="stylesheet" href="src/styles/components/improvements.css" />
+    <link rel="stylesheet" href="src/styles/components/responsive-fixes.css" />
 
     <!-- Modal system (for auth) -->
     <script type="module" src="src/components/ModalSystem.js"></script>
@@ -51,7 +52,10 @@
                     </div>
                     VIZOM
                 </a>
-                <div class="nav-links">
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="nav-links" id="nav-links">
                     <a href="index.html" class="nav-link active">Home</a>
                     <a href="generator.html" class="nav-link">Generator</a>
                     <a href="templates.html" class="nav-link">Templates</a>
@@ -118,12 +122,9 @@
                         <i class="fas fa-brain text-blue-600 text-xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold text-gray-900 mb-3">AI-Powered Generation</h3>
-                    <p class="text-gray-600 mb-4">
+                    <p class="text-gray-600">
                         Natural language processing understands your data description and creates the perfect chart.
                     </p>
-                    <a href="#" class="text-blue-600 font-medium hover:text-blue-700">
-                        Learn more <i class="fas fa-arrow-right ml-1"></i>
-                    </a>
                 </div>
 
                 <div class="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
@@ -131,12 +132,9 @@
                         <i class="fas fa-palette text-green-600 text-xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold text-gray-900 mb-3">Beautiful Templates</h3>
-                    <p class="text-gray-600 mb-4">
+                    <p class="text-gray-600">
                         Professional templates designed by experts. Customize colors, fonts, and layouts.
                     </p>
-                    <a href="templates.html" class="text-blue-600 font-medium hover:text-blue-700">
-                        Browse templates <i class="fas fa-arrow-right ml-1"></i>
-                    </a>
                 </div>
 
                 <div class="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
@@ -144,12 +142,9 @@
                         <i class="fas fa-download text-purple-600 text-xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold text-gray-900 mb-3">Export Anywhere</h3>
-                    <p class="text-gray-600 mb-4">
+                    <p class="text-gray-600">
                         Download as PNG, SVG, PDF, or embed directly in your website with responsive code.
                     </p>
-                    <a href="#" class="text-blue-600 font-medium hover:text-blue-700">
-                        See exports <i class="fas fa-arrow-right ml-1"></i>
-                    </a>
                 </div>
             </div>
         </div>
@@ -187,7 +182,7 @@
                         <span class="text-xl font-bold text-white">VIZOM</span>
                     </div>
                     <p class="text-sm">
-                        AI-powered chart generation made simple. Create beautiful visualizations in seconds.
+                        AI-powered visual engine. Create beautiful visualizations in seconds.
                     </p>
                 </div>
                 
@@ -197,36 +192,7 @@
                         <li><a href="generator.html" class="hover:text-white transition-colors">Generator</a></li>
                         <li><a href="templates.html" class="hover:text-white transition-colors">Templates</a></li>
                         <li><a href="pricing.html" class="hover:text-white transition-colors">Pricing</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">API</a></li>
                     </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold text-white mb-4">Company</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors">About</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="font-semibold text-white mb-4">Connect</h4>
-                    <div class="flex gap-3 mb-4">
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-gray-700 transition-colors">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                    </div>
-                    <p class="text-sm">
-                        Subscribe to our newsletter for updates and tips.
-                    </p>
                 </div>
             </div>
             
@@ -239,365 +205,40 @@
     <!-- Main Scripts -->
     <script type="module" src="scripts/main.js"></script>
     
-    <!-- Demo Charts Script -->
-    <script type="module">
-        import { chartTypes } from './scripts/core/ChartTypes.js';
-        import { d3Visualizations } from './scripts/core/D3Visualizations.js';
-
-        // Initialize demo charts when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeDemoCharts();
-            setupHeroInput();
-        });
-
-        function initializeDemoCharts() {
-            // Chart.js Bar Chart
-            const barCtx = document.getElementById('demo-bar-chart').getContext('2d');
-            const barData = chartTypes.generateSampleData('bar');
-            chartTypes.createBarChart(barCtx, barData);
-
-            // Chart.js Line Chart
-            const lineCtx = document.getElementById('demo-line-chart').getContext('2d');
-            const lineData = chartTypes.generateSampleData('line');
-            chartTypes.createLineChart(lineCtx, lineData);
-
-            // Chart.js Pie Chart
-            const pieCtx = document.getElementById('demo-pie-chart').getContext('2d');
-            const pieData = chartTypes.generateSampleData('pie');
-            chartTypes.createPieChart(pieCtx, pieData);
-
-            // Chart.js Doughnut Chart
-            const doughnutCtx = document.getElementById('demo-doughnut-chart').getContext('2d');
-            const doughnutData = chartTypes.generateSampleData('doughnut');
-            chartTypes.createDoughnutChart(doughnutCtx, doughnutData);
-
-            // D3.js Force Graph
-            const forceData = d3Visualizations.generateSampleData('force');
-            d3Visualizations.createForceGraph('demo-force-graph', forceData.nodes, forceData.links, {
-                width: 300,
-                height: 250
+    <!-- Mobile Menu Script -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
             });
-
-            // D3.js TreeMap
-            const treemapData = d3Visualizations.generateSampleData('treemap');
-            d3Visualizations.createTreeMap('demo-treemap', treemapData, {
-                width: 300,
-                height: 250
-            });
-        }
-
-        function setupHeroInput() {
-            const heroInput = document.getElementById('hero-input');
-            const heroGenerateBtn = document.getElementById('hero-generate-btn');
-
-            heroGenerateBtn.addEventListener('click', () => {
-                const prompt = heroInput.value.trim();
-                if (prompt) {
-                    // Redirect to generator with the prompt
-                    window.location.href = `generator.html?prompt=${encodeURIComponent(prompt)}`;
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.nav') && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    const icon = mobileMenuToggle.querySelector('i');
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
                 }
             });
-
-            heroInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    heroGenerateBtn.click();
-                }
+            
+            // Close menu when clicking a link
+            navLinks.querySelectorAll('a, button').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    const icon = mobileMenuToggle.querySelector('i');
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                });
             });
         }
     </script>
-</body>
-</html>
-        </div>
-        <div class="relative">
-          <div class="absolute -top-14 -left-10 w-48 h-48 bg-blue-200/40 rounded-full blur-3xl"></div>
-          <div class="absolute -bottom-10 -right-12 w-40 h-40 bg-purple-200/40 rounded-full blur-3xl"></div>
-          <div class="relative bg-white/90 backdrop-blur border border-slate-200 rounded-2xl shadow-xl overflow-hidden">
-            <div class="bg-slate-900 text-white px-5 py-4 flex items-center gap-3">
-              <span class="w-9 h-9 rounded-full bg-blue-500/30 flex items-center justify-center"><i class="fas fa-chart-simple"></i></span>
-              <div>
-                <p class="text-xs text-slate-200 uppercase tracking-wide">Live Dashboard</p>
-                <p class="text-lg font-semibold">VIZOM Dashboard</p>
-              </div>
-            </div>
-            <div class="p-6 space-y-6">
-              <div class="grid grid-cols-4 gap-4">
-                <div class="bg-gradient-to-t from-blue-600 to-blue-300 rounded-xl h-28"></div>
-                <div class="bg-gradient-to-t from-purple-600 to-purple-300 rounded-xl h-20"></div>
-                <div class="bg-gradient-to-t from-blue-500 to-blue-200 rounded-xl h-32"></div>
-                <div class="bg-gradient-to-t from-emerald-500 to-emerald-300 rounded-xl h-24"></div>
-              </div>
-              <div class="bg-slate-100 rounded-xl p-4 space-y-3">
-                <div class="flex items-center justify-between text-xs text-slate-500">
-                  <span>MRR Growth</span>
-                  <span>+24%</span>
-                </div>
-                <div class="h-2 rounded-full bg-slate-200">
-                  <div class="h-2 rounded-full bg-blue-500 w-4/5"></div>
-                </div>
-                <div class="flex items-center justify-between text-xs text-slate-500">
-                  <span>Churn</span>
-                  <span>1.8%</span>
-                </div>
-                <div class="h-2 rounded-full bg-slate-200">
-                  <div class="h-2 rounded-full bg-emerald-500 w-1/4"></div>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 gap-3 text-sm">
-                <div class="bg-blue-50 border border-blue-200/60 rounded-lg p-4">
-                  <p class="text-xs uppercase text-blue-500 mb-1">Smart Parse</p>
-                  <p class="text-slate-700">Автоматическое распознавание чисел</p>
-                </div>
-                <div class="bg-violet-50 border border-violet-200/60 rounded-lg p-4">
-                  <p class="text-xs uppercase text-violet-500 mb-1">Экспорт</p>
-                  <p class="text-slate-700">PNG, PDF, CSV, HTML</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Функции -->
-    <section class="max-w-6xl mx-auto px-4 lg:px-6 py-16 space-y-12">
-      <div class="text-center max-w-3xl mx-auto space-y-4">
-        <h2 class="text-3xl lg:text-4xl font-semibold text-slate-900">Мощные функции для визуализации данных</h2>
-        <p class="text-slate-500 text-lg">Создавайте графики, таблицы и дашборды с помощью AI. Подходит для аналитиков, маркетологов и продакт-менеджеров.</p>
-      </div>
-      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-4">
-          <div class="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fas fa-chart-column"></i></div>
-          <h3 class="text-xl font-semibold">Типы графиков</h3>
-          <p class="text-sm text-slate-500">Бар-чарты, линейные графики, круговые диаграммы, таблицы и комбинированные дашборды.</p>
-        </div>
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-4">
-          <div class="w-12 h-12 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center"><i class="fas fa-wand-magic-sparkles"></i></div>
-          <h3 class="text-xl font-semibold">AI-генерация</h3>
-          <p class="text-sm text-slate-500">Опишите, что нужно построить — AI создаст визуализацию с аналитическими выводами.</p>
-        </div>
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-4">
-          <div class="w-12 h-12 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center"><i class="fas fa-file-csv"></i></div>
-          <h3 class="text-xl font-semibold">Импорт данных</h3>
-          <p class="text-sm text-slate-500">Загружайте CSV, копируйте таблицы или опишите данные текстом.</p>
-        </div>
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-4">
-          <div class="w-12 h-12 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center"><i class="fas fa-download"></i></div>
-          <h3 class="text-xl font-semibold">Экспорт</h3>
-          <p class="text-sm text-slate-500">Сохраняйте в PNG, PDF, CSV, HTML. Делитесь по ссылке или встраивайте.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Готовые сценарии -->
-    <section class="bg-white">
-      <div class="max-w-6xl mx-auto px-4 lg:px-6 py-16 space-y-10">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div class="space-y-3">
-            <h2 class="text-3xl font-semibold text-slate-900">Готовые шаблоны для разных задач</h2>
-            <p class="text-sm text-slate-500 max-w-2xl">Выберите шаблон по категории или создайте свой с помощью AI-генератора.</p>
-          </div>
-          <a href="templates.html" class="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700">
-            Каталог шаблонов
-            <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
-        <div class="grid gap-6 md:grid-cols-3">
-          <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50/60">
-            <span class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600">
-              <i class="fas fa-chart-line"></i>
-              Продажи и выручка
-            </span>
-            <p class="text-sm text-slate-500 mt-3">MRR, ARR, churn, воронка продаж, отчёты для инвесторов.</p>
-          </div>
-          <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50/60">
-            <span class="inline-flex items-center gap-2 text-sm font-semibold text-purple-600">
-              <i class="fas fa-bullhorn"></i>
-              Маркетинг
-            </span>
-            <p class="text-sm text-slate-500 mt-3">Аналитика кампаний, контент-план, показатели воронки.</p>
-          </div>
-          <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50/60">
-            <span class="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600">
-              <i class="fas fa-briefcase"></i>
-              Продукт
-            </span>
-            <p class="text-sm text-slate-500 mt-3">Product analytics, roadmap, customer insights и исследовательские отчёты.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Отзывы -->
-    <section class="max-w-6xl mx-auto px-4 lg:px-6 py-16 space-y-10">
-      <div class="text-center space-y-3">
-        <h2 class="text-3xl font-semibold text-slate-900">Команды выбирают VIZOM</h2>
-        <p class="text-sm text-slate-500 max-w-2xl mx-auto">97% пользователей сокращают время на создание отчётов вдвое.</p>
-      </div>
-      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        <article class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-4">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">АС</div>
-            <div>
-              <h3 class="text-sm font-semibold text-slate-900">Алексей Смирнов</h3>
-              <span class="text-xs text-slate-500">CEO, Growthify</span>
-            </div>
-          </div>
-          <p class="text-sm text-slate-600">«VIZOM позволяет создавать еженедельные отчёты за минуты. Интегрировали в CRM и экономим до 8 часов в неделю.»</p>
-        </article>
-        <article class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-4">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-semibold">МК</div>
-            <div>
-              <h3 class="text-sm font-semibold text-slate-900">Мария Ковалева</h3>
-              <span class="text-xs text-slate-500">Head of Marketing, AdFlow</span>
-            </div>
-          </div>
-          <p class="text-sm text-slate-600">«Идеально для маркетинга: шаблоны, автоматизация и профессиональные презентации без дизайнера.»</p>
-        </article>
-        <article class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 space-y-4">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center text-violet-600 font-semibold">ДИ</div>
-            <div>
-              <h3 class="text-sm font-semibold text-slate-900">Дмитрий Иванов</h3>
-              <span class="text-xs text-slate-500">COO, Finwave</span>
-            </div>
-          </div>
-          <p class="text-sm text-slate-600">«Финансовые отчёты стали стандартизированными. VIZOM адаптируется под любые KPI.»</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- Цены -->
-    <section id="pricing" class="bg-white">
-      <div class="max-w-6xl mx-auto px-4 lg:px-6 py-16 space-y-10">
-        <div class="text-center space-y-3">
-          <h2 class="text-3xl font-semibold text-slate-900">Простые тарифы</h2>
-          <p class="text-sm text-slate-500">Начните бесплатно и масштабируйтесь по мере роста.</p>
-        </div>
-        <div class="grid gap-6 md:grid-cols-3">
-          <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50/60 space-y-4">
-            <span class="text-xs uppercase text-slate-500">Starter</span>
-            <div class="text-3xl font-semibold">0 ₽</div>
-            <p class="text-sm text-slate-500">Для личных проектов и быстрых презентаций.</p>
-            <ul class="space-y-2 text-sm text-slate-600">
-              <li><i class="fas fa-check-circle text-emerald-500 mr-2"></i>10 визуализаций в месяц</li>
-              <li><i class="fas fa-check-circle text-emerald-500 mr-2"></i>Экспорт PNG, PDF</li>
-              <li><i class="fas fa-check-circle text-emerald-500 mr-2"></i>Доступ к базовым шаблонам</li>
-            </ul>
-            <a href="generator.html" class="inline-flex items-center justify-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition">Попробовать бесплатно</a>
-          </div>
-          <div class="border-2 border-blue-600 rounded-2xl p-6 bg-blue-50/40 space-y-4 shadow-lg">
-            <span class="text-xs uppercase text-blue-600 font-semibold">Growth</span>
-            <div class="text-3xl font-semibold">2 900 ₽</div>
-            <p class="text-sm text-slate-600">Для команд продаж, маркетинга и аналитики.</p>
-            <ul class="space-y-2 text-sm text-slate-600">
-              <li><i class="fas fa-check-circle text-blue-600 mr-2"></i>Неограниченные визуализации</li>
-              <li><i class="fas fa-check-circle text-blue-600 mr-2"></i>Интеграции и Zapier</li>
-              <li><i class="fas fa-check-circle text-blue-600 mr-2"></i>Брендовые темы и экспорт HTML</li>
-              <li><i class="fas fa-check-circle text-blue-600 mr-2"></i>Командные роли и комментарии</li>
-            </ul>
-            <a href="auth-callback.html" class="inline-flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Подписаться</a>
-          </div>
-          <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50/60 space-y-4">
-            <span class="text-xs uppercase text-slate-500">Scale</span>
-            <div class="text-3xl font-semibold">по запросу</div>
-            <p class="text-sm text-slate-500">Персонализированные решения для крупных команд.</p>
-            <ul class="space-y-2 text-sm text-slate-600">
-              <li><i class="fas fa-check-circle text-emerald-500 mr-2"></i>Single Sign-On</li>
-              <li><i class="fas fa-check-circle text-emerald-500 mr-2"></i>SLA и поддержка 24/7</li>
-              <li><i class="fas fa-check-circle text-emerald-500 mr-2"></i>Выделенный менеджер</li>
-            </ul>
-            <a href="#contact" class="inline-flex items-center justify-center gap-2 border border-slate-200 text-slate-700 px-4 py-2 rounded-lg hover:border-blue-400 hover:text-blue-600 transition">Связаться</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="max-w-6xl mx-auto px-4 lg:px-6 py-16 space-y-10">
-      <div class="text-center space-y-3">
-        <h2 class="text-3xl font-semibold text-slate-900">FAQ</h2>
-        <p class="text-sm text-slate-500">Не нашли ответ? Напишите нам — поможем.</p>
-      </div>
-      <div class="grid gap-6 md:grid-cols-2">
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
-          <h3 class="text-lg font-semibold text-slate-900">Какие типы данных поддерживаются?</h3>
-          <p class="text-sm text-slate-600">Вы можете вставлять текстовые описания, CSV, копировать данные из Google Sheets и Notion. Smart Parse распознаёт числовые форматы автоматически.</p>
-        </div>
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
-          <h3 class="text-lg font-semibold text-slate-900">Можно ли поделиться визуализацией с командой?</h3>
-          <p class="text-sm text-slate-600">Да. Командные роли позволяют совместно редактировать, комментировать и экспортировать результаты.</p>
-        </div>
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
-          <h3 class="text-lg font-semibold text-slate-900">Есть ли API?</h3>
-          <p class="text-sm text-slate-600">REST API доступен на тарифах Growth и Scale. Можно автоматизировать генерацию отчётов из ваших систем.</p>
-        </div>
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-3">
-          <h3 class="text-lg font-semibold text-slate-900">Как защищаются данные?</h3>
-          <p class="text-sm text-slate-600">Данные шифруются в покое и при передаче. Есть соответствие GDPR и варианты деплоя в частный контур.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="bg-blue-600">
-      <div class="max-w-6xl mx-auto px-4 lg:px-6 py-16 text-center space-y-6">
-        <h2 class="text-3xl lg:text-4xl font-semibold text-white">Готовы создавать визуализации?</h2>
-        <p class="text-blue-100 max-w-2xl mx-auto">Попробуйте VIZOM и сократите время на подготовку отчётов вдвое.</p>
-        <div class="flex flex-col sm:flex-row justify-center gap-3">
-          <a href="generator.html" class="inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition" data-action="get-started">
-            <i class="fas fa-bolt"></i>
-            Попробовать бесплатно
-          </a>
-          <a href="templates.html" class="inline-flex items-center justify-center gap-2 border border-blue-200 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-500/70 transition" data-action="get-started">
-            <i class="fas fa-layer-group"></i>
-            Смотреть шаблоны
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Auth Modal -->
-  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
-      <div class="flex items-center justify-between">
-        <h3 class="text-xl font-semibold text-slate-900">Вход в VIZOM</h3>
-        <button id="close-auth-modal" class="text-slate-400 hover:text-slate-600 transition">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <p class="text-sm text-slate-500">Войдите через Google для доступа к генератору визуализаций</p>
-      <button id="google-signin" class="w-full inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-lg hover:bg-slate-50 transition">
-        <svg class="w-5 h-5" viewBox="0 0 24 24">
-          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-        </svg>
-        Continue with Google
-      </button>
-    </div>
-  </div>
-
-  <!-- Unified Footer -->
-  <footer id="unified-footer">
-    <!-- Footer content will be dynamically loaded by UnifiedFooter.js -->
-  </footer>
-
-  <link rel="stylesheet" href="src/styles/components/footer.css">
-
-  <!-- Общие скрипты -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const yearEl = document.getElementById('year');
-      if (yearEl) yearEl.textContent = new Date().getFullYear();
-      const toggle = document.getElementById('mobile-menu-toggle');
-      const menu = document.getElementById('mobile-menu');
-      if (toggle && menu) {
-        toggle.addEventListener('click', () => menu.classList.toggle('hidden'));
-      }
-    });
-  </script>
 </body>
 </html>
