@@ -1,0 +1,373 @@
+/**
+ * HTML Integration Script for Enhanced DeepSeek API
+ * Add this to your index.html to enable all improvements
+ */
+
+<!-- Enhanced DeepSeek API Integration -->
+<script type="module">
+  // Import the enhanced API client
+  import { deepSeekClient, ChartGenerationService, VizomDeepSeekIntegration } from './src/core/deepseek-client.js';
+  import { userFeedback } from './src/core/user-feedback.js';
+  import { caching } from './src/core/caching.js';
+
+  // Global integration instance
+  window.vizomDeepSeek = new VizomDeepSeekIntegration();
+
+  // Enhanced chart generation function
+  window.generateEnhancedChart = async function(data, options = {}) {
+    try {
+      // Show loading and feedback
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      if (loadingSpinner) {
+        loadingSpinner.style.display = 'flex';
+      }
+
+      // Generate chart with all improvements
+      const result = await window.vizomDeepSeek.generateVisualization(data);
+      
+      // Hide loading
+      if (loadingSpinner) {
+        loadingSpinner.style.display = 'none';
+      }
+
+      // Render the chart
+      if (result.chart && result.chart.config) {
+        const ctx = document.getElementById('chartCanvas')?.getContext('2d');
+        if (ctx) {
+          // Destroy existing chart if any
+          if (window.currentChart) {
+            window.currentChart.destroy();
+          }
+          
+          // Create new chart
+          window.currentChart = new Chart(ctx, result.chart.config);
+          
+          // Add copy button
+          addCopyButton('chartCanvas', result.chart);
+        }
+      }
+
+      // Show analysis if available
+      if (result.analysis) {
+        showAnalysis(result.analysis);
+      }
+
+      return result;
+      
+    } catch (error) {
+      console.error('Enhanced chart generation failed:', error);
+      
+      // Hide loading
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      if (loadingSpinner) {
+        loadingSpinner.style.display = 'none';
+      }
+      
+      // Show error message
+      showErrorMessage(error.message);
+      throw error;
+    }
+  };
+
+  // Add copy button to charts
+  function addCopyButton(canvasId, chartData) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
+    // Remove existing copy button
+    const existingBtn = canvas.parentElement.querySelector('.chart-copy-btn');
+    if (existingBtn) existingBtn.remove();
+
+    const copyButton = document.createElement('div');
+    copyButton.className = 'chart-copy-btn';
+    copyButton.innerHTML = `
+      <i class="fas fa-copy"></i>
+      <span>Copy</span>
+    `;
+
+    copyButton.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(chartData, null, 2));
+        
+        // Show success feedback
+        copyButton.innerHTML = `
+          <i class="fas fa-check"></i>
+          <span>Copied!</span>
+        `;
+        copyButton.style.background = '#10b981';
+        copyButton.style.color = 'white';
+        
+        setTimeout(() => {
+          copyButton.innerHTML = `
+            <i class="fas fa-copy"></i>
+            <span>Copy</span>
+          `;
+          copyButton.style.background = '';
+          copyButton.style.color = '';
+        }, 2000);
+        
+      } catch (error) {
+        console.error('Failed to copy:', error);
+      }
+    });
+
+    canvas.parentElement.style.position = 'relative';
+    canvas.parentElement.appendChild(copyButton);
+  }
+
+  // Show analysis results
+  function showAnalysis(analysis) {
+    const analysisContainer = document.getElementById('analysisResults');
+    if (!analysisContainer) return;
+
+    const insights = analysis.insights || [];
+    const recommendations = analysis.recommendations || [];
+
+    analysisContainer.innerHTML = `
+      <div class="analysis-section">
+        <h3>📊 Data Insights</h3>
+        <ul class="insights-list">
+          ${insights.map(insight => `<li>${insight}</li>`).join('')}
+        </ul>
+        
+        <h3>💡 Recommendations</h3>
+        <ul class="recommendations-list">
+          ${recommendations.map(rec => `<li>${rec}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+
+    analysisContainer.style.display = 'block';
+  }
+
+  // Show error message
+  function showErrorMessage(message) {
+    const errorContainer = document.getElementById('errorMessage');
+    if (!errorContainer) return;
+
+    errorContainer.innerHTML = `
+      <div class="error-alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>${message}</span>
+        <button onclick="this.parentElement.parentElement.style.display='none'">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    `;
+
+    errorContainer.style.display = 'block';
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+      errorContainer.style.display = 'none';
+    }, 5000);
+  }
+
+  // Performance monitoring
+  setInterval(() => {
+    const metrics = window.vizomDeepSeek.getSystemStatus();
+    
+    // Update performance dashboard if exists
+    const perfDashboard = document.getElementById('performanceDashboard');
+    if (perfDashboard) {
+      perfDashboard.innerHTML = `
+        <div class="metric">
+          <span class="label">Success Rate:</span>
+          <span class="value">${metrics.performance.successRate}%</span>
+        </div>
+        <div class="metric">
+          <span class="label">Cache Hit Rate:</span>
+          <span class="value">${Math.round(metrics.deepSeek.caching.hitRate * 100)}%</span>
+        </div>
+        <div class="metric">
+          <span class="label">Avg Response:</span>
+          <span class="value">${Math.round(metrics.performance.averageResponseTime)}ms</span>
+        </div>
+      `;
+    }
+  }, 5000);
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 Enhanced DeepSeek API integration loaded');
+    
+    // Show system status
+    const status = window.vizomDeepSeek.getSystemStatus();
+    console.log('System status:', status);
+  });
+
+  // Export for global access
+  window.deepSeekAPI = {
+    generateChart: window.generateEnhancedChart,
+    getClient: () => deepSeekClient,
+    getMetrics: () => window.vizomDeepSeek.getSystemStatus(),
+    clearCache: () => deepSeekClient.clearCaches()
+  };
+</script>
+
+<!-- Enhanced Styles -->
+<style>
+  .chart-copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+  }
+
+  .chart-copy-btn:hover {
+    background: white;
+    border-color: #6366f1;
+    color: #6366f1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+  }
+
+  .analysis-section {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid #6366f1;
+  }
+
+  .analysis-section h3 {
+    margin: 0 0 12px 0;
+    color: #1f2937;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .insights-list, .recommendations-list {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  .insights-list li, .recommendations-list li {
+    margin-bottom: 8px;
+    color: #4b5563;
+    line-height: 1.5;
+  }
+
+  .error-alert {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #dc2626;
+    margin: 20px 0;
+  }
+
+  .error-alert button {
+    background: none;
+    border: none;
+    color: #dc2626;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    margin-left: auto;
+  }
+
+  .error-alert button:hover {
+    background: #fecaca;
+  }
+
+  .metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .metric:last-child {
+    border-bottom: none;
+  }
+
+  .metric .label {
+    color: #6b7280;
+    font-size: 14px;
+  }
+
+  .metric .value {
+    color: #1f2937;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  #performanceDashboard {
+    background: white;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+</style>
+
+<!-- HTML Elements to add to your page -->
+<div id="loadingSpinner" class="thinking-indicator-overlay" style="display: none;">
+  <div class="thinking-indicator-content">
+    <div class="thinking-animation">
+      <div class="thinking-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+    <div class="thinking-message">
+      <p class="message-text">Generating your visualization...</p>
+      <div class="thinking-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 0%"></div>
+        </div>
+        <span class="progress-text">0%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="analysisResults" style="display: none;"></div>
+<div id="errorMessage" style="display: none;"></div>
+
+<!-- Performance Dashboard (optional) -->
+<div id="performanceDashboard" style="display: none;">
+  <h3>System Performance</h3>
+</div>
+
+<!-- Usage Example in your existing code -->
+<script>
+  // Replace your existing chart generation with:
+  async function generateChart() {
+    const data = {
+      labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+      values: [120, 150, 180, 140],
+      title: 'Quarterly Revenue',
+      description: 'Revenue performance by quarter'
+    };
+
+    try {
+      const result = await window.generateEnhancedChart(data);
+      console.log('Enhanced chart generated:', result);
+    } catch (error) {
+      console.error('Chart generation failed:', error);
+    }
+  }
+
+  // Show performance dashboard (optional)
+  function togglePerformanceDashboard() {
+    const dashboard = document.getElementById('performanceDashboard');
+    dashboard.style.display = dashboard.style.display === 'none' ? 'block' : 'none';
+  }
+</script>

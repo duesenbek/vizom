@@ -13,6 +13,9 @@ const supabase = supabaseUrl && supabaseServiceKey
         persistSession: false,
         autoRefreshToken: false,
       },
+      
+      
+      
     })
   : null;
 

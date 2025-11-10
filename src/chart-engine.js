@@ -1,4 +1,7 @@
-// Advanced Chart Engine for VIZOM
+// Advanced Chart Engine for VIZOM with Performance Optimizations
+import { dynamicImports } from './core/dynamic-imports.js';
+import { chartMemoizer, performanceMonitor } from './utils/performance.js';
+
 class ChartEngine {
   constructor() {
     this.chartTypes = {
@@ -58,46 +61,248 @@ class ChartEngine {
     this.currentTheme = 'default';
     this.animations = true;
     this.interactive = true;
+    this.chartJS = null; // Will be loaded dynamically
+    
+    // Setup performance monitoring
+    this.setupPerformanceMonitoring();
   }
 
-  // Enhanced Chart Rendering
-  renderChart(data, type, options = {}) {
-    const config = {
-      data: this.processData(data, type),
-      type,
-      theme: this.themes[this.currentTheme],
-      animations: this.animations,
-      interactive: this.interactive,
-      ...options
+  /**
+   * Setup performance monitoring
+   */
+  setupPerformanceMonitoring() {
+    performanceMonitor.addObserver((operation, metric) => {
+      if (metric.duration > 100) {
+        console.warn(`Slow operation detected: ${operation} took ${metric.duration.toFixed(2)}ms`);
+      }
+    });
+  }
+
+  /**
+   * Ensure Chart.js is loaded
+   */
+  async ensureChartJS() {
+    if (!this.chartJS) {
+      performanceMonitor.startTiming('chartjs-load');
+      const chartModule = await dynamicImports.loadChartJS();
+      this.chartJS = chartModule.default || chartModule.Chart;
+      performanceMonitor.endTiming('chartjs-load');
+    }
+    return this.chartJS;
+  }
+
+  // Enhanced Chart Rendering with Performance Optimizations
+  async renderChart(data, type, options = {}) {
+    performanceMonitor.startTiming('chart-render');
+    
+    try {
+      // Load Chart.js if needed
+      await this.ensureChartJS();
+
+      // Process data with memoization
+      const processedData = await chartMemoizer.memoizeDataProcessing(data, 'normalize');
+
+      // Generate colors with memoization
+      const colors = await chartMemoizer.memoizeColorScheme(
+        processedData.labels?.length || 5, 
+        this.currentTheme
+      );
+
+      // Generate config with memoization
+      const config = await chartMemoizer.memoizeChartConfig(type, processedData, {
+        ...options,
+        colors,
+        theme: this.themes[this.currentTheme],
+        animations: this.animations,
+        interactive: this.interactive
+      });
+
+      const duration = performanceMonitor.endTiming('chart-render');
+      console.log(`Chart rendered in ${duration?.toFixed(2)}ms`);
+
+      return config;
+    } catch (error) {
+      performanceMonitor.endTiming('chart-render');
+      console.error('Chart rendering failed:', error);
+      throw error;
+    }
+  }
+
+  // Optimized chart type methods with lazy loading
+  async renderBarChart(config) {
+    const chartConfig = {
+      type: 'bar',
+      data: config.data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: true, position: 'top' },
+          title: { display: true, text: config.title || 'Bar Chart' }
+        },
+        scales: {
+          y: { beginAtZero: true, grid: { color: config.theme?.grid || '#e5e7eb' } }
+        },
+        animation: { duration: config.animations ? 750 : 0 },
+        ...config.options
+      }
     };
 
-    switch (type) {
-      case 'bar':
-        return this.renderBarChart(config);
-      case 'line':
-        return this.renderLineChart(config);
-      case 'pie':
-        return this.renderPieChart(config);
-      case 'area':
-        return this.renderAreaChart(config);
-      case 'scatter':
-        return this.renderScatterChart(config);
-      case 'bubble':
-        return this.renderBubbleChart(config);
-      case 'radar':
-        return this.renderRadarChart(config);
-      case 'heatmap':
-        return this.renderHeatmap(config);
-      case 'histogram':
-        return this.renderHistogram(config);
-      case 'box':
-        return this.renderBoxPlot(config);
-      case 'funnel':
-        return this.renderFunnelChart(config);
-      case 'gauge':
-        return this.renderGaugeChart(config);
-      case 'progress':
-        return this.renderProgressBar(config);
+    return chartConfig;
+  }
+
+  async renderLineChart(config) {
+    const chartConfig = {
+      type: 'line',
+      data: config.data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: config.title || 'Line Chart' }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        },
+        elements: {
+          line: { tension: 0.4 },
+          point: { radius: 5, hoverRadius: 7 }
+        },
+        animation: { duration: config.animations ? 750 : 0 },
+        ...config.options
+      }
+    };
+
+    return chartConfig;
+  }
+
+  async renderPieChart(config) {
+    const chartConfig = {
+      type: 'doughnut',
+      data: config.data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right' },
+          title: { display: true, text: config.title || 'Pie Chart' }
+        },
+        animation: { duration: config.animations ? 750 : 0 },
+        ...config.options
+      }
+    };
+
+    return chartConfig;
+  }
+
+  // Add other chart rendering methods...
+  async renderAreaChart(config) {
+    const lineConfig = await this.renderLineChart(config);
+    lineConfig.data.datasets.forEach(dataset => {
+      dataset.fill = true;
+      dataset.backgroundColor = dataset.backgroundColor?.replace('rgb', 'rgba').replace(')', ', 0.2)');
+    });
+    return lineConfig;
+  }
+
+  async renderScatterChart(config) {
+    return {
+      type: 'scatter',
+      data: config.data,
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top' },
+          title: { display: true, text: config.title || 'Scatter Plot' }
+        },
+        scales: {
+          x: { title: { display: true, text: 'X Axis' } },
+          y: { title: { display: true, text: 'Y Axis' } }
+        },
+        animation: { duration: config.animations ? 750 : 0 },
+        ...config.options
+      }
+    };
+  }
+
+  // Performance optimization methods
+  setTheme(themeName) {
+    if (this.themes[themeName]) {
+      this.currentTheme = themeName;
+      chartMemoizer.colorCache.clear(); // Clear color cache when theme changes
+    }
+  }
+
+  setAnimations(enabled) {
+    this.animations = enabled;
+  }
+
+  setInteractive(enabled) {
+    this.interactive = enabled;
+  }
+
+  /**
+   * Get performance metrics
+   */
+  getPerformanceMetrics() {
+    return {
+      chartEngine: {
+        renderMetrics: performanceMonitor.getMetrics(),
+        cacheStats: chartMemoizer.getStats()
+      },
+      dynamicImports: dynamicImports.getStats()
+    };
+  }
+
+  /**
+   * Clear all caches
+   */
+  clearCaches() {
+    chartMemoizer.clearAll();
+    dynamicImports.clearCache();
+  }
+
+  /**
+   * Optimize for mobile devices
+   */
+  optimizeForMobile() {
+    this.setAnimations(false); // Disable animations on mobile
+    this.setInteractive(false); // Reduce interactivity for performance
+  }
+
+  /**
+   * Optimize for desktop
+   */
+  optimizeForDesktop() {
+    this.setAnimations(true);
+    this.setInteractive(true);
+  }
+}
+
+// Export singleton instance
+export const chartEngine = new ChartEngine();
+
+// Auto-detect and optimize for device
+if (window.innerWidth < 768) {
+  chartEngine.optimizeForMobile();
+} else {
+  chartEngine.optimizeForDesktop();
+}
+
+// Listen for resize events to adjust optimizations
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    if (window.innerWidth < 768) {
+      chartEngine.optimizeForMobile();
+    } else {
+      chartEngine.optimizeForDesktop();
+    }
+  }, 250);
+});
       case 'timeline':
         return this.renderTimeline(config);
       case 'gantt':
