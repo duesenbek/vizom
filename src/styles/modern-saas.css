@@ -1,21 +1,27 @@
 /* === MODERN MICRO SAAS DESIGN SYSTEM === */
 
 :root {
-  /* Color Palette */
+  /* Color Palette - Indigo/Royal Blue Theme */
   --pure-white: #FFFFFF;
-  --background: #FCFCFC;
+  --background: #FFFFFF;
   --surface: #FFFFFF;
-  --text-primary: #1A1A1A;
-  --text-secondary: #666666;
-  --text-muted: #999999;
-  --primary: #0066FF;
-  --primary-hover: #0052CC;
-  --primary-light: rgba(0, 102, 255, 0.05);
-  --border: #F0F0F0;
-  --border-hover: #E0E0E0;
-  --success: #00C853;
-  --error: #FF3B30;
-  --warning: #FF9500;
+  --text-primary: #003466;
+  --text-secondary: #123472;
+  --text-muted: #64748B;
+  --primary: #1872D9;
+  --primary-hover: #1565C0;
+  --primary-light: rgba(24, 114, 217, 0.05);
+  --medium-blue: #2196F3;
+  --medium-blue-hover: #1E88E5;
+  --light-blue: #41C3FF;
+  --light-blue-hover: #29B6F6;
+  --dark-blue: #123472;
+  --dark-blue-hover: #003466;
+  --border: #E2E8F0;
+  --border-hover: #CBD5E1;
+  --success: #10B981;
+  --error: #EF4444;
+  --warning: #F59E0B;
   
   /* Typography Scale */
   --text-xs: 12px;
@@ -125,13 +131,11 @@ body {
 .logo-icon {
   width: 32px;
   height: 32px;
-  background: var(--primary);
   border-radius: var(--radius);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 18px;
+  overflow: hidden;
 }
 
 .nav-links {

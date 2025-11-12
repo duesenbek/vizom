@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Disallow internal endpoints
+Disallow: /api/
+Disallow: /.netlify/
+
+Sitemap: https://your-domain.com/sitemap.xml

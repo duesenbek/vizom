@@ -6,19 +6,20 @@
     <title>VIZOM - Pricing Plans | Choose Your Chart Generation Plan</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="icon" type="image/png" href="public/images/vizom-icon.png">
+    <link rel="apple-touch-icon" href="public/images/vizom-icon.png">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="styles/font-awesome.min.css" />
+    <link rel="stylesheet" href="src/styles/font-awesome.min.css" />
     
     <!-- Modern Styles -->
     <link rel="stylesheet" href="src/styles/modern-saas.css" />
     <link rel="stylesheet" href="src/styles/components/improvements.css" />
     <link rel="stylesheet" href="src/styles/components/responsive-fixes.css" />
+    <link rel="stylesheet" href="src/styles/ui-guidelines.css" />
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -55,8 +56,50 @@
     </div>
   </div>
 
-<body class="viz-body viz-bg-light viz-text-primary">
+<body class="bg-white">
   <script type="module" src="scripts/main.js"></script>
+
+  <!-- Analytics Initialization and Pricing Events -->
+  <script type="module">
+    import { initializeAnalytics, trackEvent, trackPageview } from '/src/tracking/analytics.js';
+    try { await initializeAnalytics(); trackPageview('/pricing'); } catch {}
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Billing toggle change
+      const billingToggle = document.getElementById('billing-toggle');
+      if (billingToggle) {
+        const handler = () => {
+          const isAnnual = billingToggle.querySelector('span')?.style.transform?.includes('1.5rem');
+          trackEvent('pricing_billing_changed', { billing: isAnnual ? 'annual' : 'monthly' });
+        };
+        billingToggle.addEventListener('click', handler);
+      }
+
+      // Plan selection buttons
+      document.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const card = btn.closest('.bg-white, .bg-blue-600');
+          const planTitle = card?.querySelector('h3')?.textContent?.trim()?.toLowerCase();
+          if (planTitle && (btn.textContent || '').trim().length > 0) {
+            trackEvent('plan_selected', { plan: planTitle.includes('pro') ? 'pro' : (planTitle.includes('standard') ? 'standard' : planTitle) });
+          }
+        });
+      });
+
+      // FAQ interactions (robust selection without :contains)
+      const faqSection = Array.from(document.querySelectorAll('section')).find(sec =>
+        (sec.querySelector('h2')?.textContent || '').includes('Frequently Asked Questions')
+      );
+      if (faqSection) {
+        faqSection.querySelectorAll('button').forEach(item => {
+          item.addEventListener('click', () => {
+            const question = item.querySelector('h3')?.textContent?.trim() || item.textContent?.trim();
+            if (question) trackEvent('faq_clicked', { question });
+          });
+        });
+      }
+    });
+  </script>
 
   <!-- Header -->
   <header class="header">
@@ -64,7 +107,7 @@
       <nav class="nav">
         <a href="index.html" class="logo">
           <div class="logo-icon">
-            <i class="fas fa-chart-simple"></i>
+            <img src="/public/images/vizom-icon.png" alt="VIZOM" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
           VIZOM
         </a>
@@ -84,118 +127,119 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="py-20 px-4">
-    <div class="max-w-6xl mx-auto text-center">
-      <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-        Choose Your Plan
-      </h1>
-      <p class="text-xl text-slate-600 max-w-3xl mx-auto mb-12">
+  <section class="ui-section">
+    <div class="ui-container text-center">
+      <h1 class="ui-heading-1">Choose Your Plan</h1>
+      <p class="ui-subtitle">
         Select the perfect plan for your data visualization needs. Start free and scale as you grow.
       </p>
       
       <!-- Billing Toggle -->
       <div class="flex items-center justify-center gap-4 mb-16">
-        <span class="text-slate-600 font-medium">Monthly</span>
+        <span class="ui-body font-medium">Monthly</span>
         <button class="relative inline-flex h-8 w-14 items-center rounded-full bg-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" id="billing-toggle">
           <span class="inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-transform translate-x-1"></span>
         </button>
-        <span class="text-slate-600 font-medium">Yearly <span class="text-green-600 font-semibold">(Save 20%)</span></span>
+        <span class="ui-body font-medium">Yearly <span class="text-green-600 font-semibold">(Save 20%)</span></span>
       </div>
 
       <!-- Pricing Cards -->
-      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <div class="ui-grid-features max-w-5xl mx-auto">
         <!-- Starter Plan -->
-        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-8 hover:shadow-xl transition-shadow">
-          <div class="mb-8">
-            <h3 class="text-2xl font-bold text-slate-900 mb-2">Standard</h3>
-            <p class="text-slate-600">Free features, limited generations, ads</p>
-          </div>
-          <div class="mb-8">
-            <div class="flex items-baseline gap-2">
-              <span class="text-5xl font-bold text-slate-900">$0</span>
-              <span class="text-slate-600">/month</span>
+        <article class="ui-card">
+          <div class="ui-card-content">
+            <div class="mb-6">
+              <h3 class="ui-heading-3">Standard</h3>
+              <p class="ui-body">Free features, limited generations, ads</p>
+            </div>
+            <div class="mb-6">
+              <div class="flex items-baseline gap-2">
+                <span class="text-5xl font-bold text-slate-900">$0</span>
+                <span class="ui-body">/month</span>
+              </div>
+            </div>
+            <ul class="space-y-4 mb-6">
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check text-green-500 mt-1"></i>
+                <span class="ui-body">Up to 5 charts per day</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check text-green-500 mt-1"></i>
+                <span class="ui-body">Basic chart types</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check text-green-500 mt-1"></i>
+                <span class="ui-body">Standard export options</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check text-green-500 mt-1"></i>
+                <span class="ui-body">Community support</span>
+              </li>
+            </ul>
+            <div class="mt-auto">
+              <button class="ui-btn ui-btn-secondary w-full">
+                Get Started
+              </button>
             </div>
           </div>
-          <ul class="space-y-4 mb-8">
-            <li class="flex items-start gap-3">
-              <i class="fas fa-check text-green-500 mt-1"></i>
-              <span class="text-slate-700">Up to 5 charts per day</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <i class="fas fa-check text-green-500 mt-1"></i>
-              <span class="text-slate-700">Basic chart types</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <i class="fas fa-check text-green-500 mt-1"></i>
-              <span class="text-slate-700">Standard export options</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <i class="fas fa-check text-green-500 mt-1"></i>
-              <span class="text-slate-700">Community support</span>
-            </li>
-          </ul>
-          <button class="w-full bg-slate-100 text-slate-700 px-6 py-3 rounded-lg font-semibold hover:bg-slate-200 transition">
-            Get Started
-          </button>
-        </div>
+        </article>
 
         <!-- Professional Plan -->
-        <div class="bg-blue-600 rounded-2xl shadow-xl p-8 text-white relative transform scale-105">
-          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
-            Most Popular
+        <article class="ui-card border-2 border-blue-600 bg-blue-50 relative">
+          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+            <span class="ui-badge ui-badge-primary">Most Popular</span>
           </div>
-          <div class="mb-8">
-            <h3 class="text-2xl font-bold mb-2">Pro</h3>
-            <p class="text-blue-100">Unlimited generations</p>
-          </div>
-          <div class="mb-8">
-            <div class="flex items-baseline gap-2">
-              <span class="text-5xl font-bold">$2,99</span>
-              <span class="text-blue-100">/month</span>
+          <div class="ui-card-content">
+            <div class="mb-6">
+              <h3 class="ui-heading-3">Pro</h3>
+              <p class="ui-body">Unlimited generations</p>
+            </div>
+            <div class="mb-6">
+              <div class="flex items-baseline gap-2">
+                <span class="text-5xl font-bold">$2,99</span>
+                <span class="ui-body">/month</span>
+              </div>
+            </div>
+            <ul class="space-y-4 mb-6">
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check text-blue-600 mt-1"></i>
+                <span class="ui-body">Unlimited charts</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check text-blue-600 mt-1"></i>
+                <span class="ui-body">All chart types</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check text-blue-600 mt-1"></i>
+                <span class="ui-body">Advanced customization</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check text-blue-600 mt-1"></i>
+                <span class="ui-body">Priority support</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check text-blue-600 mt-1"></i>
+                <span class="ui-body">Team collaboration</span>
+              </li>
+            </ul>
+            <div class="mt-auto">
+              <button class="ui-btn ui-btn-primary w-full" data-action="upgrade-pro">
+                Start Free Trial
+              </button>
             </div>
           </div>
-          <ul class="space-y-4 mb-8">
-            <li class="flex items-start gap-3">
-              <i class="fas fa-check text-white mt-1"></i>
-              <span>Unlimited charts</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <i class="fas fa-check text-white mt-1"></i>
-              <span>All chart types</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <i class="fas fa-check text-white mt-1"></i>
-              <span>Advanced customization</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <i class="fas fa-check text-white mt-1"></i>
-              <span>Priority support</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <i class="fas fa-check text-white mt-1"></i>
-              <span>Team collaboration</span>
-            </li>
-          </ul>
-          <button class="w-full bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition" data-action="upgrade-pro">
-            Start Free Trial
-          </button>
-        </div>
+        </article>
 
        
 
   <!-- Features Section -->
-  <section class="py-20 px-4 bg-white">
-    <div class="max-w-6xl mx-auto">
+  <section class="ui-section bg-white">
+    <div class="ui-container">
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-          Everything you need to create stunning visualizations
-        </h2>
-        <p class="text-xl text-slate-600 max-w-3xl mx-auto">
-          Powerful features designed to help you turn data into insights
-        </p>
+        <h2 class="ui-heading-2">Everything you need to create stunning visualizations</h2>
+        <p class="ui-subtitle max-w-3xl mx-auto">Powerful features designed to help you turn data into insights</p>
       </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="ui-grid-features">
         <div class="flex gap-4">
           <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
             <i class="fas fa-chart-line text-blue-600 text-xl"></i>
@@ -255,15 +299,11 @@
   </section>
 
   <!-- FAQ Section -->
-  <section class="py-20 px-4">
-    <div class="max-w-4xl mx-auto">
+  <section class="ui-section">
+    <div class="ui-container max-w-4xl">
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-          Frequently Asked Questions
-        </h2>
-        <p class="text-xl text-slate-600">
-          Got questions? We've got answers.
-        </p>
+        <h2 class="ui-heading-2">Frequently Asked Questions</h2>
+        <p class="ui-subtitle">Got questions? We've got answers.</p>
       </div>
 
       <div class="space-y-6">
@@ -311,19 +351,15 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="py-20 px-4 bg-blue-600">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
-        Ready to get started?
-      </h2>
-      <p class="text-xl text-blue-100 mb-8">
-        Join thousands of users who are already creating beautiful data visualizations with VIZOM.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <button class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition">
+  <section class="ui-section bg-blue-600">
+    <div class="ui-container text-center">
+      <h2 class="ui-heading-2 text-white">Ready to get started?</h2>
+      <p class="ui-subtitle text-blue-100">Join thousands of users who are already creating beautiful data visualizations with VIZOM.</p>
+      <div class="ui-btn-group justify-center mt-6">
+        <button class="ui-btn ui-btn-secondary" data-action="upgrade-pro">
           Start Free Trial
         </button>
-        <button class="bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition">
+        <button class="ui-btn ui-btn-primary" data-action="upgrade-pro">
           Schedule Demo
         </button>
       </div>

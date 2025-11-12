@@ -1,0 +1,210 @@
+/* ChartTypeSelector Component Styles - Indigo/Royal Blue Theme */
+
+.chart-type-selector {
+  --primary-color: #1872D9;
+  --primary-hover: #1565C0;
+  --medium-blue: #2196F3;
+  --light-blue: #41C3FF;
+  --dark-blue: #003466;
+  --border-color: #E2E8F0;
+  --text-primary: #003466;
+  --text-secondary: #123472;
+  --bg-hover: #EEF4FF;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 52, 102, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 52, 102, 0.1), 0 2px 4px -1px rgba(0, 52, 102, 0.06);
+}
+
+/* Search input */
+.chart-type-selector input[type="search"] {
+  transition: all 0.2s ease;
+}
+
+.chart-type-selector input[type="search"]:focus {
+  box-shadow: 0 0 0 3px rgba(24, 114, 217, 0.1);
+}
+
+/* Category tabs */
+.chart-type-selector .category-tab {
+  background-color: #F1F5F9;
+  color: #123472;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.chart-type-selector .category-tab:hover:not(.active) {
+  background-color: #E2E8F0;
+  color: #003466;
+}
+
+.chart-type-selector .category-tab.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.chart-type-selector .category-tab:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Chart tiles */
+.chart-type-selector .chart-tile {
+  background-color: white;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.chart-type-selector .chart-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: #d1d5db;
+}
+
+.chart-type-selector .chart-tile:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.chart-type-selector .chart-tile.selected {
+  border-color: var(--primary-color);
+  background-color: #eff6ff;
+}
+
+/* Tooltip */
+.chart-type-selector .tooltip {
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(8px);
+  max-width: 280px;
+  z-index: 50;
+}
+
+.chart-type-selector .tooltip::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #1f2937;
+}
+
+/* Responsive grid */
+@media (max-width: 640px) {
+  .chart-type-selector .chart-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .chart-type-selector .chart-tile {
+    padding: 12px;
+  }
+  
+  .chart-type-selector .chart-tile h3 {
+    font-size: 13px;
+  }
+  
+  .chart-type-selector .chart-tile p {
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .chart-type-selector .chart-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .chart-type-selector .chart-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .chart-type-selector .chart-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Scrollbar hide for horizontal tabs */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Animation for no results */
+.chart-type-selector .no-results {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading state */
+.chart-type-selector.loading .chart-grid {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.chart-type-selector.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .chart-type-selector .chart-tile {
+    border-width: 2px;
+  }
+  
+  .chart-type-selector .chart-tile.selected {
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .chart-type-selector .chart-tile {
+    transition: none;
+  }
+  
+  .chart-type-selector .chart-tile:hover {
+    transform: none;
+  }
+  
+  .chart-type-selector .tooltip {
+    transition: none;
+  }
+  
+  .chart-type-selector .no-results {
+    animation: none;
+  }
+}

@@ -125,13 +125,16 @@ body {
 .logo-icon {
   width: 32px;
   height: 32px;
-  background: var(--primary);
+  background-image: url('/public/images/vizom-icon.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   border-radius: var(--radius);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 18px;
+  color: transparent;
+  font-size: 0;
 }
 
 .nav-links {

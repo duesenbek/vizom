@@ -9,24 +9,38 @@
   font-size: 0.95rem;
   border: 1px solid transparent;
   background-color: transparent;
-  color: var(--color-primary);
+  color: var(--primary);
   transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, border-color 0.2s ease;
 }
 
 .btn:focus-visible {
-  outline: 3px solid rgba(135, 206, 235, 0.5);
+  outline: 3px solid rgba(65, 195, 255, 0.5);
   outline-offset: 2px;
 }
 
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 114, 217, 0.3);
+}
+
 .btn-outline {
-  border-color: rgba(59, 130, 246, 0.45);
+  border-color: rgba(24, 114, 217, 0.45);
   background-color: transparent;
-  color: var(--color-primary);
+  color: var(--primary);
 }
 
 .btn-outline:hover {
-  background-color: rgba(59, 130, 246, 0.08);
-  border-color: rgba(59, 130, 246, 0.65);
+  background-color: rgba(24, 114, 217, 0.08);
+  border-color: rgba(24, 114, 217, 0.65);
+  transform: translateY(-1px);
 }
 
 .btn-outline:focus-visible {

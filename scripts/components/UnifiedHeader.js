@@ -82,20 +82,23 @@ class UnifiedHeader {
       .logo-icon {
         width: 40px;
         height: 40px;
-        background: linear-gradient(135deg, #3b82f6, #2563eb);
-        color: white;
+        background-image: url('/public/images/vizom-icon.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        color: transparent;
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 18px;
-        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        font-size: 0;
+        box-shadow: 0 2px 8px rgba(24, 114, 217, 0.3);
         transition: all 0.2s ease;
       }
 
       .logo-link:hover .logo-icon {
         transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        box-shadow: 0 4px 12px rgba(24, 114, 217, 0.4);
       }
 
       .mobile-menu-toggle {
@@ -548,7 +551,7 @@ class UnifiedHeader {
         .logo-icon {
           width: 32px;
           height: 32px;
-          font-size: 16px;
+          font-size: 0;
         }
 
         .logo-link {
@@ -606,7 +609,7 @@ class UnifiedHeader {
           <div class="logo-section">
             <a href="index.html" class="logo-link">
               <div class="logo-icon">
-                <i class="fas fa-chart-simple"></i>
+                <img src="/public/images/vizom-icon.png" alt="VIZOM" style="width: 100%; height: 100%; object-fit: contain;">
               </div>
               <span class="logo-text">VIZOM</span>
             </a>

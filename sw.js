@@ -6,7 +6,7 @@ const urlsToCache = [
   '/generator.html',
   '/templates.html',
   '/dist/output.css',
-  '/styles/minimal.css',
+  '/src/styles/minimal.css',
   '/auth-callback.html',
   '/src/auth-ui.js',
   '/src/lib/supabaseClient.js',

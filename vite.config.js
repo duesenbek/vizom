@@ -64,10 +64,4 @@ export default defineConfig({
     // Pre-bundle heavy dependencies
     exclude: ['html2canvas', 'jspdf'],
   },
-  // Enable build analysis
-  build: {
-    ...defineConfig().build,
-    reportCompressedSize: true,
-    chunkSizeWarningLimit: 1000,
-  },
 });

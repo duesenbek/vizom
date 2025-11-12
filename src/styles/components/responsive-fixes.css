@@ -463,7 +463,7 @@
   .logo-icon {
     width: 28px !important;
     height: 28px !important;
-    font-size: 16px !important;
+    font-size: 0 !important;
   }
 }
 

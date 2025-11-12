@@ -14,19 +14,20 @@
     
     <!-- Preload critical assets -->
     <link rel="preload" href="src/styles/modern-saas.css" as="style">
-    <link rel="preload" href="styles/font-awesome.min.css" as="style">
+    <link rel="preload" href="src/styles/font-awesome.min.css" as="style">
     <link rel="modulepreload" href="src/templates.js">
     
     <!-- Tailwind CSS with version -->
     <script src="https://cdn.tailwindcss.com?v=3.4.0" crossorigin="anonymous"></script>
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="styles/font-awesome.min.css" />
+    <link rel="stylesheet" href="src/styles/font-awesome.min.css" />
     
     <!-- Modern Styles -->
     <link rel="stylesheet" href="src/styles/modern-saas.css" />
     <link rel="stylesheet" href="src/styles/components/improvements.css" />
     <link rel="stylesheet" href="src/styles/components/responsive-fixes.css" />
+    <link rel="stylesheet" href="src/styles/ui-guidelines.css" />
     
     <!-- Chart.js with SRI hash -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" 
@@ -100,17 +101,15 @@
 
   <main>
     <!-- HERO SECTION -->
-    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <div class="max-w-7xl mx-auto px-4 lg:px-6 py-16 lg:py-20">
+    <section class="ui-section bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div class="ui-container">
         <div class="text-center max-w-4xl mx-auto space-y-6">
-          <span class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
+          <span class="ui-badge ui-badge-primary">
             <i class="fas fa-layer-group"></i>
             Professional Template Gallery
           </span>
-          <h1 class="text-4xl lg:text-6xl font-bold text-slate-900 leading-tight">
-            Professional Templates
-          </h1>
-          <p class="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
+          <h1 class="ui-heading-1">Professional Templates</h1>
+          <p class="ui-subtitle">
             Jumpstart your data visualization with expert-designed templates. Save hours of work with pre-built charts, dashboards, and reports that are fully customizable and ready to use.
           </p>
           
@@ -123,11 +122,11 @@
               <input 
                 type="text" 
                 id="template-search"
-                class="w-full pl-12 pr-12 py-4 text-lg border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm"
+                class="ui-input pl-12 pr-12 text-lg"
                 placeholder="Search templates by name, category, or use case..."
               >
               <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
-                <button class="text-slate-400 hover:text-slate-600 transition">
+                <button class="ui-btn ui-btn-ghost">
                   <i class="fas fa-filter"></i>
                 </button>
               </div>
@@ -144,28 +143,28 @@
 
     <!-- CATEGORY NAVIGATION -->
     <section class="bg-white border-b border-slate-200 sticky top-0 z-40">
-      <div class="max-w-7xl mx-auto px-4 lg:px-6">
+      <div class="ui-container">
         <div class="flex items-center justify-between py-4">
           <div class="flex gap-2 overflow-x-auto">
-            <button class="category-tab active" data-category="all">
+            <button class="ui-btn ui-btn-primary" data-category="all">
               All Templates
-              <span class="category-count">24</span>
+              <span class="ui-badge ui-badge-light">24</span>
             </button>
-            <button class="category-tab" data-category="business">
+            <button class="ui-btn ui-btn-ghost" data-category="business">
               Business
-              <span class="category-count">8</span>
+              <span class="ui-badge ui-badge-gray">8</span>
             </button>
-            <button class="category-tab" data-category="marketing">
+            <button class="ui-btn ui-btn-ghost" data-category="marketing">
               Marketing
-              <span class="category-count">6</span>
+              <span class="ui-badge ui-badge-gray">6</span>
             </button>
-            <button class="category-tab" data-category="academic">
+            <button class="ui-btn ui-btn-ghost" data-category="academic">
               Academic
-              <span class="category-count">5</span>
+              <span class="ui-badge ui-badge-gray">5</span>
             </button>
-            <button class="category-tab" data-category="finance">
+            <button class="ui-btn ui-btn-ghost" data-category="finance">
               Finance
-              <span class="category-count">5</span>
+              <span class="ui-badge ui-badge-gray">5</span>
             </button>
           </div>
           
@@ -178,10 +177,10 @@
             </select>
             <div class="flex items-center gap-2 text-sm text-slate-500">
               <span>View:</span>
-              <button class="view-toggle active" data-view="grid">
+              <button class="ui-btn ui-btn-ghost min-h-[44px]" data-view="grid">
                 <i class="fas fa-th"></i>
               </button>
-              <button class="view-toggle" data-view="list">
+              <button class="ui-btn ui-btn-ghost min-h-[44px]" data-view="list">
                 <i class="fas fa-list"></i>
               </button>
             </div>
@@ -191,169 +190,186 @@
     </section>
 
     <!-- TEMPLATE GRID LAYOUT -->
-    <section class="bg-slate-50 py-12">
-      <div class="max-w-7xl mx-auto px-4 lg:px-6">
+    <section class="ui-section bg-slate-50">
+      <div class="ui-container">
         <div class="flex items-center justify-between mb-8">
           <div>
-            <h2 class="text-2xl font-bold text-slate-900">Template Gallery</h2>
-            <p class="text-slate-600 mt-1">Showing <span id="results-count">24</span> templates</p>
+            <h2 class="ui-heading-2">Template Gallery</h2>
+            <p class="ui-body mt-1">Showing <span id="results-count">24</span> templates</p>
           </div>
           <div class="flex items-center gap-4">
-            <label class="flex items-center gap-2 text-sm">
+            <label class="flex items-center gap-2 ui-body">
               <input type="checkbox" id="show-premium" class="rounded">
               <span>Show premium only</span>
             </label>
-            <label class="flex items-center gap-2 text-sm">
+            <label class="flex items-center gap-2 ui-body">
               <input type="checkbox" id="show-free" class="rounded" checked>
               <span>Show free templates</span>
             </label>
           </div>
         </div>
 
-        <div id="templates-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div id="templates-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
           
           <!-- Template Card 1 - Sales Dashboard -->
-          <article class="template-card" data-category="business" data-template-id="sales-dashboard">
-            <div class="template-preview">
-              <div class="preview-image">
-                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg p-4 h-48 flex flex-col justify-between">
-                  <div class="flex items-center justify-between text-white text-xs">
-                    <span class="bg-white/20 px-2 py-1 rounded">Sales</span>
-                    <span>Dash 03</span>
-                  </div>
-                  <div class="flex gap-2">
-                    <div class="flex-1 h-20 bg-white/30 rounded"></div>
-                    <div class="flex-1 h-16 bg-white/40 rounded"></div>
-                    <div class="flex-1 h-24 bg-white/25 rounded"></div>
-                  </div>
+          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="business" data-template-id="sales-dashboard">
+            <div class="ui-card-preview-container">
+              <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg p-4 h-32 flex flex-col justify-between">
+                <div class="flex items-center justify-between text-white text-xs">
+                  <span class="bg-white/20 px-2 py-1 rounded">Sales</span>
+                  <span>Dash 03</span>
+                </div>
+                <div class="flex gap-2">
+                  <div class="flex-1 h-16 bg-white/30 rounded"></div>
+                  <div class="flex-1 h-12 bg-white/40 rounded"></div>
+                  <div class="flex-1 h-20 bg-white/25 rounded"></div>
                 </div>
               </div>
-              <div class="template-overlay">
-                <button class="preview-btn">
+              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                <button class="min-h-[44px] w-full rounded-lg bg-gradient-to-r from-[#2563EB] to-[#41C3FF] text-white font-semibold shadow hover:opacity-90 transition">
                   <i class="fas fa-eye"></i>
                   Preview
                 </button>
               </div>
             </div>
             
-            <div class="template-content">
+            <div class="ui-card-content">
               <div class="flex items-start justify-between mb-3">
                 <div>
-                  <h3 class="template-title">Sales Intelligence Dashboard</h3>
+                  <h3 class="ui-card-title">Sales Intelligence Dashboard</h3>
                   <div class="flex items-center gap-2 mt-1">
-                    <span class="chart-type-badge">📊 Dashboard</span>
-                    <span class="template-badge free">Free</span>
+                    <span class="ui-badge ui-badge-primary">📊 Dashboard</span>
+                    <span class="ui-badge ui-badge-light">Free</span>
                   </div>
                 </div>
               </div>
               
-              <p class="template-description">
+              <p class="ui-card-description">
                 Track MRR growth, churn rates, and sales team performance. Includes weekly summary prompts and investor presentation templates.
               </p>
               
-              <div class="template-stats">
-                <div class="stat-item">
-                  <i class="fas fa-users"></i>
-                  <span>1.2k uses</span>
+              <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center gap-4 text-xs text-slate-500">
+                  <span><i class="fas fa-clock"></i> 2 min</span>
+                  <span><i class="fas fa-chart-bar"></i> 6 charts</span>
                 </div>
-                <div class="stat-item">
-                  <i class="fas fa-star text-yellow-500"></i>
-                  <span>4.8</span>
-                </div>
-                <div class="stat-item">
-                  <i class="fas fa-clock"></i>
-                  <span>15 min setup</span>
-                </div>
-              </div>
-              
-              <div class="template-actions">
-                <button class="use-template-btn primary">
-                  <i class="fas fa-bolt"></i>
+                <button data-action="use-template" class="min-h-[44px] w-full rounded-lg bg-gradient-to-r from-[#2563EB] to-[#41C3FF] text-white font-semibold shadow hover:opacity-90 transition">
                   Use Template
-                </button>
-                <button class="save-template-btn">
-                  <i class="far fa-bookmark"></i>
                 </button>
               </div>
             </div>
           </article>
 
           <!-- Template Card 2 - Marketing Campaign -->
-          <article class="template-card" data-category="marketing" data-template-id="marketing-campaign">
-            <div class="template-preview">
-              <div class="preview-image">
-                <div class="bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg p-4 h-48 flex flex-col justify-between">
-                  <div class="flex items-center justify-between text-white text-xs">
-                    <span class="bg-white/20 px-2 py-1 rounded">Marketing</span>
-                    <span>Campaign 04</span>
-                  </div>
-                  <div class="space-y-2">
-                    <div class="h-16 bg-white/30 rounded"></div>
-                    <div class="grid grid-cols-2 gap-2">
-                      <div class="h-14 bg-white/40 rounded"></div>
-                      <div class="h-14 bg-white/25 rounded"></div>
-                    </div>
+          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="marketing" data-template-id="marketing-campaign">
+            <div class="ui-card-preview-container">
+              <div class="bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg p-4 h-32 flex flex-col justify-between">
+                <div class="flex items-center justify-between text-white text-xs">
+                  <span class="bg-white/20 px-2 py-1 rounded">Marketing</span>
+                  <span>Campaign 04</span>
+                </div>
+                <div class="space-y-2">
+                  <div class="h-12 bg-white/30 rounded"></div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <div class="h-10 bg-white/40 rounded"></div>
+                    <div class="h-10 bg-white/25 rounded"></div>
                   </div>
                 </div>
               </div>
-              <div class="template-overlay">
-                <button class="preview-btn">
+              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                <button class="ui-btn ui-btn-primary">
                   <i class="fas fa-eye"></i>
                   Preview
                 </button>
               </div>
             </div>
             
-            <div class="template-content">
+            <div class="ui-card-content">
               <div class="flex items-start justify-between mb-3">
                 <div>
-                  <h3 class="template-title">Marketing Campaign Overview</h3>
+                  <h3 class="ui-card-title">Marketing Campaign Overview</h3>
                   <div class="flex items-center gap-2 mt-1">
-                    <span class="chart-type-badge">📈 Analytics</span>
-                    <span class="template-badge free">Free</span>
+                    <span class="ui-badge ui-badge-primary">📈 Analytics</span>
+                    <span class="ui-badge ui-badge-light">Free</span>
                   </div>
                 </div>
               </div>
               
-              <p class="template-description">
+              <p class="ui-card-description">
                 Campaign performance metrics: CAC, CPL, ROI analysis. Complete with monthly report prompts and client presentation templates.
               </p>
               
-              <div class="template-stats">
-                <div class="stat-item">
-                  <i class="fas fa-users"></i>
-                  <span>856 uses</span>
+              <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center gap-4 text-xs text-slate-500">
+                  <span><i class="fas fa-clock"></i> 3 min</span>
+                  <span><i class="fas fa-chart-bar"></i> 8 charts</span>
                 </div>
-                <div class="stat-item">
-                  <i class="fas fa-star text-yellow-500"></i>
-                  <span>4.7</span>
-                </div>
-                <div class="stat-item">
+                <button class="ui-btn ui-btn-ghost">
+                  Use Template
+                  <i class="fas fa-arrow-right text-xs"></i>
+                </button>
+              </div>
+            </div>
+          </article>
                   <i class="fas fa-clock"></i>
                   <span>10 min setup</span>
                 </div>
               </div>
               
-              <div class="template-actions">
-                <button class="use-template-btn primary">
-                  <i class="fas fa-bolt"></i>
-                  Use Template
+              
+                
+                
+            
+
+          <!-- Template Card 3 - Financial Monitor -->
+          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="finance" data-template-id="financial-monitor">
+            <div class="ui-card-preview-container">
+              <div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg p-4 h-32 flex flex-col justify-between">
+                <div class="flex items-center justify-between text-white text-xs">
+                  <span class="bg-white/20 px-2 py-1 rounded">Finance</span>
+                  <span>Fin 02</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                  <div class="h-12 bg-white/30 rounded"></div>
+                  <div class="h-16 bg-white/40 rounded"></div>
+                  <div class="h-10 bg-white/25 rounded"></div>
+                </div>
+              </div>
+              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                <button class="ui-btn ui-btn-primary">
+                  <i class="fas fa-eye"></i>
+                  Preview
                 </button>
-                <button class="save-template-btn">
-                  <i class="far fa-bookmark"></i>
+              </div>
+            </div>
+            
+            <div class="ui-card-content">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <h3 class="ui-card-title">Financial Performance Monitor</h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="ui-badge ui-badge-primary">💰 Finance</span>
+                    <span class="ui-badge ui-badge-light">Free</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p class="ui-card-description">
+                Real-time financial metrics dashboard: cash flow, profit margins, expense tracking. Automated quarterly reports and investor updates.
+              </p>
+              
+              <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center gap-4 text-xs text-slate-500">
+                  <span><i class="fas fa-clock"></i> 4 min</span>
+                  <span><i class="fas fa-chart-bar"></i> 10 charts</span>
+                </div>
+                <button class="ui-btn ui-btn-ghost">
+                  Use Template
+                  <i class="fas fa-arrow-right text-xs"></i>
                 </button>
               </div>
             </div>
           </article>
-
-          <!-- Template Card 3 - Financial Monitor -->
-          <article class="template-card" data-category="finance" data-template-id="financial-monitor">
-            <div class="template-preview">
-              <div class="preview-image">
-                <div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg p-4 h-48 flex flex-col justify-between">
-                  <div class="flex items-center justify-between text-white text-xs">
-                    <span class="bg-white/20 px-2 py-1 rounded">Finance</span>
-                    <span>Fin 02</span>
                   </div>
                   <div class="grid grid-cols-3 gap-2">
                     <div class="h-14 bg-white/30 rounded"></div>
@@ -413,36 +429,57 @@
           </article>
 
           <!-- Template Card 4 - Academic Research -->
-          <article class="template-card" data-category="academic" data-template-id="academic-research">
-            <div class="template-preview">
-              <div class="preview-image">
-                <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg p-4 h-48 flex flex-col justify-between">
-                  <div class="flex items-center justify-between text-white text-xs">
-                    <span class="bg-white/20 px-2 py-1 rounded">Academic</span>
-                    <span>Research 01</span>
+          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="academic" data-template-id="academic-research">
+            <div class="ui-card-preview-container">
+              <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg p-4 h-32 flex flex-col justify-between">
+                <div class="flex items-center justify-between text-white text-xs">
+                  <span class="bg-white/20 px-2 py-1 rounded">Academic</span>
+                  <span>Research 01</span>
+                </div>
+                <div class="space-y-2">
+                  <div class="h-10 bg-white/30 rounded"></div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <div class="h-12 bg-white/40 rounded"></div>
+                    <div class="h-12 bg-white/25 rounded"></div>
                   </div>
-                  <div class="space-y-2">
-                    <div class="h-12 bg-white/30 rounded"></div>
-                    <div class="grid grid-cols-2 gap-2">
-                      <div class="h-16 bg-white/40 rounded"></div>
-                      <div class="h-16 bg-white/25 rounded"></div>
-                    </div>
-                    <div class="h-8 bg-white/35 rounded"></div>
-                  </div>
+                  <div class="h-6 bg-white/35 rounded"></div>
                 </div>
               </div>
-              <div class="template-overlay">
-                <button class="preview-btn">
+              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                <button class="ui-btn ui-btn-primary">
                   <i class="fas fa-eye"></i>
                   Preview
                 </button>
               </div>
             </div>
             
-            <div class="template-content">
+            <div class="ui-card-content">
               <div class="flex items-start justify-between mb-3">
                 <div>
-                  <h3 class="template-title">Academic Research Dashboard</h3>
+                  <h3 class="ui-card-title">Academic Research Dashboard</h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="ui-badge ui-badge-primary">🔬 Research</span>
+                    <span class="ui-badge ui-badge-light">Free</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p class="ui-card-description">
+                Research publication tracking, citation analysis, and collaboration metrics. Perfect for academic institutions and research teams.
+              </p>
+              
+              <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center gap-4 text-xs text-slate-500">
+                  <span><i class="fas fa-clock"></i> 5 min</span>
+                  <span><i class="fas fa-chart-bar"></i> 7 charts</span>
+                </div>
+                <button class="ui-btn ui-btn-ghost">
+                  Use Template
+                  <i class="fas fa-arrow-right text-xs"></i>
+                </button>
+              </div>
+            </div>
+          </article>
                   <div class="flex items-center gap-2 mt-1">
                     <span class="chart-type-badge">📚 Research</span>
                     <span class="template-badge free">Free</span>
@@ -482,134 +519,102 @@
           </article>
 
           <!-- Template Card 5 - Business KPI -->
-          <article class="template-card" data-category="business" data-template-id="business-kpi">
-            <div class="template-preview">
-              <div class="preview-image">
-                <div class="bg-gradient-to-br from-blue-600 to-cyan-600 rounded-lg p-4 h-48 flex flex-col justify-between">
-                  <div class="flex items-center justify-between text-white text-xs">
-                    <span class="bg-white/20 px-2 py-1 rounded">Business</span>
-                    <span>KPI 05</span>
-                  </div>
-                  <div class="grid grid-cols-2 gap-3">
-                    <div class="h-20 bg-white/30 rounded"></div>
-                    <div class="space-y-2">
-                      <div class="h-8 bg-white/40 rounded"></div>
-                      <div class="h-8 bg-white/25 rounded"></div>
-                    </div>
+          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="business" data-template-id="business-kpi">
+            <div class="ui-card-preview-container">
+              <div class="bg-gradient-to-br from-blue-600 to-cyan-600 rounded-lg p-4 h-32 flex flex-col justify-between">
+                <div class="flex items-center justify-between text-white text-xs">
+                  <span class="bg-white/20 px-2 py-1 rounded">Business</span>
+                  <span>KPI 05</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="h-16 bg-white/30 rounded"></div>
+                  <div class="space-y-2">
+                    <div class="h-8 bg-white/40 rounded"></div>
+                    <div class="h-8 bg-white/25 rounded"></div>
                   </div>
                 </div>
               </div>
-              <div class="template-overlay">
-                <button class="preview-btn">
+              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                <button class="ui-btn ui-btn-primary">
                   <i class="fas fa-eye"></i>
                   Preview
                 </button>
               </div>
             </div>
             
-            <div class="template-content">
+            <div class="ui-card-content">
               <div class="flex items-start justify-between mb-3">
                 <div>
-                  <h3 class="template-title">Business KPI Tracker</h3>
+                  <h3 class="ui-card-title">Business KPI Tracker</h3>
                   <div class="flex items-center gap-2 mt-1">
-                    <span class="chart-type-badge">🎯 KPI</span>
-                    <span class="template-badge free">Free</span>
+                    <span class="ui-badge ui-badge-primary">🎯 KPI</span>
+                    <span class="ui-badge ui-badge-light">Free</span>
                   </div>
                 </div>
               </div>
               
-              <p class="template-description">
+              <p class="ui-card-description">
                 Track key business metrics, goals vs actual performance, and team productivity with automated reporting and alerts.
               </p>
               
-              <div class="template-stats">
-                <div class="stat-item">
-                  <i class="fas fa-users"></i>
-                  <span>912 uses</span>
+              <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center gap-4 text-xs text-slate-500">
+                  <span><i class="fas fa-clock"></i> 4 min</span>
+                  <span><i class="fas fa-chart-bar"></i> 9 charts</span>
                 </div>
-                <div class="stat-item">
-                  <i class="fas fa-star text-yellow-500"></i>
-                  <span>4.8</span>
-                </div>
-                <div class="stat-item">
-                  <i class="fas fa-clock"></i>
-                  <span>12 min setup</span>
-                </div>
-              </div>
-              
-              <div class="template-actions">
-                <button class="use-template-btn primary">
-                  <i class="fas fa-bolt"></i>
+                <button class="ui-btn ui-btn-ghost">
                   Use Template
-                </button>
-                <button class="save-template-btn">
-                  <i class="far fa-bookmark"></i>
+                  <i class="fas fa-arrow-right text-xs"></i>
                 </button>
               </div>
             </div>
           </article>
 
           <!-- Template Card 6 - Social Media Analytics -->
-          <article class="template-card" data-category="marketing" data-template-id="social-media">
-            <div class="template-preview">
-              <div class="preview-image">
-                <div class="bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg p-4 h-48 flex flex-col justify-between">
-                  <div class="flex items-center justify-between text-white text-xs">
-                    <span class="bg-white/20 px-2 py-1 rounded">Marketing</span>
-                    <span>Social 02</span>
-                  </div>
-                  <div class="grid grid-cols-3 gap-2">
-                    <div class="h-16 bg-white/30 rounded"></div>
-                    <div class="h-20 bg-white/40 rounded"></div>
-                    <div class="h-12 bg-white/25 rounded"></div>
-                  </div>
+          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="marketing" data-template-id="social-media">
+            <div class="ui-card-preview-container">
+              <div class="bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg p-4 h-32 flex flex-col justify-between">
+                <div class="flex items-center justify-between text-white text-xs">
+                  <span class="bg-white/20 px-2 py-1 rounded">Marketing</span>
+                  <span>Social 02</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                  <div class="h-12 bg-white/30 rounded"></div>
+                  <div class="h-16 bg-white/40 rounded"></div>
+                  <div class="h-10 bg-white/25 rounded"></div>
                 </div>
               </div>
-              <div class="template-overlay">
-                <button class="preview-btn">
+              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                <button class="ui-btn ui-btn-primary">
                   <i class="fas fa-eye"></i>
                   Preview
                 </button>
               </div>
             </div>
             
-            <div class="template-content">
+            <div class="ui-card-content">
               <div class="flex items-start justify-between mb-3">
                 <div>
-                  <h3 class="template-title">Social Media Analytics</h3>
+                  <h3 class="ui-card-title">Social Media Analytics</h3>
                   <div class="flex items-center gap-2 mt-1">
-                    <span class="chart-type-badge">📱 Social</span>
-                    <span class="template-badge premium">Premium</span>
+                    <span class="ui-badge ui-badge-primary">📱 Social</span>
+                    <span class="ui-badge ui-badge-light">Premium</span>
                   </div>
                 </div>
               </div>
               
-              <p class="template-description">
+              <p class="ui-card-description">
                 Comprehensive social media performance tracking across platforms with engagement metrics and growth analytics.
               </p>
               
-              <div class="template-stats">
-                <div class="stat-item">
-                  <i class="fas fa-users"></i>
-                  <span>567 uses</span>
+              <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center gap-4 text-xs text-slate-500">
+                  <span><i class="fas fa-clock"></i> 3 min</span>
+                  <span><i class="fas fa-chart-bar"></i> 5 charts</span>
                 </div>
-                <div class="stat-item">
-                  <i class="fas fa-star text-yellow-500"></i>
-                  <span>4.7</span>
-                </div>
-                <div class="stat-item">
-                  <i class="fas fa-clock"></i>
-                  <span>18 min setup</span>
-                </div>
-              </div>
-              
-              <div class="template-actions">
-                <button class="use-template-btn premium">
-                  <i class="fas fa-crown"></i>
+                <button class="ui-btn ui-btn-ghost">
                   Use Template
-                </button>
-                <button class="save-template-btn">
-                  <i class="far fa-bookmark"></i>
+                  <i class="fas fa-arrow-right text-xs"></i>
                 </button>
               </div>
             </div>
@@ -619,7 +624,7 @@
 
         <!-- Load More -->
         <div class="text-center mt-12">
-          <button id="load-more-templates" class="px-6 py-3 bg-white border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium">
+          <button id="load-more-templates" class="ui-btn ui-btn-secondary">
             Load More Templates
           </button>
         </div>
@@ -627,20 +632,18 @@
     </section>
 
     <!-- CTA SECTION -->
-    <section class="bg-gradient-to-r from-blue-600 to-indigo-600 py-16">
-      <div class="max-w-4xl mx-auto px-4 lg:px-6 text-center">
-        <h2 class="text-3xl font-bold text-white mb-4">
-          Can't find the perfect template?
-        </h2>
-        <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+    <section class="ui-section bg-gray-900 text-gray-50">
+      <div class="ui-container text-center">
+        <h2 class="ui-heading-2 text-white">Can't find the perfect template?</h2>
+        <p class="ui-subtitle text-gray-300 max-w-2xl mx-auto">
           Our AI generator can create custom visualizations tailored to your specific needs and brand guidelines.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="generator.html" class="inline-flex items-center justify-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition font-semibold">
+        <div class="ui-btn-group justify-center mt-4">
+          <a href="generator.html" class="ui-btn ui-btn-primary">
             <i class="fas fa-bolt"></i>
             Create Custom Template
           </a>
-          <button class="inline-flex items-center justify-center gap-2 bg-white/20 text-white px-6 py-3 rounded-lg hover:bg-white/30 transition font-semibold border border-white/30" id="download-all-templates">
+          <button class="ui-btn ui-btn-secondary" id="download-all-templates">
             <i class="fas fa-download"></i>
             Download All Templates
           </button>
@@ -689,8 +692,8 @@
             <div>
               <h3 id="modal-template-title" class="text-2xl font-bold text-slate-900 mb-2">Template Title</h3>
               <div class="flex items-center gap-3 mb-4">
-                <span id="modal-template-category" class="chart-type-badge">📊 Dashboard</span>
-                <span id="modal-template-badge" class="template-badge free">Free</span>
+                <span id="modal-template-category" class="ui-badge ui-badge-primary">📊 Dashboard</span>
+                <span id="modal-template-badge" class="ui-badge ui-badge-light">Free</span>
               </div>
               <p id="modal-template-description" class="text-slate-600">
                 Template description will be loaded here...
@@ -793,88 +796,6 @@
   </footer>
 
   <link rel="stylesheet" href="src/styles/components/footer.css">
-
-  <style>
-    /* Template Gallery Professional Styles */
-    
-    /* Category Navigation */
-    .category-tab {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: transparent;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #64748b;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .category-tab:hover {
-      background: #f1f5f9;
-      color: #475569;
-    }
-
-    .category-tab.active {
-      background: #3b82f6;
-      color: white;
-    }
-
-    .category-count {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 2px 6px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .category-tab.active .category-count {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    /* View Toggle */
-    .view-toggle {
-      padding: 6px 8px;
-      background: transparent;
-      border: none;
-      border-radius: 4px;
-      color: #64748b;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .view-toggle:hover {
-      background: #f1f5f9;
-      color: #475569;
-    }
-
-    .view-toggle.active {
-      background: #3b82f6;
-      color: white;
-    }
-
-    /* Template Cards */
-    .template-card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .template-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-      border-color: #3b82f6;
-    }
-
-    .template-preview {
-      position: relative;
       overflow: hidden;
     }
 
@@ -1277,6 +1198,51 @@
   <script type="module" src="src/components/TemplateGallery.js"></script>
   <script type="module" src="src/components/UnifiedFooter.js"></script>
   <script type="module" src="src/page-specific/templates.js"></script>
+  
+  <!-- Analytics Initialization and Template Events -->
+  <script type="module">
+    import { initializeAnalytics, trackEvent, trackPageview } from '/src/tracking/analytics.js';
+    try { await initializeAnalytics(); trackPageview('/templates'); } catch {}
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Track clicks on template cards (use data attribute for robustness)
+      document.querySelectorAll('[data-template-id]').forEach(card => {
+        card.addEventListener('click', () => {
+          const id = card.dataset.templateId;
+          const name = card.querySelector('.ui-card-title')?.textContent?.trim();
+          trackEvent('template_clicked', { templateId: id, templateName: name });
+        });
+      });
+
+      // Track search queries (debounced)
+      const searchInput = document.getElementById('template-search');
+      if (searchInput) {
+        let t;
+        searchInput.addEventListener('input', (e) => {
+          clearTimeout(t);
+          const val = e.target?.value || '';
+          t = setTimeout(() => trackEvent('template_searched', { query: String(val) }), 500);
+        });
+      }
+
+      // Track category filters (use data attribute)
+      document.querySelectorAll('[data-category]').forEach(tab => {
+        tab.addEventListener('click', () => {
+          const category = tab.dataset.category || 'all';
+          trackEvent('template_category_filtered', { category });
+        });
+      });
+
+      // Track template use clicks
+      document.querySelectorAll('[data-action="use-template"]').forEach(btn => {
+        btn.addEventListener('click', (ev) => {
+          const card = btn.closest('[data-template-id]');
+          const templateId = card?.dataset?.templateId;
+          trackEvent('template_used', { templateId });
+        });
+      });
+    });
+  </script>
   
   <!-- Mobile Menu Script -->
   <script>

@@ -45,7 +45,8 @@ export default defineConfig(({ command, mode }) => {
       rollupOptions: {
         input: {
           main: resolve(process.cwd(), 'index.html'),
-          // Add additional entry points if needed
+          // Additional entry point for React landing page
+          landing: resolve(process.cwd(), 'index-react.html')
         },
         output: {
           // Manual chunk splitting for better caching
@@ -105,7 +106,9 @@ export default defineConfig(({ command, mode }) => {
       include: [
         'chart.js',
         'chartjs-adapter-date-fns',
-        'lucide'
+        'lucide',
+        'react',
+        'react-dom'
       ],
       exclude: [
         // Exclude dependencies that cause issues

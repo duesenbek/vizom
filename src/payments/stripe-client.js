@@ -1,7 +1,26 @@
 import { supabase } from '../supabase-client.js';
 
 const DEFAULT_STRIPE_PK = 'pk_test_51SPiae7vKdbErsb8SNV40Epd8l7dfUaKl86sAP7RCKk6RXUj1rSOqHgylnICv77QfLWnwaSz4q2TmFtFGzrWhE1A002opWUCV';
-const CHECKOUT_ENDPOINT = '/.netlify/functions/create-checkout-session';
+
+function resolveCheckoutEndpoint() {
+  // Prefer Supabase Edge Functions if configured
+  try {
+    const env = (typeof window !== 'undefined' && window.__VIZOM_ENV__) ? window.__VIZOM_ENV__ : {};
+    if (env.EDGE_FUNCTIONS_BASE) {
+      return env.EDGE_FUNCTIONS_BASE.replace(/\/$/, '') + '/create-checkout-session';
+    }
+  } catch {}
+  // Local dev proxy for Supabase functions
+  if (typeof window !== 'undefined') {
+    const supabaseFunctions = '/functions/v1/create-checkout-session';
+    // If site is served with Supabase functions proxy, this will work
+    return supabaseFunctions;
+  }
+  // Fallback to Netlify function (legacy)
+  return '/.netlify/functions/create-checkout-session';
+}
+
+const CHECKOUT_ENDPOINT = resolveCheckoutEndpoint();
 const WATCH_AD_ENDPOINT = '/.netlify/functions/watch-ad';
 
 let stripeInstancePromise = null;

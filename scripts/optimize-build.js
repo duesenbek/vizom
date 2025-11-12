@@ -25,16 +25,17 @@ export function optimizeHTML(distPath) {
     // Minify whitespace
     content = content.replace(/>\s+</g, '><');
     content = content.replace(/\s+/g, ' ');
-    
-    // Add security headers meta
-    content = content.replace(
-      '<head>',
-      `<head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.deepseek.com;">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">`
-    );
+
+    // Optional: inject meta CSP only if explicitly enabled
+    const useMetaCsp = process.env.USE_META_CSP === 'true';
+    if (useMetaCsp) {
+      content = content.replace(
+        '<head>',
+        `<head>\n    <!-- WARNING: Using meta CSP. Prefer platform headers (e.g., Netlify) for CSP in production. -->\n    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.deepseek.com;">\n    <meta http-equiv="X-Content-Type-Options" content="nosniff">\n    <meta http-equiv="X-Frame-Options" content="DENY">\n    <meta http-equiv="X-XSS-Protection" content="1; mode=block">`
+      );
+    } else {
+      console.log('[optimize-build] Skipping meta CSP injection. Use platform headers (e.g., Netlify netlify.toml).');
+    }
     
     writeFileSync(filePath, content);
     console.log(`✅ Optimized HTML: ${filePath}`);
