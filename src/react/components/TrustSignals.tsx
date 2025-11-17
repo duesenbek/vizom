@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function TrustSignals() {
   return (
     <section className="py-16 bg-white">
@@ -17,7 +15,10 @@ export default function TrustSignals() {
                 <p className="text-gray-600 text-sm">Average rating</p>
               </div>
               <div className="p-4 border rounded-lg">
-                <p className="text-3xl font-bold"><span className="align-text-top">⚡</span> Fast</p>
+                <p className="text-3xl font-bold">
+                  <i className="fa-solid fa-bolt align-text-top mr-1"></i>
+                  Fast
+                </p>
                 <p className="text-gray-600 text-sm">Powered by DeepSeek</p>
               </div>
             </div>

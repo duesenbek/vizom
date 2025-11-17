@@ -445,19 +445,19 @@ class EnvConfig {
   }
 
   printConfig() {
-    console.log('🔧 Environment Configuration:');
+        console.log('Environment Configuration:');
     console.log('================================');
     
     for (const [key, schema] of Object.entries(envSchema)) {
       const value = this.config[key];
-      const status = value !== undefined ? '✅' : schema.required ? '❌' : '⚪';
+            const status = value !== undefined ? '[OK]' : schema.required ? '[FAIL]' : '[OPTIONAL]';
       const displayValue = this.shouldMaskValue(key) ? '***MASKED***' : value;
       
       console.log(`${status} ${key}: ${displayValue} (${schema.description})`);
     }
 
     if (this.errors.length > 0) {
-      console.log('\n❌ Configuration Errors:');
+            console.log('\nConfiguration Errors:');
       console.log('========================');
       this.errors.forEach(error => console.log(`  - ${error}`));
     }
@@ -486,7 +486,7 @@ export const envConfig = new EnvConfig();
 
 // Validate configuration on startup
 if (!envConfig.isValid()) {
-  console.error('❌ Environment configuration validation failed:');
+    console.error('Environment configuration validation failed:');
   envConfig.getErrors().forEach(error => console.error(`  - ${error}`));
   process.exit(1);
 }

@@ -17,7 +17,7 @@ export class ChartTypeSelectorTest {
    * Run comprehensive performance tests
    */
   async runPerformanceTests() {
-    console.log('🚀 Starting ChartTypeSelector Performance Tests...');
+    console.log('Starting ChartTypeSelector performance tests...');
     this.isRunning = true;
     
     try {
@@ -42,7 +42,7 @@ export class ChartTypeSelectorTest {
       this.displayResults();
       
     } catch (error) {
-      console.error('❌ Test suite failed:', error);
+      console.error('Test suite failed:', error);
     } finally {
       this.isRunning = false;
     }
@@ -52,7 +52,7 @@ export class ChartTypeSelectorTest {
    * Test rendering performance with 60+ chart types
    */
   async testLargeDatasetRendering() {
-    console.log('📊 Testing large dataset rendering...');
+    console.log('Testing large dataset rendering...');
     
     const startTime = performance.now();
     
@@ -84,7 +84,7 @@ export class ChartTypeSelectorTest {
       renderTime: Math.round(renderTime),
       firstPaintTime: Math.round(paintTime),
       passed: renderTime < 100 && paintTime < 50,
-      recommendation: renderTime < 100 ? '✅ Excellent' : renderTime < 200 ? '⚠️ Good' : '❌ Needs optimization'
+            recommendation: renderTime < 100 ? 'Excellent' : renderTime < 200 ? 'Good' : 'Needs optimization'
     });
     
     // Cleanup
@@ -96,7 +96,7 @@ export class ChartTypeSelectorTest {
    * Test rapid clicking performance
    */
   async testRapidClicking() {
-    console.log('⚡ Testing rapid clicking performance...');
+    console.log('Testing rapid clicking performance...');
     
     this.createTestContainer();
     
@@ -107,7 +107,7 @@ export class ChartTypeSelectorTest {
       this.addTestResult('Rapid Clicking', {
         passed: false,
         error: 'No chart tiles found',
-        recommendation: '❌ Component not rendering properly'
+                recommendation: 'Component not rendering properly'
       });
       return;
     }
@@ -143,7 +143,7 @@ export class ChartTypeSelectorTest {
       totalTime: Math.round(totalTime),
       avgClickTime: Math.round(avgClickTime),
       passed: avgClickTime < 50 && successfulClicks === clickCount,
-      recommendation: avgClickTime < 20 ? '✅ Excellent' : avgClickTime < 50 ? '⚠️ Good' : '❌ Needs optimization'
+            recommendation: avgClickTime < 20 ? 'Excellent' : avgClickTime < 50 ? 'Good' : 'Needs optimization'
     });
     
     selector.destroy();
@@ -153,7 +153,7 @@ export class ChartTypeSelectorTest {
    * Test mobile scrolling performance
    */
   async testMobileScrolling() {
-    console.log('📱 Testing mobile scrolling performance...');
+    console.log('Testing mobile scrolling performance...');
     
     // Simulate mobile viewport
     this.simulateMobileViewport();
@@ -175,7 +175,7 @@ export class ChartTypeSelectorTest {
       this.addTestResult('Mobile Scrolling', {
         passed: false,
         error: 'Virtual scroll container not found',
-        recommendation: '❌ Virtual scrolling not enabled'
+                recommendation: 'Virtual scrolling not enabled'
       });
       return;
     }
@@ -213,7 +213,7 @@ export class ChartTypeSelectorTest {
       totalTime: Math.round(totalTime),
       avgScrollTime: Math.round(totalTime / scrollSteps),
       passed: frameDrops < 3,
-      recommendation: frameDrops === 0 ? '✅ Excellent' : frameDrops < 3 ? '⚠️ Good' : '❌ Needs optimization'
+            recommendation: frameDrops === 0 ? 'Excellent' : frameDrops < 3 ? 'Good' : 'Needs optimization'
     });
     
     selector.destroy();
@@ -225,7 +225,7 @@ export class ChartTypeSelectorTest {
    * Test search performance
    */
   async testSearchPerformance() {
-    console.log('🔍 Testing search performance...');
+    console.log('Testing search performance...');
     
     this.createTestContainer();
     
@@ -236,7 +236,7 @@ export class ChartTypeSelectorTest {
       this.addTestResult('Search Performance', {
         passed: false,
         error: 'Search input not found',
-        recommendation: '❌ Search functionality missing'
+                recommendation: 'Search functionality missing'
       });
       return;
     }
@@ -273,7 +273,7 @@ export class ChartTypeSelectorTest {
       avgSearchTime: Math.round(avgSearchTime),
       maxSearchTime: Math.round(maxSearchTime),
       passed: avgSearchTime < 100,
-      recommendation: avgSearchTime < 50 ? '✅ Excellent' : avgSearchTime < 100 ? '⚠️ Good' : '❌ Needs optimization'
+            recommendation: avgSearchTime < 50 ? 'Excellent' : avgSearchTime < 100 ? 'Good' : 'Needs optimization'
     });
     
     selector.destroy();
@@ -283,7 +283,7 @@ export class ChartTypeSelectorTest {
    * Test memory usage
    */
   async testMemoryUsage() {
-    console.log('💾 Testing memory usage...');
+    console.log('Testing memory usage...');
     
     const initialMemory = this.getMemoryUsage();
     
@@ -326,7 +326,7 @@ export class ChartTypeSelectorTest {
       finalMemory: Math.round(finalMemory),
       memoryLeak: Math.round(memoryLeak),
       passed: memoryLeak < 5,
-      recommendation: memoryLeak < 1 ? '✅ Excellent' : memoryLeak < 5 ? '⚠️ Good' : '❌ Memory leak detected'
+            recommendation: memoryLeak < 1 ? 'Excellent' : memoryLeak < 5 ? 'Good' : 'Memory leak detected'
     });
   }
 
@@ -334,7 +334,7 @@ export class ChartTypeSelectorTest {
    * Test AI recommendation updates
    */
   async testAIRecommendationUpdates() {
-    console.log('🤖 Testing AI recommendation updates...');
+    console.log('Testing AI recommendation updates...');
     
     this.createTestContainer();
     
@@ -370,7 +370,7 @@ export class ChartTypeSelectorTest {
       totalTime: Math.round(totalTime),
       avgUpdateTime: Math.round(avgUpdateTime),
       passed: avgUpdateTime < 30 && successfulUpdates === updateCount,
-      recommendation: avgUpdateTime < 10 ? '✅ Excellent' : avgUpdateTime < 30 ? '⚠️ Good' : '❌ Needs optimization'
+            recommendation: avgUpdateTime < 10 ? 'Excellent' : avgUpdateTime < 30 ? 'Good' : 'Needs optimization'
     });
     
     selector.destroy();
@@ -382,7 +382,18 @@ export class ChartTypeSelectorTest {
   generateTestChartTypes(count) {
     const types = [];
     const categories = ['basic', 'composition', 'comparison', 'distribution', 'advanced'];
-    const icons = ['📊', '📈', '📉', '🥧', '⭕', '🎯', '🌐', '🕸️', '📋', '🔷'];
+    const icons = [
+      'fa-chart-column',
+      'fa-chart-line',
+      'fa-chart-bar',
+      'fa-chart-pie',
+      'fa-circle-dot',
+      'fa-bullseye',
+      'fa-globe',
+      'fa-project-diagram',
+      'fa-clipboard',
+      'fa-square-full'
+    ];
     
     for (let i = 0; i < count; i++) {
       types.push({
@@ -502,40 +513,40 @@ export class ChartTypeSelectorTest {
       timestamp: new Date().toISOString()
     });
     
-    console.log(`📋 ${testName}:`, result);
+    console.log(`Result for ${testName}:`, result);
   }
 
   /**
    * Display test results
    */
   displayResults() {
-    console.log('\n🎯 PERFORMANCE TEST RESULTS');
+    console.log('\nPERFORMANCE TEST RESULTS');
     console.log('================================');
     
     let passedTests = 0;
     let totalTests = this.testResults.length;
     
     this.testResults.forEach(result => {
-      const status = result.passed ? '✅ PASS' : '❌ FAIL';
+            const status = result.passed ? '[PASS]' : '[FAIL]';
       console.log(`${status} ${result.testName}`);
       console.log(`   ${result.recommendation}`);
       
       if (result.passed) passedTests++;
     });
     
-    console.log('\n📊 SUMMARY');
+    console.log('\nSUMMARY');
     console.log('================================');
     console.log(`Passed: ${passedTests}/${totalTests} tests`);
     console.log(`Success Rate: ${Math.round((passedTests / totalTests) * 100)}%`);
     
     if (passedTests === totalTests) {
-      console.log('🎉 All tests passed! ChartTypeSelector is production-ready.');
+            console.log('All tests passed! ChartTypeSelector is production-ready.');
     } else {
-      console.log('⚠️ Some tests failed. Review recommendations for optimization.');
+            console.log('Some tests failed. Review recommendations for optimization.');
     }
     
     // Show detailed metrics
-    console.log('\n📈 DETAILED METRICS');
+    console.log('\nDETAILED METRICS');
     console.log('================================');
     this.testResults.forEach(result => {
       console.log(`\n${result.testName}:`);

@@ -1,3 +1,5 @@
+import { initMobileMenu } from './mobile-menu.js';
+
 // Mobile Navigation Component
 // Provides mobile-specific navigation with bottom nav and hamburger menu
 
@@ -6,6 +8,7 @@ class MobileNavigation {
     this.isMobile = this.checkIsMobile();
     this.bottomNavItems = this.getBottomNavItems();
     this.menuItems = this.getMenuItems();
+    this.hamburgerMenuController = null;
     this.init();
   }
 
@@ -230,7 +233,7 @@ class MobileNavigation {
             <i class="fas fa-chart-simple"></i>
             <span>VIZOM</span>
           </div>
-          <button class="menu-close" aria-label="Close menu">
+          <button class="menu-close" aria-label="Close menu" data-mobile-menu-close>
             <i class="fas fa-times"></i>
           </button>
         </div>
@@ -343,8 +346,16 @@ class MobileNavigation {
       </div>
     `;
 
+    const menuContainer = menuOverlay.querySelector('.menu-container');
+    if (menuContainer) {
+      menuContainer.id = 'mobile-hamburger-menu';
+      menuContainer.classList.add('hidden');
+    }
+
     document.body.appendChild(hamburgerButton);
     document.body.appendChild(menuOverlay);
+
+    this.initializeHamburgerMenuController();
   }
 
   createMenuItem(item) {
@@ -377,37 +388,17 @@ class MobileNavigation {
       }
     });
 
-    // Hamburger menu toggle
-    const hamburgerButton = document.getElementById('mobile-hamburger-button');
-    const menuClose = document.querySelector('.menu-close');
-    const menuOverlay = document.getElementById('mobile-menu-overlay');
-
-    hamburgerButton?.addEventListener('click', () => this.openMenu());
-    menuClose?.addEventListener('click', () => this.closeMenu());
-    menuOverlay?.addEventListener('click', (e) => {
-      if (e.target === menuOverlay) {
-        this.closeMenu();
-      }
-    });
-
     // Menu item clicks
     document.addEventListener('click', (e) => {
       if (e.target.closest('.menu-item')) {
         this.handleMenuItemClick(e.target.closest('.menu-item'));
       }
     });
-
+    
     // Language selector
     const languageSelect = document.getElementById('mobile-language-select');
     languageSelect?.addEventListener('change', (e) => {
       this.handleLanguageChange(e.target.value);
-    });
-
-    // Handle escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.isMenuOpen()) {
-        this.closeMenu();
-      }
     });
   }
 
@@ -467,7 +458,7 @@ class MobileNavigation {
     const href = item.getAttribute('href');
     
     // Close menu
-    this.closeMenu();
+    this.closeHamburgerMenu();
     
     // Navigate if it's a real link
     if (href && !href.startsWith('#')) {
@@ -489,41 +480,6 @@ class MobileNavigation {
         window.modalSystem.openAuthModal();
       }
     }
-  }
-
-  openMenu() {
-    const menuOverlay = document.getElementById('mobile-menu-overlay');
-    const hamburgerButton = document.getElementById('mobile-hamburger-button');
-    
-    if (menuOverlay && hamburgerButton) {
-      menuOverlay.setAttribute('aria-hidden', 'false');
-      hamburgerButton.setAttribute('aria-expanded', 'true');
-      menuOverlay.classList.add('menu-open');
-      hamburgerButton.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      
-      // Focus first menu item
-      const firstMenuItem = menuOverlay.querySelector('.menu-item');
-      firstMenuItem?.focus();
-    }
-  }
-
-  closeMenu() {
-    const menuOverlay = document.getElementById('mobile-menu-overlay');
-    const hamburgerButton = document.getElementById('mobile-hamburger-button');
-    
-    if (menuOverlay && hamburgerButton) {
-      menuOverlay.setAttribute('aria-hidden', 'true');
-      hamburgerButton.setAttribute('aria-expanded', 'false');
-      menuOverlay.classList.remove('menu-open');
-      hamburgerButton.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  }
-
-  isMenuOpen() {
-    const menuOverlay = document.getElementById('mobile-menu-overlay');
-    return menuOverlay?.classList.contains('menu-open') || false;
   }
 
   updateActiveStates() {
@@ -644,13 +600,13 @@ class MobileNavigation {
     localStorage.removeItem('vizom-user-data');
     this.updateUserSection();
     this.showToast('Signed out successfully');
-    this.closeMenu();
+    this.closeHamburgerMenu();
   }
 
   openProfileMenu() {
     // Create profile menu or navigate to profile page
     console.log('Opening profile menu');
-    this.closeMenu();
+    this.closeHamburgerMenu();
   }
 
   handleMobileChange() {
@@ -682,7 +638,7 @@ class MobileNavigation {
     if (hamburgerButton) hamburgerButton.style.display = 'none';
     
     // Close menu if open
-    this.closeMenu();
+    this.closeHamburgerMenu();
   }
 
   applyMobileAdaptations() {

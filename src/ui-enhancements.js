@@ -11,7 +11,6 @@ class UIEnhancements {
     this.setupQuickActions();
     this.setupClearInput();
     this.setupChartActions();
-    this.setupMobileMenu();
     this.setupNotifications();
     this.setupKeyboardShortcuts();
   }
@@ -244,40 +243,6 @@ class UIEnhancements {
       });
     } else {
       document.exitFullscreen();
-    }
-  }
-
-  // Enhanced Mobile Menu
-  setupMobileMenu() {
-    const toggle = document.getElementById('mobile-menu-toggle');
-    const menu = document.getElementById('mobile-menu');
-    
-    if (toggle && menu) {
-      toggle.addEventListener('click', () => {
-        menu.classList.toggle('open');
-        toggle.classList.toggle('active');
-        
-        // Animate icon
-        const icon = toggle.querySelector('i');
-        if (menu.classList.contains('open')) {
-          icon.classList.remove('fa-bars');
-          icon.classList.add('fa-times');
-        } else {
-          icon.classList.remove('fa-times');
-          icon.classList.add('fa-bars');
-        }
-      });
-
-      // Close menu when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!toggle.contains(e.target) && !menu.contains(e.target)) {
-          menu.classList.remove('open');
-          toggle.classList.remove('active');
-          const icon = toggle.querySelector('i');
-          icon.classList.remove('fa-times');
-          icon.classList.add('fa-bars');
-        }
-      });
     }
   }
 

@@ -161,13 +161,16 @@ export class HeroSection {
                 <div class="mt-4 space-y-3">
                   <div class="flex space-x-2">
                     <button class="demo-prompt flex-1 px-3 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors" data-prompt="Monthly sales data for Q1 2024">
-                      📊 Sales Dashboard
+                      <i class="fa-solid fa-chart-column mr-2"></i>
+                      Sales Dashboard
                     </button>
                     <button class="demo-prompt flex-1 px-3 py-2 bg-green-50 text-green-700 rounded-lg text-sm font-medium hover:bg-green-100 transition-colors" data-prompt="User growth over 6 months">
-                      📈 Growth Chart
+                      <i class="fa-solid fa-chart-line mr-2"></i>
+                      Growth Chart
                     </button>
                     <button class="demo-prompt flex-1 px-3 py-2 bg-purple-50 text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-100 transition-colors" data-prompt="Market share distribution">
-                      🥧 Market Share
+                      <i class="fa-solid fa-chart-pie mr-2"></i>
+                      Market Share
                     </button>
                   </div>
                   

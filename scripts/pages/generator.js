@@ -1,5 +1,5 @@
-import { sanitize } from '../utils/sanitizer.js';
-import { supabase } from '../supabase-client.js';
+import { sanitize } from '../../src/utils/sanitizer.js';
+import { supabase } from '../core/supabase-client.js';
 
 // AI Service with caching and smart parsing
 class AIService {
@@ -12,7 +12,7 @@ class AIService {
     const cacheKey = `${chartType}-${this.hashPrompt(prompt)}`;
     
     if (this.promptCache.has(cacheKey)) {
-      console.log('📋 Using cached result for:', cacheKey.substring(0, 50) + '...');
+      console.log('[Cache] Using cached result for:', cacheKey.substring(0, 50) + '...');
       return this.promptCache.get(cacheKey);
     }
     
@@ -173,7 +173,7 @@ class AIService {
 
   clearCache() {
     this.promptCache.clear();
-    console.log('🗑️ Cache cleared');
+    console.log('[Cache] Cache cleared');
   }
 
   getCacheSize() {
@@ -185,22 +185,167 @@ class AIService {
 class ProjectManager {
   constructor() {
     this.currentProject = null;
+    this.LOCAL_STORAGE_KEY = 'vizom_local_projects';
+    this.authPromptShown = { save: false, load: false };
+  }
+
+  async getCurrentUser() {
+    try {
+      const { data: { user } = {} } = await supabase.auth.getUser();
+      if (user) {
+        this.clearAuthNotice();
+        return user;
+      }
+    } catch (error) {
+            console.warn('[Auth] Auth check failed, using local fallback', error);
+    }
+    return null;
+  }
+
+  showAuthPrompt(action = 'save') {
+    if (this.authPromptShown[action]) {
+      this.renderInlineAuthNotice(action);
+      return;
+    }
+
+    const authModal = document.getElementById('auth-modal');
+    const description = authModal?.querySelector('[data-i18n="auth.description"]');
+    const message = action === 'load'
+      ? 'Sign in to load your saved dashboards from the cloud. We will show local drafts meanwhile.'
+      : 'Sign in to sync your projects across devices. We will keep a local copy until you log in.';
+
+    if (description) {
+      description.textContent = message;
+    }
+
+    if (authModal && authModal.classList.contains('hidden')) {
+      authModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    this.renderInlineAuthNotice(action);
+    this.authPromptShown[action] = true;
+  }
+
+  clearAuthNotice(action) {
+    const container = this.getAuthNoticeContainer(action);
+    const banner = container?.querySelector('[data-auth-banner="true"]');
+    if (banner) {
+      banner.remove();
+    }
+  }
+
+  renderInlineAuthNotice(action) {
+    const container = this.getAuthNoticeContainer(action);
+    if (!container) return;
+
+    let banner = container.querySelector('[data-auth-banner="true"]');
+    const copy = action === 'load'
+      ? 'Login required to sync cloud projects. Showing local drafts stored in this browser.'
+      : 'Login required to sync saves with Supabase. We will store this project locally for now.';
+
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.dataset.authBanner = 'true';
+      banner.className = 'mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900 flex items-center gap-2';
+      banner.innerHTML = '<i class="fas fa-lock text-amber-500"></i><span></span>';
+      container.prepend(banner);
+    }
+
+    const textNode = banner.querySelector('span');
+    if (textNode) {
+      textNode.textContent = copy;
+    }
+  }
+
+  getAuthNoticeContainer(action) {
+    if (action === 'load') {
+      return document.querySelector('#projects-modal .p-6') || document.getElementById('projects-modal');
+    }
+    return document.querySelector('#save-project-modal .space-y-4') || document.getElementById('save-project-modal');
+  }
+
+  getLocalProjects() {
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return [];
+    }
+    try {
+      const stored = window.localStorage.getItem(this.LOCAL_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
+            console.warn('[Storage] Failed to read local projects', error);
+      return [];
+    }
+  }
+
+  saveLocalProjects(projects) {
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return;
+    }
+    try {
+      window.localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(projects));
+    } catch (error) {
+            console.warn('[Storage] Failed to persist local projects', error);
+    }
+  }
+
+  saveProjectLocally(projectData) {
+    const projects = this.getLocalProjects();
+    const localProject = {
+      ...projectData,
+      id: projectData?.id || `local-${Date.now()}`,
+      storage: 'local',
+      created_at: projectData?.created_at || new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+    projects.unshift(localProject);
+    this.saveLocalProjects(projects);
+        console.info('[Offline] Project saved locally.');
+    return localProject;
+  }
+
+  updateLocalProject(projectId, updates) {
+    const projects = this.getLocalProjects();
+    const index = projects.findIndex(project => project.id === projectId);
+    if (index === -1) {
+      return null;
+    }
+    projects[index] = {
+      ...projects[index],
+      ...updates,
+      updated_at: new Date().toISOString()
+    };
+    this.saveLocalProjects(projects);
+    return projects[index];
+  }
+
+  deleteLocalProject(projectId) {
+    const projects = this.getLocalProjects();
+    const filtered = projects.filter(project => project.id !== projectId);
+    this.saveLocalProjects(filtered);
+    return filtered.length !== projects.length;
   }
 
   async saveProject(title, chartData, htmlOutput, chartType) {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error('User not authenticated');
-      }
+      const user = await this.getCurrentUser();
 
-      const projectData = {
+      const baseProject = {
         title: title || `Проект ${new Date().toLocaleDateString()}`,
         chart_data: chartData,
         html_output: htmlOutput,
         chart_type: chartType,
-        user_id: user.id,
         created_at: new Date().toISOString()
+      };
+
+      if (!user) {
+        this.showAuthPrompt('save');
+        return this.saveProjectLocally(baseProject);
+      }
+
+      const projectData = {
+        ...baseProject,
+        user_id: user.id
       };
 
       const { data, error } = await supabase
@@ -213,20 +358,23 @@ class ProjectManager {
         throw error;
       }
 
-      console.log('✅ Project saved:', data[0]);
+            console.log('[Project] Saved:', data[0]);
       return data[0];
     } catch (error) {
-      console.error('❌ Failed to save project:', error);
+            console.error('[Project] Failed to save:', error);
       throw error;
     }
   }
 
   async loadProjects() {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const user = await this.getCurrentUser();
       if (!user) {
-        throw new Error('User not authenticated');
+        this.showAuthPrompt('load');
+        return this.getLocalProjects();
       }
+
+      this.clearAuthNotice('load');
 
       const { data: projects, error } = await supabase
         .from('projects')
@@ -241,16 +389,20 @@ class ProjectManager {
 
       return projects || [];
     } catch (error) {
-      console.error('❌ Failed to load projects:', error);
+            console.error('[Project] Failed to load:', error);
       return [];
     }
   }
 
   async deleteProject(projectId) {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const user = await this.getCurrentUser();
       if (!user) {
-        throw new Error('User not authenticated');
+        const deleted = this.deleteLocalProject(projectId);
+        if (!deleted) {
+          throw new Error('Local project not found');
+        }
+        return true;
       }
 
       const { error } = await supabase
@@ -264,19 +416,23 @@ class ProjectManager {
         throw error;
       }
 
-      console.log('✅ Project deleted:', projectId);
+            console.log('[Project] Deleted:', projectId);
       return true;
     } catch (error) {
-      console.error('❌ Failed to delete project:', error);
+            console.error('[Project] Failed to delete:', error);
       throw error;
     }
   }
 
   async updateProject(projectId, updates) {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const user = await this.getCurrentUser();
       if (!user) {
-        throw new Error('User not authenticated');
+        const updated = this.updateLocalProject(projectId, updates);
+        if (!updated) {
+          throw new Error('Local project not found');
+        }
+        return updated;
       }
 
       const { data, error } = await supabase
@@ -293,7 +449,7 @@ class ProjectManager {
 
       return data[0];
     } catch (error) {
-      console.error('❌ Failed to update project:', error);
+            console.error('[Project] Failed to update:', error);
       throw error;
     }
   }
@@ -424,10 +580,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (result.success) {
           currentChartData = result.data;
           renderChart(result.data, chartType);
-          console.log(`✅ Generated ${chartType} chart (cache size: ${aiService.getCacheSize()})`);
+                    console.log(`[AI] Generated ${chartType} chart (cache size: ${aiService.getCacheSize()})`);
         }
       } catch (error) {
-        console.error('❌ Generation failed:', error);
+                console.error('[AI] Generation failed:', error);
         alert('Ошибка генерации. Попробуйте еще раз.');
       } finally {
         loading?.classList.add('hidden');

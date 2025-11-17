@@ -38,7 +38,7 @@ export function optimizeHTML(distPath) {
     }
     
     writeFileSync(filePath, content);
-    console.log(`✅ Optimized HTML: ${filePath}`);
+        console.log(`[Optimize] Optimized HTML: ${filePath}`);
   });
 }
 
@@ -143,7 +143,7 @@ async function doBackgroundSync() {
 `;
 
   writeFileSync(join(distPath, 'sw.js'), serviceWorkerContent);
-  console.log('✅ Generated service worker');
+    console.log('[Optimize] Generated service worker');
 }
 
 /**
@@ -196,15 +196,15 @@ ${stats.largestFiles
   .join('\n')}
 
 ## Performance Targets
-- ✅ Total size under 5MB: ${stats.totalSize < 5 * 1024 * 1024 ? 'PASS' : 'FAIL'}
-- ✅ Largest file under 1MB: ${stats.largestFiles[0]?.size < 1024 * 1024 ? 'PASS' : 'FAIL'}
-- ✅ Total files under 100: ${stats.totalFiles < 100 ? 'PASS' : 'FAIL'}
+- Total size under 5MB: ${stats.totalSize < 5 * 1024 * 1024 ? 'PASS' : 'FAIL'}
+- Largest file under 1MB: ${stats.largestFiles[0]?.size < 1024 * 1024 ? 'PASS' : 'FAIL'}
+- Total files under 100: ${stats.totalFiles < 100 ? 'PASS' : 'FAIL'}
 
 Generated on: ${new Date().toLocaleString()}
 `;
 
   writeFileSync(join(distPath, 'build-stats.md'), report);
-  console.log('✅ Generated build statistics');
+    console.log('[Optimize] Generated build statistics');
   
   return stats;
 }
@@ -260,7 +260,7 @@ function getAllFiles(dir) {
  * Main optimization function
  */
 export async function optimizeBuild(distPath = './dist') {
-  console.log('🚀 Starting build optimization...');
+    console.log('[Optimize] Starting build optimization...');
   
   try {
     // Optimize HTML files
@@ -272,12 +272,12 @@ export async function optimizeBuild(distPath = './dist') {
     // Generate build statistics
     const stats = generateBuildStats(distPath);
     
-    console.log('✅ Build optimization completed!');
-    console.log(`📊 Total build size: ${Math.round(stats.totalSize / 1024)} KB`);
+        console.log('[Optimize] Build optimization completed!');
+        console.log(`[Optimize] Total build size: ${Math.round(stats.totalSize / 1024)} KB`);
     
     return stats;
   } catch (error) {
-    console.error('❌ Build optimization failed:', error);
+        console.error('[Optimize] Build optimization failed:', error);
     throw error;
   }
 }

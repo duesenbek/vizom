@@ -5,7 +5,7 @@
 /* CORE MODULES */
 /* =================================== */
 import { supabase } from './core/supabase-client.js';
-import { analytics } from './core/analytics.js';
+import { Analytics } from './core/analytics.js';
 import { ChartEngine } from './core/chart-engine.js';
 
 /* =================================== */
@@ -16,6 +16,8 @@ import { LoadingStates } from '../src/components/LoadingStates.js';
 import { MobileNavigation } from '../src/components/MobileNavigation.js';
 import { UnifiedHeader } from '../src/components/UnifiedHeader.js';
 import { UnifiedFooter } from '../src/components/UnifiedFooter.js';
+import { HeaderIntegration } from '../src/components/HeaderIntegration.js';
+import { ComingSoonModal } from '../src/components/ComingSoonModal.js';
 import { TemplateGallery } from '../src/components/TemplateGallery.js';
 import { GeneratorLayout } from '../src/components/GeneratorLayout.js';
 import { MobileGenerator } from '../src/components/MobileGenerator.js';
@@ -24,11 +26,14 @@ import { MobileTemplates } from '../src/components/MobileTemplates.js';
 /* =================================== */
 /* PAGE-SPECIFIC MODULES */
 /* =================================== */
-import { GeneratorPage } from './pages/generator.js';
 
 /* =================================== */
 /* MAIN APPLICATION CLASS */
 /* =================================== */
+const META_ENV = (typeof import.meta !== 'undefined' && import.meta && import.meta.env)
+  ? import.meta.env
+  : {};
+
 class VizomApp {
   constructor() {
     this.version = '2.0.0';
@@ -51,7 +56,7 @@ class VizomApp {
   }
 
   getEnvironment() {
-    return import.meta.env?.MODE || 'development';
+    return META_ENV.MODE || META_ENV.VITE_MODE || 'development';
   }
 
   getApiBaseUrl() {
@@ -91,7 +96,7 @@ class VizomApp {
   getAnalyticsConfig() {
     return {
       enabled: true,
-      trackingId: import.meta.env?.VITE_GA_TRACKING_ID,
+      trackingId: META_ENV.VITE_GA_TRACKING_ID,
       debugMode: this.getEnvironment() !== 'production'
     };
   }
@@ -107,7 +112,7 @@ class VizomApp {
 
   async init() {
     try {
-      console.log(`🚀 VIZOM v${this.version} initializing...`);
+            console.log(`[VIZOM] v${this.version} initializing...`);
       
       // Initialize core services
       await this.initCoreServices();
@@ -128,31 +133,32 @@ class VizomApp {
       this.initPerformanceMonitoring();
       
       this.isInitialized = true;
-      console.log('✅ VIZOM initialized successfully');
+            console.log('[VIZOM] Initialized successfully');
       
       // Announce ready state
       this.announceReady();
       
     } catch (error) {
-      console.error('❌ VIZOM initialization failed:', error);
+            console.error('[VIZOM] Initialization failed:', error);
       this.handleInitializationError(error);
     }
   }
 
   async initCoreServices() {
-    console.log('📦 Initializing core services...');
+        console.log('[Init] Initializing core services...');
     
     // Initialize Supabase client
     if (supabase) {
       this.modules.set('supabase', supabase);
-      console.log('✅ Supabase client initialized');
+            console.log('[Init] Supabase client initialized');
     }
     
     // Initialize analytics
-    if (this.config.analytics.enabled && analytics) {
+        if (this.config.analytics.enabled && Analytics) {
+      const analytics = new Analytics();
       await analytics.init(this.config.analytics);
       this.modules.set('analytics', analytics);
-      console.log('✅ Analytics initialized');
+            console.log('[Init] Analytics initialized');
     }
     
     // Initialize chart engine
@@ -160,60 +166,75 @@ class VizomApp {
       const chartEngine = new ChartEngine(this.config.apiBaseUrl);
       await chartEngine.init();
       this.modules.set('chartEngine', chartEngine);
-      console.log('✅ Chart engine initialized');
+            console.log('[Init] Chart engine initialized');
     }
   }
 
   async initComponents() {
-    console.log('🧩 Initializing components...');
+        console.log('[Init] Initializing components...');
     
     // Initialize modal system
     if (ModalSystem) {
       const modalSystem = new ModalSystem();
       this.modules.set('modalSystem', modalSystem);
-      console.log('✅ Modal system initialized');
+      window.modalSystem = modalSystem; // Expose to global scope
+            console.log('[Init] Modal system initialized');
     }
     
     // Initialize loading states
     if (LoadingStates) {
       const loadingStates = new LoadingStates();
       this.modules.set('loadingStates', loadingStates);
-      console.log('✅ Loading states initialized');
+            console.log('[Init] Loading states initialized');
     }
     
     // Initialize mobile navigation
     if (this.config.features.mobileNavigation && MobileNavigation) {
       const mobileNavigation = new MobileNavigation();
       this.modules.set('mobileNavigation', mobileNavigation);
-      console.log('✅ Mobile navigation initialized');
+            console.log('[Init] Mobile navigation initialized');
     }
     
     // Initialize header
     if (UnifiedHeader) {
       const header = new UnifiedHeader();
       this.modules.set('header', header);
-      console.log('✅ Header initialized');
+            console.log('[Init] Global error handlers initialized');
     }
     
     // Initialize footer
     if (UnifiedFooter) {
       const footer = new UnifiedFooter();
       this.modules.set('footer', footer);
-      console.log('✅ Footer initialized');
+      console.log('[Init] Footer initialized');
+    }
+
+    // Initialize header integration
+    if (HeaderIntegration) {
+      const headerIntegration = new HeaderIntegration();
+      this.modules.set('headerIntegration', headerIntegration);
+      console.log('[Init] Header integration initialized');
+    }
+
+    // Initialize coming soon modal
+    if (ComingSoonModal) {
+      const comingSoonModal = new ComingSoonModal();
+      this.modules.set('comingSoonModal', comingSoonModal);
+            console.log('[Init] Coming soon modal initialized');
     }
     
     // Initialize template gallery (if on templates page)
     if (this.isTemplatesPage() && TemplateGallery) {
       const templateGallery = new TemplateGallery();
       this.modules.set('templateGallery', templateGallery);
-      console.log('✅ Template gallery initialized');
+            console.log('[Init] Template gallery initialized');
     }
     
     // Initialize generator layout (if on generator page)
     if (this.isGeneratorPage() && GeneratorLayout) {
       const generatorLayout = new GeneratorLayout();
       this.modules.set('generatorLayout', generatorLayout);
-      console.log('✅ Generator layout initialized');
+            console.log('[Init] Generator layout initialized');
     }
     
     // Initialize mobile-specific components
@@ -223,32 +244,26 @@ class VizomApp {
   }
 
   async initMobileComponents() {
-    console.log('📱 Initializing mobile components...');
+        console.log('[Init] Initializing mobile components...');
     
     // Initialize mobile generator
     if (this.isGeneratorPage() && MobileGenerator) {
       const mobileGenerator = new MobileGenerator();
       this.modules.set('mobileGenerator', mobileGenerator);
-      console.log('✅ Mobile generator initialized');
+            console.log('[Init] Mobile generator initialized');
     }
     
     // Initialize mobile templates
     if (this.isTemplatesPage() && MobileTemplates) {
       const mobileTemplates = new MobileTemplates();
       this.modules.set('mobileTemplates', mobileTemplates);
-      console.log('✅ Mobile templates initialized');
+            console.log('[Init] Mobile templates initialized');
     }
   }
 
   async initPageSpecific() {
-    console.log('📄 Initializing page-specific functionality...');
+        console.log('[Init] Initializing page-specific functionality...');
     
-    // Initialize generator page
-    if (this.isGeneratorPage() && GeneratorPage) {
-      const generatorPage = new GeneratorPage();
-      this.modules.set('generatorPage', generatorPage);
-      console.log('✅ Generator page initialized');
-    }
     
     // Initialize other page-specific modules based on current page
     await this.initCurrentPageModules();
@@ -271,32 +286,32 @@ class VizomApp {
         await this.initPricingPage();
         break;
       default:
-        console.log(`ℹ️ No specific initialization for page: ${pageName}`);
+            console.log(`[Init] No specific initialization for page: ${pageName}`);
     }
   }
 
   async initHomePage() {
     // Home page specific initialization
-    console.log('🏠 Initializing home page...');
+        console.log('[Init] Initializing home page...');
   }
 
   async initGeneratorPage() {
     // Generator page specific initialization
-    console.log('⚡ Initializing generator page...');
+        console.log('[Init] Initializing generator page...');
   }
 
   async initTemplatesPage() {
     // Templates page specific initialization
-    console.log('📋 Initializing templates page...');
+        console.log('[Init] Initializing templates page...');
   }
 
   async initPricingPage() {
     // Pricing page specific initialization
-    console.log('💰 Initializing pricing page...');
+        console.log('[Init] Initializing pricing page...');
   }
 
   setupGlobalEventListeners() {
-    console.log('🎧 Setting up global event listeners...');
+        console.log('[Init] Setting up global event listeners...');
     
     // Handle visibility changes
     document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
@@ -322,7 +337,7 @@ class VizomApp {
   }
 
   initErrorHandling() {
-    console.log('🚨 Initializing error handling...');
+        console.log('[Init] Initializing error handling...');
     
     // Setup global error handlers
     this.setupErrorHandlers();
@@ -334,7 +349,7 @@ class VizomApp {
   setupErrorHandlers() {
     // Custom error handler for better debugging
     window.vizomErrorHandler = (error, context = {}) => {
-      console.error('VIZOM Error:', error, context);
+            console.error('[VIZOM] Error:', error, context);
       
       // Track error in analytics
       if (this.modules.has('analytics')) {
@@ -350,12 +365,12 @@ class VizomApp {
     // Setup error reporting to monitoring service
     if (this.config.environment === 'production') {
       // Initialize error reporting service (e.g., Sentry)
-      console.log('📊 Error reporting enabled');
+            console.log('[Init] Error reporting enabled');
     }
   }
 
   initPerformanceMonitoring() {
-    console.log('⚡ Initializing performance monitoring...');
+        console.log('[Init] Initializing performance monitoring...');
     
     // Monitor page load performance
     this.monitorPageLoadPerformance();
@@ -373,7 +388,7 @@ class VizomApp {
         setTimeout(() => {
           const perfData = performance.getEntriesByType('navigation')[0];
           if (perfData) {
-            console.log('📊 Page Load Performance:', {
+                console.log('[Init] Page Load Performance:', {
               domContentLoaded: perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart,
               loadComplete: perfData.loadEventEnd - perfData.loadEventStart,
               totalTime: perfData.loadEventEnd - perfData.navigationStart
@@ -391,7 +406,7 @@ class VizomApp {
       const lcpObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries();
         const lastEntry = entries[entries.length - 1];
-        console.log('🎯 LCP:', lastEntry.renderTime || lastEntry.loadTime);
+                console.log('[Init] LCP:', lastEntry.renderTime || lastEntry.loadTime);
       });
       lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
       
@@ -399,7 +414,7 @@ class VizomApp {
       const fidObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries();
         entries.forEach((entry) => {
-          console.log('⚡ FID:', entry.processingStart - entry.startTime);
+                console.log('[Init] FID:', entry.processingStart - entry.startTime);
         });
       });
       fidObserver.observe({ entryTypes: ['first-input'] });
@@ -412,7 +427,7 @@ class VizomApp {
             clsScore += entry.value;
           }
         });
-        console.log('📐 CLS:', clsScore);
+                console.log('[Init] CLS:', clsScore);
       });
       clsObserver.observe({ entryTypes: ['layout-shift'] });
     }
@@ -422,29 +437,29 @@ class VizomApp {
     // Report performance metrics to analytics
     if (this.modules.has('analytics') && this.config.analytics.enabled) {
       // Setup performance reporting
-      console.log('📊 Performance reporting enabled');
+            console.log('[Init] Performance reporting enabled');
     }
   }
 
   // Event handlers
   handleVisibilityChange() {
     if (document.hidden) {
-      console.log('🔍 Page hidden - pausing activities');
+            console.log('[Init] Page hidden - pausing activities');
       this.pauseBackgroundActivities();
     } else {
-      console.log('👁️ Page visible - resuming activities');
+            console.log('[Init] Page visible - resuming activities');
       this.resumeBackgroundActivities();
     }
   }
 
   handleOnlineStatus() {
-    console.log('🌐 Connection restored');
+        console.log('[Init] Connection restored');
     this.showConnectionStatus('online');
     this.syncOfflineData();
   }
 
   handleOfflineStatus() {
-    console.log('📵 Connection lost');
+        console.log('[Init] Connection lost');
     this.showConnectionStatus('offline');
     this.enableOfflineMode();
   }
@@ -454,7 +469,7 @@ class VizomApp {
     const wasMobile = this.previousMobileState;
     
     if (isMobile !== wasMobile) {
-      console.log(`📱 Device type changed: ${wasMobile ? 'desktop' : 'mobile'} -> ${isMobile ? 'mobile' : 'desktop'}`);
+            console.log('[Init] Device type changed:', wasMobile ? 'desktop' : 'mobile', '->', isMobile ? 'mobile' : 'desktop');
       this.handleDeviceTypeChange(isMobile);
     }
     
@@ -560,12 +575,12 @@ class VizomApp {
 
   enableOfflineMode() {
     // Enable offline functionality
-    console.log('📴 Offline mode enabled');
+        console.log('[App] Offline mode enabled');
   }
 
   syncOfflineData() {
     // Sync data when coming back online
-    console.log('🔄 Syncing offline data');
+        console.log('[App] Syncing offline data');
   }
 
   handleDeviceTypeChange(isMobile) {
@@ -593,7 +608,7 @@ class VizomApp {
   showConnectionStatus(status) {
     const statusElement = document.getElementById('connection-status');
     if (statusElement) {
-      statusElement.textContent = status === 'online' ? '🌐 Online' : '📵 Offline';
+            statusElement.textContent = status === 'online' ? 'Online' : 'Offline';
       statusElement.className = status === 'online' ? 'online' : 'offline';
       
       // Auto-hide after 3 seconds
@@ -690,7 +705,7 @@ class VizomApp {
     document.body.innerHTML = `
       <div class="viz-error-page">
         <div class="viz-error-container">
-          <h1>⚠️ Application Error</h1>
+                    <h1>Application Error</h1>
           <p>VIZOM failed to initialize. Please refresh the page or contact support.</p>
           <button onclick="window.location.reload()" class="viz-button viz-button-primary">
             Refresh Page
@@ -723,7 +738,7 @@ class VizomApp {
 
   restart() {
     // Restart the application
-    console.log('🔄 Restarting VIZOM...');
+        console.log('[VIZOM] Restarting...');
     this.isInitialized = false;
     this.modules.clear();
     this.init();

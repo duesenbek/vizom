@@ -3,7 +3,7 @@
  * Handles exporting charts to various formats (PNG, PDF, CSV, SVG)
  */
 
-import { downloadFile } from '../utils.js';
+import { downloadFile } from '../core/utils.js';
 
 export class ExportManager {
   constructor(container) {

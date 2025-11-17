@@ -35,8 +35,8 @@ class InputValidationEnhanced {
     
     this.feedbackMessages = {
       valid: {
-        excellent: '🎉 Perfect! Your data looks great for visualization',
-        good: '✅ Great! Ready to generate your chart',
+        excellent: 'Perfect! Your data looks great for visualization',
+        good: 'Great! Ready to generate your chart',
         acceptable: '✓ Good! This should work well'
       },
       invalid: {
@@ -49,11 +49,11 @@ class InputValidationEnhanced {
         singlePoint: 'Add more data points for better visualization'
       },
       suggestions: {
-        format: '💡 Try: "January $12K, February $15K, March $18K"',
-        currency: '💡 Include currency symbols: "$12000" or "€15000"',
-        percentage: '💡 Use percentages: "Design 85%, Development 92%"',
-        timeSeries: '💡 Time series: "Jan 100, Feb 120, Mar 140"',
-        categories: '💡 Categories: "Product A 45, Product B 30, Product C 25"'
+        format: 'Tip: Try "January $12K, February $15K, March $18K"',
+        currency: 'Tip: Include currency symbols: "$12000" or "€15000"',
+        percentage: 'Tip: Use percentages: "Design 85%, Development 92%"',
+        timeSeries: 'Tip: Time series: "Jan 100, Feb 120, Mar 140"',
+        categories: 'Tip: Categories: "Product A 45, Product B 30, Product C 25"'
       }
     };
     
@@ -484,7 +484,7 @@ class InputValidationEnhanced {
     const text = feedback.querySelector('.feedback-text');
 
     if (validation.isValid) {
-      icon.textContent = '✓';
+      icon.innerHTML = '<i class="fas fa-check-circle"></i>';
       text.innerHTML = validation.message;
       
       // Add quality indicator
@@ -492,7 +492,7 @@ class InputValidationEnhanced {
         text.innerHTML += `<span class="validation-quality ${validation.quality}">${validation.quality}</span>`;
       }
     } else {
-      icon.textContent = '⚠️';
+      icon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
       text.innerHTML = validation.message;
     }
 

@@ -39,6 +39,7 @@
   "devDependencies": {
     "@playwright/test": "^1.56.1",
     "@tailwindcss/cli": "^4.1.16",
+    "@tailwindcss/postcss": "^4.1.17",
     "@vitejs/plugin-legacy": "^5.2.0",
     "@vitest/ui": "^1.0.4",
     "autoprefixer": "^10.4.21",
@@ -51,6 +52,8 @@
     "vitest": "^1.0.4"
   },
   "dependencies": {
+    "@sentry/browser": "^10.25.0",
+    "@sentry/tracing": "^7.120.4",
     "@supabase/supabase-js": "^2.45.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
@@ -65,11 +68,12 @@
     "express-rate-limit": "^7.1.5",
     "helmet": "^7.1.0",
     "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.1",
+    "jspdf": "^2.5.2",
     "plotly.js-dist": "^2.35.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "stripe": "^14.19.0",
+    "svg2pdf.js": "^2.6.0",
     "typescript": "^5.9.3"
   }
 }

@@ -109,7 +109,9 @@
 }
 
 .modal-confirmation .modal-title::before {
-  content: '⚠️';
+  content: '\f071';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
   font-size: var(--font-size-lg);
 }
 
@@ -319,7 +321,9 @@
 }
 
 .smart-suggestions .suggestions-header::before {
-  content: '💡';
+  content: '\f0eb';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
 }
 
 .smart-suggestions .suggestion-list {
@@ -372,7 +376,9 @@
 }
 
 [data-destructive="true"]:hover::after {
-  content: '⚠️';
+  content: '\f071';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
   position: absolute;
   top: -8px;
   right: -8px;

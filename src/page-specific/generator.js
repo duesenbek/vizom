@@ -12,7 +12,7 @@ class AIService {
     const cacheKey = `${chartType}-${this.hashPrompt(prompt)}`;
     
     if (this.promptCache.has(cacheKey)) {
-      console.log('📋 Using cached result for:', cacheKey.substring(0, 50) + '...');
+            console.log('[Cache] Using cached result for:', cacheKey.substring(0, 50) + '...');
       return this.promptCache.get(cacheKey);
     }
     
@@ -173,7 +173,7 @@ class AIService {
 
   clearCache() {
     this.promptCache.clear();
-    console.log('🗑️ Cache cleared');
+        console.log('[Cache] Cache cleared');
   }
 
   getCacheSize() {
@@ -213,10 +213,10 @@ class ProjectManager {
         throw error;
       }
 
-      console.log('✅ Project saved:', data[0]);
+            console.log('[Project] Project saved:', data[0]);
       return data[0];
     } catch (error) {
-      console.error('❌ Failed to save project:', error);
+            console.error('[Project] Failed to save project:', error);
       throw error;
     }
   }
@@ -241,7 +241,7 @@ class ProjectManager {
 
       return projects || [];
     } catch (error) {
-      console.error('❌ Failed to load projects:', error);
+            console.error('[Project] Failed to load projects:', error);
       return [];
     }
   }
@@ -264,10 +264,10 @@ class ProjectManager {
         throw error;
       }
 
-      console.log('✅ Project deleted:', projectId);
+            console.log('[Project] Project deleted:', projectId);
       return true;
     } catch (error) {
-      console.error('❌ Failed to delete project:', error);
+            console.error('[Project] Failed to delete project:', error);
       throw error;
     }
   }
@@ -293,7 +293,7 @@ class ProjectManager {
 
       return data[0];
     } catch (error) {
-      console.error('❌ Failed to update project:', error);
+            console.error('[Project] Failed to update project:', error);
       throw error;
     }
   }
@@ -424,10 +424,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (result.success) {
           currentChartData = result.data;
           renderChart(result.data, chartType);
-          console.log(`✅ Generated ${chartType} chart (cache size: ${aiService.getCacheSize()})`);
+                    console.log(`[AI] Generated ${chartType} chart (cache size: ${aiService.getCacheSize()})`);
         }
       } catch (error) {
-        console.error('❌ Generation failed:', error);
+                console.error('[AI] Generation failed:', error);
         alert('Ошибка генерации. Попробуйте еще раз.');
       } finally {
         loading?.classList.add('hidden');

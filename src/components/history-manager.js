@@ -454,26 +454,6 @@ class HistoryManager {
       this.deleteState(index);
     });
 
-    return item;
-  }
-
-  // Get state icon based on type
-  getStateIcon(type) {
-    const icons = {
-      'chart_generated': '📊',
-      'data_modified': '📝',
-      'settings_changed': '⚙️',
-      'theme_changed': '🎨',
-      'export_completed': '💾'
-    };
-    return icons[type] || '📌';
-  }
-
-  // Get time ago string
-  getTimeAgo(timestamp) {
-    const now = Date.now();
-    const diff = now - timestamp;
-    
     const minutes = Math.floor(diff / 60000);
     const hours = Math.floor(diff / 3600000);
     const days = Math.floor(diff / 86400000);

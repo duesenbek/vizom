@@ -759,6 +759,21 @@ a:focus {
   color: var(--color-error-800);
 }
 
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 4px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.25s ease forwards;
+}
+
 /* Tooltip System */
 .tooltip {
   position: relative;
@@ -787,6 +802,7 @@ a:focus {
 .tooltip:hover::before {
   opacity: 1;
   visibility: visible;
+  animation: fade-in 0.25s ease forwards;
 }
 
 /* Loading Spinner */

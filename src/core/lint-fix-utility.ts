@@ -5,7 +5,7 @@
 
 // Create a simple utility to fix all files at once
 const fixAllFiles = () => {
-  console.log('🔧 Applying comprehensive TypeScript lint fixes...');
+    console.log('Applying comprehensive TypeScript lint fixes...');
   
   // Fix 1: prompt-engineering.ts - Add missing type annotation
   const promptEngineeringFix = `
@@ -126,8 +126,8 @@ startRequest(
 }
   `;
 
-  console.log('✅ All TypeScript lint fixes prepared');
-  console.log('📁 Fixed files:');
+    console.log('All TypeScript lint fixes prepared');
+    console.log('Fixed files:');
   console.log('  - prompt-engineering.ts (type annotations)');
   console.log('  - error-handling.ts (unknown types, variable init)');
   console.log('  - response-parsing.ts (unknown types)');

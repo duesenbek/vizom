@@ -114,7 +114,7 @@ export class ChartTypeSelector {
         aria-label="${type.name} chart"
       >
         <div class="flex flex-col items-center text-center">
-          <div class="text-2xl mb-2" role="img" aria-label="${type.name} icon">${type.icon}</div>
+          <div class="text-2xl mb-2" role="img" aria-label="${type.name} icon"><i class="fa-solid ${type.icon && type.icon.includes('fa-') ? type.icon : 'fa-chart-column'}"></i></div>
           <h3 class="font-medium text-sm text-gray-900 mb-1">${type.name}</h3>
           <p class="text-xs text-gray-600 line-clamp-2">${type.description}</p>
         </div>

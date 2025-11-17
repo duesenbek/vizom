@@ -28,7 +28,7 @@ class TemplateGallery {
         category: 'business',
         description: 'Track MRR growth, churn rates, and sales team performance. Includes weekly summary prompts and investor presentation templates.',
         badge: 'free',
-        chartType: '📊 Dashboard',
+        chartType: 'Dashboard',
         uses: 1200,
         rating: 4.8,
         setupTime: '15 min setup',
@@ -55,7 +55,7 @@ class TemplateGallery {
         category: 'marketing',
         description: 'Campaign performance metrics: CAC, CPL, ROI analysis. Complete with monthly report prompts and client presentation templates.',
         badge: 'free',
-        chartType: '📈 Analytics',
+        chartType: 'Analytics',
         uses: 856,
         rating: 4.7,
         setupTime: '10 min setup',
@@ -82,7 +82,7 @@ class TemplateGallery {
         category: 'finance',
         description: 'Expense tracking, profit analysis, and cash flow monitoring. Perfect for CFOs and founders with quarterly report prompts included.',
         badge: 'premium',
-        chartType: '💰 Finance',
+        chartType: 'Finance',
         uses: 643,
         rating: 4.9,
         setupTime: '20 min setup',
@@ -109,7 +109,7 @@ class TemplateGallery {
         category: 'academic',
         description: 'Research data visualization with statistical analysis, publication-ready charts, and comprehensive data exploration tools.',
         badge: 'free',
-        chartType: '📚 Research',
+        chartType: 'Research',
         uses: 423,
         rating: 4.6,
         setupTime: '25 min setup',
@@ -136,7 +136,7 @@ class TemplateGallery {
         category: 'business',
         description: 'Track key business metrics, goals vs actual performance, and team productivity with automated reporting and alerts.',
         badge: 'free',
-        chartType: '🎯 KPI',
+        chartType: 'KPI',
         uses: 912,
         rating: 4.8,
         setupTime: '12 min setup',
@@ -163,7 +163,7 @@ class TemplateGallery {
         category: 'marketing',
         description: 'Comprehensive social media performance tracking across platforms with engagement metrics and growth analytics.',
         badge: 'premium',
-        chartType: '📱 Social',
+        chartType: 'Social',
         uses: 567,
         rating: 4.7,
         setupTime: '18 min setup',
@@ -185,6 +185,25 @@ class TemplateGallery {
         }
       }
     ];
+  }
+
+  getChartTypeIconClass(templateId) {
+    switch (templateId) {
+      case 'sales-dashboard':
+        return 'fa-solid fa-chart-column';
+      case 'marketing-campaign':
+        return 'fa-solid fa-chart-line';
+      case 'financial-monitor':
+        return 'fa-solid fa-chart-pie';
+      case 'academic-research':
+        return 'fa-solid fa-chart-bar';
+      case 'business-kpi':
+        return 'fa-solid fa-bullseye';
+      case 'social-media':
+        return 'fa-solid fa-chart-line';
+      default:
+        return 'fa-solid fa-chart-simple';
+    }
   }
 
   setupEventListeners() {
@@ -394,6 +413,7 @@ class TemplateGallery {
     card.dataset.templateId = template.id;
 
     const isSaved = this.savedTemplates.includes(template.id);
+    const iconClass = this.getChartTypeIconClass(template.id);
 
     card.innerHTML = `
       <div class="template-preview">
@@ -423,7 +443,10 @@ class TemplateGallery {
           <div>
             <h3 class="template-title">${template.title}</h3>
             <div class="flex items-center gap-2 mt-1">
-              <span class="chart-type-badge">${template.chartType}</span>
+              <span class="chart-type-badge">
+                <i class="${iconClass}"></i>
+                ${template.chartType}
+              </span>
               <span class="template-badge ${template.badge}">${template.badge}</span>
             </div>
           </div>
@@ -473,7 +496,10 @@ class TemplateGallery {
     const modalUseBtn = document.getElementById('modal-use-template');
 
     if (modalTitle) modalTitle.textContent = template.title;
-    if (modalCategory) modalCategory.textContent = template.chartType;
+    if (modalCategory) {
+      const iconClass = this.getChartTypeIconClass(template.id);
+      modalCategory.innerHTML = `<i class="${iconClass}"></i> ${template.chartType}`;
+    }
     if (modalBadge) {
       modalBadge.textContent = template.badge;
       modalBadge.className = `template-badge ${template.badge}`;

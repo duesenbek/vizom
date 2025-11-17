@@ -63,19 +63,27 @@ export class LiveDemoSection {
                     <label class="block text-sm font-medium text-gray-700 mb-3">Chart Type</label>
                     <div class="grid grid-cols-4 gap-2">
                       <button class="chart-type-btn active" data-type="bar">
-                        <div class="w-8 h-8 mx-auto mb-1">📊</div>
+                        <div class="w-8 h-8 mx-auto mb-1 flex items-center justify-center text-lg">
+                          <i class="fa-solid fa-chart-column"></i>
+                        </div>
                         <span class="text-xs">Bar</span>
                       </button>
                       <button class="chart-type-btn" data-type="line">
-                        <div class="w-8 h-8 mx-auto mb-1">📈</div>
+                        <div class="w-8 h-8 mx-auto mb-1 flex items-center justify-center text-lg">
+                          <i class="fa-solid fa-chart-line"></i>
+                        </div>
                         <span class="text-xs">Line</span>
                       </button>
                       <button class="chart-type-btn" data-type="pie">
-                        <div class="w-8 h-8 mx-auto mb-1">🥧</div>
+                        <div class="w-8 h-8 mx-auto mb-1 flex items-center justify-center text-lg">
+                          <i class="fa-solid fa-chart-pie"></i>
+                        </div>
                         <span class="text-xs">Pie</span>
                       </button>
                       <button class="chart-type-btn" data-type="area">
-                        <div class="w-8 h-8 mx-auto mb-1">📉</div>
+                        <div class="w-8 h-8 mx-auto mb-1 flex items-center justify-center text-lg">
+                          <i class="fa-solid fa-chart-area"></i>
+                        </div>
                         <span class="text-xs">Area</span>
                       </button>
                     </div>
@@ -102,13 +110,16 @@ export class LiveDemoSection {
                     <label class="block text-sm font-medium text-gray-700 mb-3">Quick Examples</label>
                     <div class="grid grid-cols-1 gap-2">
                       <button class="example-prompt-btn" data-prompt="Create a bar chart showing monthly sales data for Q1 2024">
-                        📊 Monthly sales comparison
+                        <i class="fa-solid fa-chart-column mr-2"></i>
+                        Monthly sales comparison
                       </button>
                       <button class="example-prompt-btn" data-prompt="Generate a line chart showing user growth over 6 months">
-                        📈 User growth trend
+                        <i class="fa-solid fa-chart-line mr-2"></i>
+                        User growth trend
                       </button>
                       <button class="example-prompt-btn" data-prompt="Build a pie chart displaying market share percentages">
-                        🥧 Market share distribution
+                        <i class="fa-solid fa-chart-pie mr-2"></i>
+                        Market share distribution
                       </button>
                     </div>
                   </div>

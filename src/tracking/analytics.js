@@ -8,14 +8,16 @@
  *   GA_TRACKING_ID (e.g., G-XXXXXXXXXX)
  */
 
+const META_ENV = (import.meta && import.meta.env) ? import.meta.env : {};
+
 const ENV = {
-  ENABLE_ANALYTICS: toBool(import.meta.env.ENABLE_ANALYTICS ?? import.meta.env.VITE_ENABLE_ANALYTICS ?? true),
-  PROVIDER: (import.meta.env.VITE_ANALYTICS_PROVIDER || '').toLowerCase(), // 'plausible' | 'umami' | 'ga' | 'none'
-  PLAUSIBLE_DOMAIN: import.meta.env.PLAUSIBLE_DOMAIN ?? import.meta.env.VITE_PLAUSIBLE_DOMAIN,
-  PLAUSIBLE_SCRIPT_URL: import.meta.env.PLAUSIBLE_SCRIPT_URL ?? 'https://plausible.io/js/script.js',
-  UMAMI_WEBSITE_ID: import.meta.env.UMAMI_WEBSITE_ID ?? import.meta.env.VITE_UMAMI_WEBSITE_ID,
-  UMAMI_SCRIPT_URL: import.meta.env.UMAMI_SCRIPT_URL ?? 'https://umami.is/script.js',
-  GA_TRACKING_ID: import.meta.env.GA_TRACKING_ID ?? import.meta.env.VITE_GA_TRACKING_ID,
+  ENABLE_ANALYTICS: toBool(META_ENV.ENABLE_ANALYTICS ?? META_ENV.VITE_ENABLE_ANALYTICS ?? true),
+  PROVIDER: (META_ENV.VITE_ANALYTICS_PROVIDER || '').toLowerCase(), // 'plausible' | 'umami' | 'ga' | 'none'
+  PLAUSIBLE_DOMAIN: META_ENV.PLAUSIBLE_DOMAIN ?? META_ENV.VITE_PLAUSIBLE_DOMAIN,
+  PLAUSIBLE_SCRIPT_URL: META_ENV.PLAUSIBLE_SCRIPT_URL ?? 'https://plausible.io/js/script.js',
+  UMAMI_WEBSITE_ID: META_ENV.UMAMI_WEBSITE_ID ?? META_ENV.VITE_UMAMI_WEBSITE_ID,
+  UMAMI_SCRIPT_URL: META_ENV.UMAMI_SCRIPT_URL ?? 'https://umami.is/script.js',
+  GA_TRACKING_ID: META_ENV.GA_TRACKING_ID ?? META_ENV.VITE_GA_TRACKING_ID,
 };
 
 function toBool(v) {

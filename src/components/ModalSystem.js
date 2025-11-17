@@ -1,6 +1,8 @@
 // Modal System Component
 // Provides consistent modal functionality across all VIZOM pages
 
+import { supabase } from '../supabase-client.js';
+
 class ModalSystem {
   constructor() {
     this.activeModal = null;
@@ -17,6 +19,7 @@ class ModalSystem {
   }
 
   init() {
+    this.currentSession = null;
     this.setupGlobalEventListeners();
     this.setupFocusManagement();
     this.setupAccessibility();
@@ -1013,15 +1016,16 @@ class ModalSystem {
 
     try {
       this.showFormLoading(form, 'Signing in...');
-      
-      // Simulate API call
-      await this.signInUser(email, password, remember);
-      
-      this.showFormSuccess(form, 'Sign in successful!');
-      setTimeout(() => this.closeModal(), 1500);
-      
+
+      const { error, data } = await this.signInUser(email, password, remember === 'on');
+      if (error) throw error;
+
+      this.persistSession(data?.session);
+      this.showFormSuccess(form, 'Signed in!');
+      this.updateAuthStatusUI(data?.session?.user);
+      setTimeout(() => this.closeModal(), 1200);
     } catch (error) {
-      this.showFormError(form, error.message);
+      this.showFormError(form, error.message || 'Failed to sign in');
     }
   }
 
@@ -1034,20 +1038,20 @@ class ModalSystem {
 
     try {
       this.showFormLoading(form, 'Creating account...');
-      
-      // Validate password strength
+
       if (!this.isPasswordStrong(password)) {
-        throw new Error('Password is not strong enough');
+        throw new Error('Password must include upper, lower & numeric characters');
       }
-      
-      // Simulate API call
-      await this.signUpUser(name, email, password);
-      
-      this.showFormSuccess(form, 'Account created successfully!');
+
+      const { data, error } = await this.signUpUser(name, email, password);
+      if (error) throw error;
+
+      this.persistSession(data?.session);
+      this.showFormSuccess(form, 'Account created! Check email to confirm.');
+      this.updateAuthStatusUI(data?.user);
       setTimeout(() => this.closeModal(), 1500);
-      
     } catch (error) {
-      this.showFormError(form, error.message);
+      this.showFormError(form, error.message || 'Failed to sign up');
     }
   }
 
@@ -1201,15 +1205,125 @@ class ModalSystem {
 
   // Mock API methods (replace with real implementations)
   async signInUser(email, password, remember) {
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    // Simulate successful sign in
-    return { user: { email } };
+    if (!email || !password) {
+      throw new Error('Email and password are required');
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+      options: {
+        shouldCreateUser: false,
+        captchaToken: undefined,
+      },
+    });
+
+    if (error) {
+      throw new Error(this.translateSupabaseError(error));
+    }
+
+    if (remember) {
+      localStorage.setItem('vizom-auth-remember', 'true');
+    } else {
+      localStorage.removeItem('vizom-auth-remember');
+    }
+
+    return { data };
   }
 
   async signUpUser(name, email, password) {
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    // Simulate successful sign up
-    return { user: { name, email } };
+    if (!email || !password || !name) {
+      throw new Error('All fields are required');
+    }
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: name,
+        }
+      }
+    });
+
+    if (error) {
+      throw new Error(this.translateSupabaseError(error));
+    }
+
+    this.saveUserMetadata(data?.user, name);
+    return { data };
+  }
+
+  async signOutUser() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      throw new Error(this.translateSupabaseError(error));
+    }
+
+    this.currentSession = null;
+    localStorage.removeItem('user');
+    this.updateAuthStatusUI(null);
+  }
+
+  translateSupabaseError(error) {
+    if (!error?.message) return 'Unexpected authentication error';
+
+    const message = error.message.toLowerCase();
+    if (message.includes('invalid login')) return 'Incorrect email or password';
+    if (message.includes('email not confirmed')) return 'Please confirm your email before signing in';
+    if (message.includes('already registered')) return 'Email already registered';
+    if (message.includes('password')) return 'Invalid password';
+    return error.message;
+  }
+
+  persistSession(session) {
+    if (!session?.user) return;
+    this.currentSession = session;
+    this.saveUserMetadata(session.user);
+  }
+
+  saveUserMetadata(user, fallbackName) {
+    if (!user) return;
+    const payload = {
+      id: user.id,
+      email: user.email,
+      name: user.user_metadata?.full_name || fallbackName || user.email,
+      avatar: user.user_metadata?.avatar_url || null,
+    };
+    localStorage.setItem('user', JSON.stringify(payload));
+  }
+
+  updateAuthStatusUI(user) {
+    const statusBadge = document.getElementById('auth-status');
+    const userNameField = document.getElementById('auth-user-name');
+    const logoutBtn = document.getElementById('auth-logout-btn');
+
+    if (user) {
+      statusBadge?.classList.remove('status-guest');
+      statusBadge?.classList.add('status-logged');
+      if (statusBadge) statusBadge.textContent = 'Logged In';
+      if (userNameField) userNameField.textContent = user.user_metadata?.full_name || user.email;
+      if (logoutBtn && !logoutBtn.dataset.bound) {
+        logoutBtn.dataset.bound = 'true';
+        logoutBtn.addEventListener('click', async () => {
+          logoutBtn.disabled = true;
+          logoutBtn.textContent = 'Logging out...';
+          try {
+            await this.signOutUser();
+          } catch (error) {
+            console.error('[ModalSystem] Sign out failed', error);
+          } finally {
+            logoutBtn.disabled = false;
+            logoutBtn.textContent = 'Log Out';
+          }
+        });
+      }
+    } else {
+      statusBadge?.classList.add('status-guest');
+      statusBadge?.classList.remove('status-logged');
+      if (statusBadge) statusBadge.textContent = 'Guest';
+      if (userNameField) userNameField.textContent = 'Sign in to continue';
+    }
   }
 
   async sendPasswordReset(email) {

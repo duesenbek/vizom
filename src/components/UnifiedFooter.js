@@ -28,19 +28,50 @@ class UnifiedFooter {
       company: {
         title: 'Company',
         links: [
-          { name: 'About', href: '#about', icon: 'fas fa-building' },
-          { name: 'Blog', href: '#blog', icon: 'fas fa-blog' },
-          { name: 'Careers', href: '#careers', icon: 'fas fa-briefcase' },
-          { name: 'Contact', href: '#contact', icon: 'fas fa-envelope' }
+          { name: 'About', href: 'about.html', icon: 'fas fa-building' },
+          {
+            name: 'Blog',
+            href: '#',
+            icon: 'fas fa-blog',
+            comingSoon: true,
+            comingSoonMessage: 'We are polishing the editorial launch right now.'
+          },
+          {
+            name: 'Careers',
+            href: '#',
+            icon: 'fas fa-briefcase',
+            comingSoon: true,
+            comingSoonMessage: 'Our open positions will appear shortly. Stay tuned!'
+          },
+          { name: 'Contact', href: 'contact.html', icon: 'fas fa-envelope' }
         ]
       },
       resources: {
         title: 'Resources',
         links: [
-          { name: 'Documentation', href: '#docs', icon: 'fas fa-book' },
-          { name: 'Help Center', href: '#help', icon: 'fas fa-life-ring' },
-          { name: 'Tutorials', href: '#tutorials', icon: 'fas fa-graduation-cap' },
-          { name: 'API', href: '#api', icon: 'fas fa-code' }
+          { name: 'Documentation', href: 'docs.html', icon: 'fas fa-book' },
+          {
+            name: 'Help Center',
+            href: '#',
+            icon: 'fas fa-life-ring',
+            comingSoon: true,
+            comingSoonMessage: 'We\'re building a refreshed FAQ and support hub.'
+          },
+          {
+            name: 'Tutorials',
+            href: '#',
+            icon: 'fas fa-graduation-cap',
+            comingSoon: true,
+            comingSoonMessage: 'Guided tutorials unlock in the next release.'
+          },
+          {
+            name: 'API',
+            href: '#',
+            icon: 'fas fa-code',
+            comingSoon: true,
+            comingSoonLabel: 'API Access',
+            comingSoonMessage: 'Self-serve API keys are almost here. Join the waitlist soon.'
+          }
         ]
       },
       legal: {
@@ -143,10 +174,7 @@ class UnifiedFooter {
               <ul class="link-list">
                 ${product.links.map(link => `
                   <li>
-                    <a href="${link.href}" class="footer-link">
-                      <i class="${link.icon}"></i>
-                      <span>${link.name}</span>
-                    </a>
+                    ${this.renderFooterLink(link)}
                   </li>
                 `).join('')}
               </ul>
@@ -161,10 +189,7 @@ class UnifiedFooter {
               <ul class="link-list">
                 ${company.links.map(link => `
                   <li>
-                    <a href="${link.href}" class="footer-link">
-                      <i class="${link.icon}"></i>
-                      <span>${link.name}</span>
-                    </a>
+                    ${this.renderFooterLink(link)}
                   </li>
                 `).join('')}
               </ul>
@@ -179,10 +204,7 @@ class UnifiedFooter {
               <ul class="link-list">
                 ${resources.links.map(link => `
                   <li>
-                    <a href="${link.href}" class="footer-link">
-                      <i class="${link.icon}"></i>
-                      <span>${link.name}</span>
-                    </a>
+                    ${this.renderFooterLink(link)}
                   </li>
                 `).join('')}
               </ul>
@@ -197,10 +219,7 @@ class UnifiedFooter {
               <ul class="link-list">
                 ${legal.links.map(link => `
                   <li>
-                    <a href="${link.href}" class="footer-link">
-                      <i class="${link.icon}"></i>
-                      <span>${link.name}</span>
-                    </a>
+                    ${this.renderFooterLink(link)}
                   </li>
                 `).join('')}
               </ul>

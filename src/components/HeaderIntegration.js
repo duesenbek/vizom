@@ -7,12 +7,8 @@ class HeaderIntegration {
   }
 
   init() {
-    // Wait for DOM to be ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => this.setupIntegration());
-    } else {
-      this.setupIntegration();
-    }
+    // Wait for the header to be rendered before setting up integration
+    document.addEventListener('header:rendered', () => this.setupIntegration(), { once: true });
   }
 
   setupIntegration() {
@@ -21,9 +17,6 @@ class HeaderIntegration {
     
     // Setup page-specific navigation
     this.setupPageNavigation();
-    
-    // Setup mobile menu behavior
-    this.setupMobileMenu();
     
     // Setup language persistence
     this.setupLanguagePersistence();
@@ -186,31 +179,6 @@ class HeaderIntegration {
     });
   }
 
-  // Setup mobile menu behavior
-  setupMobileMenu() {
-    // Handle mobile menu state persistence
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileOverlay = document.getElementById('mobile-menu-overlay');
-    
-    // Close mobile menu when navigating
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.unifiedHeader) {
-          window.unifiedHeader.closeMobileMenu();
-        }
-      });
-    });
-
-    // Handle escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        if (window.unifiedHeader) {
-          window.unifiedHeader.closeMobileMenu();
-        }
-      }
-    });
-  }
-
   // Setup language persistence
   setupLanguagePersistence() {
     // Load saved language preference
@@ -357,15 +325,6 @@ class HeaderIntegration {
   }
 }
 
-// Initialize header integration
-document.addEventListener('DOMContentLoaded', () => {
-  window.headerIntegration = new HeaderIntegration();
-  
-  // Setup global listeners after a short delay
-  setTimeout(() => {
-    window.headerIntegration.setupGlobalListeners();
-  }, 500);
-});
-
-// Export for use in other modules
+// Export class for external instantiation
+export default HeaderIntegration;
 export { HeaderIntegration };

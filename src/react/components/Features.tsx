@@ -1,10 +1,8 @@
-import React from 'react';
-
 const features = [
-  { title: 'AI-Powered', desc: 'Natural language to chart. No config, no hassle.', icon: '🤖' },
-  { title: 'Beautiful by default', desc: 'Designer-grade styles and palettes.', icon: '🎨' },
-  { title: 'Export anywhere', desc: 'PNG, HTML embed, and more.', icon: '📤' },
-  { title: 'Fast & Accurate', desc: 'Optimized parsing and rendering pipeline.', icon: '⚡' },
+  { title: 'AI-Powered', desc: 'Natural language to chart. No config, no hassle.', iconClass: 'fa-solid fa-robot' },
+  { title: 'Beautiful by default', desc: 'Designer-grade styles and palettes.', iconClass: 'fa-solid fa-palette' },
+  { title: 'Export anywhere', desc: 'PNG, HTML embed, and more.', iconClass: 'fa-solid fa-arrow-up-from-bracket' },
+  { title: 'Fast & Accurate', desc: 'Optimized parsing and rendering pipeline.', iconClass: 'fa-solid fa-bolt' },
 ];
 
 export default function Features() {
@@ -18,7 +16,9 @@ export default function Features() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {features.map((f) => (
             <div key={f.title} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <div className="text-3xl mb-3">{f.icon}</div>
+              <div className="text-3xl mb-3">
+                <i className={f.iconClass}></i>
+              </div>
               <h3 className="font-semibold text-lg mb-1">{f.title}</h3>
               <p className="text-gray-600 text-sm">{f.desc}</p>
             </div>

@@ -82,7 +82,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'line',
       name: 'Line Chart',
-      icon: '📈',
+      icon: 'fa-chart-line',
       description: 'Shows how a numeric value changes over a continuous range or time.',
       useCase: 'Choose when you want to emphasise a trend or progression over time.',
       examples: ['Monthly revenue', 'Website traffic', 'Daily active users'],
@@ -93,7 +93,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'spline',
       name: 'Smooth Line',
-      icon: '〰️',
+      icon: 'fa-chart-line',
       library: 'apexcharts',
       description: 'Highlights gradual trends with a smooth curve between data points.',
       useCase: 'Use when you want a polished trend line without sharp corners.',
@@ -105,7 +105,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'bar',
       name: 'Bar Chart',
-      icon: '📊',
+      icon: 'fa-chart-column',
       description: 'Compares discrete categories with rectangular bars.',
       useCase: 'Use when comparing values between categories or segments.',
       examples: ['Revenue by product line', 'Leads by region', 'Survey responses'],
@@ -116,7 +116,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'column',
       name: 'Column Chart',
-      icon: '🏛️',
+      icon: 'fa-chart-column',
       library: 'apexcharts',
       description: 'Vertical bars that emphasise comparisons across categories.',
       useCase: 'Ideal when category labels are short and you want to highlight growth.',
@@ -128,7 +128,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'grouped-bar',
       name: 'Grouped Bar',
-      icon: '🪟',
+      icon: 'fa-chart-column',
       library: 'echarts',
       description: 'Displays multiple series of bars side by side for each category.',
       useCase: 'Perfect for comparing sub-categories within a main group.',
@@ -140,7 +140,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'stacked-bar',
       name: 'Stacked Bar',
-      icon: '🧱',
+      icon: 'fa-chart-column',
       library: 'echarts',
       description: 'Stacks series within a single bar to show contribution to the total.',
       useCase: 'Use when highlighting how segments contribute to a whole over categories.',
@@ -152,7 +152,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'scatter',
       name: 'Scatter Plot',
-      icon: '⚫',
+      icon: 'fa-braille',
       description: 'Shows relationships between two numerical variables.',
       useCase: 'Great for spotting correlations or clusters between metrics.',
       examples: ['Ad spend vs. revenue', 'Customer age vs. lifetime value', 'Speed vs. efficiency'],
@@ -163,7 +163,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'bubble',
       name: 'Bubble Chart',
-      icon: '🫧',
+      icon: 'fa-circle',
       library: 'chartjs',
       description: 'Extends scatter plots with bubble size to encode a third variable.',
       useCase: 'Use when comparing three related metrics simultaneously.',
@@ -175,7 +175,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'area',
       name: 'Area Chart',
-      icon: '📉',
+      icon: 'fa-chart-area',
       description: 'Fills the space under a line to emphasise volume over time.',
       useCase: 'Choose when you want to highlight cumulative impact or magnitude.',
       examples: ['Cumulative revenue', 'Active subscriptions', 'Daily sign-ups'],
@@ -186,7 +186,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'stepped-area',
       name: 'Stepped Area',
-      icon: '🪜',
+      icon: 'fa-chart-area',
       library: 'apexcharts',
       description: 'Represents changes that happen at distinct intervals, forming steps.',
       useCase: 'Great for subscription counts or inventory levels that change in jumps.',
@@ -198,7 +198,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'pie',
       name: 'Pie Chart',
-      icon: '🥧',
+      icon: 'fa-chart-pie',
       description: 'Displays proportional contribution to a whole with slices.',
       useCase: 'Use rarely and only when comparing few segments that sum to 100%.',
       examples: ['Market share', 'Budget allocation', 'Customer segments'],
@@ -209,7 +209,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'doughnut',
       name: 'Doughnut Chart',
-      icon: '🍩',
+      icon: 'fa-circle-dot',
       description: 'Pie chart variant with a centre hole for labels or totals.',
       useCase: 'Great for showing parts of a whole while highlighting a central KPI.',
       examples: ['Segment contribution with annual total', 'Support tickets by type', 'Expense breakdown'],
@@ -220,7 +220,7 @@ export const CHART_TYPES = {
     createType('basic', {
       id: 'polar-area',
       name: 'Polar Area',
-      icon: '🧭',
+      icon: 'fa-compass',
       library: 'chartjs',
       description: 'Displays categories as equal-angle segments with varying radius.',
       useCase: 'Use when comparing a handful of categories with cyclical meaning.',
@@ -234,7 +234,7 @@ export const CHART_TYPES = {
     createType('composition', {
       id: 'stacked-area',
       name: 'Stacked Area',
-      icon: '🪄',
+      icon: 'fa-chart-area',
       library: 'apexcharts',
       description: 'Fills multiple area series stacked to show cumulative totals.',
       useCase: 'Perfect for showing how segments build towards an overall trend.',
@@ -246,7 +246,7 @@ export const CHART_TYPES = {
     createType('composition', {
       id: 'radar',
       name: 'Radar',
-      icon: '🕸️',
+      icon: 'fa-spider',
       library: 'echarts',
       description: 'Plots values across multiple dimensions on a radial grid.',
       useCase: 'Helpful for comparing profiles or capability scores across categories.',
@@ -258,7 +258,7 @@ export const CHART_TYPES = {
     createType('composition', {
       id: 'sunburst',
       name: 'Sunburst',
-      icon: '☀️',
+      icon: 'fa-sun',
       library: 'echarts',
       description: 'Visualises hierarchical data with concentric rings.',
       useCase: 'Use when you want to explain drill-down structure and contribution.',
@@ -270,7 +270,7 @@ export const CHART_TYPES = {
     createType('composition', {
       id: 'treemap',
       name: 'Treemap',
-      icon: '🗂️',
+      icon: 'fa-table-cells-large',
       library: 'echarts',
       description: 'Represents hierarchical data as nested rectangles sized by value.',
       useCase: 'Great for showing proportional contribution across nested categories.',
@@ -282,7 +282,7 @@ export const CHART_TYPES = {
     createType('composition', {
       id: 'funnel',
       name: 'Funnel',
-      icon: '🔻',
+      icon: 'fa-filter',
       library: 'echarts',
       description: 'Shows how values decrease across sequential stages.',
       useCase: 'Choose for pipeline analytics like marketing, sales, or onboarding.',
@@ -294,7 +294,7 @@ export const CHART_TYPES = {
     createType('composition', {
       id: 'waterfall',
       name: 'Waterfall',
-      icon: '💧',
+      icon: 'fa-water',
       library: 'echarts',
       description: 'Highlights incremental increases and decreases leading to a total.',
       useCase: 'Ideal for explaining how different factors contribute to net change.',
@@ -306,7 +306,7 @@ export const CHART_TYPES = {
     createType('composition', {
       id: 'icicle',
       name: 'Icicle Chart',
-      icon: '🧊',
+      icon: 'fa-icicles',
       library: 'echarts',
       description: 'Displays hierarchical data in cascading bars from top to bottom.',
       useCase: 'Use when illustrating hierarchical breakdowns with clear sections.',
@@ -318,7 +318,7 @@ export const CHART_TYPES = {
     createType('composition', {
       id: 'marimekko',
       name: 'Marimekko',
-      icon: '🧱',
+      icon: 'fa-chart-area',
       library: 'echarts',
       description: 'Combines stacked bars with varying widths to show share within share.',
       useCase: 'Best for comparing market segments across categories simultaneously.',
@@ -332,7 +332,7 @@ export const CHART_TYPES = {
     createType('comparison', {
       id: 'bullet',
       name: 'Bullet Chart',
-      icon: '🎯',
+      icon: 'fa-bullseye',
       library: 'apexcharts',
       description: 'Combines bar, target marker, and qualitative ranges in one compact view.',
       useCase: 'Perfect for comparing actual performance against targets.',
@@ -344,7 +344,7 @@ export const CHART_TYPES = {
     createType('comparison', {
       id: 'gauge',
       name: 'Gauge',
-      icon: '⏱️',
+      icon: 'fa-gauge',
       library: 'echarts',
       description: 'Displays a single KPI against a maximum value on a dial.',
       useCase: 'Use when highlighting status of a key metric like utilisation or score.',
@@ -356,7 +356,7 @@ export const CHART_TYPES = {
     createType('comparison', {
       id: 'progress',
       name: 'Progress Ring',
-      icon: '⭕',
+      icon: 'fa-bars-progress',
       library: 'apexcharts',
       description: 'Circular progress indicator for one or more metrics.',
       useCase: 'Ideal for showing completion percentage in dashboards.',
@@ -368,7 +368,7 @@ export const CHART_TYPES = {
     createType('comparison', {
       id: 'pareto',
       name: 'Pareto Chart',
-      icon: '📐',
+      icon: 'fa-chart-line',
       library: 'echarts',
       description: 'Combines descending bars with a cumulative percentage line.',
       useCase: 'Use when applying the 80/20 rule to prioritise impactful factors.',
@@ -380,7 +380,7 @@ export const CHART_TYPES = {
     createType('comparison', {
       id: 'lollipop',
       name: 'Lollipop Chart',
-      icon: '🍭',
+      icon: 'fa-circle-dot',
       library: 'echarts',
       description: 'Minimal alternative to bar charts using stems and circles.',
       useCase: 'Great for highlighting ranking differences with less ink.',
@@ -394,7 +394,7 @@ export const CHART_TYPES = {
     createType('distribution', {
       id: 'histogram',
       name: 'Histogram',
-      icon: '🏗️',
+      icon: 'fa-chart-column',
       library: 'plotly',
       description: 'Groups continuous data into bins to show frequency distribution.',
       useCase: 'Ideal for understanding spread and skewness of large datasets.',
@@ -406,7 +406,7 @@ export const CHART_TYPES = {
     createType('distribution', {
       id: 'boxplot',
       name: 'Box Plot',
-      icon: '🧊',
+      icon: 'fa-box',
       library: 'plotly',
       description: 'Summarises distribution using quartiles and outliers.',
       useCase: 'Use when comparing variability across categories.',
@@ -418,7 +418,7 @@ export const CHART_TYPES = {
     createType('distribution', {
       id: 'violin',
       name: 'Violin Plot',
-      icon: '🎻',
+      icon: 'fa-wave-square',
       library: 'plotly',
       description: 'Combines box plot with kernel density to show distribution shape.',
       useCase: 'Great for comparing distributions with multiple peaks.',
@@ -430,7 +430,7 @@ export const CHART_TYPES = {
     createType('distribution', {
       id: 'density',
       name: 'Density Plot',
-      icon: '🌊',
+      icon: 'fa-water',
       library: 'plotly',
       description: 'Smooth curve representing the probability density of data.',
       useCase: 'Choose when you want a softer alternative to histograms.',
@@ -442,7 +442,7 @@ export const CHART_TYPES = {
     createType('distribution', {
       id: 'hexbin',
       name: 'Hexbin Plot',
-      icon: '⬡',
+      icon: 'fa-grip',
       library: 'echarts',
       description: 'Aggregates dense scatter data into hexagonal bins.',
       useCase: 'Great for large datasets where scatter plots overplot.',
@@ -454,7 +454,7 @@ export const CHART_TYPES = {
     createType('distribution', {
       id: 'contour',
       name: 'Contour Plot',
-      icon: '🗺️',
+      icon: 'fa-wave-square',
       library: 'plotly',
       description: 'Shows density or value gradients using contour lines.',
       useCase: 'Use for visualising gradients, heat maps, or topographical data.',
@@ -469,7 +469,7 @@ export const CHART_TYPES = {
     createType('advanced', {
       id: 'heatmap',
       name: 'Heatmap',
-      icon: '🔥',
+      icon: 'fa-th',
       library: 'echarts',
       description: 'Uses colour intensity to show magnitude across two dimensions.',
       useCase: 'Ideal for spotting hotspots, anomalies, or clustered activity.',
@@ -481,7 +481,7 @@ export const CHART_TYPES = {
     createType('advanced', {
       id: 'calendar',
       name: 'Calendar Heatmap',
-      icon: '📅',
+      icon: 'fa-calendar-days',
       library: 'echarts',
       description: 'Maps data values onto calendar days to reveal daily patterns.',
       useCase: 'Great for daily metrics such as commits, workouts, or support tickets.',
@@ -493,7 +493,7 @@ export const CHART_TYPES = {
     createType('advanced', {
       id: 'sankey',
       name: 'Sankey Flow',
-      icon: '🌊',
+      icon: 'fa-diagram-project',
       library: 'echarts',
       description: 'Shows flows between stages with link thickness proportional to volume.',
       useCase: 'Best for explaining how quantities move through pathways or processes.',
@@ -505,7 +505,7 @@ export const CHART_TYPES = {
     createType('advanced', {
       id: 'parallel',
       name: 'Parallel Coordinates',
-      icon: '∥',
+      icon: 'fa-sliders',
       library: 'echarts',
       description: 'Plots multivariate data across parallel axes to reveal relationships.',
       useCase: 'Ideal for exploring patterns across multiple metrics per record.',
@@ -517,7 +517,7 @@ export const CHART_TYPES = {
     createType('advanced', {
       id: 'network',
       name: 'Network Graph',
-      icon: '🕸️',
+      icon: 'fa-project-diagram',
       library: 'echarts',
       description: 'Represents connections between entities as nodes and links.',
       useCase: 'Use for visualising relationships like organisational charts or dependencies.',
@@ -529,7 +529,7 @@ export const CHART_TYPES = {
     createType('advanced', {
       id: 'wordcloud',
       name: 'Word Cloud',
-      icon: '☁️',
+      icon: 'fa-cloud',
       library: 'echarts',
       description: 'Sizes words based on frequency to highlight recurring themes.',
       useCase: 'Great for summarising qualitative data such as feedback or reviews.',
@@ -541,7 +541,7 @@ export const CHART_TYPES = {
     createType('advanced', {
       id: 'radial-bar',
       name: 'Radial Bar',
-      icon: '🎛️',
+      icon: 'fa-circle-notch',
       library: 'apexcharts',
       description: 'Wraps bar values around a circle for compact KPI comparisons.',
       useCase: 'Perfect for dashboards highlighting a few KPIs with radial layout.',
@@ -553,7 +553,7 @@ export const CHART_TYPES = {
     createType('advanced', {
       id: 'choropleth',
       name: 'Choropleth Map',
-      icon: '🗺️',
+      icon: 'fa-map',
       library: 'echarts',
       description: 'Fills geographic regions with colour intensity based on values.',
       useCase: 'Use for representing regional metrics like sales or population density.',
@@ -567,7 +567,7 @@ export const CHART_TYPES = {
     createType('financial', {
       id: 'candlestick',
       name: 'Candlestick',
-      icon: '💹',
+      icon: 'fa-chart-line',
       library: 'apexcharts',
       description: 'Shows open, high, low, and close values for trading periods.',
       useCase: 'Best for financial market data where volatility matters.',
@@ -579,7 +579,7 @@ export const CHART_TYPES = {
     createType('financial', {
       id: 'ohlc',
       name: 'OHLC Chart',
-      icon: '📈',
+      icon: 'fa-chart-line',
       library: 'plotly',
       description: 'Simplified candlestick representing open-high-low-close bars.',
       useCase: 'Use when you want financial detail with reduced visual complexity.',
@@ -591,7 +591,7 @@ export const CHART_TYPES = {
     createType('financial', {
       id: 'range-area',
       name: 'Range Area',
-      icon: '📏',
+      icon: 'fa-chart-area',
       library: 'apexcharts',
       description: 'Displays the upper and lower bounds of values over time.',
       useCase: 'Great for showing variability such as min/max or forecast intervals.',
@@ -603,7 +603,7 @@ export const CHART_TYPES = {
     createType('financial', {
       id: 'renko',
       name: 'Renko Chart',
-      icon: '🧱',
+      icon: 'fa-chart-column',
       library: 'apexcharts',
       description: 'Filters out small price movements to highlight trends.',
       useCase: 'Useful for traders focusing on momentum over noise.',
@@ -617,7 +617,7 @@ export const CHART_TYPES = {
     createType('spatial', {
       id: 'geo-scatter',
       name: 'Geo Scatter',
-      icon: '🛰️',
+      icon: 'fa-location-dot',
       library: 'echarts',
       description: 'Plots points on a map to show geographic distribution.',
       useCase: 'Use for visualising location-based metrics and event hotspots.',
@@ -629,7 +629,7 @@ export const CHART_TYPES = {
     createType('spatial', {
       id: 'geo-heatmap',
       name: 'Geo Heatmap',
-      icon: '🔥',
+      icon: 'fa-fire',
       library: 'echarts',
       description: 'Aggregates spatial points into heat zones on a map.',
       useCase: 'Great for density analysis like demand hotspots or risk areas.',
@@ -641,7 +641,7 @@ export const CHART_TYPES = {
     createType('spatial', {
       id: 'arc-map',
       name: 'Arc Map',
-      icon: '🌀',
+      icon: 'fa-route',
       library: 'echarts',
       description: 'Connects origin-destination pairs with arcs across a map.',
       useCase: 'Perfect for demonstrating flows between locations.',
@@ -653,7 +653,7 @@ export const CHART_TYPES = {
     createType('spatial', {
       id: 'territory',
       name: 'Territory Map',
-      icon: '🗺️',
+      icon: 'fa-draw-polygon',
       library: 'echarts',
       description: 'Divides regions into territories with distinct boundaries.',
       useCase: 'Useful for sales territories, support regions, or political maps.',
@@ -667,7 +667,7 @@ export const CHART_TYPES = {
     createType('temporal', {
       id: 'timeline',
       name: 'Timeline',
-      icon: '🕒',
+      icon: 'fa-clock',
       library: 'echarts',
       description: 'Displays events along a timeline with optional details.',
       useCase: 'Great for product launches, project milestones, or historical events.',
@@ -679,7 +679,7 @@ export const CHART_TYPES = {
     createType('temporal', {
       id: 'stream',
       name: 'Streamgraph',
-      icon: '🌊',
+      icon: 'fa-water',
       library: 'echarts',
       description: 'Flows stacked area series around a central axis for organic look.',
       useCase: 'Ideal for showing how topics or categories evolve over time.',
@@ -691,7 +691,7 @@ export const CHART_TYPES = {
     createType('temporal', {
       id: 'range-bar',
       name: 'Range Bar',
-      icon: '🪄',
+      icon: 'fa-chart-bar',
       library: 'apexcharts',
       description: 'Shows start and end values for time-bound tasks or durations.',
       useCase: 'Great for comparing durations or scheduling overlaps.',
@@ -703,7 +703,7 @@ export const CHART_TYPES = {
     createType('temporal', {
       id: 'gantt',
       name: 'Gantt Chart',
-      icon: '📅',
+      icon: 'fa-tasks',
       library: 'apexcharts',
       description: 'Classic project management chart for task timelines and dependencies.',
       useCase: 'Perfect for planning projects, sprints, or resource allocation.',
@@ -717,7 +717,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: '3d-surface',
       name: '3D Surface',
-      icon: '🏔️',
+      icon: 'fa-mountain',
       library: 'plotly',
       description: 'Shows three-dimensional surfaces with height, depth, and colour.',
       useCase: 'Use for mathematical surfaces or two independent variables.',
@@ -729,7 +729,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: '3d-scatter',
       name: '3D Scatter',
-      icon: '⚪',
+      icon: 'fa-cubes',
       library: 'plotly',
       description: 'Plots individual points in three-dimensional space.',
       useCase: 'Great for exploring clusters or patterns in three metrics.',
@@ -741,7 +741,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'isoline',
       name: 'Isoline Chart',
-      icon: '〽️',
+      icon: 'fa-wave-square',
       library: 'plotly',
       description: 'Uses contour lines on a 2D plane to represent equal values.',
       useCase: 'Ideal for weather maps, elevation, or gradient analysis.',
@@ -753,7 +753,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'flow-map',
       name: 'Flow Map',
-      icon: '🛫',
+      icon: 'fa-route',
       library: 'echarts',
       description: 'Combines mapping with directional arrows to show movement.',
       useCase: 'Perfect for migration, shipping routes, or data transfers.',
@@ -765,7 +765,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'correlation-matrix',
       name: 'Correlation Matrix',
-      icon: '🧬',
+      icon: 'fa-border-all',
       library: 'echarts',
       description: 'Visualises correlations between variables in a grid heatmap.',
       useCase: 'Great for exploring relationships in analytics and data science.',
@@ -777,7 +777,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'funnel-waterfall',
       name: 'Funnel Waterfall',
-      icon: '🕳️',
+      icon: 'fa-filter',
       library: 'echarts',
       description: 'Blends funnel shape with waterfall steps to show drop-off detail.',
       useCase: 'Use when you need both stage conversion and variance explanation.',
@@ -791,7 +791,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'radial-bar',
       name: 'Radial Bar Chart',
-      icon: '🎯',
+      icon: 'fa-circle-notch',
       library: 'echarts',
       description: 'Circular bar chart showing progress or comparison around a center point.',
       useCase: 'Use for circular progress indicators or comparing categories radially.',
@@ -804,7 +804,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'sunburst',
       name: 'Sunburst Chart',
-      icon: '☀️',
+      icon: 'fa-sun',
       library: 'echarts',
       description: 'Hierarchical visualization showing proportions across multiple levels.',
       useCase: 'Use for multi-level hierarchical data with proportional relationships.',
@@ -817,7 +817,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'treemap-3d',
       name: '3D Treemap',
-      icon: '📦',
+      icon: 'fa-table-cells-large',
       library: 'plotly',
       description: 'Three-dimensional treemap with depth for hierarchical data visualization.',
       useCase: 'Use when you need to show hierarchical proportions with visual depth.',
@@ -830,7 +830,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'polar-heatmap',
       name: 'Polar Heatmap',
-      icon: '🌡️',
+      icon: 'fa-thermometer-half',
       library: 'plotly',
       description: 'Circular heatmap showing intensity patterns across angular and radial dimensions.',
       useCase: 'Use for cyclical data with intensity variations across angles and radius.',
@@ -843,7 +843,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'sankey-flow',
       name: 'Sankey Flow Diagram',
-      icon: '🌊',
+      icon: 'fa-diagram-project',
       library: 'echarts',
       description: 'Enhanced Sankey diagram with animated flow visualization.',
       useCase: 'Use for showing flow quantities with animated transitions between nodes.',
@@ -856,7 +856,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'circular-packing',
       name: 'Circular Packing',
-      icon: '⭕',
+      icon: 'fa-circle-dot',
       library: 'echarts',
       description: 'Hierarchical bubble chart with circles packed within larger circles.',
       useCase: 'Use for hierarchical data where size represents importance or quantity.',
@@ -869,7 +869,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'parallel-coordinates',
       name: 'Parallel Coordinates',
-      icon: '📊',
+      icon: 'fa-sliders',
       library: 'plotly',
       description: 'Multi-dimensional visualization using parallel axes for dimensional analysis.',
       useCase: 'Use for exploring relationships across multiple dimensions simultaneously.',
@@ -882,7 +882,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'chord-diagram',
       name: 'Chord Diagram',
-      icon: '🎵',
+      icon: 'fa-circle-nodes',
       library: 'echarts',
       description: 'Circular visualization showing relationships and flows between entities.',
       useCase: 'Use for showing symmetric relationships or flows between categories.',
@@ -895,7 +895,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'streamgraph',
       name: 'Streamgraph',
-      icon: '🌊',
+      icon: 'fa-water',
       library: 'echarts',
       description: 'Stacked area chart with smooth, organic flows showing composition over time.',
       useCase: 'Use for time-series composition data with smooth visual transitions.',
@@ -908,7 +908,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'timeline-gantt',
       name: 'Timeline Gantt',
-      icon: '📅',
+      icon: 'fa-tasks',
       library: 'echarts',
       description: 'Project timeline with dependencies and resource allocation visualization.',
       useCase: 'Use for project management, scheduling, and dependency tracking.',
@@ -921,7 +921,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'venn-diagram',
       name: 'Venn Diagram',
-      icon: '🔗',
+      icon: 'fa-object-group',
       library: 'plotly',
       description: 'Set visualization showing intersections and relationships between datasets.',
       useCase: 'Use for showing commonalities and differences between data groups.',
@@ -934,7 +934,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'word-cloud',
       name: 'Word Cloud',
-      icon: '☁️',
+      icon: 'fa-cloud',
       library: 'echarts',
       description: 'Text visualization where word size represents frequency or importance.',
       useCase: 'Use for text analysis, keyword extraction, and frequency visualization.',
@@ -947,7 +947,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'bullet-chart',
       name: 'Bullet Chart',
-      icon: '🎯',
+      icon: 'fa-bullseye',
       library: 'echarts',
       description: 'Performance metric chart showing target, actual, and comparative ranges.',
       useCase: 'Use for KPI tracking, performance measurement, and goal attainment.',
@@ -960,7 +960,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'pictorial-bar',
       name: 'Pictorial Bar Chart',
-      icon: '🖼️',
+      icon: 'fa-image',
       library: 'echarts',
       description: 'Bar chart using custom images or icons instead of rectangular bars.',
       useCase: 'Use for creative data visualization with thematic visual elements.',
@@ -973,7 +973,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'liquid-fill',
       name: 'Liquid Fill Chart',
-      icon: '💧',
+      icon: 'fa-droplet',
       library: 'echarts',
       description: 'Animated liquid fill gauge showing progress or percentage completion.',
       useCase: 'Use for progress indicators, completion rates, and capacity visualization.',
@@ -986,7 +986,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'theme-river',
       name: 'Theme River',
-      icon: '🏞️',
+      icon: 'fa-water',
       library: 'echarts',
       description: 'Flowing visualization showing changes in composition over time like a river.',
       useCase: 'Use for time-series data with evolving composition and smooth flows.',
@@ -999,7 +999,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'custom-svg',
       name: 'Custom SVG Chart',
-      icon: '🎨',
+      icon: 'fa-shapes',
       library: 'auto',
       description: 'Fully customizable chart using custom SVG elements and animations.',
       useCase: 'Use for unique visualizations that don\'t fit standard chart types.',
@@ -1012,7 +1012,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'matrix-heatmap',
       name: 'Matrix Heatmap',
-      icon: '🔲',
+      icon: 'fa-border-all',
       library: 'echarts',
       description: 'Grid-based heatmap showing correlations or intensities between two categorical variables.',
       useCase: 'Use for correlation analysis, confusion matrices, and intensity grids.',
@@ -1025,7 +1025,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'gauge-meters',
       name: 'Gauge Meters',
-      icon: '⚡',
+      icon: 'fa-gauge',
       library: 'echarts',
       description: 'Multiple gauge meters for dashboard-style metric visualization.',
       useCase: 'Use for real-time dashboards with multiple KPIs and performance metrics.',
@@ -1038,7 +1038,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'hierarchical-tree',
       name: 'Hierarchical Tree',
-      icon: '🌳',
+      icon: 'fa-tree',
       library: 'echarts',
       description: 'Interactive tree visualization with expandable/collapsible nodes.',
       useCase: 'Use for organizational structures, file systems, and decision trees.',
@@ -1051,7 +1051,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'candlestick-chart',
       name: 'Candlestick Chart',
-      icon: '📈',
+      icon: 'fa-chart-line',
       library: 'echarts',
       description: 'Financial chart showing open, high, low, and close values for time periods.',
       useCase: 'Use for financial data analysis, stock prices, and market trends.',
@@ -1064,7 +1064,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'box-whisker',
       name: 'Box and Whisker Plot',
-      icon: '📊',
+      icon: 'fa-box',
       library: 'plotly',
       description: 'Statistical visualization showing quartiles, median, and outliers in data distribution.',
       useCase: 'Use for statistical analysis, data distribution, and outlier detection.',
@@ -1077,7 +1077,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'violin-plot',
       name: 'Violin Plot',
-      icon: '🎻',
+      icon: 'fa-wave-square',
       library: 'plotly',
       description: 'Combination of box plot and kernel density plot showing distribution shape.',
       useCase: 'Use for detailed distribution analysis with probability density visualization.',
@@ -1090,7 +1090,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'error-bars',
       name: 'Error Bars Chart',
-      icon: '📏',
+      icon: 'fa-ruler-vertical',
       library: 'plotly',
       description: 'Chart with error bars showing uncertainty or confidence intervals.',
       useCase: 'Use for scientific data, experimental results, and statistical confidence.',
@@ -1103,7 +1103,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'waterfall-progression',
       name: 'Waterfall Progression',
-      icon: '💹',
+      icon: 'fa-chart-column',
       library: 'echarts',
       description: 'Enhanced waterfall chart with intermediate calculations and subtotals.',
       useCase: 'Use for financial statements, profit analysis, and cumulative changes.',
@@ -1116,7 +1116,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'radar-comparison',
       name: 'Multi-Radar Comparison',
-      icon: '🎯',
+      icon: 'fa-bullseye',
       library: 'echarts',
       description: 'Multiple radar charts overlaid for comparing multi-dimensional datasets.',
       useCase: 'Use for comparing performance across multiple dimensions or categories.',
@@ -1129,7 +1129,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'scatter-3d',
       name: '3D Scatter Plot',
-      icon: '🔮',
+      icon: 'fa-cubes',
       library: 'plotly',
       description: 'Three-dimensional scatter plot for exploring relationships across three variables.',
       useCase: 'Use for multi-variable analysis and 3D data exploration.',
@@ -1142,7 +1142,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'surface-3d',
       name: '3D Surface Plot',
-      icon: '🏔️',
+      icon: 'fa-mountain',
       library: 'plotly',
       description: 'Three-dimensional surface plot showing continuous data across two variables.',
       useCase: 'Use for continuous function visualization and surface analysis.',
@@ -1155,7 +1155,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'mesh-plot',
       name: '3D Mesh Plot',
-      icon: '🕸️',
+      icon: 'fa-project-diagram',
       library: 'plotly',
       description: 'Three-dimensional wireframe mesh for structural and mathematical visualization.',
       useCase: 'Use for structural analysis, mathematical surfaces, and wireframe models.',
@@ -1168,7 +1168,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'isoclines-map',
       name: 'Isoclines Map',
-      icon: '🗺️',
+      icon: 'fa-map',
       library: 'plotly',
       description: 'Contour map showing lines of equal values across geographic or spatial data.',
       useCase: 'Use for geographic data, elevation maps, and spatial distributions.',
@@ -1181,7 +1181,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'geo-scatter',
       name: 'Geographic Scatter',
-      icon: '🌍',
+      icon: 'fa-location-dot',
       library: 'plotly',
       description: 'Scatter plot overlaid on geographic maps for spatial data visualization.',
       useCase: 'Use for location-based data and geographic distribution analysis.',
@@ -1194,7 +1194,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'choropleth-enhanced',
       name: 'Enhanced Choropleth',
-      icon: '🗺️',
+      icon: 'fa-map',
       library: 'plotly',
       description: 'Advanced choropleth map with multiple layers and interactive features.',
       useCase: 'Use for complex geographic data with multiple data layers.',
@@ -1207,7 +1207,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'connection-map',
       name: 'Connection Map',
-      icon: '🔗',
+      icon: 'fa-route',
       library: 'plotly',
       description: 'Geographic map showing connections and flows between locations.',
       useCase: 'Use for migration patterns, trade routes, and network connections.',
@@ -1220,7 +1220,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'hexagon-binning',
       name: 'Hexagon Binning',
-      icon: '⬡',
+      icon: 'fa-grip',
       library: 'plotly',
       description: '2D density visualization using hexagonal bins for large datasets.',
       useCase: 'Use for density analysis of large 2D datasets with smooth visualization.',
@@ -1233,7 +1233,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'density-heatmap',
       name: 'Density Heatmap',
-      icon: '🌡️',
+      icon: 'fa-fire',
       library: 'plotly',
       description: 'Continuous density heatmap showing data concentration patterns.',
       useCase: 'Use for visualizing data density and concentration patterns.',
@@ -1246,7 +1246,7 @@ export const CHART_TYPES = {
     createType('specialised', {
       id: 'spatial-network',
       name: 'Spatial Network Graph',
-      icon: '🕸️',
+      icon: 'fa-network-wired',
       library: 'plotly',
       description: 'Network graph with geographic positioning for spatial relationship analysis.',
       useCase: 'Use for geographic networks and spatial relationship visualization.',

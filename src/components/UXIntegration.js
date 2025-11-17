@@ -174,11 +174,11 @@ class UXIntegration {
       
       // Log performance warnings
       if (metrics.loading.activeLoaders > 5) {
-        console.warn('⚠️ High number of active loaders:', metrics.loading.activeLoaders);
+        console.warn('High number of active loaders:', metrics.loading.activeLoaders);
       }
       
       if (metrics.errors.totalErrors > 10) {
-        console.warn('⚠️ High error rate detected:', metrics.errors.totalErrors);
+        console.warn('High error rate detected:', metrics.errors.totalErrors);
       }
     }, 30000);
   }
@@ -502,7 +502,7 @@ class UXIntegration {
     this.components.feedback.clearAllConfirmations();
     this.components.errors.clearHistory();
 
-    console.log('🧹 UX System cleaned up');
+    console.log('UX system cleaned up');
   }
 
   /**

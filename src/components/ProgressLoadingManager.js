@@ -31,10 +31,10 @@ export class ProgressLoadingManager {
       progressBar: true,
       animation: 'spinner',
       friendlyMessages: [
-        "Working our magic... ✨",
-        "Creating something beautiful... 🎨",
-        "Almost there... 🚀",
-        "Putting the final touches... ✨"
+        'Working on your chart...',
+        'Optimizing your visualization...',
+        'Almost there...',
+        'Putting the final touches on your chart...'
       ],
       ...options
     };

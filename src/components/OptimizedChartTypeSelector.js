@@ -365,7 +365,7 @@ export class OptimizedChartTypeSelector {
         <div class="text-center h-full flex flex-col justify-between">
           <div>
             <div class="chart-icon text-3xl mb-3 group-hover:scale-110 transition-transform">
-              ${chartType.icon}
+              <i class="fa-solid ${chartType.icon && chartType.icon.includes('fa-') ? chartType.icon : 'fa-chart-column'}"></i>
             </div>
             <div class="chart-name font-semibold text-gray-900 mb-2">
               ${chartType.name}
@@ -410,7 +410,7 @@ export class OptimizedChartTypeSelector {
         <!-- Chart Content -->
         <div class="text-center">
           <div class="chart-icon text-3xl mb-3 group-hover:scale-110 transition-transform">
-            ${chartType.icon}
+            <i class="fa-solid ${chartType.icon && chartType.icon.includes('fa-') ? chartType.icon : 'fa-chart-column'}"></i>
           </div>
           <div class="chart-name font-semibold text-gray-900 mb-2">
             ${chartType.name}

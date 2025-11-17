@@ -823,7 +823,7 @@ class LoadingStates {
           </div>
           <div class="confetti"></div>
         </div>
-        <h3>🎉 Congratulations!</h3>
+        <h3>Congratulations!</h3>
         <p>${options.message || 'You\'ve completed your first chart! Keep up the great work.'}</p>
         <div class="achievement-badges">
           <div class="badge">

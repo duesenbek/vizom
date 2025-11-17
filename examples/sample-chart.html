@@ -3,21 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sample Bar Chart</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <title>Sample Charts - Chart.js & ECharts</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="bg-slate-50 p-6">
-  <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6">
-    <h2 class="text-2xl font-bold text-slate-900 mb-4">Monthly Sales Data</h2>
-    <div class="relative h-96">
-      <canvas id="myChart"></canvas>
+  <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-6">
+    <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+      <i class="fa-solid fa-chart-column text-blue-600"></i>
+      Monthly Sales Data (Chart.js)
+    </h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="relative h-80">
+        <canvas id="chartjs-chart"></canvas>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold text-slate-900 mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-chart-area text-emerald-600"></i>
+          Regional Sales Breakdown (ECharts)
+        </h3>
+        <div id="echarts-chart" class="h-80 w-full"></div>
+      </div>
     </div>
   </div>
 
   <script>
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
+    // Chart.js demo
+    const ctx = document.getElementById('chartjs-chart').getContext('2d');
+    const chartJsDemo = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ['January', 'February', 'March', 'April', 'May', 'June'],
@@ -93,6 +108,35 @@
           easing: 'easeInOutQuart'
         }
       }
+    });
+
+    // ECharts demo
+    const echartsDom = document.getElementById('echarts-chart');
+    const echartsInstance = echarts.init(echartsDom);
+    echartsInstance.setOption({
+      tooltip: {
+        trigger: 'axis'
+      },
+      grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+      xAxis: {
+        type: 'category',
+        data: ['North', 'South', 'East', 'West']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          name: 'Revenue',
+          type: 'line',
+          smooth: true,
+          areaStyle: {},
+          data: [120, 200, 150, 180],
+          itemStyle: {
+            color: '#10b981'
+          }
+        }
+      ]
     });
   </script>
 </body>

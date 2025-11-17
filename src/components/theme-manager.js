@@ -27,7 +27,7 @@ class ThemeManager {
     this.themes.set('light', {
       name: 'Light',
       displayName: 'Light Mode',
-      icon: '☀️',
+            icon: 'fa-sun',
       colors: {
         primary: '#0066FF',
         primaryHover: '#0052CC',
@@ -70,7 +70,7 @@ class ThemeManager {
     this.themes.set('dark', {
       name: 'Dark',
       displayName: 'Dark Mode',
-      icon: '🌙',
+            icon: 'fa-moon',
       colors: {
         primary: '#0A84FF',
         primaryHover: '#409CFF',
@@ -113,7 +113,7 @@ class ThemeManager {
     this.themes.set('high-contrast', {
       name: 'High Contrast',
       displayName: 'High Contrast',
-      icon: '⚡',
+            icon: 'fa-bolt',
       colors: {
         primary: '#0000FF',
         primaryHover: '#0000CC',
@@ -156,7 +156,7 @@ class ThemeManager {
     this.themes.set('sepia', {
       name: 'Sepia',
       displayName: 'Sepia Mode',
-      icon: '📜',
+            icon: 'fa-book-open',
       colors: {
         primary: '#8B4513',
         primaryHover: '#654321',
@@ -199,7 +199,7 @@ class ThemeManager {
     this.themes.set('ocean', {
       name: 'Ocean',
       displayName: 'Ocean Blue',
-      icon: '🌊',
+            icon: 'fa-water',
       colors: {
         primary: '#006994',
         primaryHover: '#004d6f',
@@ -682,12 +682,12 @@ class ThemeManager {
             <div class="form-group">
               <label>Theme Icon</label>
               <select id="theme-icon-select">
-                <option value="🎨">🎨 Palette</option>
-                <option value="🌈">🌈 Rainbow</option>
-                <option value="✨">✨ Sparkles</option>
-                <option value="🎯">🎯 Target</option>
-                <option value="🔥">🔥 Fire</option>
-                <option value="💎">💎 Diamond</option>
+                                <option value="fa-palette">Palette</option>
+                                <option value="fa-rainbow">Rainbow</option>
+                                <option value="fa-sparkles">Sparkles</option>
+                                <option value="fa-bullseye">Target</option>
+                                <option value="fa-fire">Fire</option>
+                                <option value="fa-gem">Diamond</option>
               </select>
             </div>
             <div class="color-picker-section">

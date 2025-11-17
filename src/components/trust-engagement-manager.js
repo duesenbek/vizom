@@ -838,7 +838,7 @@ class TrustEngagementManager {
     celebration.innerHTML = `
       <div class="konami-content">
         <div class="konami-message">
-          <h2>🎉 You found the secret! 🎉</h2>
+          <h2>You found the secret!</h2>
           <p>You've unlocked VIZOM's hidden theme!</p>
         </div>
         <div class="konami-effects">
@@ -879,7 +879,7 @@ class TrustEngagementManager {
       }, 3000);
     }
     
-    this.showMicroFeedback('🎵 VIZOM beats!', 'delight');
+    this.showMicroFeedback('VIZOM beats!', 'delight');
     this.trackEngagement('easter_egg_activated', { type: 'logo' });
   }
 

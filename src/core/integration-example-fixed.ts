@@ -358,11 +358,11 @@ export class VizomDeepSeekIntegration {
       const metrics = deepSeekClient.getMetrics();
       
       if (metrics.caching.hitRate > 0.8) {
-        console.log('🎯 Cache performance excellent:', metrics.caching);
+        console.log('Cache performance is excellent:', metrics.caching);
       }
       
       if (metrics.errorHandling.errorHandling.failedRequests > 10) {
-        console.warn('⚠️ High error rate detected:', metrics.errorHandling);
+        console.warn('High error rate detected:', metrics.errorHandling);
       }
     }, 30000); // Check every 30 seconds
 
@@ -395,7 +395,7 @@ export class VizomDeepSeekIntegration {
     
     // Optimize cache settings based on hit rate
     if (metrics.deepSeek.caching.hitRate < 0.5) {
-      console.log('🔧 Optimizing cache settings...');
+      console.log('Optimizing cache settings...');
       deepSeekClient.updateConfig({
         cacheTTL: 10 * 60 * 1000 // Increase cache TTL
       });
@@ -403,7 +403,7 @@ export class VizomDeepSeekIntegration {
 
     // Optimize retry settings based on error rate
     if (metrics.performance.successRate < 0.8) {
-      console.log('🔧 Optimizing error handling...');
+      console.log('Optimizing error handling...');
       // Could adjust retry logic here
     }
   }

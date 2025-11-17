@@ -9,129 +9,94 @@
     <title>VIZOM - Chart Templates | Professional Chart Gallery</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="icon" type="image/png" href="/images/vizom-icon.png">
+    <link rel="apple-touch-icon" href="/images/vizom-icon.png">
     
-    <!-- Preload critical assets -->
-    <link rel="preload" href="src/styles/modern-saas.css" as="style">
-    <link rel="preload" href="src/styles/font-awesome.min.css" as="style">
-    <link rel="modulepreload" href="src/templates.js">
     
-    <!-- Tailwind CSS with version -->
-    <script src="https://cdn.tailwindcss.com?v=3.4.0" crossorigin="anonymous"></script>
+    <!-- Tailwind CSS with version + line-clamp plugin -->
+    <script src="https://cdn.tailwindcss.com?plugins=line-clamp&v=3.4.0" crossorigin="anonymous"></script>
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="src/styles/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <!-- Modern Styles -->
-    <link rel="stylesheet" href="src/styles/modern-saas.css" />
-    <link rel="stylesheet" href="src/styles/components/improvements.css" />
-    <link rel="stylesheet" href="src/styles/components/responsive-fixes.css" />
-    <link rel="stylesheet" href="src/styles/ui-guidelines.css" />
     
-    <!-- Chart.js with SRI hash -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" 
-            integrity="sha384-dLBldH4TwJVPpJ7zJ4Zj5hGxL4lqTrL0CHnHYU9U1Ne3YdK5wK8HpfEEHK3mmzef"
-            crossorigin="anonymous"></script>
-    
-    <!-- D3.js global bridge -->
-    <script type="module">
-      import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-      if (typeof window !== 'undefined') {
-        window.d3 = d3;
-      }
-    </script>
-
-    <!-- Supabase client -->
-    <script type="module" src="src/supabase-client.js"></script>
-
-    <!-- Supabase auth and payment handlers -->
-    <script type="module" src="src/supabase-auth.js"></script>
-    <script type="module" src="src/payments/stripe-client.js"></script>
+    <!-- Shared vendor bundle: Chart.js, D3, Supabase auth/stripe -->
+    <script type="module" src="src/app/vendor-loader.js"></script>
 </head>
-<body class="viz-body viz-bg-light viz-text-primary">
-  <script type="module" src="scripts/main.js"></script>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased">
+  <script type="module" src="/src/templates.js"></script>
 
   <!-- Header -->
-  <header class="header">
-    <div class="container">
-      <nav class="nav">
-        <a href="index.html" class="logo">
-          <div class="logo-icon">
-            <i class="fas fa-chart-simple"></i>
-          </div>
-          VIZOM
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-lg">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <nav class="flex h-16 items-center justify-between">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <img src="assets/images/logos/vizom-icon.png" alt="Vizom Logo" class="h-8 w-8">
+          <span class="text-xl font-bold text-slate-900">VIZOM</span>
         </a>
-        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+        <!-- Desktop Navigation -->
+        <div class="hidden items-center gap-8 md:flex">
+          <a href="index.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Home</a>
+          <a href="generator.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Generator</a>
+          <a href="templates.html" aria-current="page" class="text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700">Templates</a>
+          <a href="pricing.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Pricing</a>
+          <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50" id="auth-signin" type="button">Sign In</button>
+          <a href="generator.html" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+        </div>
+        <!-- Mobile Menu Toggle -->
+        <button class="inline-flex h-10 w-10 items-center justify-center rounded-xl md:hidden" id="mobile-menu-toggle" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
           <i class="fas fa-bars"></i>
         </button>
-        <div class="nav-links" id="nav-links">
-          <a href="index.html" class="nav-link">Home</a>
-          <a href="generator.html" class="nav-link">Generator</a>
-          <a href="templates.html" class="nav-link active">Templates</a>
-          <a href="pricing.html" class="nav-link">Pricing</a>
-          <button class="nav-link" id="auth-signin" type="button">Sign In</button>
-          <a href="generator.html" class="btn btn-primary" data-action="get-started">Get Started</a>
-        </div>
       </nav>
+      <!-- Mobile Navigation -->
+      <div class="hidden md:hidden" id="mobile-menu">
+        <div class="space-y-2 py-4">
+          <a href="index.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Home</a>
+          <a href="generator.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Generator</a>
+          <a href="templates.html" aria-current="page" class="block py-2 text-base font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700">Templates</a>
+          <a href="pricing.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Pricing</a>
+          <button class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-slate-100 px-6 text-sm font-medium text-slate-700 transition-all hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50" id="auth-signin-mobile" type="button">Sign In</button>
+          <a href="generator.html" class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+        </div>
+      </div>
     </div>
   </header>
 
   <!-- Main Content -->
-  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
-      <div class="flex items-center justify-between">
-        <h3 class="text-xl font-semibold text-slate-900">Вход в VIZOM</h3>
-        <button id="close-auth-modal" class="text-slate-400 hover:text-slate-600 transition">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <p class="text-sm text-slate-500">Войдите через Google для доступа к генератору визуализаций</p>
-      <button id="google-signin" class="w-full inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-lg hover:bg-slate-50 transition">
-        <svg class="w-5 h-5" viewBox="0 0 24 24">
-          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-        </svg>
-        Continue with Google
-      </button>
-    </div>
-  </div>
 
   <main>
     <!-- HERO SECTION -->
-    <section class="ui-section bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <div class="ui-container">
-        <div class="text-center max-w-4xl mx-auto space-y-6">
-          <span class="ui-badge ui-badge-primary">
+    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20 sm:py-24 lg:py-32">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-4xl space-y-6 text-center">
+          <span class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700">
             <i class="fas fa-layer-group"></i>
             Professional Template Gallery
           </span>
-          <h1 class="ui-heading-1">Professional Templates</h1>
-          <p class="ui-subtitle">
+          <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">Professional Templates</h1>
+          <p class="text-lg leading-8 text-slate-600">
             Jumpstart your data visualization with expert-designed templates. Save hours of work with pre-built charts, dashboards, and reports that are fully customizable and ready to use.
           </p>
-          
           <!-- Search Bar with Filters -->
-          <div class="max-w-2xl mx-auto">
+          <div class="mx-auto max-w-2xl">
             <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                 <i class="fas fa-search text-slate-400"></i>
               </div>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 id="template-search"
-                class="ui-input pl-12 pr-12 text-lg"
+                class="h-12 w-full rounded-xl border border-slate-200 bg-white px-12 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Search templates by name, category, or use case..."
               >
-              <div class="absolute inset-y-0 right-0 pr-4 flex items-center">
-                <button class="ui-btn ui-btn-ghost">
+              <div class="absolute inset-y-0 right-0 flex items-center pr-4">
+                <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-3 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
                   <i class="fas fa-filter"></i>
                 </button>
               </div>
             </div>
-            <div class="flex items-center justify-center gap-6 mt-4 text-sm text-slate-500">
+            <div class="mt-4 flex items-center justify-center gap-6 text-sm text-slate-500">
               <span><i class="fas fa-bolt text-yellow-500"></i> Ready in 2 minutes</span>
               <span><i class="fas fa-palette text-purple-500"></i> Fully customizable</span>
               <span><i class="fas fa-download text-emerald-500"></i> Export in any format</span>
@@ -142,34 +107,34 @@
     </section>
 
     <!-- CATEGORY NAVIGATION -->
-    <section class="bg-white border-b border-slate-200 sticky top-0 z-40">
-      <div class="ui-container">
+    <section class="sticky top-0 z-40 border-b border-slate-200 bg-white">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between py-4">
           <div class="flex gap-2 overflow-x-auto">
-            <button class="ui-btn ui-btn-primary" data-category="all">
+            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-600 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-category="all">
               All Templates
-              <span class="ui-badge ui-badge-light">24</span>
+              <span class="ml-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-700">24</span>
             </button>
-            <button class="ui-btn ui-btn-ghost" data-category="business">
+            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-category="business">
               Business
-              <span class="ui-badge ui-badge-gray">8</span>
+              <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">8</span>
             </button>
-            <button class="ui-btn ui-btn-ghost" data-category="marketing">
+            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-category="marketing">
               Marketing
-              <span class="ui-badge ui-badge-gray">6</span>
+              <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">6</span>
             </button>
-            <button class="ui-btn ui-btn-ghost" data-category="academic">
+            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-category="academic">
               Academic
-              <span class="ui-badge ui-badge-gray">5</span>
+              <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">5</span>
             </button>
-            <button class="ui-btn ui-btn-ghost" data-category="finance">
+            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-category="finance">
               Finance
-              <span class="ui-badge ui-badge-gray">5</span>
+              <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">5</span>
             </button>
           </div>
           
           <div class="flex items-center gap-4">
-            <select class="px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
+            <select class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm">
               <option>Most Popular</option>
               <option>Newest First</option>
               <option>Alphabetical</option>
@@ -177,10 +142,10 @@
             </select>
             <div class="flex items-center gap-2 text-sm text-slate-500">
               <span>View:</span>
-              <button class="ui-btn ui-btn-ghost min-h-[44px]" data-view="grid">
+              <button class="inline-flex h-11 items-center justify-center rounded-xl px-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-view="grid">
                 <i class="fas fa-th"></i>
               </button>
-              <button class="ui-btn ui-btn-ghost min-h-[44px]" data-view="list">
+              <button class="inline-flex h-11 items-center justify-center rounded-xl px-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-view="list">
                 <i class="fas fa-list"></i>
               </button>
             </div>
@@ -190,432 +155,221 @@
     </section>
 
     <!-- TEMPLATE GRID LAYOUT -->
-    <section class="ui-section bg-slate-50">
-      <div class="ui-container">
-        <div class="flex items-center justify-between mb-8">
+    <section class="bg-slate-50 py-20 sm:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8 flex items-center justify-between">
           <div>
-            <h2 class="ui-heading-2">Template Gallery</h2>
-            <p class="ui-body mt-1">Showing <span id="results-count">24</span> templates</p>
+            <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Template Gallery</h2>
+            <p class="mt-1 text-sm text-slate-600">Showing <span id="results-count">24</span> templates</p>
           </div>
           <div class="flex items-center gap-4">
-            <label class="flex items-center gap-2 ui-body">
-              <input type="checkbox" id="show-premium" class="rounded">
+            <label class="flex items-center gap-2 text-sm text-slate-600">
+              <input type="checkbox" id="show-premium" class="rounded border-slate-300">
               <span>Show premium only</span>
             </label>
-            <label class="flex items-center gap-2 ui-body">
-              <input type="checkbox" id="show-free" class="rounded" checked>
+            <label class="flex items-center gap-2 text-sm text-slate-600">
+              <input type="checkbox" id="show-free" class="rounded border-slate-300" checked>
               <span>Show free templates</span>
             </label>
           </div>
         </div>
 
-        <div id="templates-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div id="templates-grid" class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           
           <!-- Template Card 1 - Sales Dashboard -->
-          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="business" data-template-id="sales-dashboard">
-            <div class="ui-card-preview-container">
-              <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg p-4 h-32 flex flex-col justify-between">
-                <div class="flex items-center justify-between text-white text-xs">
-                  <span class="bg-white/20 px-2 py-1 rounded">Sales</span>
-                  <span>Dash 03</span>
-                </div>
-                <div class="flex gap-2">
-                  <div class="flex-1 h-16 bg-white/30 rounded"></div>
-                  <div class="flex-1 h-12 bg-white/40 rounded"></div>
-                  <div class="flex-1 h-20 bg-white/25 rounded"></div>
-                </div>
+          <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-lg" data-category="business" data-template-id="sales-dashboard">
+            <div class="aspect-[16/10] bg-slate-50 p-4">
+              <div class="flex items-center justify-between text-xs font-medium text-slate-500">
+                <span>Sales</span>
+                <span>Dash 03</span>
               </div>
-              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                <button class="min-h-[44px] w-full rounded-lg bg-gradient-to-r from-[#2563EB] to-[#41C3FF] text-white font-semibold shadow hover:opacity-90 transition">
-                  <i class="fas fa-eye"></i>
-                  Preview
-                </button>
+              <div class="mt-2 flex h-[calc(100%-1rem)] items-end gap-2">
+                <div class="flex-1 rounded-t-md bg-blue-200 h-2/3"></div>
+                <div class="flex-1 rounded-t-md bg-blue-300 h-1/2"></div>
+                <div class="flex-1 rounded-t-md bg-blue-400 h-full"></div>
               </div>
             </div>
-            
-            <div class="ui-card-content">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="ui-card-title">Sales Intelligence Dashboard</h3>
-                  <div class="flex items-center gap-2 mt-1">
-                    <span class="ui-badge ui-badge-primary">📊 Dashboard</span>
-                    <span class="ui-badge ui-badge-light">Free</span>
-                  </div>
-                </div>
+            <div class="flex flex-1 flex-col p-6">
+              <h3 data-template-title class="mb-2 text-lg font-semibold leading-tight text-slate-800 line-clamp-2">Sales Intelligence Dashboard</h3>
+              <div class="mb-3 flex items-center gap-2">
+                <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                  <i class="fa-solid fa-chart-column"></i>
+                  Dashboard
+                </span>
+                <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">Free</span>
               </div>
-              
-              <p class="ui-card-description">
-                Track MRR growth, churn rates, and sales team performance. Includes weekly summary prompts and investor presentation templates.
-              </p>
-              
-              <div class="flex items-center justify-between mt-4">
+              <p class="mb-4 flex-1 text-sm text-slate-600 line-clamp-3">Track MRR growth, churn rates, and sales team performance. Includes weekly summary prompts and investor presentation templates.</p>
+              <div class="mt-auto flex items-center justify-between">
                 <div class="flex items-center gap-4 text-xs text-slate-500">
                   <span><i class="fas fa-clock"></i> 2 min</span>
                   <span><i class="fas fa-chart-bar"></i> 6 charts</span>
                 </div>
-                <button data-action="use-template" class="min-h-[44px] w-full rounded-lg bg-gradient-to-r from-[#2563EB] to-[#41C3FF] text-white font-semibold shadow hover:opacity-90 transition">
-                  Use Template
-                </button>
+                <button data-action="use-template" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Use Template</button>
               </div>
             </div>
           </article>
 
           <!-- Template Card 2 - Marketing Campaign -->
-          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="marketing" data-template-id="marketing-campaign">
-            <div class="ui-card-preview-container">
-              <div class="bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg p-4 h-32 flex flex-col justify-between">
-                <div class="flex items-center justify-between text-white text-xs">
-                  <span class="bg-white/20 px-2 py-1 rounded">Marketing</span>
-                  <span>Campaign 04</span>
-                </div>
-                <div class="space-y-2">
-                  <div class="h-12 bg-white/30 rounded"></div>
-                  <div class="grid grid-cols-2 gap-2">
-                    <div class="h-10 bg-white/40 rounded"></div>
-                    <div class="h-10 bg-white/25 rounded"></div>
-                  </div>
-                </div>
+          <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-lg" data-category="marketing" data-template-id="marketing-campaign">
+            <div class="aspect-[16/10] bg-slate-50 p-4">
+              <div class="flex items-center justify-between text-xs font-medium text-slate-500">
+                <span>Marketing</span>
+                <span>Campaign 04</span>
               </div>
-              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                <button class="ui-btn ui-btn-primary">
-                  <i class="fas fa-eye"></i>
-                  Preview
-                </button>
+              <div class="mt-2 flex h-[calc(100%-1rem)] items-end gap-2">
+                <div class="flex-1 rounded-t-md bg-purple-200 h-3/4"></div>
+                <div class="flex-1 rounded-t-md bg-purple-300 h-1/2"></div>
+                <div class="flex-1 rounded-t-md bg-purple-400 h-2/3"></div>
               </div>
             </div>
-            
-            <div class="ui-card-content">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="ui-card-title">Marketing Campaign Overview</h3>
-                  <div class="flex items-center gap-2 mt-1">
-                    <span class="ui-badge ui-badge-primary">📈 Analytics</span>
-                    <span class="ui-badge ui-badge-light">Free</span>
-                  </div>
-                </div>
+            <div class="flex flex-1 flex-col p-6">
+              <h3 data-template-title class="mb-2 text-lg font-semibold leading-tight text-slate-800 line-clamp-2">Marketing Campaign Overview</h3>
+              <div class="mb-3 flex items-center gap-2">
+                <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                  <i class="fa-solid fa-chart-line"></i>
+                  Analytics
+                </span>
+                <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">Free</span>
               </div>
-              
-              <p class="ui-card-description">
-                Campaign performance metrics: CAC, CPL, ROI analysis. Complete with monthly report prompts and client presentation templates.
-              </p>
-              
-              <div class="flex items-center justify-between mt-4">
+              <p class="mb-4 flex-1 text-sm text-slate-600 line-clamp-3">Campaign performance metrics: CAC, CPL, ROI analysis. Complete with monthly report prompts and client presentation templates.</p>
+              <div class="mt-auto flex items-center justify-between">
                 <div class="flex items-center gap-4 text-xs text-slate-500">
                   <span><i class="fas fa-clock"></i> 3 min</span>
                   <span><i class="fas fa-chart-bar"></i> 8 charts</span>
                 </div>
-                <button class="ui-btn ui-btn-ghost">
-                  Use Template
-                  <i class="fas fa-arrow-right text-xs"></i>
-                </button>
+                <button data-action="use-template" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Use Template <i class="fas fa-arrow-right ml-2 text-xs"></i></button>
               </div>
             </div>
           </article>
-                  <i class="fas fa-clock"></i>
-                  <span>10 min setup</span>
-                </div>
-              </div>
-              
-              
-                
-                
-            
 
           <!-- Template Card 3 - Financial Monitor -->
-          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="finance" data-template-id="financial-monitor">
-            <div class="ui-card-preview-container">
-              <div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg p-4 h-32 flex flex-col justify-between">
-                <div class="flex items-center justify-between text-white text-xs">
-                  <span class="bg-white/20 px-2 py-1 rounded">Finance</span>
-                  <span>Fin 02</span>
-                </div>
-                <div class="grid grid-cols-3 gap-2">
-                  <div class="h-12 bg-white/30 rounded"></div>
-                  <div class="h-16 bg-white/40 rounded"></div>
-                  <div class="h-10 bg-white/25 rounded"></div>
-                </div>
+          <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-lg" data-category="finance" data-template-id="financial-monitor">
+            <div class="aspect-[16/10] bg-slate-50 p-4">
+              <div class="flex items-center justify-between text-xs font-medium text-slate-500">
+                <span>Finance</span>
+                <span>Fin 02</span>
               </div>
-              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                <button class="ui-btn ui-btn-primary">
-                  <i class="fas fa-eye"></i>
-                  Preview
-                </button>
+              <div class="mt-2 flex h-[calc(100%-1rem)] items-end gap-2">
+                <div class="flex-1 rounded-t-md bg-emerald-200 h-1/2"></div>
+                <div class="flex-1 rounded-t-md bg-emerald-300 h-2/3"></div>
+                <div class="flex-1 rounded-t-md bg-emerald-400 h-1/3"></div>
               </div>
             </div>
-            
-            <div class="ui-card-content">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="ui-card-title">Financial Performance Monitor</h3>
-                  <div class="flex items-center gap-2 mt-1">
-                    <span class="ui-badge ui-badge-primary">💰 Finance</span>
-                    <span class="ui-badge ui-badge-light">Free</span>
-                  </div>
-                </div>
+            <div class="flex flex-1 flex-col p-6">
+              <h3 data-template-title class="mb-2 text-lg font-semibold leading-tight text-slate-800 line-clamp-2">Financial Performance Monitor</h3>
+              <div class="mb-3 flex items-center gap-2">
+                <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                  <i class="fa-solid fa-chart-pie"></i>
+                  Finance
+                </span>
+                <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">Free</span>
               </div>
-              
-              <p class="ui-card-description">
-                Real-time financial metrics dashboard: cash flow, profit margins, expense tracking. Automated quarterly reports and investor updates.
-              </p>
-              
-              <div class="flex items-center justify-between mt-4">
+              <p class="mb-4 flex-1 text-sm text-slate-600 line-clamp-3">Real-time financial metrics dashboard: cash flow, profit margins, expense tracking. Automated quarterly reports and investor updates.</p>
+              <div class="mt-auto flex items-center justify-between">
                 <div class="flex items-center gap-4 text-xs text-slate-500">
                   <span><i class="fas fa-clock"></i> 4 min</span>
                   <span><i class="fas fa-chart-bar"></i> 10 charts</span>
                 </div>
-                <button class="ui-btn ui-btn-ghost">
-                  Use Template
-                  <i class="fas fa-arrow-right text-xs"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-                  </div>
-                  <div class="grid grid-cols-3 gap-2">
-                    <div class="h-14 bg-white/30 rounded"></div>
-                    <div class="h-20 bg-white/40 rounded"></div>
-                    <div class="h-12 bg-white/25 rounded"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="template-overlay">
-                <button class="preview-btn">
-                  <i class="fas fa-eye"></i>
-                  Preview
-                </button>
-              </div>
-            </div>
-            
-            <div class="template-content">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="template-title">Financial Health Monitor</h3>
-                  <div class="flex items-center gap-2 mt-1">
-                    <span class="chart-type-badge">💰 Finance</span>
-                    <span class="template-badge premium">Premium</span>
-                  </div>
-                </div>
-              </div>
-              
-              <p class="template-description">
-                Expense tracking, profit analysis, and cash flow monitoring. Perfect for CFOs and founders with quarterly report prompts included.
-              </p>
-              
-              <div class="template-stats">
-                <div class="stat-item">
-                  <i class="fas fa-users"></i>
-                  <span>643 uses</span>
-                </div>
-                <div class="stat-item">
-                  <i class="fas fa-star text-yellow-500"></i>
-                  <span>4.9</span>
-                </div>
-                <div class="stat-item">
-                  <i class="fas fa-clock"></i>
-                  <span>20 min setup</span>
-                </div>
-              </div>
-              
-              <div class="template-actions">
-                <button class="use-template-btn premium">
-                  <i class="fas fa-crown"></i>
-                  Use Template
-                </button>
-                <button class="save-template-btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
+                <button data-action="use-template" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Use Template <i class="fas fa-arrow-right ml-2 text-xs"></i></button>
               </div>
             </div>
           </article>
 
           <!-- Template Card 4 - Academic Research -->
-          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="academic" data-template-id="academic-research">
-            <div class="ui-card-preview-container">
-              <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg p-4 h-32 flex flex-col justify-between">
-                <div class="flex items-center justify-between text-white text-xs">
-                  <span class="bg-white/20 px-2 py-1 rounded">Academic</span>
-                  <span>Research 01</span>
-                </div>
-                <div class="space-y-2">
-                  <div class="h-10 bg-white/30 rounded"></div>
-                  <div class="grid grid-cols-2 gap-2">
-                    <div class="h-12 bg-white/40 rounded"></div>
-                    <div class="h-12 bg-white/25 rounded"></div>
-                  </div>
-                  <div class="h-6 bg-white/35 rounded"></div>
-                </div>
+          <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-lg" data-category="academic" data-template-id="academic-research">
+            <div class="aspect-[16/10] bg-slate-50 p-4">
+              <div class="flex items-center justify-between text-xs font-medium text-slate-500">
+                <span>Academic</span>
+                <span>Research 01</span>
               </div>
-              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                <button class="ui-btn ui-btn-primary">
-                  <i class="fas fa-eye"></i>
-                  Preview
-                </button>
+              <div class="mt-2 flex h-[calc(100%-1rem)] items-end gap-2">
+                <div class="flex-1 rounded-t-md bg-amber-200 h-1/2"></div>
+                <div class="flex-1 rounded-t-md bg-amber-300 h-3/4"></div>
+                <div class="flex-1 rounded-t-md bg-amber-400 h-2/3"></div>
               </div>
             </div>
-            
-            <div class="ui-card-content">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="ui-card-title">Academic Research Dashboard</h3>
-                  <div class="flex items-center gap-2 mt-1">
-                    <span class="ui-badge ui-badge-primary">🔬 Research</span>
-                    <span class="ui-badge ui-badge-light">Free</span>
-                  </div>
-                </div>
+            <div class="flex flex-1 flex-col p-6">
+              <h3 data-template-title class="mb-2 text-lg font-semibold leading-tight text-slate-800 line-clamp-2">Academic Research Dashboard</h3>
+              <div class="mb-3 flex items-center gap-2">
+                <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                  <i class="fa-solid fa-chart-bar"></i>
+                  Research
+                </span>
+                <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">Free</span>
               </div>
-              
-              <p class="ui-card-description">
-                Research publication tracking, citation analysis, and collaboration metrics. Perfect for academic institutions and research teams.
-              </p>
-              
-              <div class="flex items-center justify-between mt-4">
+              <p class="mb-4 flex-1 text-sm text-slate-600 line-clamp-3">Research publication tracking, citation analysis, and collaboration metrics. Perfect for academic institutions and research teams.</p>
+              <div class="mt-auto flex items-center justify-between">
                 <div class="flex items-center gap-4 text-xs text-slate-500">
                   <span><i class="fas fa-clock"></i> 5 min</span>
                   <span><i class="fas fa-chart-bar"></i> 7 charts</span>
                 </div>
-                <button class="ui-btn ui-btn-ghost">
-                  Use Template
-                  <i class="fas fa-arrow-right text-xs"></i>
-                </button>
-              </div>
-            </div>
-          </article>
-                  <div class="flex items-center gap-2 mt-1">
-                    <span class="chart-type-badge">📚 Research</span>
-                    <span class="template-badge free">Free</span>
-                  </div>
-                </div>
-              </div>
-              
-              <p class="template-description">
-                Research data visualization with statistical analysis, publication-ready charts, and comprehensive data exploration tools.
-              </p>
-              
-              <div class="template-stats">
-                <div class="stat-item">
-                  <i class="fas fa-users"></i>
-                  <span>423 uses</span>
-                </div>
-                <div class="stat-item">
-                  <i class="fas fa-star text-yellow-500"></i>
-                  <span>4.6</span>
-                </div>
-                <div class="stat-item">
-                  <i class="fas fa-clock"></i>
-                  <span>25 min setup</span>
-                </div>
-              </div>
-              
-              <div class="template-actions">
-                <button class="use-template-btn primary">
-                  <i class="fas fa-bolt"></i>
-                  Use Template
-                </button>
-                <button class="save-template-btn">
-                  <i class="far fa-bookmark"></i>
-                </button>
+                <button data-action="use-template" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Use Template <i class="fas fa-arrow-right ml-2 text-xs"></i></button>
               </div>
             </div>
           </article>
 
           <!-- Template Card 5 - Business KPI -->
-          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="business" data-template-id="business-kpi">
-            <div class="ui-card-preview-container">
-              <div class="bg-gradient-to-br from-blue-600 to-cyan-600 rounded-lg p-4 h-32 flex flex-col justify-between">
-                <div class="flex items-center justify-between text-white text-xs">
-                  <span class="bg-white/20 px-2 py-1 rounded">Business</span>
-                  <span>KPI 05</span>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                  <div class="h-16 bg-white/30 rounded"></div>
-                  <div class="space-y-2">
-                    <div class="h-8 bg-white/40 rounded"></div>
-                    <div class="h-8 bg-white/25 rounded"></div>
-                  </div>
-                </div>
+          <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-lg" data-category="business" data-template-id="business-kpi">
+            <div class="aspect-[16/10] bg-slate-50 p-4">
+              <div class="flex items-center justify-between text-xs font-medium text-slate-500">
+                <span>Business</span>
+                <span>KPI 05</span>
               </div>
-              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                <button class="ui-btn ui-btn-primary">
-                  <i class="fas fa-eye"></i>
-                  Preview
-                </button>
+              <div class="mt-2 flex h-[calc(100%-1rem)] items-end gap-2">
+                <div class="flex-1 rounded-t-md bg-cyan-200 h-full"></div>
+                <div class="flex-1 rounded-t-md bg-cyan-300 h-1/2"></div>
+                <div class="flex-1 rounded-t-md bg-cyan-400 h-3/4"></div>
               </div>
             </div>
-            
-            <div class="ui-card-content">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="ui-card-title">Business KPI Tracker</h3>
-                  <div class="flex items-center gap-2 mt-1">
-                    <span class="ui-badge ui-badge-primary">🎯 KPI</span>
-                    <span class="ui-badge ui-badge-light">Free</span>
-                  </div>
-                </div>
+            <div class="flex flex-1 flex-col p-6">
+              <h3 data-template-title class="mb-2 text-lg font-semibold leading-tight text-slate-800 line-clamp-2">Business KPI Tracker</h3>
+              <div class="mb-3 flex items-center gap-2">
+                <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                  <i class="fa-solid fa-bullseye"></i>
+                  KPI
+                </span>
+                <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">Free</span>
               </div>
-              
-              <p class="ui-card-description">
-                Track key business metrics, goals vs actual performance, and team productivity with automated reporting and alerts.
-              </p>
-              
-              <div class="flex items-center justify-between mt-4">
+              <p class="mb-4 flex-1 text-sm text-slate-600 line-clamp-3">Track key business metrics, goals vs actual performance, and team productivity with automated reporting and alerts.</p>
+              <div class="mt-auto flex items-center justify-between">
                 <div class="flex items-center gap-4 text-xs text-slate-500">
                   <span><i class="fas fa-clock"></i> 4 min</span>
                   <span><i class="fas fa-chart-bar"></i> 9 charts</span>
                 </div>
-                <button class="ui-btn ui-btn-ghost">
-                  Use Template
-                  <i class="fas fa-arrow-right text-xs"></i>
-                </button>
+                <button data-action="use-template" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Use Template <i class="fas fa-arrow-right ml-2 text-xs"></i></button>
               </div>
             </div>
           </article>
 
           <!-- Template Card 6 - Social Media Analytics -->
-          <article class="ui-card bg-white rounded-xl shadow-md border border-gray-200 p-6 flex flex-col aspect-[16/10] min-h-[240px] max-w-[320px]" data-category="marketing" data-template-id="social-media">
-            <div class="ui-card-preview-container">
-              <div class="bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg p-4 h-32 flex flex-col justify-between">
-                <div class="flex items-center justify-between text-white text-xs">
-                  <span class="bg-white/20 px-2 py-1 rounded">Marketing</span>
-                  <span>Social 02</span>
-                </div>
-                <div class="grid grid-cols-3 gap-2">
-                  <div class="h-12 bg-white/30 rounded"></div>
-                  <div class="h-16 bg-white/40 rounded"></div>
-                  <div class="h-10 bg-white/25 rounded"></div>
-                </div>
+          <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-lg" data-category="marketing" data-template-id="social-media">
+            <div class="aspect-[16/10] bg-slate-50 p-4">
+              <div class="flex items-center justify-between text-xs font-medium text-slate-500">
+                <span>Marketing</span>
+                <span>Social 02</span>
               </div>
-              <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                <button class="ui-btn ui-btn-primary">
-                  <i class="fas fa-eye"></i>
-                  Preview
-                </button>
+              <div class="mt-2 flex h-[calc(100%-1rem)] items-end gap-2">
+                <div class="flex-1 rounded-t-md bg-rose-200 h-1/2"></div>
+                <div class="flex-1 rounded-t-md bg-rose-300 h-full"></div>
+                <div class="flex-1 rounded-t-md bg-rose-400 h-2/3"></div>
               </div>
             </div>
-            
-            <div class="ui-card-content">
-              <div class="flex items-start justify-between mb-3">
-                <div>
-                  <h3 class="ui-card-title">Social Media Analytics</h3>
-                  <div class="flex items-center gap-2 mt-1">
-                    <span class="ui-badge ui-badge-primary">📱 Social</span>
-                    <span class="ui-badge ui-badge-light">Premium</span>
-                  </div>
-                </div>
+            <div class="flex flex-1 flex-col p-6">
+              <h3 data-template-title class="mb-2 text-lg font-semibold leading-tight text-slate-800 line-clamp-2">Social Media Analytics</h3>
+              <div class="mb-3 flex items-center gap-2">
+                <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                  <i class="fa-solid fa-chart-line"></i>
+                  Social
+                </span>
+                <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">Premium</span>
               </div>
-              
-              <p class="ui-card-description">
-                Comprehensive social media performance tracking across platforms with engagement metrics and growth analytics.
-              </p>
-              
-              <div class="flex items-center justify-between mt-4">
+              <p class="mb-4 flex-1 text-sm text-slate-600 line-clamp-3">Comprehensive social media performance tracking across platforms with engagement metrics and growth analytics.</p>
+              <div class="mt-auto flex items-center justify-between">
                 <div class="flex items-center gap-4 text-xs text-slate-500">
                   <span><i class="fas fa-clock"></i> 3 min</span>
                   <span><i class="fas fa-chart-bar"></i> 5 charts</span>
                 </div>
-                <button class="ui-btn ui-btn-ghost">
-                  Use Template
-                  <i class="fas fa-arrow-right text-xs"></i>
-                </button>
+                <button data-action="use-template" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Use Template <i class="fas fa-arrow-right ml-2 text-xs"></i></button>
               </div>
             </div>
           </article>
@@ -623,8 +377,8 @@
         </div>
 
         <!-- Load More -->
-        <div class="text-center mt-12">
-          <button id="load-more-templates" class="ui-btn ui-btn-secondary">
+        <div class="mt-12 text-center">
+          <button id="load-more-templates" class="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-xl bg-white px-6 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
             Load More Templates
           </button>
         </div>
@@ -632,18 +386,18 @@
     </section>
 
     <!-- CTA SECTION -->
-    <section class="ui-section bg-gray-900 text-gray-50">
-      <div class="ui-container text-center">
-        <h2 class="ui-heading-2 text-white">Can't find the perfect template?</h2>
-        <p class="ui-subtitle text-gray-300 max-w-2xl mx-auto">
+    <section class="bg-slate-900 py-20 sm:py-24">
+      <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Can't find the perfect template?</h2>
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">
           Our AI generator can create custom visualizations tailored to your specific needs and brand guidelines.
         </p>
-        <div class="ui-btn-group justify-center mt-4">
-          <a href="generator.html" class="ui-btn ui-btn-primary">
+        <div class="mt-10 flex items-center justify-center gap-4">
+          <a href="generator.html" class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
             <i class="fas fa-bolt"></i>
             Create Custom Template
           </a>
-          <button class="ui-btn ui-btn-secondary" id="download-all-templates">
+          <button id="download-all-templates" class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-white px-6 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
             <i class="fas fa-download"></i>
             Download All Templates
           </button>
@@ -651,6 +405,7 @@
       </div>
     </section>
   </main>
+
 
   <!-- TEMPLATE DETAIL MODAL -->
   <div id="template-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
@@ -692,8 +447,11 @@
             <div>
               <h3 id="modal-template-title" class="text-2xl font-bold text-slate-900 mb-2">Template Title</h3>
               <div class="flex items-center gap-3 mb-4">
-                <span id="modal-template-category" class="ui-badge ui-badge-primary">📊 Dashboard</span>
-                <span id="modal-template-badge" class="ui-badge ui-badge-light">Free</span>
+                <span id="modal-template-category" class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                  <i class="fa-solid fa-chart-column"></i>
+                  Dashboard
+                </span>
+                <span id="modal-template-badge" class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">Free</span>
               </div>
               <p id="modal-template-description" class="text-slate-600">
                 Template description will be loaded here...
@@ -790,413 +548,54 @@
     </div>
   </div>
 
-  <!-- Unified Footer -->
-  <footer id="unified-footer">
-    <!-- Footer content will be dynamically loaded by UnifiedFooter.js -->
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-300">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
+              <i class="fas fa-chart-simple text-white"></i>
+            </div>
+            <span class="text-xl font-bold text-white">VIZOM</span>
+          </div>
+          <p class="mt-4 text-sm text-slate-400">
+            AI-powered visual engine. Create beautiful visualizations in seconds.
+          </p>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white">Product</h4>
+          <ul class="mt-4 space-y-3">
+            <li><a href="generator.html" class="text-sm text-slate-400 transition-colors hover:text-white">Generator</a></li>
+            <li><a href="templates.html" class="text-sm text-slate-400 transition-colors hover:text-white">Templates</a></li>
+            <li><a href="pricing.html" class="text-sm text-slate-400 transition-colors hover:text-white">Pricing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white">Resources</h4>
+          <ul class="mt-4 space-y-3">
+            <li><a href="docs.html" class="text-sm text-slate-400 transition-colors hover:text-white">Documentation</a></li>
+            <li><a href="docs.html#api" class="text-sm text-slate-400 transition-colors hover:text-white">API Reference</a></li>
+            <li><a href="blog.html" class="text-sm text-slate-400 transition-colors hover:text-white">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-white">Company</h4>
+          <ul class="mt-4 space-y-3">
+            <li><a href="about.html" class="text-sm text-slate-400 transition-colors hover:text-white">About</a></li>
+            <li><a href="about.html#careers" class="text-sm text-slate-400 transition-colors hover:text-white">Careers</a></li>
+            <li><a href="contact.html" class="text-sm text-slate-400 transition-colors hover:text-white">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-10 border-t border-slate-800 pt-8 text-center">
+        <p class="text-sm text-slate-400">&copy; 2024 VIZOM. All rights reserved.</p>
+      </div>
+    </div>
   </footer>
-
-  <link rel="stylesheet" href="src/styles/components/footer.css">
-      overflow: hidden;
-    }
-
-    .preview-image {
-      width: 100%;
-      height: 192px;
-      position: relative;
-    }
-
-    .template-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .template-card:hover .template-overlay {
-      opacity: 1;
-    }
-
-    .preview-btn {
-      padding: 10px 20px;
-      background: white;
-      color: #1e293b;
-      border: none;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .preview-btn:hover {
-      background: #f8fafc;
-      transform: scale(1.05);
-    }
-
-    .template-content {
-      padding: 20px;
-    }
-
-    .template-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #1e293b;
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-
-    .chart-type-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 8px;
-      background: #f1f5f9;
-      color: #475569;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    .template-badge {
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .template-badge.free {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .template-badge.premium {
-      background: #fef3c7;
-      color: #d97706;
-    }
-
-    .template-description {
-      color: #64748b;
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
-
-    .template-stats {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 16px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .stat-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: #64748b;
-    }
-
-    .template-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .use-template-btn {
-      flex: 1;
-      padding: 10px 16px;
-      border: none;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .use-template-btn.primary {
-      background: #3b82f6;
-      color: white;
-    }
-
-    .use-template-btn.primary:hover {
-      background: #2563eb;
-      transform: translateY(-1px);
-    }
-
-    .use-template-btn.premium {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: white;
-    }
-
-    .use-template-btn.premium:hover {
-      background: linear-gradient(135deg, #d97706, #b45309);
-      transform: translateY(-1px);
-    }
-
-    .save-template-btn {
-      padding: 10px;
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      color: #64748b;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .save-template-btn:hover {
-      background: #f8fafc;
-      border-color: #3b82f6;
-      color: #3b82f6;
-    }
-
-    .save-template-btn.saved {
-      background: #3b82f6;
-      color: white;
-      border-color: #3b82f6;
-    }
-
-    /* Template Modal */
-    #template-modal {
-      backdrop-filter: blur(4px);
-    }
-
-    #template-modal .bg-white {
-      animation: modalSlideIn 0.3s ease;
-    }
-
-    @keyframes modalSlideIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95) translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-
-    /* Search Bar */
-    #template-search {
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    #template-search:focus {
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Filter Options */
-    .filter-options {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 767px) {
-      .template-stats {
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .template-actions {
-        flex-direction: column;
-      }
-
-      .use-template-btn {
-        width: 100%;
-      }
-
-      #template-modal .bg-white {
-        margin: 16px;
-        max-height: calc(100vh - 32px);
-      }
-
-      .category-tab {
-        font-size: 13px;
-        padding: 6px 12px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .preview-image {
-        height: 160px;
-      }
-
-      .template-content {
-        padding: 16px;
-      }
-
-      .template-title {
-        font-size: 16px;
-      }
-    }
-
-    /* Loading States */
-    .template-loading {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .template-loading::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      animation: shimmer 1.5s infinite;
-    }
-
-    @keyframes shimmer {
-      0% { left: -100%; }
-      100% { left: 100%; }
-    }
-
-    /* Animations */
-    .fade-in {
-      animation: fadeIn 0.5s ease;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .slide-up {
-      animation: slideUp 0.4s ease;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Scrollbar Styling */
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 3px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 3px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-
-    /* Premium Badge Animation */
-    .template-badge.premium {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .template-badge.premium::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      animation: shimmer 2s infinite;
-    }
-
-    /* Hover Effects */
-    .template-card {
-      position: relative;
-    }
-
-    .template-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 16px;
-      background: linear-gradient(135deg, transparent, rgba(59, 130, 246, 0.1));
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .template-card:hover::before {
-      opacity: 1;
-    }
-
-    /* Filter Pills */
-    .filter-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #64748b;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .filter-pill:hover {
-      background: #f8fafc;
-      border-color: #3b82f6;
-      color: #3b82f6;
-    }
-
-    .filter-pill.active {
-      background: #3b82f6;
-      border-color: #3b82f6;
-      color: white;
-    }
-
-    /* Success Animation */
-    @keyframes successPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .success-animation {
-      animation: successPulse 0.3s ease;
-    }
-  </style>
   
   <script type="module" src="src/app-refactored.js"></script>
-  <script type="module" src="src/components/UnifiedHeader.js"></script>
-  <script type="module" src="src/components/HeaderIntegration.js"></script>
   <script type="module" src="src/components/TemplateGallery.js"></script>
-  <script type="module" src="src/components/UnifiedFooter.js"></script>
   <script type="module" src="src/page-specific/templates.js"></script>
   
   <!-- Analytics Initialization and Template Events -->
@@ -1209,7 +608,7 @@
       document.querySelectorAll('[data-template-id]').forEach(card => {
         card.addEventListener('click', () => {
           const id = card.dataset.templateId;
-          const name = card.querySelector('.ui-card-title')?.textContent?.trim();
+          const name = card.querySelector('[data-template-title]')?.textContent?.trim();
           trackEvent('template_clicked', { templateId: id, templateName: name });
         });
       });
@@ -1217,11 +616,11 @@
       // Track search queries (debounced)
       const searchInput = document.getElementById('template-search');
       if (searchInput) {
-        let t;
+        let debounceRef;
         searchInput.addEventListener('input', (e) => {
-          clearTimeout(t);
+          clearTimeout(debounceRef);
           const val = e.target?.value || '';
-          t = setTimeout(() => trackEvent('template_searched', { query: String(val) }), 500);
+          debounceRef = setTimeout(() => trackEvent('template_searched', { query: String(val) }), 500);
         });
       }
 
@@ -1235,49 +634,62 @@
 
       // Track template use clicks
       document.querySelectorAll('[data-action="use-template"]').forEach(btn => {
-        btn.addEventListener('click', (ev) => {
+        btn.addEventListener('click', () => {
           const card = btn.closest('[data-template-id]');
           const templateId = card?.dataset?.templateId;
-          trackEvent('template_used', { templateId });
+          const name = card?.querySelector('[data-template-title]')?.textContent?.trim();
+          trackEvent('template_used', { templateId, templateName: name });
         });
       });
     });
   </script>
-  
-  <!-- Mobile Menu Script -->
-  <script>
-    // Mobile menu toggle
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const navLinks = document.getElementById('nav-links');
-    
-    if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            const icon = mobileMenuToggle.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.nav') && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                const icon = mobileMenuToggle.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
-            }
-        });
-        
-        // Close menu when clicking a link
-        navLinks.querySelectorAll('a, button').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                const icon = mobileMenuToggle.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
-            });
-        });
+
+<script type="module" src="/src/components/mobile-menu.js"></script>
+
+<!-- Page-specific feedback interactions -->
+<script type="module">
+  import { showLoading, hideLoading, showToast } from '/scripts/core/ui-feedback.js';
+
+  const noop = () => {};
+  const feedback = {
+    showLoading: showLoading || noop,
+    hideLoading: hideLoading || noop,
+    showToast: showToast || ((message) => console.info('[toast]', message))
+  };
+
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const loadMoreBtn = document.getElementById('load-more-templates');
+    if (loadMoreBtn) {
+      const originalText = loadMoreBtn.textContent;
+      loadMoreBtn.addEventListener('click', async (event) => {
+        event.preventDefault();
+        if (loadMoreBtn.disabled) return;
+        loadMoreBtn.disabled = true;
+        loadMoreBtn.textContent = 'Loading…';
+        feedback.showLoading('Добавляем свежие шаблоны…', 'Обновление галереи');
+        try {
+          await wait(1200);
+          feedback.showToast('Новые шаблоны готовы к просмотру ✨', 'success');
+        } catch (error) {
+          feedback.showToast(error.message || 'Не удалось обновить галерею', 'error');
+        } finally {
+          loadMoreBtn.disabled = false;
+          loadMoreBtn.textContent = originalText;
+          feedback.hideLoading();
+        }
+      });
     }
-  </script>
+
+    document.querySelectorAll('[data-action="use-template"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('[data-template-id]');
+        const title = card?.querySelector('[data-template-title]')?.textContent?.trim() || 'Template';
+        feedback.showToast(`Template “${title}” sent to generator`, 'info');
+      });
+    });
+  });
+</script>
 </body>
 </html>

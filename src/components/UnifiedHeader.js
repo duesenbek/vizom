@@ -1,9 +1,10 @@
 // Unified Header Navigation Component
+import { initMobileMenu, destroyMobileMenu } from './mobile-menu.js';
+
 class UnifiedHeader {
   constructor() {
     this.currentPage = this.getCurrentPage();
     this.isMobile = false;
-    this.isMenuOpen = false;
     this.isUserLoggedIn = false;
     
     this.init();
@@ -773,6 +774,9 @@ class UnifiedHeader {
     } else {
       document.body.insertAdjacentHTML('afterbegin', headerHTML);
     }
+
+    // Announce that the header has been rendered
+    document.dispatchEvent(new CustomEvent('header:rendered'));
   }
 
   // Helper to create fragment from HTML
@@ -785,22 +789,10 @@ class UnifiedHeader {
   // Bind events
   bindEvents() {
     // Mobile menu toggle
-    const mobileToggle = document.getElementById('mobile-menu-toggle');
-    const mobileOverlay = document.getElementById('mobile-menu-overlay');
-    const mobileMenu = document.getElementById('mobile-menu-close');
-    const mobileMenuElement = document.getElementById('mobile-menu');
-
-    if (mobileToggle) {
-      mobileToggle.addEventListener('click', () => this.toggleMobileMenu());
-    }
-
-    if (mobileOverlay) {
-      mobileOverlay.addEventListener('click', () => this.closeMobileMenu());
-    }
-
-    if (mobileMenu) {
-      mobileMenu.addEventListener('click', () => this.closeMobileMenu());
-    }
+    this.mobileMenuController = initMobileMenu({
+      activeToggleClass: 'active',
+      hiddenClass: 'hidden'
+    });
 
     // Language selector
     const languageButton = document.getElementById('language-button');
@@ -873,36 +865,11 @@ class UnifiedHeader {
     });
   }
 
-  // Toggle mobile menu
-  toggleMobileMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
-    
-    const overlay = document.getElementById('mobile-menu-overlay');
-    const menu = document.getElementById('mobile-menu');
-    const toggle = document.getElementById('mobile-menu-toggle');
-
-    if (this.isMenuOpen) {
-      overlay?.classList.add('show');
-      menu?.classList.add('show');
-      toggle?.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    } else {
-      this.closeMobileMenu();
+  cleanupMobileMenu() {
+    const toggle = document.querySelector(this.mobileMenuController?.options?.toggleSelector || '#mobile-menu-toggle');
+    if (toggle) {
+      destroyMobileMenu(toggle);
     }
-  }
-
-  // Close mobile menu
-  closeMobileMenu() {
-    this.isMenuOpen = false;
-    
-    const overlay = document.getElementById('mobile-menu-overlay');
-    const menu = document.getElementById('mobile-menu');
-    const toggle = document.getElementById('mobile-menu-toggle');
-
-    overlay?.classList.remove('show');
-    menu?.classList.remove('show');
-    toggle?.classList.remove('active');
-    document.body.style.overflow = '';
   }
 
   // Toggle language dropdown
@@ -1073,10 +1040,5 @@ class UnifiedHeader {
   }
 }
 
-// Initialize unified header
-document.addEventListener('DOMContentLoaded', () => {
-  window.unifiedHeader = new UnifiedHeader();
-});
-
-// Export for use in other modules
-export { UnifiedHeader };
+// Export class for external instantiation
+export default UnifiedHeader;

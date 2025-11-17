@@ -66,6 +66,8 @@ export class AIRecommendations {
     const chartType = getChartTypeById(typeId);
     if (!chartType) return '';
 
+    const iconClass = (chartType.icon && chartType.icon.includes('fa-')) ? chartType.icon : 'fa-chart-column';
+
     const recommendedBadge = isRecommended ? `
       <div class="recommended-badge absolute top-1 right-1 bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded">
         <i class="fas fa-star text-xs"></i> Top
@@ -78,7 +80,7 @@ export class AIRecommendations {
            data-type="${typeId}" data-recommended="${isRecommended}">
         ${recommendedBadge}
         <div class="flex flex-col items-center text-center">
-          <div class="chart-icon text-2xl mb-2">${chartType.icon}</div>
+          <div class="chart-icon text-2xl mb-2"><i class="fa-solid ${iconClass}"></i></div>
           <div class="chart-name font-medium text-sm text-gray-900">${chartType.name}</div>
           <div class="chart-description text-xs text-gray-600 mt-1 line-clamp-2">${chartType.shortDescription || chartType.description}</div>
         </div>
@@ -193,16 +195,15 @@ export class AIRecommendations {
    */
   async regenerateChartWithNewType(typeId) {
     try {
-      // Get current prompt
-      const promptInput = document.getElementById('chart-prompt');
+      // Get current prompt (support both legacy #chart-prompt and new #prompt-input)
+      const promptInput =
+        document.getElementById('prompt-input') ||
+        document.getElementById('chart-prompt');
       const prompt = promptInput?.value || '';
-      
+
       if (!prompt) return;
 
-      // Show loading state
-      this.chartGenerator.showLoading();
-
-      // Generate new chart with selected type
+      // Delegate to chart generator, which manages loading and error states
       await this.chartGenerator.generateChartWithSpecificType(prompt, typeId);
 
       // Track selection

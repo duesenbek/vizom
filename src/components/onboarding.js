@@ -24,7 +24,7 @@ class OnboardingManager {
     this.steps = [
       {
         id: 'welcome',
-        title: 'Welcome to VIZOM! 🎉',
+        title: 'Welcome to VIZOM!',
         content: 'Let\'s take a quick tour to help you create beautiful charts with AI.',
         target: null,
         position: 'center',
@@ -105,7 +105,7 @@ class OnboardingManager {
       },
       {
         id: 'completion',
-        title: 'You\'re All Set! 🚀',
+        title: 'You\'re All Set!',
         content: 'Great job! You now know how to create amazing charts with VIZOM. Start creating or explore more features.',
         target: null,
         position: 'center',

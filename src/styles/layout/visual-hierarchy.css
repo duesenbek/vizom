@@ -490,7 +490,9 @@
 }
 
 .data-input-title::before {
-  content: '📊';
+  content: '\f080';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
   font-size: var(--hierarchy-level-3);
 }
 
@@ -532,7 +534,9 @@
 }
 
 .chart-type-title::before {
-  content: '📈';
+  content: '\f201';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
   font-size: var(--hierarchy-level-3);
 }
 

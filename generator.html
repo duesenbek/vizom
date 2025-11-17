@@ -6,944 +6,216 @@
     <title>VIZOM - AI Chart Generator</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="public/images/vizom-icon.png">
-    <link rel="apple-touch-icon" href="public/images/vizom-icon.png">
+    <link rel="icon" type="image/png" href="/images/vizom-icon.png">
+    <link rel="apple-touch-icon" href="/images/vizom-icon.png">
     
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=line-clamp"></script>
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="src/styles/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <!-- Modern Styles -->
-    <link rel="stylesheet" href="src/styles/modern-saas.css" />
-    <link rel="stylesheet" href="src/styles/components/improvements.css" />
-    <link rel="stylesheet" href="src/styles/components/responsive-fixes.css" />
-    <link rel="stylesheet" href="src/styles/ui-guidelines.css" />
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
-    
-    <!-- D3.js global bridge -->
-    <script type="module">
-        import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-        if (typeof window !== 'undefined') {
-            window.d3 = d3;
-        }
-    </script>
-
-    <!-- Supabase client -->
-    <script type="module" src="src/supabase-client.js"></script>
-
-    <!-- Supabase auth and payment handlers -->
-    <script type="module" src="src/supabase-auth.js"></script>
-    <script type="module" src="src/payments/stripe-client.js"></script>
     <style>
-    /* Three-Panel Layout Styles */
-    .generator-layout {
-      display: flex;
-      height: calc(100vh - 64px);
-      overflow: hidden;
-    }
-
-    /* Left Sidebar Styles */
-    .left-sidebar {
-      width: 320px;
-      background: white;
-      border-right: 1px solid #e2e8f0;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .chart-type-card {
-      transition: all 0.2s ease;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      max-width: 20rem; /* 320px */
-      min-height: 15rem; /* 240px */
-      aspect-ratio: 16 / 10;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      background: #ffffff;
-      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    }
-
-    .chart-type-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    }
-
-    /* Card preview area */
-    .chart-type-card .preview-image,
-    .chart-type-card .preview,
-    .chart-type-card img {
-      width: 100%;
-      height: 8rem; /* 128px */
-      object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 1rem;
-      background: #f8fafc;
-    }
-
-    /* Titles and descriptions with clamps */
-    .chart-type-card h3 {
-      font-size: 1.125rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      display: -webkit-box;
-      display: box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      -webkit-box-orient: vertical;
-      box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .chart-type-card .description,
-    .chart-type-card p {
-      color: #64748b;
-      display: -webkit-box;
-      display: box;
-      -webkit-line-clamp: 3;
-      line-clamp: 3;
-      -webkit-box-orient: vertical;
-      box-orient: vertical;
-      overflow: hidden;
-    }
-
-    /* Buttons WCAG size */
-    .generator-layout button,
-    .left-sidebar button,
-    .center-panel button,
-    .right-sidebar button {
-      min-height: 44px;
-    }
-
-    .chart-type-card.selected {
-      border-color: #3b82f6;
-      background: #eff6ff;
-    }
-
-    /* Tab Navigation Styles */
-    .tab-nav {
-      display: flex;
-      gap: 4px;
-      padding: 4px;
-      background: #f1f5f9;
-      border-radius: 8px;
-    }
-
-    .tab-button {
-      flex: 1;
-      padding: 8px 12px;
-      font-size: 14px;
-      font-weight: 500;
-      border-radius: 6px;
-      transition: all 0.2s ease;
-      background: transparent;
-      border: none;
-      color: #64748b;
-      cursor: pointer;
-    }
-
-    .tab-button.active {
-      background: white;
-      color: #3b82f6;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Center Panel Styles */
-    .center-panel {
-      flex: 1;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .workspace-header {
-      padding: 24px 32px;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .workspace-content {
-      flex: 1;
-      padding: 32px;
-      overflow-y: auto;
-    }
-
-    /* Textarea Styles */
-    .prompt-textarea {
-      width: 100%;
-      height: 256px;
-      padding: 24px;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      font-size: 16px;
-      line-height: 1.6;
-      resize: none;
-      transition: all 0.2s ease;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    .prompt-textarea:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-      outline: none;
-    }
-
-    /* Quick Action Buttons */
-    .quick-action-btn {
-      padding: 8px 16px;
-      background: #f1f5f9;
-      color: #475569;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .quick-action-btn:hover {
-      background: #e2e8f0;
-      transform: translateY(-1px);
-    }
-
-    /* Generate Button */
-    .generate-btn {
-      width: 100%;
-      padding: 16px;
-      background: #3b82f6;
-      color: white;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      transition: all 0.2s ease;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .generate-btn:hover {
-      background: #2563eb;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    }
-
-    .generate-btn:disabled {
-      background: #94a3b8;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    /* Right Sidebar Styles */
-    .right-sidebar {
-      width: 384px;
-      background: white;
-      border-left: 1px solid #e2e8f0;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .preview-container {
-      flex: 1;
-      padding: 24px;
-      overflow-y: auto;
-    }
-
-    .chart-preview {
-      border: 2px dashed #e2e8f0;
-      border-radius: 12px;
-      height: 320px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f8fafc;
-      transition: all 0.2s ease;
-    }
-
-    .chart-preview.has-chart {
-      border-style: solid;
-      border-color: #3b82f6;
-      background: white;
-    }
-
-    .preview-placeholder {
-      text-align: center;
-      color: #64748b;
-    }
-
-    /* Export Controls */
-    .export-controls {
-      padding: 24px;
-      border-top: 1px solid #e2e8f0;
-    }
-
-    .export-section {
-      position: relative;
-    }
-
-    .export-buttons {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .export-main-btn {
-      position: relative;
-    }
-
-    .export-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      z-index: 50;
-    }
-
-    .format-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .format-btn {
-      padding: 8px;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      background: white;
-      color: #475569;
-      cursor: pointer;
-    }
-
-    .format-btn:hover {
-      background: #f1f5f9;
-      border-color: #3b82f6;
-    }
-
-    .format-btn.active {
-      background: #3b82f6;
-      color: white;
-      border-color: #3b82f6;
-    }
-
-    .download-section {
-      display: flex;
-      gap: 8px;
-    }
-
-    .download-btn {
-      flex: 1;
-      padding: 12px;
-      background: #3b82f6;
-      color: white;
-      border-radius: 8px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .download-btn:hover {
-      background: #2563eb;
-    }
-
-    .download-btn:disabled {
-      background: #94a3b8;
-      cursor: not-allowed;
-    }
-
-    .share-btn {
-      padding: 12px;
-      background: white;
-      color: #475569;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
-
-    .share-btn:hover {
-      background: #f1f5f9;
-      border-color: #3b82f6;
-    }
-
-    .share-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* Project Management */
-    .project-controls {
-      padding: 24px;
-      border-top: 1px solid #e2e8f0;
-    }
-
-    .project-btn {
-      width: 100%;
-      padding: 12px;
-      background: #f1f5f9;
-      color: #475569;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .project-btn:hover {
-      background: #e2e8f0;
-      border-color: #3b82f6;
-    }
-
-    .project-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .project-btn:last-child {
-      margin-bottom: 0;
-    }
-
-    .project-btn.primary {
-      background: white;
-    }
-
-    /* Settings Panel */
-    .settings-panel {
-      border-top: 1px solid #e2e8f0;
-    }
-
-    .settings-toggle {
-      width: 100%;
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: white;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .settings-toggle:hover {
-      background: #f8fafc;
-    }
-
-    .settings-content {
-      padding: 16px 24px;
-      border-top: 1px solid #e2e8f0;
-    }
-
-    .setting-group {
-      margin-bottom: 16px;
-    }
-
-    .setting-group:last-child {
-      margin-bottom: 0;
-    }
-
-    .setting-label {
-      display: block;
-      font-size: 14px;
-      font-weight: 500;
-      color: #334155;
-      margin-bottom: 8px;
-    }
-
-    .setting-select {
-      width: 100%;
-      padding: 8px 12px;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      font-size: 14px;
-      background: white;
-      color: #334155;
-    }
-
-    .setting-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 0;
-    }
-
-    .toggle-switch {
-      position: relative;
-      width: 44px;
-      height: 24px;
-      background: #e2e8f0;
-      border-radius: 12px;
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
-
-    .toggle-switch.active {
-      background: #3b82f6;
-    }
-
-    .toggle-switch::after {
-      content: '';
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 20px;
-      height: 20px;
-      background: white;
-      border-radius: 50%;
-      transition: all 0.2s ease;
-    }
-
-    .toggle-switch.active::after {
-      transform: translateX(20px);
-    }
-
-    /* Enhanced Loading States */
-    .progress-loading-overlay {
-      --primary-color: #1872D9;
-      --success-color: #10B981;
-      --error-color: #EF4444;
-      --text-primary: #003466;
-      --text-secondary: #123472;
-    }
-
-    .progress-loading-card {
-      border: 1px solid rgba(0, 52, 102, 0.1);
-      box-shadow: 0 20px 25px -5px rgba(0, 52, 102, 0.1), 0 10px 10px -5px rgba(0, 52, 102, 0.04);
-    }
-
-    .error-action-btn {
-      transition: all 0.2s ease;
-    }
-
-    .error-action-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 52, 102, 0.15);
-    }
-
-    .copy-prompt-btn, .edit-prompt-btn {
-      transition: all 0.2s ease;
-    }
-
-    .copy-prompt-btn:hover, .edit-prompt-btn:hover {
-      transform: translateX(2px);
-    }
-
-    /* Mobile optimizations */
-    @media (max-width: 640px) {
-      .progress-loading-card {
-        margin: 0.5rem;
-        padding: 1rem;
-        max-width: calc(100vw - 1rem);
-      }
-      
-      .step-indicator {
-        transform: scale(0.8);
-      }
-      
-      .error-action-btn {
-        font-size: 0.75rem;
-        padding: 0.5rem 0.75rem;
-      }
-    }
-
-    /* Enhanced animations */
-    @keyframes slideInUp {
-      from {
-        transform: translateY(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .progress-loading-overlay.active {
-      animation: slideInUp 0.3s ease-out;
-    }
-
-    /* Chart animation enhancements */
-    .chart-animation svg {
-      filter: drop-shadow(0 2px 4px rgba(24, 114, 217, 0.2));
-    }
-
-    /* Success/error state transitions */
-    .success-message, .error-message {
-      animation: slideInDown 0.3s ease-out;
-    }
-
-    @keyframes slideInDown {
-      from {
-        transform: translateY(-20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    /* Loading States */
-    .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .loading-content {
-      background: white;
-      border-radius: 16px;
-      padding: 32px;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-
-    .loading-spinner {
-      margin-bottom: 16px;
-    }
-
-    .spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid #e2e8f0;
-      border-top: 4px solid #3b82f6;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .progress-container {
-      margin: 16px 0;
-    }
-
-    .progress-bar {
-      width: 100%;
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 8px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: #3b82f6;
-      transition: width 0.3s ease;
-    }
-
-    .progress-text {
-      font-size: 14px;
-      color: #64748b;
-    }
-
-    .loading-steps {
-      text-align: left;
-      margin-top: 16px;
-    }
-
-    .step {
-      padding: 4px 0;
-      font-size: 14px;
-      color: #64748b;
-      transition: all 0.2s ease;
-      position: relative;
-      padding-left: 20px;
-    }
-
-    .step::before {
-      content: "○";
-      position: absolute;
-      left: 0;
-      font-size: 12px;
-    }
-
-    .step.active {
-      color: #3b82f6;
-      font-weight: 500;
-    }
-
-    .step.active::before {
-      content: "●";
-      color: #3b82f6;
-    }
-
-    .step.completed {
-      color: #10b981;
-    }
-
-    .step.completed::before {
-      content: "✓";
-      color: #10b981;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 1023px) {
-      .generator-layout {
-        flex-direction: column;
-      }
-
-      .left-sidebar,
-      .right-sidebar {
-        width: 100%;
-        height: auto;
-        border: none;
-        border-bottom: 1px solid #e2e8f0;
-      }
-
-      .center-panel {
-        flex: 1;
-        min-height: 400px;
-      }
-    }
-
-    @media (max-width: 767px) {
-      .workspace-content {
-        padding: 16px;
-      }
-
-      .prompt-textarea {
-        height: 200px;
-        padding: 16px;
-        font-size: 14px;
-      }
-
-      .format-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .quick-action-btn {
-        font-size: 12px;
-        padding: 6px 12px;
-      }
-    }
-
-    /* Scrollbar Styling */
-    .scrollbar-thin {
-      scrollbar-width: thin;
-    }
-
-    .scrollbar-thin::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .scrollbar-thin::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-
-    .scrollbar-thin::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 3px;
-    }
-
-    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-
-    /* Animation Classes */
-    .fade-in {
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .slide-in {
-      animation: slideIn 0.3s ease;
-    }
-
-    @keyframes slideIn {
-      from { transform: translateX(-20px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
-    /* Validation Feedback */
-    .input-feedback {
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-    }
-
-    .input-feedback.valid {
-      background: #dcfce7;
-      color: #166534;
-      border: 1px solid #bbf7d0;
-    }
-
-    .input-feedback.invalid {
-      background: #fef2f2;
-      color: #dc2626;
-      border: 1px solid #fecaca;
-    }
-
-    .input-feedback.warning {
-      background: #fef3c7;
-      color: #d97706;
-      border: 1px solid #fde68a;
-    }
-
-    .feedback-icon {
-      font-size: 16px;
-    }
-
-    .feedback-text {
-      flex: 1;
-    }
-  </style>
+        #export-controls .export-menu {
+            opacity: 0;
+            transform: translateY(6px) scale(0.98);
+            pointer-events: none;
+            transition: opacity 140ms ease, transform 140ms ease;
+        }
+
+        #export-controls .export-menu.is-open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        #prompt-input.prompt-error-shake {
+            animation: prompt-input-shake 0.35s ease;
+        }
+
+        @keyframes prompt-input-shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+    </style>
+    
+    <!-- Shared vendor bundle: Chart.js, D3, Supabase auth/stripe -->
+    <script type="module" src="src/app/vendor-loader.js"></script>
+
+    <!-- Header/auth integration for unified header & ModalSystem -->
+    <script type="module" src="src/components/HeaderIntegration.js"></script>
 </head>
-<body class="bg-white">
+<body class="bg-slate-50 font-sans text-slate-800 antialiased">
     <!-- Header -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="ui-container">
-            <nav class="flex items-center justify-between h-16">
-                <a href="index.html" class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-chart-simple text-white"></i>
-                    </div>
+    <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-lg">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <nav class="flex h-16 items-center justify-between">
+                <a href="index.html" class="flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 rounded-lg" aria-label="Go to Vizom home">
+                    <img src="assets/images/logos/vizom-icon.png" alt="Vizom Logo" class="h-8 w-8">
                     <span class="text-xl font-bold text-slate-900">VIZOM</span>
                 </a>
-                <button class="md:hidden ui-btn ui-btn-ghost" id="mobile-menu-toggle" aria-label="Toggle menu">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="hidden md:flex items-center gap-8" id="nav-links">
-                    <a href="index.html" class="ui-body font-medium text-slate-600 hover:text-slate-900 transition">Home</a>
-                    <a href="generator.html" class="ui-body font-medium text-blue-600">Generator</a>
-                    <a href="templates.html" class="ui-body font-medium text-slate-600 hover:text-slate-900 transition">Templates</a>
-                    <a href="pricing.html" class="ui-body font-medium text-slate-600 hover:text-slate-900 transition">Pricing</a>
-                    <button class="ui-btn ui-btn-ghost" id="auth-signin" type="button">Sign In</button>
-                    <a href="generator.html" class="ui-btn ui-btn-primary" data-action="get-started">Get Started</a>
+                <!-- Desktop Navigation -->
+                <div class="hidden items-center gap-8 md:flex">
+                    <a href="index.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Home">Home</a>
+                    <a href="generator.html" aria-current="page" class="text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="You are viewing the Generator page">Generator</a>
+                    <a href="templates.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Templates">Templates</a>
+                    <a href="pricing.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Pricing">Pricing</a>
+                    <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin" type="button" aria-label="Open sign-in dialog">Sign In</button>
+                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" aria-label="Get started with Vizom">Get Started</a>
                 </div>
+                <!-- Mobile Menu Toggle -->
+                <button class="group inline-flex h-10 w-10 items-center justify-center rounded-xl md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" id="mobile-menu-toggle" aria-label="Toggle mobile navigation" aria-controls="mobile-menu" aria-expanded="false">
+                    <i class="fas fa-bars transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                </button>
             </nav>
+            <!-- Mobile Navigation -->
+            <div class="hidden md:hidden -translate-y-2 transition-all duration-200 ease-[cubic-bezier(0.18,0.89,0.32,1.28)] data-[state=open]:translate-y-0 data-[state=closed]:-translate-y-2" id="mobile-menu" data-state="closed">
+                <div class="space-y-2 py-4">
+                    <a href="index.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Home">Home</a>
+                    <a href="generator.html" aria-current="page" class="block py-2 text-base font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="You are viewing the Generator page">Generator</a>
+                    <a href="templates.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Templates">Templates</a>
+                    <a href="pricing.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Pricing">Pricing</a>
+                    <button class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-slate-100 px-5 text-sm font-medium text-slate-700 transition-all hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin-mobile" type="button" aria-label="Open sign-in dialog">Sign In</button>
+                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" aria-label="Get started with Vizom">Get Started</a>
+                </div>
+            </div>
         </div>
     </header>
 
     <!-- Main Generator -->
-    <div class="container">
-        <div class="generator-layout">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
             <!-- Left: Chart Picker -->
-            <aside class="chart-picker">
-                <h3 class="section-title">Chart Type</h3>
-                <div class="chart-options">
-                    <div class="chart-option selected" data-type="bar">
-                        <div class="chart-preview">📊</div>
-                        <span class="chart-name">Bar Chart</span>
-                    </div>
-                    <div class="chart-option" data-type="line">
-                        <div class="chart-preview">📈</div>
-                        <span class="chart-name">Line Chart</span>
-                    </div>
-                    <div class="chart-option" data-type="pie">
-                        <div class="chart-preview">🟣</div>
-                        <span class="chart-name">Pie Chart</span>
-                    </div>
-                    <div class="chart-option" data-type="doughnut">
-                        <div class="chart-preview">⭕</div>
-                        <span class="chart-name">Doughnut</span>
-                    </div>
-                    <div class="chart-option" data-type="area">
-                        <div class="chart-preview">📉</div>
-                        <span class="chart-name">Area Chart</span>
-                    </div>
-                    <div class="chart-option" data-type="scatter">
-                        <div class="chart-preview">⚡</div>
-                        <span class="chart-name">Scatter Plot</span>
-                    </div>
-                    <div class="chart-option" data-type="bubble">
-                        <div class="chart-preview">🫧</div>
-                        <span class="chart-name">Bubble Chart</span>
-                    </div>
-                    <div class="chart-option" data-type="radar">
-                        <div class="chart-preview">🎯</div>
-                        <span class="chart-name">Radar Chart</span>
-                    </div>
-                    <div class="chart-option" data-type="polar">
-                        <div class="chart-preview">🌐</div>
-                        <span class="chart-name">Polar Area</span>
-                    </div>
-                    <div class="chart-option" data-type="force">
-                        <div class="chart-preview">🕸️</div>
-                        <span class="chart-name">Force Graph</span>
-                    </div>
-                    <div class="chart-option" data-type="treemap">
-                        <div class="chart-preview">🗂️</div>
-                        <span class="chart-name">TreeMap</span>
-                    </div>
-                    <div class="chart-option" data-type="sankey">
-                        <div class="chart-preview">🌊</div>
-                        <span class="chart-name">Sankey</span>
-                    </div>
+            <aside class="lg:col-span-3 p-6 space-y-6">
+                <h3 class="text-sm font-semibold text-slate-900 tracking-wide">Chart Type</h3>
+                <div class="grid grid-cols-2 gap-4" role="list" aria-labelledby="chart-type-label">
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-blue-500 ring-2 ring-blue-500 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="bar" aria-pressed="true" aria-label="Bar chart">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-chart-column"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Bar Chart</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="line" aria-pressed="false" aria-label="Line chart">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Line Chart</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="pie" aria-pressed="false" aria-label="Pie chart">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Pie Chart</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="doughnut" aria-pressed="false" aria-label="Doughnut chart">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-circle-notch"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Doughnut</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="area" aria-pressed="false" aria-label="Area chart">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-chart-area"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Area Chart</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="scatter" aria-pressed="false" aria-label="Scatter plot">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Scatter Plot</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="bubble" aria-pressed="false" aria-label="Bubble chart">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-circle"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Bubble Chart</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="radar" aria-pressed="false" aria-label="Radar chart">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Radar Chart</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="polar" aria-pressed="false" aria-label="Polar area chart">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-circle-nodes"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Polar Area</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="force" aria-pressed="false" aria-label="Force graph">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-share-nodes"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Force Graph</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="treemap" aria-pressed="false" aria-label="Treemap">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-table-cells-large"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">TreeMap</h4>
+                        </div>
+                    </button>
+                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="sankey" aria-pressed="false" aria-label="Sankey diagram">
+                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-semibold text-sm line-clamp-1">Sankey</h4>
+                        </div>
+                    </button>
                 </div>
             </aside>
 
             <!-- Center: Input Panel -->
-            <main class="input-panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">Describe Your Chart</h2>
-                    <p class="panel-subtitle">Tell AI what kind of chart you want to create</p>
+            <main class="lg:col-span-6 p-6 space-y-6">
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-bold text-slate-900">Describe Your Chart</h2>
+                    <p class="text-slate-600">Tell our AI what kind of chart you want to create.</p>
                 </div>
 
-                <div class="panel-content">
+                <div class="space-y-6">
                     <!-- Prompt Input -->
-                    <div class="input-group">
-                        <label class="input-label">Chart Description</label>
+                    <div class="space-y-2">
+                        <label for="prompt-input" class="text-sm font-medium text-slate-700">Chart Description</label>
                         <textarea 
                             id="prompt-input"
                             data-testid="prompt-input"
-                            class="prompt-textarea"
+                            aria-describedby="prompt-helper"
+                            class="h-48 w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                             placeholder="Example: Create a bar chart showing monthly sales data for Q1 2024 with products A, B, and C. Use blue colors and add a trend line."
                         ></textarea>
-                        <p id="prompt-helper" class="text-sm text-gray-600 mt-2">Describe your chart in plain English</p>
+                        <p id="prompt-helper" class="text-xs text-slate-500" data-default-text="Describe your chart in plain English. The more detail, the better.">Describe your chart in plain English. The more detail, the better.</p>
                     </div>
 
                     <!-- Library Selector -->
-                    <div class="mt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div class="flex items-center gap-3">
                             <label for="chart-library" class="text-sm font-medium text-slate-700">Chart Library</label>
-                            <select id="chart-library" class="border border-slate-200 rounded-lg px-3 py-2 text-sm">
+                            <select id="chart-library" class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm">
                                 <option value="auto">Auto</option>
                                 <option value="chartjs">Chart.js (Free)</option>
                                 <option value="echarts">ECharts (Basic Free)</option>
@@ -952,32 +224,39 @@
                             </select>
                         </div>
                         <div class="text-xs text-slate-500">
-                            <span class="ui-badge ui-badge-light">PRO</span> libraries unlock advanced visuals and exports.
-                            <button class="ui-btn ui-btn-link text-blue-600" data-action="upgrade-pro">Upgrade</button>
+                            <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">PRO</span> libraries unlock advanced visuals and exports.
+                            <button class="text-sm font-medium text-blue-600 underline underline-offset-2 hover:text-blue-700" data-action="upgrade-pro">Upgrade</button>
                         </div>
                     </div>
 
                     <!-- Generate Button -->
-                    <button id="generate-chart" class="generate-btn" data-testid="generate-button">
+                    <button id="generate-chart" class="group inline-flex w-full h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-testid="generate-button" aria-label="Generate chart from description">
                         <i class="fas fa-magic"></i>
                         <span>Generate Chart</span>
                     </button>
 
                     <!-- Quick Prompts -->
-                    <div class="quick-prompts">
-                        <h4 class="quick-title">Quick Prompts</h4>
-                        <div class="prompt-suggestions">
-                            <button class="prompt-btn" data-prompt="Create a pie chart showing market share percentages for tech companies" data-type="pie">
-                                📊 Market Share Pie
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h4 class="text-sm font-medium text-slate-700">Quick Prompts</h4>
+                            <span class="text-xs text-slate-500" id="prompt-format-hint">Use data like&nbsp;<code>[{&quot;label&quot;:&quot;Jan&quot;,&quot;value&quot;:10}]</code> or <code>{&quot;labels&quot;:[&quot;Jan&quot;,&quot;Feb&quot;],&quot;data&quot;:[10,20]}</code></span>
+                        </div>
+                        <div class="flex flex-wrap gap-3" id="quick-prompts">
+                            <button class="inline-flex h-10 items-center justify-center rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-prompt='{"labels":["Apple","Google","Microsoft","Amazon"],"data":[35,28,22,15]}' data-type="pie">
+                                <i class="fa-solid fa-chart-pie mr-2"></i>
+                                Market Share Pie
                             </button>
-                            <button class="prompt-btn" data-prompt="Generate a line chart showing temperature trends over 12 months" data-type="line">
-                                📈 Temperature Trends
+                            <button class="inline-flex h-10 items-center justify-center rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-prompt='{"labels":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"data":[-2,0,4,9,14,19,22,21,17,10,4,0]}' data-type="line">
+                                <i class="fa-solid fa-chart-line mr-2"></i>
+                                Temperature Trends
                             </button>
-                            <button class="prompt-btn" data-prompt="Build a bar chart comparing sales performance across 4 quarters" data-type="bar">
-                                📉 Sales Comparison
+                            <button class="inline-flex h-10 items-center justify-center rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-prompt='{"labels":["Q1","Q2","Q3","Q4"],"data":[180,220,260,310]}' data-type="bar">
+                                <i class="fa-solid fa-chart-column mr-2"></i>
+                                Sales Comparison
                             </button>
-                            <button class="prompt-btn" data-prompt="Create a scatter plot showing correlation between age and income" data-type="scatter">
-                                ⚡ Correlation Plot
+                            <button class="inline-flex h-10 items-center justify-center rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-prompt='{"labels":["25","30","35","40","45","50"],"data":[32,45,51,63,70,78]}' data-type="scatter">
+                                <i class="fa-solid fa-bolt mr-2"></i>
+                                Correlation Plot
                             </button>
                         </div>
                     </div>
@@ -985,67 +264,80 @@
             </main>
 
             <!-- Right: Preview Panel -->
-            <aside class="preview-panel">
-                <div class="panel-header">
-                    <h2 class="panel-title">Live Preview</h2>
-                    <div class="preview-actions">
-                        <button id="refresh-preview" class="action-btn" title="Refresh">
-                            <i class="fas fa-sync-alt"></i>
+            <aside class="lg:col-span-3 p-6 space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-semibold text-slate-900">Live Preview</h2>
+                    <div class="flex items-center gap-2">
+                        <button id="refresh-preview" class="group inline-flex h-10 items-center justify-center rounded-xl px-3 text-sm font-medium text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" title="Refresh" aria-label="Refresh preview area">
+                            <i class="fas fa-sync-alt transition-transform duration-200 group-hover:translate-x-0.5"></i>
                         </button>
-                        <button id="fullscreen-preview" class="action-btn" title="Fullscreen">
-                            <i class="fas fa-expand"></i>
+                        <button id="fullscreen-preview" class="group inline-flex h-10 items-center justify-center rounded-xl px-3 text-sm font-medium text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" title="Fullscreen" aria-label="Enter fullscreen mode">
+                            <i class="fas fa-expand transition-transform duration-200 group-hover:translate-x-0.5"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="panel-content">
+                <div class="space-y-6">
                     <!-- Chart Display -->
-                    <div class="chart-display">
-                        <div id="chart-container" class="chart-container" data-testid="chart-container">
-                            <div class="empty-state">
-                                <i class="fas fa-chart-line empty-icon"></i>
-                                <p class="empty-text">Your chart will appear here</p>
-                                <p class="empty-subtext">Describe your chart and click Generate</p>
+                    <div class="aspect-[16/10] bg-slate-50 rounded-xl border-2 border-dashed border-slate-200 flex items-center justify-center">
+                        <div id="chart-container" class="w-full h-full" data-testid="chart-container">
+                            <div class="flex flex-col items-center justify-center h-full text-slate-500">
+                                <i class="fas fa-chart-line text-4xl mb-4"></i>
+                                <p class="font-medium">Your chart will appear here</p>
+                                <p class="text-sm">Describe your chart and click Generate</p>
                             </div>
                         </div>
-                        <div id="generation-error" data-testid="error-message" class="hidden text-red-600 text-sm mt-2"></div>
+                        <div id="generation-error" data-testid="error-message" class="hidden text-red-600 text-sm mt-2" role="alert" aria-live="assertive"></div>
                     </div>
 
                     <!-- Export Options -->
-                    <div class="export-section export-options">
-                        <h4 class="export-title">Export Options</h4>
-                        <div class="export-buttons">
-                            <button class="export-main-btn bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2" data-testid="export-main-button">
-                                <i class="fas fa-download"></i>
-                                <span>Export Chart</span>
-                                <i class="fas fa-chevron-down text-xs"></i>
+                    <div class="space-y-3">
+                        <h4 class="text-sm font-medium text-slate-700">Export Options</h4>
+                        <div class="relative flex flex-col gap-2" id="export-controls">
+                            <button id="export-menu-button" type="button" class="group export-btn inline-flex w-full h-11 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-testid="export-main-button" aria-haspopup="menu" aria-expanded="false" aria-controls="export-menu" aria-label="Open export options">
+                                <i class="fas fa-download transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                                <span>Export</span>
+                                <i class="fas fa-chevron-down text-xs transition-transform duration-200 group-hover:translate-x-0.5"></i>
                             </button>
-                            <div class="export-menu hidden absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[160px]">
-                                <button class="export-option w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3" data-format="png">
-                                    <i class="fas fa-image text-gray-600"></i>
-                                    <span>PNG Image</span>
+                            <div id="export-menu" class="export-menu hidden absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-20 min-w-[220px] transition-all duration-[140ms] ease-out" role="menu" aria-label="Export formats">
+                                <button class="group export-menu-option w-full text-left px-4 py-3 rounded-lg transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 flex items-start gap-3" data-format="png" role="menuitem" aria-label="Export as PNG image">
+                                    <i class="fas fa-image text-gray-600 transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-800">PNG Image</p>
+                                        <p class="text-xs text-slate-500">Download as high-quality PNG</p>
+                                    </div>
                                 </button>
-                                <button class="export-option w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3" data-format="svg">
-                                    <i class="fas fa-vector-square text-gray-600"></i>
-                                    <span>SVG Vector</span>
+                                <button class="group export-menu-option w-full text-left px-4 py-3 rounded-lg transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 flex items-start gap-3" data-format="svg" role="menuitem" aria-label="Export as SVG vector">
+                                    <i class="fas fa-vector-square text-gray-600 mt-0.5 transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-800">SVG Vector</p>
+                                        <p class="text-xs text-slate-500">Scalable vector export</p>
+                                    </div>
                                 </button>
-                                <button class="export-option w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3" data-format="csv">
-                                    <i class="fas fa-table text-gray-600"></i>
-                                    <span>CSV Data</span>
-                                </button>
-                                <button class="export-option w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3" data-format="pdf">
-                                    <i class="fas fa-file-pdf text-gray-600"></i>
-                                    <span>PDF Document</span>
+                                <button class="group export-menu-option w-full text-left px-4 py-3 rounded-lg transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 flex items-start gap-3" data-format="pdf" role="menuitem" aria-label="Export as PDF document">
+                                    <i class="fas fa-file-pdf text-gray-600 transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-800">PDF Document</p>
+                                        <p class="text-xs text-slate-500">Best for sharing reports</p>
+                                    </div>
                                 </button>
                             </div>
-                            <div class="ml-2 flex items-center gap-2 text-xs text-slate-600">
-                              <label for="pdf-quality">Quality</label>
-                              <select id="pdf-quality" class="border border-slate-200 rounded px-1 py-0.5">
-                                <option value="2">High (2x)</option>
-                                <option value="1" selected>Standard (1x)</option>
-                                <option value="0.5">Low (0.5x)</option>
-                              </select>
-                            </div>
+                            <p id="export-feedback" class="hidden text-xs font-medium" role="status" aria-live="polite"></p>
+                        </div>
+                    </div>
+
+                    <!-- Project Actions -->
+                    <div class="space-y-3">
+                        <h4 class="text-sm font-medium text-slate-700">Projects</h4>
+                        <div class="grid gap-2">
+                            <button id="save-project" type="button" class="group inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-slate-900 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" aria-label="Save current project">
+                                <i class="fas fa-save transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                                <span>Save Project</span>
+                            </button>
+                            <button id="load-projects" type="button" class="group inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" aria-label="Load saved projects">
+                                <i class="fas fa-folder-open transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                                <span>Load Project</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1054,7 +346,7 @@
     </div>
 
     <!-- Loading Overlay -->
-    <div id="loading-overlay" class="loading-overlay hidden" data-testid="loading-overlay">
+    <div id="loading-overlay" class="loading-overlay hidden" data-testid="loading-overlay" role="presentation" aria-hidden="true">
         <div class="loading-content">
             <div class="loading-spinner" data-testid="loading-spinner"></div>
             <p class="loading-text" data-testid="loading-message">AI is creating your chart...</p>
@@ -1067,14 +359,24 @@
     
     <!-- Generator Script -->
     <script type="module">
-        import { supabase } from '/src/supabase-client.js';
-        import { ErrorTracker } from '/src/tracking/error-tracking.js';
-        import { trackEvent } from '/src/tracking/analytics.js';
-        import { exportChartToPDF } from '/src/utils/export-pdf.js';
-        import { chartExporter } from '/src/utils/ChartExporter.js';
-        import { AIRecommendations } from '/src/components/AIRecommendations.js';
-        import { progressLoading } from '/src/components/ProgressLoadingManager.js';
-        import { OptimizedChartTypeSelector } from '/src/components/OptimizedChartTypeSelector.js';
+                import { supabase } from './src/supabase-client.js';
+                import { ErrorTracker } from './src/tracking/error-tracking.js';
+                import { trackEvent } from './src/tracking/analytics.js';
+                import { ChartExporter } from './src/utils/ChartExporter.js';
+                                        import { exportChartToPDF } from './src/utils/export-pdf.js';
+                import { chartExporter } from './src/utils/ChartExporter.js';
+                import { AIRecommendations } from './src/components/AIRecommendations.js';
+                import { progressLoading } from './src/components/ProgressLoadingManager.js';
+                import { OptimizedChartTypeSelector } from './src/components/OptimizedChartTypeSelector.js';
+                        import { simpleParse } from './src/utils/simple-parser.js';
+                import { showLoading as showGlobalLoading, hideLoading as hideGlobalLoading, showToast as showGlobalToast } from './scripts/core/ui-feedback.js';
+
+        const noop = () => {};
+        const feedback = {
+          showLoading: showGlobalLoading || noop,
+          hideLoading: hideGlobalLoading || noop,
+          showToast: showGlobalToast || ((message) => console.info('[toast]', message))
+        };
 
         // Simple script loader with caching
         const __loadedScripts = new Map();
@@ -1151,18 +453,44 @@
         // Chart Generator Class
         class ChartGenerator {
             constructor() {
+                this.ensureDependencies();
                 this.currentChart = null;
                 this.currentChartType = 'bar';
                 this.currentLibrary = 'auto';
                 this.profileSubscription = 'anon';
                 this.isPro = false;
+                this.lastChartPayload = null;
+                this.projectsKey = 'vizom:generator-projects';
+                this.projectsCache = this.loadProjectsFromStorage();
                 this.initializeEventListeners();
                 this.setupQuickPrompts();
                 this.setupQuickActions();
+                this.setupProjectActions();
                 this.selectChartType(this.currentChartType);
                 this.initializeExporter();
                 this.initializeAIRecommendations();
                 this.initializeSubscription();
+            }
+
+            ensureDependencies() {
+                // Ensure a basic chartTypes helper exists so generator can work
+                if (!window.chartTypes) {
+                    window.chartTypes = {
+                        generateSampleData(type) {
+                            const labels = ['A', 'B', 'C', 'D'];
+                            const data = [12, 19, 3, 5];
+                            return {
+                                labels,
+                                datasets: [{
+                                    label: 'Series',
+                                    data
+                                }]
+                            };
+                        }
+                    };
+                }
+
+                this.chartTypes = window.chartTypes;
             }
 
             async initializeExporter() {
@@ -1248,12 +576,7 @@
                     });
                 });
 
-                // Export buttons
-                document.querySelectorAll('.export-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        this.exportChart(btn.dataset.format);
-                    });
-                });
+                this.setupExportMenu();
                 // Restrict export quality for non-pro
                 const qSel = document.getElementById('pdf-quality');
                 if (qSel && !this.isPro) {
@@ -1286,23 +609,106 @@
                 this.bindUpgradeButtons();
             }
 
+            setupExportMenu() {
+                const controls = document.getElementById('export-controls');
+                const menuButton = document.getElementById('export-menu-button');
+                const menu = document.getElementById('export-menu');
+                if (!controls || !menuButton || !menu) {
+                    return;
+                }
+
+                let isMenuOpen = false;
+
+                const handleOutsideClick = (event) => {
+                    if (!controls.contains(event.target)) {
+                        closeMenu();
+                    }
+                };
+
+                const handleEscapeKey = (event) => {
+                    if (event.key === 'Escape') {
+                        closeMenu();
+                    }
+                };
+
+                const openMenu = () => {
+                    if (isMenuOpen) return;
+                    isMenuOpen = true;
+                    menu.classList.remove('hidden');
+                    requestAnimationFrame(() => {
+                        menu.classList.add('is-open');
+                    });
+                    menuButton.setAttribute('aria-expanded', 'true');
+                    document.addEventListener('click', handleOutsideClick);
+                    document.addEventListener('keydown', handleEscapeKey);
+                };
+
+                const closeMenu = () => {
+                    if (!isMenuOpen) return;
+                    isMenuOpen = false;
+                    menu.classList.remove('is-open');
+                    menuButton.setAttribute('aria-expanded', 'false');
+                    document.removeEventListener('click', handleOutsideClick);
+                    document.removeEventListener('keydown', handleEscapeKey);
+                };
+
+                menu.addEventListener('transitionend', (event) => {
+                    if (event.propertyName === 'opacity' && !isMenuOpen) {
+                        menu.classList.add('hidden');
+                    }
+                });
+
+                menu.addEventListener('click', (event) => event.stopPropagation());
+
+                menuButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (isMenuOpen) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                });
+
+                menu.querySelectorAll('.export-menu-option').forEach((option) => {
+                    option.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        const format = option.dataset.format;
+                        closeMenu();
+                        if (format) {
+                            this.exportChart(format);
+                        }
+                    });
+                });
+            }
+
             setupQuickPrompts() {
-                document.querySelectorAll('.prompt-btn').forEach(btn => {
+                const promptInput = document.getElementById('prompt-input');
+                document.querySelectorAll('#quick-prompts [data-prompt]').forEach(btn => {
                     btn.addEventListener('click', () => {
-                        const prompt = btn.dataset.prompt;
-                        document.getElementById('prompt-input').value = prompt;
+                        const prompt = btn.dataset.prompt || '';
+                        if (promptInput) {
+                            promptInput.value = prompt;
+                            promptInput.classList.remove('invalid', 'prompt-error-shake');
+                            promptInput.dispatchEvent(new Event('input'));
+                            promptInput.focus();
+                        }
+
                         if (btn.dataset.type) {
                             this.selectChartType(btn.dataset.type);
                         }
+
                         try { trackEvent('template_used', { templateId: btn.dataset.type || 'prompt_suggestion' }); } catch {}
-                        try { trackEvent('quick_prompt_used', { promptSnippet: (prompt || '').slice(0, 48) }); } catch {}
+                        try { trackEvent('quick_prompt_used', { promptSnippet: prompt.slice(0, 48) }); } catch {}
+
+                        // Attempt generation but handle parsing errors gracefully
                         this.generateChart();
                     });
                 });
             }
 
             setupQuickActions() {
-                document.querySelectorAll('.quick-action-btn').forEach(btn => {
+                document.querySelectorAll('[data-action]').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const prompt = btn.dataset.prompt;
                         if (prompt) {
@@ -1319,14 +725,71 @@
                 });
             }
 
+            setupProjectActions() {
+                const saveBtn = document.getElementById('save-project');
+                const loadBtn = document.getElementById('load-projects');
+                const saveModal = document.getElementById('save-project-modal');
+                const projectsModal = document.getElementById('projects-modal');
+
+                if (saveBtn) {
+                    saveBtn.addEventListener('click', () => {
+                        if (!this.lastChartPayload) {
+                            feedback.showToast('Generate a chart before saving the project', 'warning');
+                            this.highlightPromptInput();
+                            return;
+                        }
+                        const titleInput = document.getElementById('project-title');
+                        if (titleInput) {
+                            titleInput.value = `Project ${new Date().toLocaleString()}`;
+                            titleInput.focus();
+                            titleInput.select();
+                        }
+                        this.openModal(saveModal);
+                    });
+                }
+
+                if (loadBtn) {
+                    loadBtn.addEventListener('click', () => {
+                        this.renderProjectsList();
+                        this.openModal(projectsModal);
+                    });
+                }
+
+                document.getElementById('confirm-save-project')?.addEventListener('click', () => this.handleProjectSave());
+                document.getElementById('cancel-save-project')?.addEventListener('click', () => this.closeModal(saveModal));
+                document.getElementById('close-save-modal')?.addEventListener('click', () => this.closeModal(saveModal));
+                document.getElementById('close-projects-modal')?.addEventListener('click', () => this.closeModal(projectsModal));
+
+                saveModal?.addEventListener('click', (event) => {
+                    if (event.target === saveModal) {
+                        this.closeModal(saveModal);
+                    }
+                });
+
+                projectsModal?.addEventListener('click', (event) => {
+                    if (event.target === projectsModal) {
+                        this.closeModal(projectsModal);
+                    }
+                });
+
+                this.renderProjectsList();
+            }
+
             selectChartType(type) {
                 if (!type) return;
                 this.currentChartType = type;
                 document.querySelectorAll('.chart-option').forEach(option => {
-                    option.classList.toggle('selected', option.dataset.type === type);
+                    const isActive = option.dataset.type === type;
+                    option.setAttribute('aria-pressed', String(isActive));
+                    // Reset visual state
+                    option.classList.remove('ring-2','ring-blue-500','border-blue-500','border-slate-200','selected');
+                    if (isActive) {
+                        option.classList.add('ring-2','ring-blue-500','border-blue-500','selected');
+                    } else {
+                        option.classList.add('border-slate-200');
+                    }
                 });
                 try { trackEvent('chart_type_selected', { chartType: type }); } catch {}
-                this.refreshPreview();
             }
 
             async initializeSubscription() {
@@ -1352,36 +815,84 @@
             }
 
             async generateChart() {
-                const prompt = document.getElementById('prompt-input').value.trim();
+                const promptInput = document.getElementById('prompt-input');
+                const prompt = promptInput?.value.trim() || '';
+                const formatHint = 'Use data like [{"label":"Jan","value":10}] or {"labels":["Jan","Feb"],"data":[10,20]}';
+
                 if (!prompt) {
-                    alert('Please describe the chart you want to create');
+                    const message = 'Please enter a chart description in the text area.';
+                    this.showPromptFormatHelp(message);
+                    this.highlightPromptInput();
+                    feedback.showToast(message, 'error');
                     return;
                 }
 
+                console.log('Generating chart with prompt:', prompt);
                 const loader = this.showLoading();
 
-                const quota = await this.enforceQuota();
-                if (!quota || quota.allowed === false) {
-                    loader.hide();
-                    return;
-                }
+                // Simulate a short delay for better UX
+                await new Promise(resolve => setTimeout(resolve, 500));
 
                 try {
-                    const result = await client.generateChart({
-                        prompt,
-                        options: { enableCache: true, estimatedDuration: 10000 }
-                    });
+                    const { labels, data } = simpleParse(prompt);
 
-                    if (result.recommendations && result.recommendations.length > 0) {
-                        this.handleAIRecommendations(result.recommendations, prompt);
-                        const topRecommendation = result.recommendations[0];
-                        this.currentChartType = topRecommendation;
-                        this.selectChartType(topRecommendation);
+                    if (labels.length === 0 || data.length === 0) {
+                        const formatError = new Error('Couldn\'t find data in your prompt. Example: ["Jan","Feb"], [10,20] or [{"label":"Jan","value":10}]');
+                        formatError.code = 'invalid_prompt_format';
+                        formatError.userMessage = formatHint;
+                        throw formatError;
                     }
 
-                    await this.generateChartWithSpecificType(prompt, this.currentChartType);
+                    this.clearPromptFormatError();
+
+                    const chartConfig = {
+                        type: this.currentChartType,
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'My Dataset',
+                                data: data,
+                                backgroundColor: COLOR_PALETTES.default,
+                                borderColor: COLOR_PALETTES.default[0],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Chart Preview'
+                                }
+                            }
+                        }
+                    };
+
+                    console.log('Rendering chart with config:', chartConfig);
+                    this.renderChart(chartConfig);
+                    this.showSuccess();
+                    this.lastChartPayload = {
+                        chartType: this.currentChartType,
+                        chartConfig: this.cloneChartConfig(chartConfig),
+                        labels,
+                        data,
+                        prompt
+                    };
+
                 } catch (error) {
-                    this.handleAIError(prompt, error, () => this.generateChart());
+                    console.warn('Chart generation failed:', error);
+                    if (this.isPromptFormatError(error)) {
+                        const userMessage = error.userMessage || formatHint;
+                        this.showPromptFormatHelp(userMessage);
+                        this.highlightPromptInput();
+                        feedback.showToast(userMessage, 'error');
+                    } else {
+                        this.handleError(error);
+                    }
                 } finally {
                     loader.hide();
                 }
@@ -1437,44 +948,26 @@
              */
             async generateChartWithSpecificType(prompt, chartType) {
                 try {
-                    // Update current type
+                    // Keep generator state in sync with the requested type
                     this.currentChartType = chartType;
-                    
-                    // Update progress to show we're generating with specific type
-                    progressLoading.updateProgress('chart-generation', 70, `Generating ${chartType} chart...`);
-                    
-                    const result = await client.generateChart({
-                        prompt,
-                        chartType,
-                        options: { enableCache: true, estimatedDuration: 8000 }
-                    });
+                    this.selectChartType(chartType);
 
-                    // Decide library
-                    const lib = this.currentLibrary === 'auto' ? 'chartjs' : this.currentLibrary;
-                    if (['apexcharts','plotly'].includes(lib) && !this.isPro) {
-                        this.showUpgradeModal();
-                        return;
+                    // Sync the visible prompt field with the provided prompt
+                    const promptInput =
+                        document.getElementById('prompt-input') ||
+                        document.getElementById('chart-prompt');
+                    if (promptInput && typeof prompt === 'string') {
+                        const trimmed = prompt.trim();
+                        if (trimmed) {
+                            promptInput.value = trimmed;
+                            promptInput.dispatchEvent(new Event('input'));
+                        }
                     }
 
-                    // Render using selected library with fallback
-                    const ok = await this.renderWithLibrary(lib, chartType, result?.data);
-                    if (!ok) {
-                        // Fallback to Chart.js
-                        this.renderChart(result?.data);
-                    }
-
-                    // Progress + analytics
-                    progressLoading.updateProgress('chart-generation', 100, 'Chart ready!');
-                    try { 
-                        trackEvent('chart_generated', { 
-                            chartType, 
-                            promptLength: prompt.length,
-                            library: lib,
-                            hasRecommendations: !!this.aiRecommendations.getCurrentSelection().wasOverridden
-                        }); 
-                    } catch {}
+                    // Reuse the main generation pipeline to avoid undefined client errors
+                    await this.generateChart();
                 } catch (error) {
-                    throw error;
+                    this.handleError(error);
                 }
             }
 
@@ -1483,8 +976,9 @@
                     const container = document.getElementById('chart-container');
                     container.innerHTML = '';
                     // basic sample data if no config mapping
-                    const sample = (typeof chartTypes !== 'undefined' && chartTypes.generateSampleData)
-                        ? chartTypes.generateSampleData(type)
+                    const source = this.chartTypes || window.chartTypes;
+                    const sample = (source && typeof source.generateSampleData === 'function')
+                        ? source.generateSampleData(type)
                         : { labels: ['A','B','C','D'], datasets: [{ label: 'Series', data: [12, 19, 3, 5] }] };
 
                     if (lib === 'chartjs') {
@@ -1586,18 +1080,40 @@
                 overlay.className = 'fixed inset-0 z-50 bg-black/70 flex items-center justify-center';
                 const dialog = document.createElement('div');
                 dialog.className = 'bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-8 text-center space-y-6';
-                dialog.innerHTML = `
-                    <div class="text-4xl">🚀</div>
-                    <h3 class="text-xl font-semibold text-slate-900">Unlock Pro Libraries</h3>
-                    <p class="text-slate-600">Access Plotly, ApexCharts, advanced features, and unlimited generations.</p>
-                    <div class="space-y-3">
-                        <button class="ui-btn ui-btn-primary w-full" data-action="upgrade-pro">Upgrade to Pro</button>
-                        <a href="/pricing.html" class="ui-btn ui-btn-secondary w-full">View Pricing</a>
-                        <button id="close-pro-overlay" class="w-full border border-slate-200 text-slate-700 rounded-lg py-2">Not now</button>
-                    </div>`;
                 overlay.appendChild(dialog);
+
+                const icon = document.createElement('div');
+                icon.className = 'text-4xl';
+                                dialog.appendChild(icon);
+
+                const title = document.createElement('h3');
+                title.className = 'text-xl font-semibold text-slate-900';
+                title.textContent = 'Unlock Pro Libraries';
+                dialog.appendChild(title);
+
+                const description = document.createElement('p');
+                description.className = 'text-slate-600';
+                description.textContent = 'Access Plotly, ApexCharts, advanced features, and unlimited generations.';
+                dialog.appendChild(description);
+
+                const actions = document.createElement('div');
+                actions.className = 'space-y-3';
+                dialog.appendChild(actions);
+
+                const upgradeBtn = document.createElement('button');
+                upgradeBtn.className = 'w-full px-4 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500';
+                upgradeBtn.dataset.action = 'upgrade-pro';
+                upgradeBtn.textContent = 'Upgrade to Pro';
+                actions.appendChild(upgradeBtn);
+
+                const closeBtn = document.createElement('button');
+                closeBtn.id = 'close-pro-overlay';
+                closeBtn.className = 'w-full rounded-lg border border-slate-200 py-2 text-slate-700 hover:border-slate-300 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500';
+                closeBtn.textContent = 'Not now';
+                actions.appendChild(closeBtn);
+
                 document.body.appendChild(overlay);
-                dialog.querySelector('#close-pro-overlay').addEventListener('click', ()=> overlay.remove());
+                closeBtn.addEventListener('click', ()=> overlay.remove());
                 overlay.addEventListener('click', (e)=> { if (e.target===overlay) overlay.remove(); });
                 this.bindUpgradeButtons(overlay);
             }
@@ -1615,13 +1131,29 @@
                 const canvas = document.createElement('canvas');
                 container.appendChild(canvas);
                 const ctx = canvas.getContext('2d');
-                if (!ctx) return;
+                if (!ctx) {
+                    const div = document.createElement('div');
+                    div.className = 'text-slate-600';
+                    div.textContent = 'Canvas is not supported in this environment.';
+                    container.innerHTML = '';
+                    container.appendChild(div);
+                    return;
+                }
+                const ChartRef = (typeof Chart !== 'undefined') ? Chart : (typeof window !== 'undefined' ? window.Chart : undefined);
+                if (!ChartRef) {
+                    const div = document.createElement('div');
+                    div.className = 'text-slate-600';
+                    div.textContent = 'Chart library is still loading. Please wait a moment and try again.';
+                    container.innerHTML = '';
+                    container.appendChild(div);
+                    return;
+                }
                 // Destroy previous chart if any
                 if (this.currentChart && this.currentChart.destroy) {
                     try { this.currentChart.destroy(); } catch {}
                 }
                 // Create Chart.js instance from config
-                this.currentChart = new Chart(ctx, data);
+                this.currentChart = new ChartRef(ctx, data);
                 this.maybeShowWatermark(container);
             }
 
@@ -1638,13 +1170,29 @@
                 const canvas = document.createElement('canvas');
                 container.appendChild(canvas);
                 const ctx = canvas.getContext('2d');
-                if (!ctx) return;
+                if (!ctx) {
+                    const div = document.createElement('div');
+                    div.className = 'text-slate-600';
+                    div.textContent = 'Canvas is not supported in this environment.';
+                    container.innerHTML = '';
+                    container.appendChild(div);
+                    return;
+                }
+                const ChartRef = (typeof Chart !== 'undefined') ? Chart : (typeof window !== 'undefined' ? window.Chart : undefined);
+                if (!ChartRef) {
+                    const div = document.createElement('div');
+                    div.className = 'text-slate-600';
+                    div.textContent = 'Chart library is still loading. Please wait a moment and try again.';
+                    container.innerHTML = '';
+                    container.appendChild(div);
+                    return;
+                }
                 // Destroy previous chart if any
                 if (this.currentChart && this.currentChart.destroy) {
                     try { this.currentChart.destroy(); } catch {}
                 }
                 // Create Chart.js instance from config
-                this.currentChart = new Chart(ctx, config);
+                this.currentChart = new ChartRef(ctx, config);
                 this.maybeShowWatermark(container);
             }
 
@@ -1749,8 +1297,7 @@
 
                 const icon = document.createElement('div');
                 icon.className = 'text-4xl';
-                icon.textContent = '📺';
-                dialog.appendChild(icon);
+                                dialog.appendChild(icon);
 
                 const title = document.createElement('h3');
                 title.className = 'text-xl font-semibold text-slate-900';
@@ -1767,19 +1314,18 @@
                 dialog.appendChild(actions);
 
                 const upgradeBtn = document.createElement('button');
-                upgradeBtn.className = 'w-full px-4 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition';
+                upgradeBtn.className = 'w-full px-4 py-3 bg-slate-900 text-white rounded-lg font-semibold hover:bg-slate-800 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500';
                 upgradeBtn.dataset.action = 'upgrade-pro';
                 upgradeBtn.textContent = 'Upgrade to Pro';
                 actions.appendChild(upgradeBtn);
 
                 const closeBtn = document.createElement('button');
                 closeBtn.id = 'close-ad-overlay';
-                closeBtn.className = 'w-full px-4 py-3 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition';
+                closeBtn.className = 'w-full rounded-lg border border-slate-200 py-2 text-slate-700 hover:border-slate-300 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500';
                 closeBtn.textContent = 'Close';
                 actions.appendChild(closeBtn);
 
                 document.body.appendChild(overlay);
-
                 closeBtn.addEventListener('click', () => {
                     overlay.remove();
                 });
@@ -1799,69 +1345,57 @@
                 container.appendChild(canvas);
 
                 const ctx = canvas.getContext('2d');
-                const data = chartTypes.generateSampleData(type);
-
-                let chart;
-                switch (type) {
-                    case 'bar':
-                        chart = chartTypes.createBarChart(ctx, data);
-                        break;
-                    case 'line':
-                        chart = chartTypes.createLineChart(ctx, data);
-                        break;
-                    case 'area':
-                        chart = chartTypes.createAreaChart(ctx, data);
-                        break;
-                    case 'pie':
-                        chart = chartTypes.createPieChart(ctx, data);
-                        break;
-                    case 'doughnut':
-                        chart = chartTypes.createDoughnutChart(ctx, data);
-                        break;
-                    case 'scatter':
-                        chart = chartTypes.createScatterChart(ctx, data);
-                        break;
-                    case 'bubble':
-                        chart = chartTypes.createBubbleChart(ctx, data);
-                        break;
-                    case 'radar':
-                        chart = chartTypes.createRadarChart(ctx, data);
-                        break;
-                    case 'polar':
-                        chart = chartTypes.createPolarAreaChart(ctx, data);
-                        break;
+                if (!ctx) {
+                    const div = document.createElement('div');
+                    div.className = 'text-slate-600';
+                    div.textContent = 'Canvas is not supported in this environment.';
+                    container.innerHTML = '';
+                    container.appendChild(div);
+                    return;
                 }
 
-                this.currentChart = chart;
+                const ChartRef = (typeof Chart !== 'undefined') ? Chart : (typeof window !== 'undefined' ? window.Chart : undefined);
+                if (!ChartRef) {
+                    const div = document.createElement('div');
+                    div.className = 'text-slate-600';
+                    div.textContent = 'Chart library is still loading. Please wait a moment and try again.';
+                    container.innerHTML = '';
+                    container.appendChild(div);
+                    return;
+                }
+
+                const source = this.chartTypes || window.chartTypes;
+                const sample = (source && typeof source.generateSampleData === 'function')
+                    ? source.generateSampleData(type)
+                    : { labels: ['A','B','C','D'], datasets: [{ label: 'Series', data: [12, 19, 3, 5] }] };
+
+                const chartTypeMap = { area: 'line', polar: 'polarArea' };
+                const chartType = chartTypeMap[type] || type;
+
+                const config = {
+                    type: chartType,
+                    data: sample,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                };
+
+                if (this.currentChart && this.currentChart.destroy) {
+                    try { this.currentChart.destroy(); } catch {}
+                }
+
+                this.currentChart = new ChartRef(ctx, config);
+                this.maybeShowWatermark(container);
             }
 
             createD3Chart(type) {
                 const container = document.getElementById('chart-container');
-                const data = d3Visualizations.generateSampleData(type);
-
-                let viz;
-                switch (type) {
-                    case 'force':
-                        viz = d3Visualizations.createForceGraph('chart-container', data.nodes, data.links, {
-                            width: 350,
-                            height: 300
-                        });
-                        break;
-                    case 'treemap':
-                        viz = d3Visualizations.createTreeMap('chart-container', data, {
-                            width: 350,
-                            height: 300
-                        });
-                        break;
-                    case 'sankey':
-                        viz = d3Visualizations.createSankeyDiagram('chart-container', data, {
-                            width: 350,
-                            height: 300
-                        });
-                        break;
-                }
-
-                this.currentChart = viz;
+                container.innerHTML = '';
+                const div = document.createElement('div');
+                div.className = 'text-slate-600';
+                div.textContent = 'D3-based previews are not available in this environment yet. Please generate the chart using the main Generate button.';
+                container.appendChild(div);
             }
 
             exportChart(format) {
@@ -1977,20 +1511,23 @@
 
             showLoading() {
                 const prompt = document.getElementById('prompt-input')?.value || '';
-                return progressLoading.showLoading('chart-generation', {
+                feedback.showLoading('AI анализирует ваш запрос', 'Генерация диаграммы');
+                progressLoading.showLoading('chart-generation', {
                     title: 'AI is generating your chart',
-                    description: 'This usually takes 5-10 seconds',
+                    description: prompt ? `Creating visuals for: ${prompt.slice(0, 60)}${prompt.length > 60 ? '…' : ''}` : 'This usually takes 5-10 seconds',
                     animation: 'chart',
                     friendlyMessages: [
-                        "Analyzing your data patterns... 📊",
-                        "Finding the perfect visualization... 🎯",
-                        "Creating beautiful charts... ✨",
-                        "Almost ready... 🚀"
+                        "Analyzing your data patterns...",
+                        "Finding the perfect visualization...",
+                        "Creating beautiful charts...",
+                        "Almost ready..."
                     ]
                 });
+                return { hide: () => this.hideLoading() };
             }
 
             hideLoading() {
+                feedback.hideLoading();
                 progressLoading.hideLoading('chart-generation');
             }
 
@@ -2005,22 +1542,18 @@
                     </div>
                 `;
                 
-                // Insert after chart preview
-                const previewPanel = document.querySelector('.preview-panel');
-                if (previewPanel) {
-                    previewPanel.insertBefore(successMsg, previewPanel.firstChild);
-                    
-                    // Auto-remove after 3 seconds
-                    setTimeout(() => {
-                        if (successMsg.parentNode) {
-                            successMsg.remove();
-                        }
-                    }, 3000);
-                }
+                const container = document.getElementById('chart-container');
+                const existingMsg = container.querySelector('.success-message');
+                if(existingMsg) existingMsg.remove();
+
+                container.insertBefore(successMsg, container.firstChild);
+                setTimeout(() => successMsg.remove(), 3000);
+                feedback.showToast('Chart generated successfully!', 'success');
             }
 
             handleError(error) {
                 console.error('Chart generation error:', error);
+                this.clearPromptFormatError();
                 
                 // Show error message
                 const errorMsg = document.createElement('div');
@@ -2032,18 +1565,53 @@
                     </div>
                 `;
                 
-                // Insert after chart preview
-                const previewPanel = document.querySelector('.preview-panel');
-                if (previewPanel) {
-                    previewPanel.insertBefore(errorMsg, previewPanel.firstChild);
-                    
-                    // Auto-remove after 5 seconds
-                    setTimeout(() => {
-                        if (errorMsg.parentNode) {
-                            errorMsg.remove();
-                        }
-                    }, 5000);
+                const container = document.getElementById('chart-container');
+                // Clear previous content and show error
+                container.innerHTML = '';
+                container.appendChild(errorMsg);
+                feedback.showToast(error.message || 'Generation failed', 'error');
+            }
+
+            showPromptFormatHelp(message) {
+                const helperText = document.getElementById('prompt-helper');
+                if (helperText) {
+                    helperText.textContent = message || helperText.dataset.defaultText || 'Describe your chart in plain English';
+                    helperText.classList.add('text-red-600');
+                    helperText.classList.remove('text-gray-600');
                 }
+
+                const hint = document.getElementById('prompt-format-hint');
+                if (hint) {
+                    hint.classList.add('text-red-600');
+                    hint.classList.remove('text-slate-500');
+                }
+            }
+
+            clearPromptFormatError() {
+                const helperText = document.getElementById('prompt-helper');
+                if (helperText) {
+                    const defaultText = helperText.dataset.defaultText || 'Describe your chart in plain English';
+                    helperText.textContent = defaultText;
+                    helperText.classList.remove('text-red-600');
+                    helperText.classList.add('text-gray-600');
+                }
+
+                const hint = document.getElementById('prompt-format-hint');
+                if (hint) {
+                    hint.classList.remove('text-red-600');
+                    hint.classList.add('text-slate-500');
+                }
+            }
+
+            highlightPromptInput() {
+                const promptInput = document.getElementById('prompt-input');
+                if (!promptInput) return;
+                promptInput.classList.add('invalid', 'prompt-error-shake');
+                setTimeout(() => promptInput.classList.remove('prompt-error-shake'), 400);
+            }
+
+            isPromptFormatError(error) {
+                return error?.code === 'invalid_prompt_format' || error?.code === 'invalid_json_prompt';
             }
         }
 
@@ -2185,7 +1753,7 @@
             const tip = document.createElement('div');
             tip.id = 'vizom-prefill-tip';
             tip.className = 'fixed top-20 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 viz-animate-bounce';
-            tip.textContent = '👇 Click "Generate" to create your chart!';
+                        tip.textContent = 'Click "Generate" to create your chart!';
             document.body.appendChild(tip);
             setTimeout(() => {
                 tip.style.transition = 'opacity .3s ease';
@@ -2198,11 +1766,11 @@
 </html>
 
   <!-- Projects Modal -->
-  <div id="projects-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
+  <div id="projects-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="projects-modal-title">
     <div class="bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[80vh] overflow-hidden">
-      <div class="flex items-center justify-between p-6 border-b border-slate-200">
+      <div class="flex items-center justify-between p-6 border-b border-slate-200" id="projects-modal-title">
         <h3 class="text-xl font-semibold text-slate-900">Мои проекты</h3>
-        <button id="close-projects-modal" class="text-slate-400 hover:text-slate-600 transition">
+        <button id="close-projects-modal" class="text-slate-400 hover:text-slate-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Close projects modal">
           <i class="fas fa-times text-xl"></i>
         </button>
       </div>
@@ -2220,48 +1788,27 @@
   </div>
 
   <!-- Save Project Modal -->
-  <div id="save-project-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
+  <div id="save-project-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="save-project-modal-title">
     <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
-      <div class="flex items-center justify-between">
-        <h3 class="text-xl font-semibold text-slate-900">Сохранить проект</h3>
-        <button id="close-save-modal" class="text-slate-400 hover:text-slate-600 transition">
+      <div class="flex items-center justify-between" id="save-project-modal-title">
+        <h3 class="text-xl font-semibold text-slate-900" id="save-project-modal-description">Сохранить проект</h3>
+        <button id="close-save-modal" class="text-slate-400 hover:text-slate-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Close save project modal">
           <i class="fas fa-times"></i>
         </button>
       </div>
       <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-700">Название проекта</label>
-        <input type="text" id="project-title" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500" placeholder="Мои продажи Q1 2024">
+        <label class="text-sm font-medium text-slate-700" id="project-title-label">Project Title</label>
+        <input type="text" id="project-title" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500" placeholder="Мои продажи Q1 2024" aria-labelledby="project-title-label" aria-describedby="project-title-description">
+        <p id="project-title-description" class="text-sm text-slate-400">Enter a title for your project</p>
       </div>
       <div class="flex gap-3">
-        <button id="confirm-save-project" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+        <button id="confirm-save-project" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Confirm save project">
           Сохранить
         </button>
-        <button id="cancel-save-project" class="flex-1 border border-slate-200 text-slate-700 px-4 py-2 rounded-lg hover:border-slate-300 transition">
+        <button id="cancel-save-project" class="flex-1 border border-slate-200 text-slate-700 px-4 py-2 rounded-lg hover:border-slate-300 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Cancel save project">
           Отмена
         </button>
       </div>
-    </div>
-  </div>
-
-  <!-- Auth Modal -->
-  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
-      <div class="flex items-center justify-between">
-        <h3 class="text-xl font-semibold text-slate-900">Вход в VIZOM</h3>
-        <button id="close-auth-modal" class="text-slate-400 hover:text-slate-600 transition">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <p class="text-sm text-slate-500">Войдите через Google для доступа к генератору визуализаций</p>
-      <button id="google-signin" class="w-full inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-lg hover:bg-slate-50 transition">
-        <svg class="w-5 h-5" viewBox="0 0 24 24">
-          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-        </svg>
-        Continue with Google
-      </button>
     </div>
   </div>
 
@@ -2272,12 +1819,12 @@
     <!-- Footer content will be dynamically loaded by UnifiedFooter.js -->
   </footer>
 
-  <link rel="stylesheet" href="src/styles/components/footer.css">
+  <!-- /* LEGACY/IGNORE: for demo only */ footer.css was previously used by a dynamic footer; Tailwind footers are inline on key pages -->
+  <!-- <link rel="stylesheet" href="src/styles/components/footer.css"> -->
 
   <!-- Подключения библиотек и модулей -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     
   <script>
     // Enhanced loading functions using the LoadingStatesManager
@@ -2464,41 +2011,7 @@
       }
     });
   </script>
-  
-  <!-- Mobile Menu Script -->
-  <script>
-    // Mobile menu toggle
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const navLinks = document.getElementById('nav-links');
-    
-    if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            const icon = mobileMenuToggle.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.nav') && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                const icon = mobileMenuToggle.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
-            }
-        });
-        
-        // Close menu when clicking a link
-        navLinks.querySelectorAll('a, button').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                const icon = mobileMenuToggle.querySelector('i');
-                icon.classList.add('fa-bars');
-                icon.classList.remove('fa-times');
-            });
-        });
-    }
-  </script>
+
+  <script type="module" src="/src/components/mobile-menu.js"></script>
 </body>
 </html>

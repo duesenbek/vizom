@@ -1,10 +1,12 @@
+<!-- quarantined, not for prod -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Test Modules - VIZOM</title>
-  <link rel="stylesheet" href="styles/minimal.css">
+  <!-- /* LEGACY/IGNORE: demo-only */ <link rel="stylesheet" href="styles/minimal.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <style>
     body {
       padding: 2rem;
@@ -60,7 +62,7 @@
 </head>
 <body>
   <div class="container section">
-    <h1 class="h1">🧪 VIZOM Module Test Suite</h1>
+        <h1 class="h1">VIZOM Module Test Suite</h1>
     <p class="subtle">Testing the new modular architecture</p>
 
   <!-- Test 1: Core Modules -->
@@ -136,26 +138,26 @@
         // Test storage
         storage.set('test', { value: 123 });
         const stored = storage.get('test');
-        results.push(`✅ Storage: ${JSON.stringify(stored)}`);
+                results.push(`Storage: ${JSON.stringify(stored)}`);
 
         // Test utils
         const series = parseSeries('Jan 100, Feb 200, Mar 300');
-        results.push(`✅ ParseSeries: ${series.length} items parsed`);
+                results.push(`ParseSeries: ${series.length} items parsed`);
 
         const formatted = formatNumber(1000000);
-        results.push(`✅ FormatNumber: ${formatted}`);
+                results.push(`FormatNumber: ${formatted}`);
 
         // Test debounce
         const fn = debounce(() => {}, 100);
-        results.push(`✅ Debounce: Function created`);
+                results.push(`Debounce: Function created`);
 
         // Test sanitizer
         const clean = HTMLSanitizer.sanitizeHTML('<scr' + 'ipt>alert("xss")</scr' + 'ipt>');
-        results.push(`✅ Sanitizer: XSS prevented`);
+                results.push(`Sanitizer: XSS prevented`);
 
         resultDiv.innerHTML = `<div class="test-result success">${results.join('<br>')}</div>`;
       } catch (error) {
-        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+        resultDiv.innerHTML = `<div class="test-result error">Error: ${error.message}</div>`;
       }
     }
 
@@ -192,9 +194,9 @@
         };
 
         renderer.render(config);
-        resultDiv.innerHTML = `<div class="test-result success">✅ Bar chart rendered successfully!</div>`;
+                resultDiv.innerHTML = `<div class="test-result success">Bar chart rendered successfully!</div>`;
       } catch (error) {
-        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+        resultDiv.innerHTML = `<div class="test-result error">Error: ${error.message}</div>`;
       }
     }
 
@@ -232,9 +234,9 @@
         };
 
         renderer.render(config);
-        resultDiv.innerHTML = `<div class="test-result success">✅ Line chart rendered successfully!</div>`;
+                resultDiv.innerHTML = `<div class="test-result success">Line chart rendered successfully!</div>`;
       } catch (error) {
-        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+        resultDiv.innerHTML = `<div class="test-result error">Error: ${error.message}</div>`;
       }
     }
 
@@ -268,9 +270,9 @@
         };
 
         renderer.render(config);
-        resultDiv.innerHTML = `<div class="test-result success">✅ Pie chart rendered successfully!</div>`;
+                resultDiv.innerHTML = `<div class="test-result success">Pie chart rendered successfully!</div>`;
       } catch (error) {
-        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+        resultDiv.innerHTML = `<div class="test-result error">Error: ${error.message}</div>`;
       }
     }
 
@@ -282,21 +284,21 @@
       try {
         // Test prompt validation
         const valid = Validator.validatePrompt('Monthly sales: Jan $12K, Feb $15K');
-        results.push(`✅ Valid prompt: ${valid.valid}`);
+                results.push(`Valid prompt: ${valid.valid}`);
 
         const invalid = Validator.validatePrompt('');
-        results.push(`✅ Empty prompt detected: ${!invalid.valid}`);
+                results.push(`Empty prompt detected: ${!invalid.valid}`);
 
         // Test chart type validation
         const validType = Validator.validateChartType('bar');
-        results.push(`✅ Valid chart type: ${validType.valid}`);
+                results.push(`Valid chart type: ${validType.valid}`);
 
         const invalidType = Validator.validateChartType('invalid');
-        results.push(`✅ Invalid chart type detected: ${!invalidType.valid}`);
+                results.push(`Invalid chart type detected: ${!invalidType.valid}`);
 
         resultDiv.innerHTML = `<div class="test-result success">${results.join('<br>')}</div>`;
       } catch (error) {
-        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+        resultDiv.innerHTML = `<div class="test-result error">Error: ${error.message}</div>`;
       }
     }
 
@@ -311,24 +313,24 @@
         }
 
         const results = [
-          '✅ Export Manager initialized',
-          '✅ PNG export available',
-          '✅ PDF export available',
-          '✅ CSV export available',
-          '✅ SVG export available',
-          '✅ HTML export available',
+                    'Export Manager initialized',
+                    'PNG export available',
+                    'PDF export available',
+                    'CSV export available',
+                    'SVG export available',
+                    'HTML export available',
         ];
 
-        resultDiv.innerHTML = `<div class="test-result success">${results.join('<br>')}<br><br>💡 Generate a chart first, then try exporting!</div>`;
+                resultDiv.innerHTML = `<div class="test-result success">${results.join('<br>')}<br><br>Generate a chart first, then try exporting!</div>`;
       } catch (error) {
-        resultDiv.innerHTML = `<div class="test-result error">❌ Error: ${error.message}</div>`;
+        resultDiv.innerHTML = `<div class="test-result error">Error: ${error.message}</div>`;
       }
     }
 
     // Auto-run first test on load
     window.addEventListener('load', () => {
-      console.log('✅ All modules loaded successfully!');
-      console.log('📦 Available modules:', {
+            console.log('All modules loaded successfully!');
+            console.log('Available modules:', {
         api,
         storage,
         ChartRenderer,

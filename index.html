@@ -6,42 +6,23 @@
     <title>VIZOM - AI Visual Engine | Create Beautiful Visualizations in Seconds</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="public/images/vizom-icon.png">
-    <link rel="apple-touch-icon" href="public/images/vizom-icon.png">
+    <link rel="icon" type="image/png" href="/images/vizom-icon.png">
+    <link rel="apple-touch-icon" href="/images/vizom-icon.png">
     
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=line-clamp"></script>
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="src/styles/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
-    <!-- Modern Styles -->
-    <link rel="stylesheet" href="src/styles/modern-saas.css" />
-    <link rel="stylesheet" href="src/styles/components/improvements.css" />
-    <link rel="stylesheet" href="src/styles/components/responsive-fixes.css" />
-    <link rel="stylesheet" href="src/styles/premium-theme.css" />
-    <link rel="stylesheet" href="src/styles/ui-guidelines.css" />
-
     <!-- Modal system (for auth) -->
-    <script type="module" src="src/components/ModalSystem.js"></script>
-    
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    
-    <!-- D3.js global bridge -->
-    <script type="module">
-        import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-        if (typeof window !== 'undefined') {
-            window.d3 = d3;
-        }
-    </script>
+    <script type="module" src="src/components/ModalSystem.js" defer></script>
 
-    <!-- Supabase client -->
-    <script type="module" src="src/supabase-client.js"></script>
+    <!-- Shared vendor bundle: Chart.js, D3, Supabase auth/stripe -->
+    <script type="module" src="src/app/vendor-loader.js"></script>
 
-    <!-- Supabase auth and payment handlers -->
-    <script type="module" src="src/supabase-auth.js"></script>
-    <script type="module" src="src/payments/stripe-client.js"></script>
+    <!-- Header/auth integration for unified header & ModalSystem -->
+    <script type="module" src="src/components/HeaderIntegration.js"></script>
     
     <!-- Analytics Initialization -->
     <script type="module">
@@ -53,85 +34,88 @@
       } catch (e) { /* silent */ }
     </script>
 </head>
-<body class="bg-white">
+<body class="bg-slate-50 font-sans text-slate-800 antialiased">
     <!-- Header -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="ui-container">
-            <nav class="flex items-center justify-between h-16">
-                <a href="index.html" class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-chart-simple text-white"></i>
-                    </div>
+    <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-lg">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <nav class="flex h-16 items-center justify-between">
+                <a href="index.html" class="flex items-center gap-2.5">
+                    <img src="assets/images/logos/vizom-icon.png" alt="Vizom Logo" class="h-8 w-8">
                     <span class="text-xl font-bold text-slate-900">VIZOM</span>
                 </a>
                 
                 <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="index.html" class="ui-body font-medium text-blue-600">Home</a>
-                    <a href="generator.html" class="ui-body font-medium text-slate-600 hover:text-slate-900 transition">Generator</a>
-                    <a href="templates.html" class="ui-body font-medium text-slate-600 hover:text-slate-900 transition">Templates</a>
-                    <a href="pricing.html" class="ui-body font-medium text-slate-600 hover:text-slate-900 transition">Pricing</a>
-                    <button class="ui-btn ui-btn-ghost" id="auth-signin" type="button">Sign In</button>
-                    <a href="generator.html" class="ui-btn ui-btn-primary" data-action="get-started">Get Started</a>
+                <div class="hidden items-center gap-8 md:flex">
+                    <a href="index.html" aria-current="page" class="text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700">Home</a>
+                    <a href="generator.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Generator</a>
+                    <a href="templates.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Templates</a>
+                    <a href="pricing.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Pricing</a>
+                    <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin" type="button">Sign In</button>
+                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
                 </div>
                 
                 <!-- Mobile Menu Toggle -->
-                <button class="md:hidden ui-btn ui-btn-ghost" id="mobile-menu-toggle" aria-label="Toggle menu">
+                <button class="inline-flex h-10 w-10 items-center justify-center rounded-xl md:hidden" id="mobile-menu-toggle" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
                     <i class="fas fa-bars"></i>
                 </button>
             </nav>
             
             <!-- Mobile Navigation -->
-            <div class="hidden md:hidden" id="mobile-menu">
-                <div class="py-4 space-y-2">
-                    <a href="index.html" class="block ui-body font-medium text-blue-600 py-2">Home</a>
-                    <a href="generator.html" class="block ui-body font-medium text-slate-600 py-2">Generator</a>
-                    <a href="templates.html" class="block ui-body font-medium text-slate-600 py-2">Templates</a>
-                    <a href="pricing.html" class="block ui-body font-medium text-slate-600 py-2">Pricing</a>
-                    <button class="ui-btn ui-btn-ghost w-full" id="auth-signin-mobile" type="button">Sign In</button>
-                    <a href="generator.html" class="ui-btn ui-btn-primary w-full" data-action="get-started">Get Started</a>
+            <div class="hidden md:hidden -translate-y-2 transition-all duration-200 ease-[cubic-bezier(0.18,0.89,0.32,1.28)] data-[state=open]:translate-y-0 data-[state=closed]:-translate-y-2" id="mobile-menu" data-state="closed">
+                <div class="space-y-2 py-4">
+                    <a href="index.html" aria-current="page" class="block py-2 text-base font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700">Home</a>
+                    <a href="generator.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Generator</a>
+                    <a href="templates.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Templates</a>
+                    <a href="pricing.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Pricing</a>
+                    <button class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-slate-100 px-5 text-sm font-medium text-slate-700 transition-all hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin-mobile" type="button">Sign In</button>
+                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="ui-section bg-gradient-to-br from-blue-50 via-white to-purple-50" data-animate="fade-up">
-        <div class="ui-container">
-            <div class="text-center">
-                <span class="ui-badge ui-badge-primary mx-auto mb-6">⚡ AI Visual Engine</span>
-                <h1 class="ui-heading-1">Design premium dashboards with natural language</h1>
-                <p class="ui-subtitle">
+    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20 sm:py-24 lg:py-32">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-3xl text-center">
+                <span class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700">
+                    <i class="fas fa-bolt"></i>
+                    AI Visual Engine
+                </span>
+                <h1 class="mt-6 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
+                    Design premium dashboards with natural language
+                </h1>
+                <p class="mt-6 text-lg leading-8 text-slate-600">
                     Describe your data vision and Vizom crafts a production-ready visualization with advanced layouts,
                     premium styling, and export-ready assets in seconds.
                 </p>
 
                 <!-- Try Now Input (connected to generator) -->
-                <form id="hero-try-form" class="mt-10 max-w-2xl mx-auto">
-                    <div class="flex flex-col md:flex-row gap-4 items-stretch">
+                <form id="hero-try-form" class="mx-auto mt-10 max-w-2xl">
+                    <div class="flex flex-col gap-4 sm:flex-row">
                         <input 
                             id="hero-prompt-input"
                             type="text"
-                            class="ui-input flex-1"
+                            class="h-12 w-full flex-1 rounded-xl border border-slate-300 bg-white px-5 text-sm text-slate-800 shadow-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
                             placeholder="Try: Compare 2023 vs 2024 revenue with growth delta and trendline"
                             aria-label="Describe the chart you want to generate"
                         >
-                        <button type="submit" class="ui-btn ui-btn-primary min-h-[48px] px-8" data-action="get-started">
+                        <button type="submit" class="group inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">
                             Generate Chart
-                            <i class="fas fa-arrow-right"></i>
+                            <i class="fas fa-arrow-right transition-transform duration-200 group-hover:translate-x-0.5"></i>
                         </button>
                     </div>
-                    <p class="ui-caption mt-3">Instant AI charts. No onboarding, no credit card.</p>
+                    <p class="mt-3 text-xs text-slate-500">Instant AI charts. No onboarding, no credit card.</p>
                 </form>
 
-                <div class="flex flex-wrap justify-center gap-4 mt-10" data-animate="fade-up">
-                    <div class="bg-white px-6 py-4 rounded-xl shadow-sm flex items-center gap-3">
+                <div class="mt-10 flex flex-wrap justify-center gap-4">
+                    <div class="flex items-center gap-3 rounded-xl bg-white px-6 py-4 shadow-sm">
                         <i class="fas fa-shield-check text-blue-600"></i>
-                        <span class="ui-body font-medium">Enterprise-grade security</span>
+                        <span class="text-sm font-medium">Enterprise-grade security</span>
                     </div>
-                    <div class="bg-white px-6 py-4 rounded-xl shadow-sm flex items-center gap-3">
+                    <div class="flex items-center gap-3 rounded-xl bg-white px-6 py-4 shadow-sm">
                         <i class="fas fa-bolt text-purple-600"></i>
-                        <span class="ui-body font-medium">10× faster than manual design</span>
+                        <span class="text-sm font-medium">10× faster than manual design</span>
                     </div>
                 </div>
             </div>
@@ -139,130 +123,125 @@
     </section>
 
     <!-- Features Section -->
-    <section class="ui-section bg-gray-50" data-animate="fade-up">
-        <div class="ui-container">
-            <div class="text-center mb-16">
-                <h2 class="ui-heading-2">Powerful automation for modern teams</h2>
-                <p class="ui-subtitle">
+    <section class="bg-slate-50 py-20 sm:py-24 lg:py-32">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-3xl text-center">
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                    Powerful automation for modern teams
+                </h2>
+                <p class="mt-6 text-lg leading-8 text-slate-600">
                     Vizom blends AI-driven insights with a premium Chart.js engine, so your dashboards feel bespoke—not boilerplate.
                 </p>
             </div>
 
-            <div class="ui-grid-features">
-                <article class="ui-card">
-                    <div class="ui-card-content">
-                        <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 text-blue-600 text-2xl mb-6">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h3 class="ui-card-title">Context-aware charting</h3>
-                        <p class="ui-card-description">
-                            Natural language prompts become polished Chart.js configs with smart annotations, legends, and responsive layouts.
-                        </p>
-                        <div class="mt-auto">
-                            <button class="ui-btn ui-btn-ghost w-full">
-                                Learn more
-                                <i class="fas fa-arrow-right text-xs"></i>
-                            </button>
-                        </div>
+            <div class="mx-auto mt-16 grid max-w-none grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                <article class="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-blue-500">
+                    <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 text-2xl text-blue-600">
+                        <i class="fas fa-brain"></i>
                     </div>
+                    <h3 class="mb-2 text-lg font-semibold leading-tight text-slate-800">Context-aware charting</h3>
+                    <p class="mb-4 flex-1 text-sm text-slate-600">
+                        Natural language prompts become polished Chart.js configs with smart annotations, legends, and responsive layouts.
+                    </p>
+                    <button class="group mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50">
+                        Learn more
+                        <i class="fas fa-arrow-right ml-2 text-xs transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                    </button>
                 </article>
 
-                <article class="ui-card">
-                    <div class="ui-card-content">
-                        <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-pink-100 text-purple-600 text-2xl mb-6">
-                            <i class="fas fa-layer-group"></i>
-                        </div>
-                        <h3 class="ui-card-title">Design-grade themes</h3>
-                        <p class="ui-card-description">
-                            Premium palettes, cohesive typography, and glassmorphism surfaces designed to impress stakeholders and leadership.
-                        </p>
-                        <div class="mt-auto">
-                            <button class="ui-btn ui-btn-ghost w-full">
-                                Explore themes
-                                <i class="fas fa-arrow-right text-xs"></i>
-                            </button>
-                        </div>
+                <article class="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-blue-500">
+                    <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-pink-100 text-2xl text-purple-600">
+                        <i class="fas fa-layer-group"></i>
                     </div>
+                    <h3 class="mb-2 text-lg font-semibold leading-tight text-slate-800">Design-grade themes</h3>
+                    <p class="mb-4 flex-1 text-sm text-slate-600">
+                        Premium palettes, cohesive typography, and glassmorphism surfaces designed to impress stakeholders and leadership.
+                    </p>
+                    <button class="group mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50">
+                        Explore themes
+                        <i class="fas fa-arrow-right ml-2 text-xs transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                    </button>
                 </article>
 
-                <article class="ui-card">
-                    <div class="ui-card-content">
-                        <div class="w-14 h-14 flex items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 text-emerald-600 text-2xl mb-6">
-                            <i class="fas fa-code-branch"></i>
-                        </div>
-                        <h3 class="ui-card-title">Enterprise delivery</h3>
-                        <p class="ui-card-description">
-                            Export high-resolution assets, embed responsive code snippets, and sync analytics events with one click.
-                        </p>
-                        <div class="mt-auto">
-                            <button class="ui-btn ui-btn-ghost w-full">
-                                Start exporting
-                                <i class="fas fa-arrow-right text-xs"></i>
-                            </button>
-                        </div>
+                <article class="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-blue-500">
+                    <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-100 to-teal-100 text-2xl text-emerald-600">
+                        <i class="fas fa-code-branch"></i>
                     </div>
+                    <h3 class="mb-2 text-lg font-semibold leading-tight text-slate-800">Enterprise delivery</h3>
+                    <p class="mb-4 flex-1 text-sm text-slate-600">
+                        Export high-resolution assets, embed responsive code snippets, and sync analytics events with one click.
+                    </p>
+                    <button class="group mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50">
+                        Start exporting
+                        <i class="fas fa-arrow-right ml-2 text-xs transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                    </button>
                 </article>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="ui-section bg-gray-900 text-gray-50" data-animate="fade-up">
-        <div class="ui-container text-center">
-            <h2 class="ui-heading-1 text-white">Ready to craft your next executive dashboard?</h2>
-            <p class="ui-subtitle text-gray-300">
+    <section class="bg-slate-900 py-20 sm:py-24">
+        <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                Ready to craft your next executive dashboard?
+            </h2>
+            <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">
                 Join top data teams transforming raw metrics into interactive stories. Vizom delivers in minutes, not weeks.
             </p>
-            <div class="ui-btn-group justify-center mt-8">
-                <button class="ui-btn ui-btn-primary px-8" data-action="get-started">
+            <div class="mt-10 flex items-center justify-center gap-4">
+                <button class="group inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">
                     Start Free Trial
-                    <i class="fas fa-rocket"></i>
+                    <i class="fas fa-rocket transition-transform duration-200 group-hover:translate-x-0.5"></i>
                 </button>
-                <button class="ui-btn ui-btn-secondary px-8">
+                <button class="group inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-white px-6 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50">
                     View Examples
-                    <i class="fas fa-chart-line"></i>
+                    <i class="fas fa-chart-line transition-transform duration-200 group-hover:translate-x-0.5"></i>
                 </button>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 ui-section">
-        <div class="ui-container">
-            <div class="ui-grid-features mb-8">
+    <footer class="bg-slate-900 text-slate-300">
+        <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
                 <div>
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-chart-simple text-white"></i>
-                        </div>
+                    <div class="flex items-center gap-2.5">
+                        <img src="assets/images/logos/vizom-icon.png" alt="Vizom Logo" class="h-8 w-8">
                         <span class="text-xl font-bold text-white">VIZOM</span>
                     </div>
-                    <p class="ui-body">
+                    <p class="mt-4 text-sm text-slate-400">
                         AI-powered visual engine. Create beautiful visualizations in seconds.
                     </p>
                 </div>
-                
                 <div>
-                    <h4 class="ui-heading-4 text-white mb-4">Product</h4>
-                    <ul class="space-y-2">
-                        <li><a href="generator.html" class="ui-body hover:text-white transition">Generator</a></li>
-                        <li><a href="templates.html" class="ui-body hover:text-white transition">Templates</a></li>
-                        <li><a href="pricing.html" class="ui-body hover:text-white transition">Pricing</a></li>
+                    <h4 class="text-sm font-semibold text-white">Product</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="generator.html" class="text-sm text-slate-400 transition-colors hover:text-white">Generator</a></li>
+                        <li><a href="templates.html" class="text-sm text-slate-400 transition-colors hover:text-white">Templates</a></li>
+                        <li><a href="pricing.html" class="text-sm text-slate-400 transition-colors hover:text-white">Pricing</a></li>
                     </ul>
                 </div>
-                
                 <div>
-                    <h4 class="ui-heading-4 text-white mb-4">Resources</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="ui-body hover:text-white transition">Documentation</a></li>
-                        <li><a href="#" class="ui-body hover:text-white transition">API Reference</a></li>
-                        <li><a href="#" class="ui-body hover:text-white transition">Blog</a></li>
+                    <h4 class="text-sm font-semibold text-white">Resources</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="docs.html" class="text-sm text-slate-400 transition-colors hover:text-white">Documentation</a></li>
+                        <li><a href="docs.html#api" class="text-sm text-slate-400 transition-colors hover:text-white">API Reference</a></li>
+                        <li><a href="blog.html" class="text-sm text-slate-400 transition-colors hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-white">Company</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="about.html" class="text-sm text-slate-400 transition-colors hover:text-white">About</a></li>
+                        <li><a href="about.html#careers" class="text-sm text-slate-400 transition-colors hover:text-white">Careers</a></li>
+                        <li><a href="contact.html" class="text-sm text-slate-400 transition-colors hover:text-white">Contact</a></li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="border-t border-gray-700 pt-8 text-center">
-                <p class="ui-caption">&copy; 2024 VIZOM. All rights reserved.</p>
+            <div class="mt-10 border-t border-slate-800 pt-8 text-center">
+                <p class="text-sm text-slate-400">&copy; 2024 VIZOM. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -289,40 +268,6 @@
       }
     </script>
     
-    <!-- Mobile Menu Script -->
-    <script>
-        // Mobile menu toggle
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const navLinks = document.getElementById('nav-links');
-        
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                const icon = mobileMenuToggle.querySelector('i');
-                icon.classList.toggle('fa-bars');
-                icon.classList.toggle('fa-times');
-            });
-            
-            // Close menu when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.nav') && navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    const icon = mobileMenuToggle.querySelector('i');
-                    icon.classList.add('fa-bars');
-                    icon.classList.remove('fa-times');
-                }
-            });
-            
-            // Close menu when clicking a link
-            navLinks.querySelectorAll('a, button').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    const icon = mobileMenuToggle.querySelector('i');
-                    icon.classList.add('fa-bars');
-                    icon.classList.remove('fa-times');
-                });
-            });
-        }
-    </script>
+    <script type="module" src="/src/components/mobile-menu.js"></script>
 </body>
 </html>

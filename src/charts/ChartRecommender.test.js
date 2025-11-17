@@ -6,7 +6,7 @@
 import { chartRecommender } from './ChartRecommender.js';
 
 function runTests() {
-  console.log('🧪 Running ChartRecommender tests...\n');
+    console.log('Running ChartRecommender tests...\n');
   
   const tests = [
     {
@@ -115,36 +115,36 @@ function runTests() {
       }
       
       if (testPassed) {
-        console.log(`✅ ${test.name}`);
+                console.log(`[PASS] ${test.name}`);
         console.log(`   Primary: ${primary.type} (${primary.confidence})`);
         console.log(`   Reasoning: ${primary.reasoning}\n`);
         passed++;
       } else {
-        console.log(`❌ ${test.name}`);
+                console.log(`[FAIL] ${test.name}`);
         console.log(`   Issues: ${issues.join(', ')}`);
         console.log(`   Got: ${JSON.stringify(result, null, 2)}\n`);
         failed++;
       }
       
     } catch (error) {
-      console.log(`❌ ${test.name} - Error: ${error.message}\n`);
+            console.log(`[FAIL] ${test.name} - Error: ${error.message}\n`);
       failed++;
     }
   });
   
-  console.log(`📊 Test Results: ${passed} passed, ${failed} failed`);
+    console.log(`Test Results: ${passed} passed, ${failed} failed`);
   
   // Additional validation tests
-  console.log('\n🔍 Additional validation tests...');
+    console.log('\nAdditional validation tests...');
   
   // Test JSON output format
   try {
     const result = chartRecommender.recommend('test prompt');
     const jsonStr = JSON.stringify(result);
     const parsed = JSON.parse(jsonStr);
-    console.log('✅ JSON output format is valid');
+        console.log('[PASS] JSON output format is valid');
   } catch (error) {
-    console.log('❌ JSON output format is invalid:', error.message);
+        console.log('[FAIL] JSON output format is invalid:', error.message);
   }
   
   // Test confidence scores are within bounds
@@ -157,15 +157,15 @@ function runTests() {
     
     const allValid = allScores.every(score => score >= 0 && score <= 1);
     if (allValid) {
-      console.log('✅ All confidence scores are within 0-1 range');
+            console.log('[PASS] All confidence scores are within 0-1 range');
     } else {
-      console.log('❌ Some confidence scores are out of bounds:', allScores);
+            console.log('[FAIL] Some confidence scores are out of bounds:', allScores);
     }
   } catch (error) {
-    console.log('❌ Error validating confidence scores:', error.message);
+        console.log('[FAIL] Error validating confidence scores:', error.message);
   }
   
-  console.log('\n🎯 Recommendation engine tests complete!');
+    console.log('\nRecommendation engine tests complete!');
 }
 
 // Export for use in other modules

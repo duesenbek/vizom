@@ -15,7 +15,7 @@ export function initializeSentry() {
   const enableErrorTracking = getEnv('ENABLE_ERROR_TRACKING');
 
   if (!enableErrorTracking || !sentryDsn) {
-    console.log('📊 Sentry error tracking is disabled');
+        console.log('[Sentry] Error tracking is disabled');
     return;
   }
 
@@ -93,7 +93,7 @@ export function initializeSentry() {
     debug: environment === 'development',
   });
 
-  console.log('📊 Sentry error tracking initialized');
+    console.log('[Sentry] Error tracking initialized');
 }
 
 // Custom error tracking functions
@@ -486,7 +486,7 @@ export function initializeErrorTracking() {
     ErrorTracker.trackPerformance('PAGE_LOAD', loadTime, 'milliseconds');
   });
   
-  console.log('📊 Error tracking system initialized');
+    console.log('[Init] Error tracking system initialized');
 }
 
 // Export for use in other modules

@@ -279,46 +279,7 @@ class ChartEngine {
     this.setAnimations(true);
     this.setInteractive(true);
   }
-}
 
-// Export singleton instance
-export const chartEngine = new ChartEngine();
-
-// Auto-detect and optimize for device
-if (window.innerWidth < 768) {
-  chartEngine.optimizeForMobile();
-} else {
-  chartEngine.optimizeForDesktop();
-}
-
-// Listen for resize events to adjust optimizations
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    if (window.innerWidth < 768) {
-      chartEngine.optimizeForMobile();
-    } else {
-      chartEngine.optimizeForDesktop();
-    }
-  }, 250);
-});
-      case 'timeline':
-        return this.renderTimeline(config);
-      case 'gantt':
-        return this.renderGanttChart(config);
-      case 'sankey':
-        return this.renderSankeyDiagram(config);
-      case 'tree':
-        return this.renderTreeMap(config);
-      case 'network':
-        return this.renderNetworkGraph(config);
-      default:
-        return this.renderBarChart(config);
-    }
-  }
-
-  // Data Processing
   processData(data, type) {
     if (!data || !Array.isArray(data)) return [];
 
@@ -687,6 +648,7 @@ window.addEventListener('resize', () => {
       return dataURL.replace('image/png', 'image/jpeg');
     });
   }
+
 }
 
 // Initialize Chart Engine

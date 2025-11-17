@@ -34,7 +34,7 @@ class SimpleChartPreviewGenerator {
   }
   
   async generateAllPreviews() {
-    console.log(`🎨 Generating ${this.chartTypes.length} chart previews...`);
+    console.log(`Generating ${this.chartTypes.length} chart previews...`);
     
     const results = [];
     
@@ -44,18 +44,18 @@ class SimpleChartPreviewGenerator {
         results.push({ type: chartType.id, success });
         
         if (success) {
-          console.log(`✅ Generated ${chartType.id}.png`);
+          console.log(`Generated preview: ${chartType.name}.png`);
         } else {
-          console.log(`❌ Failed to generate ${chartType.id}.png`);
+          console.log(`Failed to generate preview: ${chartType.name}.png`);
         }
       } catch (error) {
-        console.error(`❌ Error generating ${chartType.id}:`, error.message);
+        console.error(`Error generating preview for ${chartType.name}:`, error.message);
         results.push({ type: chartType.id, success: false, error: error.message });
       }
     }
     
     const successCount = results.filter(r => r.success).length;
-    console.log(`\n📊 Generation complete: ${successCount}/${results.length} previews created`);
+    console.log(`Generation complete: ${successCount}/${results.length} previews created`);
     
     return results;
   }
@@ -784,7 +784,7 @@ class SimpleChartPreviewGenerator {
     ctx.fillStyle = PALETTE.primary;
     ctx.font = 'bold 18px Arial';
     ctx.textAlign = 'center';
-    ctx.fillText(chartType.icon || '📊', 150, 90);
+    ctx.fillText(chartType.name || chartType.id || 'Chart', 150, 90);
     
     ctx.font = '12px Arial';
     ctx.fillStyle = '#6b7280';

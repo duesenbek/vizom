@@ -414,7 +414,7 @@ const SAMPLE_DATASETS = {
     data: [
       [1.0, 0.8, 0.3, 0.5],
       [0.8, 1.0, 0.2, 0.6],
-      [0.3, 0.2, 1.0, 0.7},
+      [0.3, 0.2, 1.0, 0.7],
       [0.5, 0.6, 0.7, 1.0]
     ]
   },
@@ -437,7 +437,7 @@ class ChartPreviewGenerator {
   }
   
   async generateAllPreviews() {
-    console.log(`🎨 Generating ${this.chartTypes.length} chart previews...`);
+        console.log(`[Preview] Generating ${this.chartTypes.length} chart previews...`);
     
     const results = [];
     
@@ -447,18 +447,18 @@ class ChartPreviewGenerator {
         results.push({ type: chartType.id, success });
         
         if (success) {
-          console.log(`✅ Generated ${chartType.id}.png`);
+                    console.log(`[Preview] Generated ${chartType.id}.png`);
         } else {
-          console.log(`❌ Failed to generate ${chartType.id}.png`);
+                    console.log(`[Preview] Failed to generate ${chartType.id}.png`);
         }
       } catch (error) {
-        console.error(`❌ Error generating ${chartType.id}:`, error.message);
+                console.error(`[Preview] Error generating ${chartType.id}:`, error.message);
         results.push({ type: chartType.id, success: false, error: error.message });
       }
     }
     
     const successCount = results.filter(r => r.success).length;
-    console.log(`\n📊 Generation complete: ${successCount}/${results.length} previews created`);
+        console.log(`\n[Preview] Generation complete: ${successCount}/${results.length} previews created`);
     
     return results;
   }

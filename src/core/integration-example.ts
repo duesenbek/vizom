@@ -18,7 +18,8 @@ export class ChartGenerationService {
     title?: string;
     description?: string;
   }): Promise<any> {
-    const request: GenerationRequest = {
+        const request: GenerationRequest = {
+      prompt: data.description || 'Generate bar chart',
       templateId: 'bar-chart',
       templateParams: {
         data: {
@@ -56,7 +57,8 @@ export class ChartGenerationService {
     values: number[];
     metric: string;
   }): Promise<any> {
-    const request: GenerationRequest = {
+        const request: GenerationRequest = {
+      prompt: `Generate line chart for ${data.metric}`,
       templateId: 'line-chart',
       templateParams: {
         data: {
@@ -94,7 +96,8 @@ export class ChartGenerationService {
     recommendations: string[];
     suggestedCharts: string[];
   }> {
-    const request: GenerationRequest = {
+        const request: GenerationRequest = {
+      prompt: 'Analyze this data and suggest visualizations',
       templateId: 'data-summary',
       templateParams: {
         data,
@@ -241,7 +244,7 @@ export class PerformanceMonitor {
       this.metrics.successCount++;
       this.recordResponseTime(responseTime);
       
-      console.log(`✅ ${context} completed in ${responseTime}ms`);
+            console.log(`[Success] ${context} completed in ${responseTime}ms`);
       return result;
       
     } catch (error) {
@@ -250,13 +253,13 @@ export class PerformanceMonitor {
       this.metrics.errorCount++;
       this.recordResponseTime(responseTime);
       
-      console.error(`❌ ${context} failed after ${responseTime}ms:`, error.message);
+                  console.error(`[Error] ${context} failed after ${responseTime}ms:`, (error as Error).message);
       throw error;
     }
   }
 
   private recordResponseTime(time: number): void {
-    this.metrics.responseTimes.push(time);
+        (this.metrics.responseTimes as number[]).push(time);
     
     // Keep only last 100 response times
     if (this.metrics.responseTimes.length > 100) {
@@ -322,16 +325,16 @@ export class VizomDeepSeekIntegration {
   }> {
     return this.performanceMonitor.monitorRequest(async () => {
       // Step 1: Analyze data
-      const analysis = await this.apiService.chartService.analyzeAndSuggest(data);
+            const analysis = await (this.apiService as any).chartService.analyzeAndSuggest(data);
       
       // Step 2: Generate chart based on analysis
       const suggestedChart = analysis.suggestedCharts[0] || 'bar-chart';
       
       let chart;
       if (suggestedChart === 'line-chart') {
-        chart = await this.apiService.chartService.generateLineChartWithStreaming(data);
+                chart = await (this.apiService as any).chartService.generateLineChartWithStreaming(data);
       } else {
-        chart = await this.apiService.chartService.generateBarChart(data);
+                chart = await (this.apiService as any).chartService.generateBarChart(data);
       }
 
       // Step 3: Return complete result
@@ -353,11 +356,11 @@ export class VizomDeepSeekIntegration {
       const metrics = deepSeekClient.getMetrics();
       
       if (metrics.caching.hitRate > 0.8) {
-        console.log('🎯 Cache performance excellent:', metrics.caching);
+        console.log('Cache performance is excellent:', metrics.caching);
       }
       
       if (metrics.errorHandling.errorHandling.failedRequests > 10) {
-        console.warn('⚠️ High error rate detected:', metrics.errorHandling);
+        console.warn('High error rate detected:', metrics.errorHandling);
       }
     }, 30000); // Check every 30 seconds
 
@@ -390,7 +393,7 @@ export class VizomDeepSeekIntegration {
     
     // Optimize cache settings based on hit rate
     if (metrics.deepSeek.caching.hitRate < 0.5) {
-      console.log('🔧 Optimizing cache settings...');
+            console.log('[Optimize] Optimizing cache settings...');
       deepSeekClient.updateConfig({
         cacheTTL: 10 * 60 * 1000 // Increase cache TTL
       });
@@ -398,7 +401,7 @@ export class VizomDeepSeekIntegration {
 
     // Optimize retry settings based on error rate
     if (metrics.performance.successRate < 0.8) {
-      console.log('🔧 Optimizing error handling...');
+            console.log('[Optimize] Optimizing error handling...');
       // Could adjust retry logic here
     }
   }

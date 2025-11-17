@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2025-11-17
+Reason for change: Unify icon system, remove all emoji placeholders, and finalize dual chart library setup.
+
+### Added
+- ✅ FontAwesome integration complete
+- ✅ Dual Chart.js + ECharts setup via CDN
+
+### Changed
+- ✅ All emoji placeholders removed from the codebase
+
 ## [0.2.0] - 2025-11-10
 Reason for change: Prepare the app for production deployment and improve the first impression.
 

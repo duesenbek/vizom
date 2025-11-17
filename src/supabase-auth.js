@@ -1,4 +1,5 @@
 import { supabase } from './supabase-client.js';
+import { ensureAuthModal } from './components/auth-modal-loader.js';
 
 class AuthService {
   constructor() {
@@ -13,27 +14,40 @@ class AuthService {
     this.headerSignOutBtn = null;
     this.mobileSignInBtn = null;
     this.mobileGetStartedBtn = null;
-    this.init();
+    this.signInTriggerNodes = [];
+    this.readyPromise = this.init();
   }
 
-  init() {
-    this.authModal = document.getElementById('auth-modal');
-    this.googleSigninBtn = document.getElementById('google-signin');
-    this.closeAuthModalBtn = document.getElementById('close-auth-modal');
+  async init() {
+    try {
+      await ensureAuthModal();
+    } catch (error) {
+      console.error('[AuthService] Failed to inject auth modal', error);
+    }
 
-    this.headerSignInBtn = document.getElementById('sign-in-btn') || document.getElementById('auth-signin');
-    this.headerGetStartedBtn = document.getElementById('get-started-btn') || document.getElementById('auth-getstarted');
-    this.headerSignOutBtn = document.getElementById('sign-out-btn');
-    this.mobileSignInBtn = document.getElementById('mobile-sign-in-btn');
-    this.mobileGetStartedBtn = document.getElementById('mobile-get-started-btn');
-
+    this.cacheModalElements();
+    this.cacheTriggerButtons();
     this.setupEventListeners();
-    this.checkAuthState();
-    
-    // Listen for auth state changes
+    await this.checkAuthState();
+
     supabase.auth.onAuthStateChange((event, session) => {
       this.updateAuthUI(session?.user || null);
     });
+  }
+
+  cacheModalElements() {
+    this.authModal = document.getElementById('auth-modal');
+    this.googleSigninBtn = document.getElementById('google-signin');
+    this.closeAuthModalBtn = document.getElementById('close-auth-modal');
+  }
+
+  cacheTriggerButtons() {
+    this.headerSignInBtn = document.getElementById('sign-in-btn') || document.getElementById('auth-signin');
+    this.headerGetStartedBtn = document.getElementById('get-started-btn') || document.getElementById('auth-getstarted');
+    this.headerSignOutBtn = document.getElementById('sign-out-btn');
+    this.mobileSignInBtn = document.getElementById('mobile-sign-in-btn') || document.getElementById('auth-signin-mobile');
+    this.mobileGetStartedBtn = document.getElementById('mobile-get-started-btn');
+    this.signInTriggerNodes = document.querySelectorAll('[data-auth-action="signin"]');
   }
 
   setupEventListeners() {
@@ -42,16 +56,15 @@ class AuthService {
       this.headerGetStartedBtn,
       this.mobileSignInBtn,
       this.mobileGetStartedBtn,
-      ...document.querySelectorAll('[data-action="get-started"]')
-    ];
+      ...Array.from(document.querySelectorAll('[data-action="get-started"]')),
+      ...Array.from(this.signInTriggerNodes || [])
+    ].filter(Boolean);
 
-    openHandlers.forEach(btn => {
-      if (btn) {
-        btn.addEventListener('click', (event) => {
-          event.preventDefault();
-          this.showAuthModal();
-        });
-      }
+    [...new Set(openHandlers)].forEach(btn => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.showAuthModal();
+      });
     });
 
     if (this.headerSignOutBtn) {
@@ -185,10 +198,17 @@ class AuthService {
   }
 
   showAuthModal() {
-    if (this.authModal) {
-      this.authModal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    }
+    ensureAuthModal()
+      .then(() => {
+        this.cacheModalElements();
+        if (this.authModal) {
+          this.authModal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }
+      })
+      .catch((error) => {
+        console.error('[AuthService] Unable to show auth modal', error);
+      });
   }
 
   hideAuthModal() {

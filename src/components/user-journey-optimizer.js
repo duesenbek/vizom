@@ -685,7 +685,7 @@ class UserJourneyOptimizer {
   celebrateFirstChart() {
     const celebration = this.createCelebrationModal({
       type: 'first-chart',
-      title: 'Congratulations! 🎉',
+      title: 'Congratulations!',
       message: 'You\'ve created your first chart with VIZOM!',
       achievement: 'First Chart Creator',
       stats: {
