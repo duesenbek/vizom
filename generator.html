@@ -46,6 +46,9 @@
 
     <!-- Header/auth integration for unified header & ModalSystem -->
     <script type="module" src="src/components/HeaderIntegration.js"></script>
+
+    <!-- DeepSeek AI Client -->
+    <script src="https://cdn.jsdelivr.net/npm/deepseek-ai@0.0.3/dist/deepseek-ai.min.js"></script>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased">
     <!-- Header -->
@@ -211,23 +214,6 @@
                         <p id="prompt-helper" class="text-xs text-slate-500" data-default-text="Describe your chart in plain English. The more detail, the better.">Describe your chart in plain English. The more detail, the better.</p>
                     </div>
 
-                    <!-- Library Selector -->
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div class="flex items-center gap-3">
-                            <label for="chart-library" class="text-sm font-medium text-slate-700">Chart Library</label>
-                            <select id="chart-library" class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm">
-                                <option value="auto">Auto</option>
-                                <option value="chartjs">Chart.js (Free)</option>
-                                <option value="echarts">ECharts (Basic Free)</option>
-                                <option value="apexcharts" data-pro-only>APEXCharts (PRO)</option>
-                                <option value="plotly" data-pro-only>Plotly (PRO)</option>
-                            </select>
-                        </div>
-                        <div class="text-xs text-slate-500">
-                            <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">PRO</span> libraries unlock advanced visuals and exports.
-                            <button class="text-sm font-medium text-blue-600 underline underline-offset-2 hover:text-blue-700" data-action="upgrade-pro">Upgrade</button>
-                        </div>
-                    </div>
 
                     <!-- Generate Button -->
                     <button id="generate-chart" class="group inline-flex w-full h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-testid="generate-button" aria-label="Generate chart from description">
@@ -359,17 +345,17 @@
     
     <!-- Generator Script -->
     <script type="module">
-                import { supabase } from './src/supabase-client.js';
-                import { ErrorTracker } from './src/tracking/error-tracking.js';
-                import { trackEvent } from './src/tracking/analytics.js';
-                import { ChartExporter } from './src/utils/ChartExporter.js';
-                                        import { exportChartToPDF } from './src/utils/export-pdf.js';
-                import { chartExporter } from './src/utils/ChartExporter.js';
-                import { AIRecommendations } from './src/components/AIRecommendations.js';
-                import { progressLoading } from './src/components/ProgressLoadingManager.js';
-                import { OptimizedChartTypeSelector } from './src/components/OptimizedChartTypeSelector.js';
-                        import { simpleParse } from './src/utils/simple-parser.js';
-                import { showLoading as showGlobalLoading, hideLoading as hideGlobalLoading, showToast as showGlobalToast } from './scripts/core/ui-feedback.js';
+        import { supabase } from './src/supabase-client.js';
+        import { ErrorTracker } from './src/tracking/error-tracking.js';
+        import { trackEvent } from './src/tracking/analytics.js';
+        import { ChartExporter } from './src/utils/ChartExporter.js';
+        import { exportChartToPDF } from './src/utils/export-pdf.js';
+        import { chartExporter } from './src/utils/ChartExporter.js';
+        import { AIRecommendations } from './src/components/AIRecommendations.js';
+        import { progressLoading } from './src/components/ProgressLoadingManager.js';
+        import { OptimizedChartTypeSelector } from './src/components/OptimizedChartTypeSelector.js';
+        import { simpleParse } from './src/utils/simple-parser.js';
+        import { showLoading as showGlobalLoading, hideLoading as hideGlobalLoading, showToast as showGlobalToast } from './scripts/core/ui-feedback.js';
 
         const noop = () => {};
         const feedback = {
@@ -453,6 +439,7 @@
         // Chart Generator Class
         class ChartGenerator {
             constructor() {
+                this.aiClient = new window.Deepseek.AIClient(); // Initialize DeepSeek AI client
                 this.ensureDependencies();
                 this.currentChart = null;
                 this.currentChartType = 'bar';
@@ -812,89 +799,32 @@
                     this.profileSubscription = 'anon';
                     this.isPro = false;
                 }
+
+                this.aiClient = new DeepSeekClient({
+                    // Initialize with your DeepSeek API key
+                    apiKey: 'YOUR_API_KEY',
+                });
             }
 
             async generateChart() {
                 const promptInput = document.getElementById('prompt-input');
-                const prompt = promptInput?.value.trim() || '';
-                const formatHint = 'Use data like [{"label":"Jan","value":10}] or {"labels":["Jan","Feb"],"data":[10,20]}';
+                const prompt = promptInput.value.trim();
 
                 if (!prompt) {
-                    const message = 'Please enter a chart description in the text area.';
-                    this.showPromptFormatHelp(message);
                     this.highlightPromptInput();
-                    feedback.showToast(message, 'error');
                     return;
                 }
 
-                console.log('Generating chart with prompt:', prompt);
-                const loader = this.showLoading();
-
-                // Simulate a short delay for better UX
-                await new Promise(resolve => setTimeout(resolve, 500));
+                feedback.showLoading('AI is generating your chart...');
+                this.clearError();
 
                 try {
-                    const { labels, data } = simpleParse(prompt);
-
-                    if (labels.length === 0 || data.length === 0) {
-                        const formatError = new Error('Couldn\'t find data in your prompt. Example: ["Jan","Feb"], [10,20] or [{"label":"Jan","value":10}]');
-                        formatError.code = 'invalid_prompt_format';
-                        formatError.userMessage = formatHint;
-                        throw formatError;
-                    }
-
-                    this.clearPromptFormatError();
-
-                    const chartConfig = {
-                        type: this.currentChartType,
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: 'My Dataset',
-                                data: data,
-                                backgroundColor: COLOR_PALETTES.default,
-                                borderColor: COLOR_PALETTES.default[0],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    position: 'top',
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Chart Preview'
-                                }
-                            }
-                        }
-                    };
-
-                    console.log('Rendering chart with config:', chartConfig);
+                    const chartConfig = await this.aiClient.generateChart(prompt, this.currentChartType);
                     this.renderChart(chartConfig);
-                    this.showSuccess();
-                    this.lastChartPayload = {
-                        chartType: this.currentChartType,
-                        chartConfig: this.cloneChartConfig(chartConfig),
-                        labels,
-                        data,
-                        prompt
-                    };
-
+                    this.lastChartPayload = { prompt, chartType: this.currentChartType, config: chartConfig };
+                    feedback.hideLoading();
                 } catch (error) {
-                    console.warn('Chart generation failed:', error);
-                    if (this.isPromptFormatError(error)) {
-                        const userMessage = error.userMessage || formatHint;
-                        this.showPromptFormatHelp(userMessage);
-                        this.highlightPromptInput();
-                        feedback.showToast(userMessage, 'error');
-                    } else {
-                        this.handleError(error);
-                    }
-                } finally {
-                    loader.hide();
+                    this.handleError(error);
                 }
             }
 

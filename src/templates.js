@@ -5,14 +5,6 @@
  * @date 2025-11-14
  */
 
-// Import global styles and main script
-import '../styles/base/design-system.css';
-import '../styles/layouts/visual-hierarchy.css';
-import '../styles/components/button.css';
-import '../styles/pages/home.css';
-import '../styles/pages/generator.css';
-import '../styles/pages/templates.css';
-import '../scripts/main.js';
 
 // Use static template data for MVP (no database yet)
 const templates = [
