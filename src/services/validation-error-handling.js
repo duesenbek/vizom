@@ -494,8 +494,14 @@ class ValidationAndErrorHandlingService {
         );
       }
     } else {
-      // Fallback to alert
-      alert(`${errorInfo.message}: ${errorInfo.userMessage}`);
+      // Fallback to toast-style notification
+      if (window.uiFeedback?.showToast) {
+        const combined = errorInfo.userMessage || errorInfo.message || 'Something went wrong. Please try again.';
+        const type = errorInfo.type === 'validation' ? 'warning' : 'error';
+        window.uiFeedback.showToast(combined, type);
+      } else {
+        console.error('User-visible error:', errorInfo);
+      }
     }
   }
 

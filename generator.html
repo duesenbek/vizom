@@ -346,8 +346,8 @@
     <!-- Generator Script -->
     <script type="module">
         import { supabase } from './src/supabase-client.js';
-        import { ErrorTracker } from './src/tracking/error-tracking.js';
-        import { trackEvent } from './src/tracking/analytics.js';
+        import { ErrorTracker } from './src/tracking/error-tracking.stub.js';
+        import { trackEvent } from './src/tracking/analytics.stub.js';
         import { ChartExporter } from './src/utils/ChartExporter.js';
         import { exportChartToPDF } from './src/utils/export-pdf.js';
         import { chartExporter } from './src/utils/ChartExporter.js';
@@ -1160,7 +1160,16 @@
                     this.updateQuotaBanner(result);
 
                     if (!result.allowed) {
-                        alert(result.message || 'Daily generation limit reached.');
+                        const msg = result.message || 'Daily generation limit reached.';
+                        try {
+                            feedback.showToast(msg, 'warning');
+                        } catch {
+                            if (window.uiFeedback?.showToast) {
+                                window.uiFeedback.showToast(msg, 'warning');
+                            } else {
+                                console.warn('[quota]', msg);
+                            }
+                        }
                         return result;
                     }
 
@@ -1330,7 +1339,15 @@
 
             exportChart(format) {
                 if (!this.currentChart) {
-                    alert('Please generate a chart first');
+                    try {
+                        feedback.showToast('Please generate a chart first', 'warning');
+                    } catch {
+                        if (window.uiFeedback?.showToast) {
+                            window.uiFeedback.showToast('Please generate a chart first', 'warning');
+                        } else {
+                            console.warn('[export] Please generate a chart first');
+                        }
+                    }
                     return;
                 }
 
@@ -1351,49 +1368,143 @@
                 }
             }
 
-            exportAsPNG() {
-                if (this.currentChart.canvas) {
-                    const link = document.createElement('a');
-                    link.download = 'chart.png';
-                    link.href = this.currentChart.toBase64Image();
-                    link.click();
+            async exportAsPNG() {
+                if (!this.currentChart) {
+                    try {
+                        feedback.showToast('Please generate a chart first', 'warning');
+                    } catch {
+                        if (window.uiFeedback?.showToast) {
+                            window.uiFeedback.showToast('Please generate a chart first', 'warning');
+                        } else {
+                            console.warn('[export] Please generate a chart first');
+                        }
+                    }
+                    return;
+                }
+
+                try {
+                    const chartInstance = this.currentChart;
+                    const filename = 'vizom-chart.png';
+
+                    if (chartInstance && typeof chartInstance.toBase64Image === 'function') {
+                        await chartExporter.exportPNG(chartInstance, filename);
+                    } else {
+                        const container = document.getElementById('chart-container');
+                        if (!container) {
+                            throw new Error('Chart container not found');
+                        }
+                        await chartExporter.exportPNG(container, filename);
+                    }
+
                     try { trackEvent('chart_exported', { format: 'png' }); } catch {}
+                } catch (error) {
+                    try { ErrorTracker.trackError(error, { context: 'png-export' }); } catch {}
+                    const msg = 'Failed to export PNG. Please try again.';
+                    try {
+                        feedback.showToast(msg, 'error');
+                    } catch {
+                        if (window.uiFeedback?.showToast) {
+                            window.uiFeedback.showToast(msg, 'error');
+                        } else {
+                            console.error('[export]', msg, error);
+                        }
+                    }
                 }
             }
 
-            exportAsSVG() {
-                // For D3 charts
-                if (this.currentChart && this.currentChart.svg) {
-                    const svgData = this.currentChart.svg.node().outerHTML;
-                    const blob = new Blob([svgData], { type: 'image/svg+xml' });
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.download = 'chart.svg';
-                    link.href = url;
-                    link.click();
+            async exportAsSVG() {
+                if (!this.currentChart) {
+                    try {
+                        feedback.showToast('Please generate a chart first', 'warning');
+                    } catch {
+                        if (window.uiFeedback?.showToast) {
+                            window.uiFeedback.showToast('Please generate a chart first', 'warning');
+                        } else {
+                            console.warn('[export] Please generate a chart first');
+                        }
+                    }
+                    return;
+                }
+
+                try {
+                    const chart = this.currentChart;
+                    const filename = 'vizom-chart.svg';
+
+                    if (chart && typeof chart.toBase64Image === 'function') {
+                        await chartExporter.exportSVG(chart, filename);
+                    } else if (chart && chart.svg && typeof chart.svg.node === 'function') {
+                        const svgData = chart.svg.node().outerHTML;
+                        const blob = new Blob([svgData], { type: 'image/svg+xml' });
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = filename;
+                        link.href = url;
+                        link.click();
+                        URL.revokeObjectURL(url);
+                    } else {
+                        const container = document.getElementById('chart-container');
+                        if (!container) {
+                            throw new Error('Chart container not found');
+                        }
+                        await chartExporter.exportSVG(container, filename);
+                    }
+
                     try { trackEvent('chart_exported', { format: 'svg' }); } catch {}
+                } catch (error) {
+                    try { ErrorTracker.trackError(error, { context: 'svg-export' }); } catch {}
+                    const msg = 'Failed to export SVG. Please try again.';
+                    try {
+                        feedback.showToast(msg, 'error');
+                    } catch {
+                        if (window.uiFeedback?.showToast) {
+                            window.uiFeedback.showToast(msg, 'error');
+                        } else {
+                            console.error('[export]', msg, error);
+                        }
+                    }
                 }
             }
 
-            exportAsPDF() {
+            async exportAsPDF() {
                 const container = document.getElementById('chart-container');
                 const qualitySel = document.getElementById('pdf-quality');
                 const scale = qualitySel ? Number(qualitySel.value) : 1;
+
                 if (!container) {
-                    alert('Chart container not found');
+                    const msg = 'Chart container not found';
+                    try {
+                        feedback.showToast(msg, 'error');
+                    } catch {
+                        if (window.uiFeedback?.showToast) {
+                            window.uiFeedback.showToast(msg, 'error');
+                        } else {
+                            console.error('[export]', msg);
+                        }
+                    }
                     return;
                 }
-                exportChartToPDF(container, {
-                    filename: 'vizom-chart.pdf',
-                    orientation: 'landscape',
-                    quality: 0.95,
-                    scale
-                })
-                .then(() => { try { trackEvent('chart_exported', { format: 'pdf' }); } catch {} })
-                .catch((error) => {
+
+                try {
+                    await exportChartToPDF(container, {
+                        filename: 'vizom-chart.pdf',
+                        orientation: 'landscape',
+                        quality: 0.95,
+                        scale
+                    });
+                    try { trackEvent('chart_exported', { format: 'pdf' }); } catch {}
+                } catch (error) {
                     try { ErrorTracker.trackError(error, { context: 'pdf-export' }); } catch {}
-                    alert('Failed to export PDF. Please try again.');
-                });
+                    const msg = 'Failed to export PDF. Please try again.';
+                    try {
+                        feedback.showToast(msg, 'error');
+                    } catch {
+                        if (window.uiFeedback?.showToast) {
+                            window.uiFeedback.showToast(msg, 'error');
+                        } else {
+                            console.error('[export]', msg, error);
+                        }
+                    }
+                }
             }
 
             exportAsHTML() {

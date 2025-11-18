@@ -445,16 +445,52 @@
   </div>
 
   <script type="module">
-    import { supabase } from '/src/supabase-client.js';
+    import { startCheckout } from '/src/payments/stripe-client.js';
     import { trackEvent } from '/src/tracking/analytics.js';
     import { showLoading as showGlobalLoading, hideLoading as hideGlobalLoading, showToast as showGlobalToast } from '/scripts/core/ui-feedback.js';
+
+    // TODO: Configure STRIPE_SECRET_KEY / STRIPE_PRICE_ID on the server (Netlify/Supabase env vars).
+    //       Never expose Stripe secret keys in frontend code.
 
     const noop = () => {};
     const feedback = {
       showLoading: showGlobalLoading || noop,
       hideLoading: hideGlobalLoading || noop,
-      showToast: showGlobalToast || ((message) => console.info('[toast]', message))
+      showToast: showGlobalToast || ((message, type) => console.info('[toast]', type || 'info', message))
     };
+
+    const USD_PRICE_REGEX = /^\$\d+(?:\.\d{2})?$/;
+
+    function getProPriceText() {
+      const priceEls = document.querySelectorAll('.pricing-amount');
+      const proEl = priceEls[1] || null; // second price corresponds to Pro plan
+      return (proEl?.textContent || '').trim();
+    }
+
+    function validateUsdPrices() {
+      const priceEls = Array.from(document.querySelectorAll('.pricing-amount'));
+      let allValid = true;
+
+      for (const el of priceEls) {
+        const raw = (el.textContent || '').trim();
+        if (!raw || !raw.startsWith('$')) continue; // only validate USD-like prices
+
+        const normalized = raw.replace(/\s+/g, '');
+        const hasComma = normalized.includes(',');
+        const usesValidFormat = USD_PRICE_REGEX.test(normalized);
+
+        if (hasComma || !usesValidFormat) {
+          allValid = false;
+        }
+      }
+
+      if (!allValid) {
+        feedback.showToast('Pricing format error: use "." for USD decimals (example: $2.99).', 'error');
+        console.error('[pricing] Invalid USD price format detected in .pricing-amount elements');
+      }
+
+      return allValid;
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
       const upgradeModal = document.getElementById('upgrade-modal');
@@ -462,75 +498,73 @@
       const copyEmailBtn = document.getElementById('copy-email-button');
       const successToast = document.getElementById('copy-success-toast');
       const upgradeButtons = document.querySelectorAll('[data-action="upgrade-pro"]');
+      const billingToggle = document.getElementById('billing-toggle');
 
-      if (!upgradeModal || !closeUpgradeModalBtn || !copyEmailBtn || !successToast) return;
+      // Initial validation of displayed prices and on billing toggle changes
+      validateUsdPrices();
+      if (billingToggle) {
+        billingToggle.addEventListener('click', () => {
+          // Defer so the existing toggle script can update prices first
+          setTimeout(() => validateUsdPrices(), 0);
+        });
+      }
 
-      const showModal = () => upgradeModal.classList.remove('hidden');
-      const hideModal = () => {
-        upgradeModal.classList.add('hidden');
-        successToast.classList.add('hidden'); // Reset toast
-      };
-
-      const handleUpgradeClick = async (e) => {
-        e.preventDefault();
-        const button = e.currentTarget;
-        if (button.disabled) return;
-
-        const originalText = button.dataset.originalText || button.textContent;
-        button.dataset.originalText = originalText;
-        button.disabled = true;
-        button.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Processing...`;
-        let loaderActive = false;
-
-        // Check login status
-        try {
-          feedback.showLoading('Checking your account status…', 'Подготовка апгрейда');
-          loaderActive = true;
-          const { data: { session } } = await supabase.auth.getSession();
-          let message = "To upgrade to Pro, email us at billing@vizom.com with your account email.";
-          let toastMessage = 'Upgrade instructions are ready.';
-          if (!session) {
-              message = "Please sign up or log in first. Then, to upgrade, email us at billing@vizom.com with your account email.";
-              toastMessage = 'Please log in first, then follow the email instructions.';
+      // Stripe Checkout binding for Upgrade buttons
+      upgradeButtons.forEach((btn) => {
+        btn.addEventListener('click', async (event) => {
+          // Capture-phase listener to avoid double-binding with global Stripe handlers
+          event.preventDefault();
+          event.stopPropagation();
+          if (typeof event.stopImmediatePropagation === 'function') {
+            event.stopImmediatePropagation();
           }
 
-          upgradeModal.querySelector('p').textContent = message;
-          trackEvent('upgrade_clicked', { plan: 'pro', logged_in: !!session });
-          showModal();
-          feedback.showToast(toastMessage, session ? 'success' : 'info');
-        } catch (error) {
-          console.error('Upgrade flow failed:', error);
-          feedback.showToast(error.message || 'Failed to prepare upgrade instructions', 'error');
-        } finally {
-          if (loaderActive) {
+          if (!validateUsdPrices()) {
+            return;
+          }
+
+          const priceText = getProPriceText();
+          const isYearly = billingToggle?.getAttribute('aria-checked') === 'true';
+
+          try {
+            feedback.showLoading('Redirecting to secure Stripe Checkout…', 'Upgrade to Pro');
+
+            trackEvent('upgrade_clicked', {
+              plan: 'pro',
+              source: 'pricing',
+              billing_interval: isYearly ? 'yearly' : 'monthly',
+              price_usd: priceText,
+            });
+
+            await startCheckout('pro');
+          } finally {
             feedback.hideLoading();
           }
-
-          setTimeout(() => {
-            button.disabled = false;
-            button.innerHTML = originalText;
-          }, 1000); // Prevent double-clicks and restore button
-        }
-      };
-
-      upgradeButtons.forEach(btn => {
-        btn.addEventListener('click', handleUpgradeClick);
+        }, { capture: true });
       });
 
-      closeUpgradeModalBtn.addEventListener('click', hideModal);
-      upgradeModal.addEventListener('click', (e) => {
-        if (e.target === upgradeModal) hideModal();
-      });
+      // Keep email copy modal as a fallback/help utility (not primary upgrade path)
+      if (upgradeModal && closeUpgradeModalBtn && copyEmailBtn && successToast) {
+        const hideModal = () => {
+          upgradeModal.classList.add('hidden');
+          successToast.classList.add('hidden');
+        };
 
-      copyEmailBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText('billing@vizom.com').then(() => {
-          successToast.classList.remove('hidden');
-          feedback.showToast('Email copied to clipboard ✅', 'success');
-          setTimeout(() => successToast.classList.add('hidden'), 3000);
-        }).catch(() => {
-          feedback.showToast('Failed to copy email. Please try again.', 'error');
+        closeUpgradeModalBtn.addEventListener('click', hideModal);
+        upgradeModal.addEventListener('click', (e) => {
+          if (e.target === upgradeModal) hideModal();
         });
-      });
+
+        copyEmailBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText('billing@vizom.com').then(() => {
+            successToast.classList.remove('hidden');
+            feedback.showToast('Email copied to clipboard ✅', 'success');
+            setTimeout(() => successToast.classList.add('hidden'), 3000);
+          }).catch(() => {
+            feedback.showToast('Failed to copy email. Please try again.', 'error');
+          });
+        });
+      }
     });
   </script>
 </body>

@@ -140,26 +140,60 @@ export class ChartExporter {
     }
 
     try {
-      let canvas;
-      
-      if (source instanceof HTMLCanvasElement) {
-        canvas = source;
-      } else {
-        // Use html2canvas for DOM elements
-        const html2canvas = await import('html2canvas');
-        canvas = await html2canvas.default(source, {
-          backgroundColor: '#ffffff',
-          scale: 2
+      let downloadUrl = '';
+      let canvas = null;
+
+      // Prefer Chart.js toBase64Image when available
+      if (source && typeof source.toBase64Image === 'function') {
+        const base64 = source.toBase64Image('image/png', 1.0);
+        if (!base64) {
+          throw new Error('Chart.js toBase64Image() returned empty data');
+        }
+
+        const img = new Image();
+        img.src = base64;
+
+        await new Promise((resolve, reject) => {
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error('Failed to load chart image for PNG export'));
         });
+
+        canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          throw new Error('Canvas context not available for PNG export');
+        }
+
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        const finalCanvas = this.addWatermark(canvas);
+        downloadUrl = finalCanvas.toDataURL('image/png');
+      } else {
+        // Fallback: use canvas or html2canvas on DOM elements
+        if (source instanceof HTMLCanvasElement) {
+          canvas = source;
+        } else {
+          const html2canvasModule = await import('html2canvas');
+          const html2canvas = html2canvasModule.default || html2canvasModule;
+          canvas = await html2canvas(source, {
+            backgroundColor: '#ffffff',
+            scale: 2
+          });
+        }
+
+        const finalCanvas = this.addWatermark(canvas);
+        downloadUrl = finalCanvas.toDataURL('image/png');
       }
 
-      // Add watermark for free users
-      const finalCanvas = this.addWatermark(canvas);
-      
-      // Download
+      if (!downloadUrl) {
+        throw new Error('PNG export produced empty output');
+      }
+
       const link = document.createElement('a');
       link.download = filename;
-      link.href = finalCanvas.toDataURL('image/png');
+      link.href = downloadUrl;
       link.click();
 
       // Update stats
@@ -185,31 +219,70 @@ export class ChartExporter {
     }
 
     try {
-      // Use canvas2svg for SVG export
-      const { Canvas2SVG } = await import('canvas2svg');
-      
-      const canvas = new Canvas2SVG({
-        width: chartInstance.width,
-        height: chartInstance.height
-      });
+      let svgString = '';
 
-      // Redraw chart on SVG canvas
-      const originalCanvas = chartInstance.canvas;
-      chartInstance.canvas = canvas;
-      chartInstance.render();
-      chartInstance.canvas = originalCanvas;
+      const isChartJsInstance = chartInstance && typeof chartInstance.toBase64Image === 'function';
 
-      let svgString = canvas.getSerializedSvg();
-      
-      // Add watermark for free users
-      if (!this.isPremium) {
-        const watermark = `<text x="${chartInstance.width - 10}" y="${chartInstance.height - 10}" 
-                          text-anchor="end" font-family="Arial" font-size="16" font-weight="bold" 
-                          fill="rgba(0, 52, 102, 0.7)">VIZOM.AI</text>`;
-        svgString = svgString.replace('</svg>', watermark + '</svg>');
+      // Try vector export via canvas2svg when possible
+      if (isChartJsInstance && chartInstance.canvas) {
+        try {
+          const c2sModule = await import('canvas2svg');
+          const Canvas2SVG = c2sModule.default || c2sModule.Canvas2SVG;
+
+          if (typeof Canvas2SVG === 'function') {
+            const virtualCanvas = new Canvas2SVG({
+              width: chartInstance.width,
+              height: chartInstance.height
+            });
+
+            const originalCanvas = chartInstance.canvas;
+            chartInstance.canvas = virtualCanvas;
+            if (typeof chartInstance.render === 'function') {
+              chartInstance.render();
+            } else if (typeof chartInstance.draw === 'function') {
+              chartInstance.draw();
+            } else if (typeof chartInstance.update === 'function') {
+              chartInstance.update();
+            }
+            chartInstance.canvas = originalCanvas;
+
+            svgString = virtualCanvas.getSerializedSvg();
+          }
+        } catch (vectorError) {
+          console.warn('Vector SVG export failed, falling back to rasterized SVG:', vectorError);
+        }
       }
 
-      // Download
+      // Fallback: rasterize to PNG and embed in an SVG wrapper
+      if (!svgString) {
+        let element = null;
+
+        if (isChartJsInstance && chartInstance.canvas instanceof HTMLElement) {
+          element = chartInstance.canvas;
+        } else if (chartInstance instanceof HTMLElement) {
+          element = chartInstance;
+        } else {
+          throw new Error('Unsupported source for SVG export');
+        }
+
+        const html2canvasModule = await import('html2canvas');
+        const html2canvas = html2canvasModule.default || html2canvasModule;
+        const canvas = await html2canvas(element, {
+          backgroundColor: '#ffffff',
+          scale: 2
+        });
+
+        const dataUrl = canvas.toDataURL('image/png');
+        svgString = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">` +
+                    `<image href="${dataUrl}" width="${canvas.width}" height="${canvas.height}" /></svg>`;
+      }
+
+      // Add watermark for free users
+      if (!this.isPremium && svgString.includes('</svg>')) {
+        const watermark = `<text x="95%" y="95%" text-anchor="end" font-family="Arial" font-size="16" font-weight="bold" fill="rgba(0, 52, 102, 0.7)">VIZOM.AI</text>`;
+        svgString = svgString.replace('</svg>', `${watermark}</svg>`);
+      }
+
       const blob = new Blob([svgString], { type: 'image/svg+xml' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');

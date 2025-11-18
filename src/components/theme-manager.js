@@ -806,7 +806,11 @@ class ThemeManager {
     const icon = creator.getElementById('theme-icon-select').value;
     
     if (!name) {
-      alert('Please enter a theme name');
+      if (window.uiFeedback?.showToast) {
+        window.uiFeedback.showToast('Please enter a theme name', 'warning');
+      } else {
+        console.warn('[theme] Missing theme name');
+      }
       return;
     }
     

@@ -121,7 +121,9 @@ async function startCheckout(plan = 'pro') {
     }
   } catch (error) {
     console.error('Checkout error:', error);
-    alert('Unable to start checkout. Please try again later.');
+    if (typeof window !== 'undefined' && window.uiFeedback?.showToast) {
+      window.uiFeedback.showToast('Unable to start checkout. Please try again later.', 'error');
+    }
   }
 }
 

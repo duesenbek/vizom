@@ -343,6 +343,14 @@ const QUICK_TEMPLATES = {
 const aiService = new AIService();
 const projectManager = new ProjectManager();
 
+function showToast(message, type = 'info') {
+  if (window.uiFeedback?.showToast) {
+    window.uiFeedback.showToast(message, type);
+  } else {
+    console[type === 'error' ? 'error' : 'warn']('[toast]', message);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -428,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (error) {
                 console.error('[AI] Generation failed:', error);
-        alert('Ошибка генерации. Попробуйте еще раз.');
+        showToast('Ошибка генерации. Попробуйте еще раз.', 'error');
       } finally {
         loading?.classList.add('hidden');
       }
@@ -458,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (saveBtn) {
         saveBtn.addEventListener('click', () => {
           if (!currentChartData) {
-            alert('Сначала сгенерируйте диаграмму');
+            showToast('Сначала сгенерируйте диаграмму', 'warning');
             return;
           }
           showSaveProjectModal();
@@ -480,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('confirm-save-project')?.addEventListener('click', async () => {
         const title = document.getElementById('project-title')?.value;
         if (!title) {
-          alert('Введите название проекта');
+          showToast('Введите название проекта', 'warning');
           return;
         }
 
@@ -488,9 +496,9 @@ document.addEventListener('DOMContentLoaded', () => {
           const htmlOutput = preview?.innerHTML || '';
           await projectManager.saveProject(title, currentChartData, htmlOutput, selectedType);
           hideSaveProjectModal();
-          alert('Проект успешно сохранен!');
+          showToast('Проект успешно сохранен!', 'success');
         } catch (error) {
-          alert('Ошибка сохранения проекта: ' + error.message);
+          showToast('Ошибка сохранения проекта: ' + error.message, 'error');
         }
       });
 
@@ -600,7 +608,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   await projectManager.deleteProject(projectId);
                   await loadProjectsList(); // Refresh list
                 } catch (error) {
-                  alert('Ошибка удаления проекта: ' + error.message);
+                  showToast('Ошибка удаления проекта: ' + error.message, 'error');
                 }
               }
             });
@@ -608,7 +616,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (error) {
         console.error('Error loading projects:', error);
-        alert('Ошибка загрузки проектов');
+        showToast('Ошибка загрузки проектов', 'error');
       }
     }
 
@@ -634,10 +642,10 @@ document.addEventListener('DOMContentLoaded', () => {
         renderChart(project.chart_data, selectedType);
         
         hideProjectsModal();
-        alert('Проект загружен!');
+        showToast('Проект загружен!', 'success');
       } catch (error) {
         console.error('Error loading project:', error);
-        alert('Ошибка загрузки проекта');
+        showToast('Ошибка загрузки проекта', 'error');
       }
     }
 

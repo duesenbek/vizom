@@ -31,7 +31,9 @@
         location.replace(redirect);
       } catch (e) {
         console.error('[Auth Callback] Error:', e);
-        alert('Authentication failed. Please try again.');
+        if (window.uiFeedback?.showToast) {
+          window.uiFeedback.showToast('Authentication failed. Please try again.', 'error');
+        }
         location.replace('/index.html');
       }
     })();

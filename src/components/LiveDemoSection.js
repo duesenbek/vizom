@@ -356,7 +356,7 @@ export class LiveDemoSection {
     const prompt = document.getElementById('demo-prompt-input').value.trim();
     
     if (!prompt) {
-      alert('Please describe the chart you want to create');
+      this.showToast('Please describe the chart you want to create', 'warning');
       return;
     }
 
@@ -375,7 +375,8 @@ export class LiveDemoSection {
       
       this.showSuccess();
     } catch (error) {
-      this.showError(error);
+      console.error('[LiveDemo] Error generating chart:', error);
+      this.showToast('Failed to generate chart. Please try again.', 'error');
     } finally {
       this.isGenerating = false;
     }
@@ -575,11 +576,11 @@ export class LiveDemoSection {
         break;
       case 'svg':
         // SVG export would require additional implementation
-        alert('SVG export coming soon!');
+        this.showToast('SVG export coming soon!', 'info');
         return;
       case 'pdf':
         // PDF export would require jsPDF library
-        alert('PDF export coming soon!');
+        this.showToast('PDF export coming soon!', 'info');
         return;
       case 'html':
         const htmlContent = this.generateHTMLCode();
@@ -619,6 +620,14 @@ export class LiveDemoSection {
   loadExamplePrompts() {
     // Set default chart type
     this.selectedChartType = 'bar';
+  }
+
+  showToast(message, type = 'info') {
+    if (window.uiFeedback?.showToast) {
+      window.uiFeedback.showToast(message, type);
+    } else {
+      console[type === 'error' ? 'error' : 'warn']('[toast]', message);
+    }
   }
 }
 

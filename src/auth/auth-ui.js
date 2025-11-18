@@ -29,7 +29,12 @@ async function renderAuthUI() {
       const btn = createEl('button', { class: 'btn btn-secondary', id: 'google-signin', text: 'Sign in' });
       btn.addEventListener('click', async () => {
         sessionStorage.setItem('vizom_post_login_redirect', location.pathname + location.search + location.hash);
-        try { await authService.signInWithGoogle(); } catch (e) { console.error(e); alert('Sign-in failed'); }
+        try { await authService.signInWithGoogle(); } catch (e) { 
+          console.error(e);
+          if (window.uiFeedback?.showToast) {
+            window.uiFeedback.showToast('Sign-in failed', 'error');
+          }
+        }
       });
       slot.appendChild(btn);
     } else {

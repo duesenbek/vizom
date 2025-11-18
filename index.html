@@ -259,7 +259,11 @@
           const input = document.getElementById('hero-prompt-input');
           const prompt = (input && 'value' in input) ? String(input.value).trim() : '';
           if (!prompt) {
-            alert('Please enter a chart description');
+            if (window.uiFeedback?.showToast) {
+              window.uiFeedback.showToast('Please enter a chart description', 'warning');
+            } else {
+              console.warn('[hero] Missing prompt input');
+            }
             return;
           }
           try { trackEvent('hero_try_clicked', { source: 'landing', length: prompt.length }); } catch {}

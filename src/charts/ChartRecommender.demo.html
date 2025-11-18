@@ -205,11 +205,19 @@
     }
     
     // Handle recommendation
+    function showToast(message, type = 'info') {
+      if (window.uiFeedback?.showToast) {
+        window.uiFeedback.showToast(message, type);
+      } else {
+        console[type === 'error' ? 'error' : 'warn']('[toast]', message);
+      }
+    }
+
     async function getRecommendation() {
       const prompt = promptInput.value.trim();
       
       if (!prompt) {
-        alert('Please enter a prompt');
+        showToast('Please enter a prompt', 'warning');
         return;
       }
       
@@ -231,7 +239,7 @@
         
       } catch (error) {
         loading.classList.add('hidden');
-        alert('Error getting recommendation: ' + error.message);
+        showToast('Error getting recommendation: ' + error.message, 'error');
       }
     }
     
