@@ -1,3 +1,7 @@
+:root {
+  --btn-micro-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -10,7 +14,33 @@
   border: 1px solid transparent;
   background-color: transparent;
   color: var(--color-primary);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 180ms var(--btn-micro-ease),
+    box-shadow 200ms var(--btn-micro-ease),
+    filter 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+  will-change: transform, box-shadow, filter;
+  transform-origin: center;
+}
+
+.btn:not(:disabled):hover {
+  transform: translateY(-1px) scale(1.015);
+  filter: brightness(1.04);
+  box-shadow: var(--shadow-md, 0 10px 15px -3px rgba(15, 23, 42, 0.15));
+}
+
+.btn:not(:disabled):active {
+  transform: scale(0.97);
+  filter: brightness(0.95);
+  transition-duration: 120ms;
+}
+
+.btn:disabled {
+  transform: none;
+  filter: none;
+  box-shadow: none;
 }
 
 .btn:focus-visible {
@@ -45,9 +75,13 @@
   background: var(--color-primary);
   color: var(--color-text-inverse);
   border-color: transparent;
+  box-shadow: 0 10px 20px rgba(15, 39, 68, 0.2);
 }
 
-.btn-primary:hover { filter: brightness(1.05); }
+.btn-primary:hover {
+  background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+  filter: brightness(1.05);
+}
 
 .btn-secondary {
   background: var(--color-surface);
@@ -122,4 +156,15 @@
   background-color: var(--color-accent);
   color: var(--color-primary);
   border-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn:not(:disabled):hover,
+  .btn:not(:disabled):active {
+    transition: none;
+    transform: none;
+    filter: none;
+    box-shadow: none;
+  }
 }

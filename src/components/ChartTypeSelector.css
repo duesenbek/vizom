@@ -67,8 +67,15 @@
 .chart-type-selector .chart-tile {
   background-color: var(--color-surface);
   border: 1px solid var(--border-color);
-  transition: all 0.2s ease;
+  border-radius: 1rem;
   position: relative;
+  overflow: hidden;
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 160ms ease,
+    background-color 160ms ease;
+  will-change: transform, box-shadow;
 }
 
 .chart-type-selector .chart-tile:hover {
@@ -77,16 +84,36 @@
   border-color: var(--color-border-strong);
 }
 
+.chart-type-selector .chart-tile.selected,
+.chart-type-selector .chart-tile[aria-selected="true"] {
+  transform: translateY(-1px) scale(1.015);
+  border-color: var(--primary-color);
+  box-shadow: 0 20px 40px -25px rgba(14, 107, 255, 0.45);
+  background-color: var(--color-primary-50);
+}
+
+.chart-type-selector .chart-tile::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: inherit;
+  border: 2px solid rgba(15, 107, 255, 0.2);
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 200ms ease, transform 200ms ease;
+  pointer-events: none;
+}
+
+.chart-type-selector .chart-tile.selected::after,
+.chart-type-selector .chart-tile[aria-selected="true"]::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
 .chart-type-selector .chart-tile:focus {
   outline: 2px solid var(--primary-color);
   outline-offset: 2px;
   z-index: 1;
-}
-
-.chart-type-selector .chart-tile.selected {
-  border-color: var(--primary-color);
-  background-color: var(--color-primary-50);
-  box-shadow: var(--shadow-sm);
 }
 
 .chart-type-selector .chart-name {

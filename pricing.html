@@ -49,7 +49,7 @@
     <!-- Shared vendor bundle: Chart.js, D3, Supabase auth/stripe -->
     <script type="module" src="src/app/vendor-loader.js"></script>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 antialiased">
+<body class="bg-[#F8FAFC] font-sans text-[#0F172A] antialiased">
   <script type="module" src="scripts/main.js"></script>
 
   <!-- Analytics Initialization and Pricing Events -->
@@ -95,21 +95,21 @@
   </script>
 
   <!-- Header -->
-  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-lg">
+  <header class="sticky top-0 z-50 border-b border-[#0F2744]/10 bg-white/85 backdrop-blur-lg">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <nav class="flex h-16 items-center justify-between">
-        <a href="index.html" class="flex items-center gap-2.5">
+        <a href="index.html" class="flex items-center gap-2.5 text-[#0A1E3D]">
           <img src="assets/images/logos/vizom-icon.png" alt="Vizom Logo" class="h-8 w-8">
           <span class="text-xl font-bold text-slate-900">VIZOM</span>
         </a>
         <!-- Desktop Navigation -->
         <div class="hidden items-center gap-8 md:flex">
-          <a href="index.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Home</a>
-          <a href="generator.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Generator</a>
-          <a href="templates.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Templates</a>
-          <a href="pricing.html" aria-current="page" class="text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700">Pricing</a>
-          <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50" id="auth-signin" type="button">Sign In</button>
-          <a href="generator.html" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+          <a href="index.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Home</a>
+          <a href="generator.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Generator</a>
+          <a href="templates.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Templates</a>
+          <a href="pricing.html" aria-current="page" class="text-sm font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]">Pricing</a>
+          <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin" type="button">Sign In</button>
+          <a href="generator.html" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
         </div>
         <!-- Mobile Menu Toggle -->
         <button class="inline-flex h-10 w-10 items-center justify-center rounded-xl md:hidden" id="mobile-menu-toggle" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
@@ -119,66 +119,70 @@
       <!-- Mobile Navigation -->
       <div class="hidden md:hidden" id="mobile-menu">
         <div class="space-y-2 py-4">
-          <a href="index.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Home</a>
-          <a href="generator.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Generator</a>
-          <a href="templates.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Templates</a>
-          <a href="pricing.html" aria-current="page" class="block py-2 text-base font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700">Pricing</a>
+          <a href="index.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Home</a>
+          <a href="generator.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Generator</a>
+          <a href="templates.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Templates</a>
+          <a href="pricing.html" aria-current="page" class="block py-2 text-base font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]">Pricing</a>
         </div>
-        <button class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-slate-100 px-6 text-sm font-medium text-slate-700 transition-all hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50" id="auth-signin-mobile" type="button">Sign In</button>
-        <a href="generator.html" class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+        <button class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#EFF6FF] px-6 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#E2E8F0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin-mobile" type="button">Sign In</button>
+        <a href="generator.html" class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-6 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
       </div>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="bg-white py-20 sm:py-24 lg:py-32">
+  <section class="bg-gradient-to-b from-[#F8FAFC] via-[#EDF4FF] to-[#DBF4FF] py-20 sm:py-24 lg:py-32">
     <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-      <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">Choose Your Plan</h1>
-      <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+      <span class="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-sm font-medium text-[#1E5FE0] shadow-sm">
+        <i class="fas fa-tags text-[#06B6D4]"></i>
+        Flexible Plans
+      </span>
+      <h1 class="mt-4 text-4xl font-bold tracking-tight text-[#0A1E3D] sm:text-5xl">Choose Your Plan</h1>
+      <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-[#64748B]">
         Select the perfect plan for your data visualization needs. Start free and scale as you grow.
       </p>
 
       <!-- Billing Toggle -->
       <div class="mb-16 mt-8 flex items-center justify-center gap-4">
-        <span class="text-sm font-medium text-slate-700">Monthly</span>
-        <button class="relative inline-flex h-8 w-14 items-center rounded-full bg-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" id="billing-toggle" role="switch" aria-checked="false" aria-label="Toggle billing interval">
+        <span class="text-sm font-medium text-[#475569]">Monthly</span>
+        <button class="relative inline-flex h-8 w-14 items-center rounded-full bg-[#CBD5E1] transition-colors focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:ring-offset-2" id="billing-toggle" role="switch" aria-checked="false" aria-label="Toggle billing interval">
           <span class="inline-block h-6 w-6 translate-x-1 transform rounded-full bg-white shadow-lg transition-transform"></span>
         </button>
-        <span class="text-sm font-medium text-slate-700">Yearly <span class="font-semibold text-green-600">(Save 20%)</span></span>
+        <span class="text-sm font-medium text-[#475569]">Yearly <span class="font-semibold text-[#10B981]">(Save 20%)</span></span>
       </div>
       <!-- Pricing Cards -->
       <div class="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
         <!-- Free Plan -->
-        <div class="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
-          <h3 class="text-lg font-semibold text-slate-900">Free</h3>
-          <p class="mt-2 text-sm text-slate-600">For getting started.</p>
+        <div class="group flex flex-col rounded-2xl border border-[#E2E8F0] bg-white/90 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+          <h3 class="text-lg font-semibold text-[#0A1E3D]">Free</h3>
+          <p class="mt-2 text-sm text-[#64748B]">For getting started.</p>
           <div class="mt-6 flex items-baseline gap-1">
-            <span class="pricing-amount text-4xl font-bold text-slate-900">$0</span>
-            <span class="text-slate-500">/mo</span>
+            <span class="pricing-amount text-4xl font-bold text-[#0A1E3D]">$0</span>
+            <span class="text-[#475569]">/mo</span>
           </div>
-          <ul class="mt-6 space-y-2 text-sm text-slate-700">
-            <li class="flex items-center gap-2"><i class="fas fa-check text-green-600"></i><span>Basic charts</span></li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-green-600"></i><span>Limited exports</span></li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-green-600"></i><span>Community support</span></li>
+          <ul class="mt-6 space-y-2 text-sm text-[#475569]">
+            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>Basic charts</span></li>
+            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>Limited exports</span></li>
+            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>Community support</span></li>
           </ul>
-          <a href="generator.html" class="mt-8 inline-flex h-11 items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Get Started</a>
+          <a href="generator.html" class="mt-8 inline-flex h-11 items-center justify-center rounded-xl bg-[#2563EB] px-4 text-sm font-medium text-white shadow-[0_10px_20px_rgba(30,95,224,0.2)] transition hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#22D3EE]">Get Started</a>
         </div>
 
         <!-- Pro Plan -->
-        <div class="group flex flex-col rounded-2xl border border-blue-500 bg-white p-6 shadow-md ring-1 ring-blue-200 transition">
-          <div class="mb-2 inline-flex items-center gap-2 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">Most Popular</div>
-          <h3 class="text-lg font-semibold text-slate-900">Pro</h3>
-          <p class="mt-2 text-sm text-slate-600">For teams and power users.</p>
+        <div class="group relative flex flex-col rounded-2xl border border-transparent bg-white p-6 shadow-xl ring-2 ring-[#2563EB]/30 transition hover:-translate-y-1">
+          <div class="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#2563EB] to-[#22D3EE] px-4 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-lg">Most Popular</div>
+          <h3 class="mt-4 text-lg font-semibold text-[#0A1E3D]">Pro</h3>
+          <p class="mt-2 text-sm text-[#64748B]">For teams and power users.</p>
           <div class="mt-6 flex items-baseline gap-1">
-            <span class="pricing-amount text-4xl font-bold text-slate-900">$2.99</span>
-            <span class="text-slate-500">/mo</span>
+            <span class="pricing-amount text-4xl font-bold text-[#0A1E3D]">$2.99</span>
+            <span class="text-[#475569]">/mo</span>
           </div>
-          <ul class="mt-6 space-y-2 text-sm text-slate-700">
-            <li class="flex items-center gap-2"><i class="fas fa-check text-green-600"></i><span>All chart types</span></li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-green-600"></i><span>Unlimited exports</span></li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-green-600"></i><span>Priority support</span></li>
+          <ul class="mt-6 space-y-2 text-sm text-[#475569]">
+            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>All chart types</span></li>
+            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>Unlimited exports</span></li>
+            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>Priority support</span></li>
           </ul>
-          <a href="generator.html" class="mt-8 inline-flex h-11 items-center justify-center rounded-xl bg-blue-600 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-action="upgrade-pro">Upgrade to Pro</a>
+          <a href="generator.html" class="mt-8 inline-flex h-11 items-center justify-center rounded-xl bg-gradient-to-r from-[#2563EB] to-[#22D3EE] px-4 text-sm font-semibold text-[#0A1E3D] shadow-[0_15px_30px_rgba(34,211,238,0.25)] transition hover:from-[#1E5FE0] hover:to-[#06B6D4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A1E3D] focus-visible:ring-offset-2" data-action="upgrade-pro">Upgrade to Pro</a>
         </div>
       </div>
     </div>
@@ -188,67 +192,67 @@
   <section class="bg-white py-20 sm:py-24">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="mb-16 text-center">
-        <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Everything you need to create stunning visualizations</h2>
-        <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">Powerful features designed to help you turn data into insights</p>
+        <h2 class="text-3xl font-bold tracking-tight text-[#0A1E3D] sm:text-4xl">Everything you need to create stunning visualizations</h2>
+        <p class="mx-auto mt-6 max-w-3xl text-lg leading-8 text-[#64748B]">Powerful features designed to help you turn data into insights</p>
       </div>
       <div class="mx-auto grid max-w-none grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         <div class="flex gap-4">
-          <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-            <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#EFF6FF] to-[#DBF4FF] flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-chart-line text-[#2563EB] text-xl"></i>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-slate-900 mb-2">Advanced Charts</h3>
-            <p class="text-slate-600">Create professional charts with advanced customization options</p>
+            <h3 class="text-lg font-semibold text-[#0A1E3D] mb-2">Advanced Charts</h3>
+            <p class="text-[#64748B]">Create professional charts with advanced customization options</p>
           </div>
         </div>
 
         <div class="flex gap-4">
-          <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-            <i class="fas fa-bolt text-green-600 text-xl"></i>
+          <div class="w-12 h-12 rounded-xl bg-[#ECFEFF] flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-bolt text-[#06B6D4] text-xl"></i>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-slate-900 mb-2">AI-Powered</h3>
-            <p class="text-slate-600">Smart AI assistance to help you create the perfect visualization</p>
+            <h3 class="text-lg font-semibold text-[#0A1E3D] mb-2">AI-Powered</h3>
+            <p class="text-[#64748B]">Smart AI assistance to help you create the perfect visualization</p>
           </div>
         </div>
 
         <div class="flex gap-4">
-          <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-            <i class="fas fa-users text-purple-600 text-xl"></i>
+          <div class="w-12 h-12 rounded-xl bg-[#F1F5F9] flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-users text-[#2563EB] text-xl"></i>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-slate-900 mb-2">Team Collaboration</h3>
-            <p class="text-slate-600">Invite your team and collaborate on charts in real-time</p>
+            <h3 class="text-lg font-semibold text-[#0A1E3D] mb-2">Team Collaboration</h3>
+            <p class="text-[#64748B]">Invite your team and collaborate on charts in real-time</p>
           </div>
         </div>
 
         <div class="flex gap-4">
-          <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-            <i class="fas fa-download text-orange-600 text-xl"></i>
+          <div class="w-12 h-12 rounded-xl bg-[#FFF7ED] flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-download text-[#F97316] text-xl"></i>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-slate-900 mb-2">Multiple Export Formats</h3>
-            <p class="text-slate-600">Export your charts in PNG, SVG, PDF, and more</p>
+            <h3 class="text-lg font-semibold text-[#0A1E3D] mb-2">Multiple Export Formats</h3>
+            <p class="text-[#64748B]">Export your charts in PNG, SVG, PDF, and more</p>
           </div>
         </div>
 
         <div class="flex gap-4">
-          <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
-            <i class="fas fa-shield-alt text-red-600 text-xl"></i>
+          <div class="w-12 h-12 rounded-xl bg-[#FEF2F2] flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-shield-alt text-[#EF4444] text-xl"></i>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-slate-900 mb-2">Secure & Private</h3>
-            <p class="text-slate-600">Your data is encrypted and kept private</p>
+            <h3 class="text-lg font-semibold text-[#0A1E3D] mb-2">Secure & Private</h3>
+            <p class="text-[#64748B]">Your data is encrypted and kept private</p>
           </div>
         </div>
 
         <div class="flex gap-4">
-          <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-            <i class="fas fa-headset text-indigo-600 text-xl"></i>
+          <div class="w-12 h-12 rounded-xl bg-[#EEF2FF] flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-headset text-[#4C1D95] text-xl"></i>
           </div>
           <div>
-            <h3 class="text-lg font-semibold text-slate-900 mb-2">24/7 Support</h3>
-            <p class="text-slate-600">Get help whenever you need it from our expert team</p>
+            <h3 class="text-lg font-semibold text-[#0A1E3D] mb-2">24/7 Support</h3>
+            <p class="text-[#64748B]">Get help whenever you need it from our expert team</p>
           </div>
         </div>
       </div>
@@ -259,27 +263,27 @@
   <section class="py-20 sm:py-24">
     <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
       <div class="mb-16 text-center">
-        <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Frequently Asked Questions</h2>
-        <p class="mt-6 text-lg leading-8 text-slate-600">Got questions? We've got answers.</p>
+        <h2 class="text-3xl font-bold tracking-tight text-[#0A1E3D] sm:text-4xl">Frequently Asked Questions</h2>
+        <p class="mt-6 text-lg leading-8 text-[#64748B]">Got questions? We've got answers.</p>
       </div>
 
       <div class="space-y-6">
-        <div class="bg-white rounded-lg border border-slate-200 p-6">
-          <button class="w-full text-left flex items-center justify-between gap-4" aria-expanded="false">
-            <h3 class="text-lg font-semibold text-slate-900">Can I change my plan later?</h3>
-            <i class="fas fa-chevron-down text-slate-400 transform transition-transform"></i>
+        <div class="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
+          <button class="w-full text-left flex items-center justify-between gap-4 text-[#0F172A]" aria-expanded="false">
+            <h3 class="text-lg font-semibold text-[#0A1E3D]">Can I change my plan later?</h3>
+            <i class="fas fa-chevron-down text-[#94A3B8] transform transition-transform"></i>
           </button>
-          <p class="text-slate-600 mt-4 hidden">
+          <p class="text-[#64748B] mt-4 hidden">
             Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.
           </p>
         </div>
 
-        <div class="bg-white rounded-lg border border-slate-200 p-6">
-          <button class="w-full text-left flex items-center justify-between gap-4" aria-expanded="false">
-            <h3 class="text-lg font-semibold text-slate-900">Do you offer a free trial?</h3>
-            <i class="fas fa-chevron-down text-slate-400 transform transition-transform"></i>
+        <div class="bg-white rounded-2xl border border-[#E2E8F0] p-6 shadow-sm">
+          <button class="w-full text-left flex items-center justify-between gap-4 text-[#0F172A]" aria-expanded="false">
+            <h3 class="text-lg font-semibold text-[#0A1E3D]">Do you offer a free trial?</h3>
+            <i class="fas fa-chevron-down text-[#94A3B8] transform transition-transform"></i>
           </button>
-          <p class="text-slate-600 mt-4 hidden">
+          <p class="text-[#64748B] mt-4 hidden">
             Yes! We offer a 14-day free trial for our Professional plan with full access to all features.
           </p>
         </div>
@@ -308,57 +312,59 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="bg-slate-900 py-20 sm:py-24">
+  <section class="bg-gradient-to-br from-[#0A1E3D] via-[#0F2744] to-[#2563EB] py-20 sm:py-24">
     <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
       <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Ready to get started?</h2>
-      <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">Join thousands of users who are already creating beautiful data visualizations with VIZOM.</p>
+      <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#C7D7F5]">Join thousands of users who are already creating beautiful data visualizations with VIZOM.</p>
       <div class="mt-10 flex items-center justify-center gap-4">
-        <button class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-white px-6 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-action="upgrade-pro">Start Free Trial</button>
-        <button class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-action="upgrade-pro">Schedule Demo</button>
+        <button class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-white/90 px-6 text-sm font-semibold text-[#0F172A] shadow-sm ring-1 ring-inset ring-white/20 transition-all hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70" data-action="upgrade-pro">Start Free Trial</button>
+        <button class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#22D3EE] px-6 text-sm font-semibold text-[#0A1E3D] shadow-[0_15px_30px_rgba(34,211,238,0.25)] transition-all hover:bg-[#06B6D4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A1E3D]" data-action="upgrade-pro">Schedule Demo</button>
       </div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-slate-900 text-slate-300">
+  <footer class="bg-gradient-to-br from-[#040d21] via-[#071633] to-[#0A1E3D] text-[#C7D7F5]">
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
         <div class="lg:col-span-2">
           <div class="flex items-center gap-2.5">
-            <img src="assets/images/logos/vizom-icon.png" alt="Vizom Logo" class="h-8 w-8">
+            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#22D3EE]/20">
+              <i class="fas fa-chart-simple text-[#22D3EE]"></i>
+            </div>
             <span class="text-xl font-bold text-white">VIZOM</span>
           </div>
-          <p class="mt-4 text-sm text-slate-400">
+          <p class="mt-4 text-sm text-[#94A3B8]">
             AI-powered visual engine. Create beautiful visualizations in seconds.
           </p>
         </div>
         <div>
-          <h4 class="text-sm font-semibold text-white">Product</h4>
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wide">Product</h4>
           <ul class="mt-4 space-y-3">
-            <li><a href="generator.html" class="text-sm text-slate-400 transition-colors hover:text-white">Generator</a></li>
-            <li><a href="templates.html" class="text-sm text-slate-400 transition-colors hover:text-white">Templates</a></li>
-            <li><a href="pricing.html" class="text-sm text-slate-400 transition-colors hover:text-white">Pricing</a></li>
+            <li><a href="generator.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Generator</a></li>
+            <li><a href="templates.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Templates</a></li>
+            <li><a href="pricing.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Pricing</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-sm font-semibold text-white">Resources</h4>
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wide">Resources</h4>
           <ul class="mt-4 space-y-3">
-            <li><a href="docs.html" class="text-sm text-slate-400 transition-colors hover:text-white">Documentation</a></li>
-            <li><a href="docs.html#api" class="text-sm text-slate-400 transition-colors hover:text-white">API Reference</a></li>
-            <li><a href="blog.html" class="text-sm text-slate-400 transition-colors hover:text-white">Blog</a></li>
+            <li><a href="docs.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Documentation</a></li>
+            <li><a href="docs.html#api" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">API Reference</a></li>
+            <li><a href="blog.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Blog</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-sm font-semibold text-white">Company</h4>
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wide">Company</h4>
           <ul class="mt-4 space-y-3">
-            <li><a href="about.html" class="text-sm text-slate-400 transition-colors hover:text-white">About</a></li>
-            <li><a href="about.html#careers" class="text-sm text-slate-400 transition-colors hover:text-white">Careers</a></li>
-            <li><a href="contact.html" class="text-sm text-slate-400 transition-colors hover:text-white">Contact</a></li>
+            <li><a href="about.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">About</a></li>
+            <li><a href="about.html#careers" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Careers</a></li>
+            <li><a href="contact.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Contact</a></li>
           </ul>
         </div>
       </div>
-      <div class="mt-10 border-t border-slate-800 pt-8 text-center">
-        <p class="text-sm text-slate-400">&copy; 2025 VIZOM. All rights reserved.</p>
+      <div class="mt-10 border-t border-white/10 pt-8 text-center">
+        <p class="text-sm text-[#94A3B8]">&copy; 2025 VIZOM. All rights reserved.</p>
       </div>
     </div>
   </footer>
@@ -461,17 +467,17 @@
 
   <!-- Upgrade Modal -->
   <div id="upgrade-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 text-center space-y-4">
-      <h3 class="text-xl font-semibold text-slate-900">Upgrade to Pro</h3>
-      <p class="text-slate-600">To upgrade, please email us with your account email at:</p>
-      <div class="relative bg-slate-100 rounded-lg p-3">
-          <code class="text-blue-600 font-mono">billing@vizom.com</code>
-          <button id="copy-email-button" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-blue-600 p-1.5 rounded-md transition">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 text-center space-y-4">
+      <h3 class="text-xl font-semibold text-[#0A1E3D]">Upgrade to Pro</h3>
+      <p class="text-[#64748B]">To upgrade, please email us with your account email at:</p>
+      <div class="relative bg-[#F1F5F9] rounded-lg p-3">
+          <code class="text-[#2563EB] font-mono">billing@vizom.com</code>
+          <button id="copy-email-button" class="absolute right-2 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#2563EB] p-1.5 rounded-md transition">
               <i class="fas fa-copy"></i>
           </button>
       </div>
-      <p id="copy-success-toast" class="text-sm text-green-600 hidden">Email copied! We'll contact you within 24h.</p>
-      <button id="close-upgrade-modal" class="mt-4 w-full inline-flex items-center justify-center gap-2 bg-slate-100 text-slate-700 px-4 py-3 rounded-lg hover:bg-slate-200 transition">Close</button>
+      <p id="copy-success-toast" class="text-sm text-[#10B981] hidden">Email copied! We'll contact you within 24h.</p>
+      <button id="close-upgrade-modal" class="mt-4 w-full inline-flex items-center justify-center gap-2 bg-[#EFF6FF] text-[#0F172A] px-4 py-3 rounded-lg hover:bg-[#E2E8F0] transition">Close</button>
     </div>
   </div>
 

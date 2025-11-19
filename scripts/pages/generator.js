@@ -533,12 +533,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Update breadcrumb when chart type is selected
   document.querySelectorAll('.chart-type-card').forEach(card => {
+    card.addEventListener('mouseenter', () => card.classList.add('is-hovered'));
+    card.addEventListener('mouseleave', () => card.classList.remove('is-hovered'));
+    card.addEventListener('mousedown', () => card.classList.add('is-active'));
+    card.addEventListener('mouseup', () => card.classList.remove('is-active'));
+    card.addEventListener('mouseleave', () => card.classList.remove('is-active'));
+
     card.addEventListener('click', () => {
       const type = card.dataset.type;
       const breadcrumb = document.getElementById('breadcrumb-chart-type');
       if (breadcrumb) {
-        breadcrumb.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+        breadcrumb.textContent = card.querySelector('h4')?.textContent || type;
       }
+
+      cards.forEach(c => c.classList.remove('selected', 'is-active'));
+      card.classList.add('selected');
+      selectedType = type;
+      refreshPreview();
     });
   });
 

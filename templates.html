@@ -55,25 +55,25 @@
     <!-- Shared vendor bundle: Chart.js, D3, Supabase auth/stripe -->
     <script type="module" src="src/app/vendor-loader.js"></script>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 antialiased">
+<body class="bg-[#F8FAFC] font-sans text-[#0F172A] antialiased">
   <script type="module" src="scripts/main.js"></script>
 
   <!-- Header -->
-  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-lg">
+  <header class="sticky top-0 z-50 border-b border-[#0F2744]/10 bg-white/85 backdrop-blur-lg">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <nav class="flex h-16 items-center justify-between">
-        <a href="index.html" class="flex items-center gap-2.5">
+        <a href="index.html" class="flex items-center gap-2.5 text-[#0A1E3D]">
           <img src="assets/images/logos/vizom-icon.png" alt="Vizom Logo" class="h-8 w-8">
           <span class="text-xl font-bold text-slate-900">VIZOM</span>
         </a>
         <!-- Desktop Navigation -->
         <div class="hidden items-center gap-8 md:flex">
-          <a href="index.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Home</a>
-          <a href="generator.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Generator</a>
-          <a href="templates.html" aria-current="page" class="text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700">Templates</a>
-          <a href="pricing.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Pricing</a>
-          <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50" id="auth-signin" type="button">Sign In</button>
-          <a href="generator.html" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+          <a href="index.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Home</a>
+          <a href="generator.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Generator</a>
+          <a href="templates.html" aria-current="page" class="text-sm font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]">Templates</a>
+          <a href="pricing.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Pricing</a>
+          <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin" type="button">Sign In</button>
+          <a href="generator.html" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
         </div>
         <!-- Mobile Menu Toggle -->
         <button class="inline-flex h-10 w-10 items-center justify-center rounded-xl md:hidden" id="mobile-menu-toggle" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
@@ -83,12 +83,12 @@
       <!-- Mobile Navigation -->
       <div class="hidden md:hidden" id="mobile-menu">
         <div class="space-y-2 py-4">
-          <a href="index.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Home</a>
-          <a href="generator.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Generator</a>
-          <a href="templates.html" aria-current="page" class="block py-2 text-base font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700">Templates</a>
-          <a href="pricing.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900">Pricing</a>
-          <button class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-slate-100 px-6 text-sm font-medium text-slate-700 transition-all hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50" id="auth-signin-mobile" type="button">Sign In</button>
-          <a href="generator.html" class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+          <a href="index.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Home</a>
+          <a href="generator.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Generator</a>
+          <a href="templates.html" aria-current="page" class="block py-2 text-base font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]">Templates</a>
+          <a href="pricing.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Pricing</a>
+          <button class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#EFF6FF] px-6 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#E2E8F0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin-mobile" type="button">Sign In</button>
+          <a href="generator.html" class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-6 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
         </div>
       </div>
     </div>
@@ -98,39 +98,39 @@
 
   <main>
     <!-- HERO SECTION -->
-    <section class="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20 sm:py-24 lg:py-32">
+    <section class="bg-gradient-to-br from-[#F8FAFC] via-[#EDF4FF] to-[#DBF4FF] py-20 sm:py-24 lg:py-32">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-4xl space-y-6 text-center">
-          <span class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-medium text-blue-700">
-            <i class="fas fa-layer-group"></i>
+          <span class="inline-flex items-center gap-2 rounded-full bg-[#EFF6FF] px-4 py-2 text-sm font-medium text-[#1E5FE0]">
+            <i class="fas fa-layer-group text-[#06B6D4]"></i>
             Professional Template Gallery
           </span>
-          <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">Professional Templates</h1>
-          <p class="text-lg leading-8 text-slate-600">
+          <h1 class="text-4xl font-bold tracking-tight text-[#0A1E3D] sm:text-5xl lg:text-6xl">Professional Templates</h1>
+          <p class="text-lg leading-8 text-[#64748B]">
             Jumpstart your data visualization with expert-designed templates. Save hours of work with pre-built charts, dashboards, and reports that are fully customizable and ready to use.
           </p>
           <!-- Search Bar with Filters -->
           <div class="mx-auto max-w-2xl">
             <div class="relative">
               <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                <i class="fas fa-search text-slate-400"></i>
+                <i class="fas fa-search text-[#94A3B8]"></i>
               </div>
               <input
                 type="text"
                 id="template-search"
-                class="h-12 w-full rounded-xl border border-slate-200 bg-white px-12 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-12 text-sm text-[#0F172A] shadow-sm placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
                 placeholder="Search templates by name, category, or use case..."
               >
               <div class="absolute inset-y-0 right-0 flex items-center pr-4">
-                <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-3 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-                  <i class="fas fa-filter"></i>
+                <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-3 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]">
+                  <i class="fas fa-filter text-[#1E5FE0]"></i>
                 </button>
               </div>
             </div>
-            <div class="mt-4 flex items-center justify-center gap-6 text-sm text-slate-500">
-              <span><i class="fas fa-bolt text-yellow-500"></i> Ready in 2 minutes</span>
-              <span><i class="fas fa-palette text-purple-500"></i> Fully customizable</span>
-              <span><i class="fas fa-download text-emerald-500"></i> Export in any format</span>
+            <div class="mt-4 flex items-center justify-center gap-6 text-sm text-[#475569]">
+              <span class="flex items-center gap-2"><i class="fas fa-bolt text-[#06B6D4]"></i> Ready in 2 minutes</span>
+              <span class="flex items-center gap-2"><i class="fas fa-palette text-[#2563EB]"></i> Fully customizable</span>
+              <span class="flex items-center gap-2"><i class="fas fa-download text-[#10B981]"></i> Export in any format</span>
             </div>
           </div>
         </div>
@@ -138,45 +138,45 @@
     </section>
 
     <!-- CATEGORY NAVIGATION -->
-    <section class="sticky top-0 z-40 border-b border-slate-200 bg-white">
+    <section class="sticky top-0 z-40 border-b border-[#0F2744]/10 bg-white/95 backdrop-blur">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between py-4">
           <div class="flex gap-2 overflow-x-auto">
-            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-blue-600 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-category="all">
+            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-[#2563EB] px-4 text-sm font-medium text-white shadow-[0_10px_20px_rgba(30,95,224,0.2)] transition hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#22D3EE]" data-category="all">
               All Templates
-              <span class="ml-2 rounded-full bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-700">24</span>
+              <span class="ml-2 rounded-full bg-[#DBF4FF] px-2 py-0.5 text-xs font-semibold text-[#0A1E3D]">24</span>
             </button>
-            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-category="business">
+            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-[#0F172A] shadow-sm ring-1 ring-inset ring-[#E2E8F0] transition hover:bg-[#F8FAFC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]" data-category="business">
               Business
-              <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">8</span>
+              <span class="ml-2 rounded-full bg-[#EFF6FF] px-2 py-0.5 text-xs font-semibold text-[#475569]">8</span>
             </button>
-            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-category="marketing">
+            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-[#0F172A] shadow-sm ring-1 ring-inset ring-[#E2E8F0] transition hover:bg-[#F8FAFC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]" data-category="marketing">
               Marketing
-              <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">6</span>
+              <span class="ml-2 rounded-full bg-[#EFF6FF] px-2 py-0.5 text-xs font-semibold text-[#475569]">6</span>
             </button>
-            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-category="academic">
+            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-[#0F172A] shadow-sm ring-1 ring-inset ring-[#E2E8F0] transition hover:bg-[#F8FAFC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]" data-category="academic">
               Academic
-              <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">5</span>
+              <span class="ml-2 rounded-full bg-[#EFF6FF] px-2 py-0.5 text-xs font-semibold text-[#475569]">5</span>
             </button>
-            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-category="finance">
+            <button class="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-medium text-[#0F172A] shadow-sm ring-1 ring-inset ring-[#E2E8F0] transition hover:bg-[#F8FAFC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]" data-category="finance">
               Finance
-              <span class="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">5</span>
+              <span class="ml-2 rounded-full bg-[#EFF6FF] px-2 py-0.5 text-xs font-semibold text-[#475569]">5</span>
             </button>
           </div>
           
           <div class="flex items-center gap-4">
-            <select class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm">
+            <select class="rounded-lg border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]">
               <option>Most Popular</option>
               <option>Newest First</option>
               <option>Alphabetical</option>
               <option>Most Used</option>
             </select>
-            <div class="flex items-center gap-2 text-sm text-slate-500">
+            <div class="flex items-center gap-2 text-sm text-[#475569]">
               <span>View:</span>
-              <button class="inline-flex h-11 items-center justify-center rounded-xl px-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-view="grid">
+              <button class="inline-flex h-11 items-center justify-center rounded-xl px-3 text-sm font-medium text-[#0F172A] transition hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]" data-view="grid">
                 <i class="fas fa-th"></i>
               </button>
-              <button class="inline-flex h-11 items-center justify-center rounded-xl px-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-view="list">
+              <button class="inline-flex h-11 items-center justify-center rounded-xl px-3 text-sm font-medium text-[#0F172A] transition hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]" data-view="list">
                 <i class="fas fa-list"></i>
               </button>
             </div>
@@ -186,20 +186,20 @@
     </section>
 
     <!-- TEMPLATE GRID LAYOUT -->
-    <section class="bg-slate-50 py-20 sm:py-24">
+    <section class="bg-[#F8FAFC] py-20 sm:py-24">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mb-8 flex items-center justify-between">
           <div>
-            <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Template Gallery</h2>
-            <p class="mt-1 text-sm text-slate-600">Showing <span id="results-count">24</span> templates</p>
+            <h2 class="text-3xl font-bold tracking-tight text-[#0A1E3D] sm:text-4xl">Template Gallery</h2>
+            <p class="mt-1 text-sm text-[#475569]">Showing <span id="results-count">24</span> templates</p>
           </div>
           <div class="flex items-center gap-4">
-            <label class="flex items-center gap-2 text-sm text-slate-600">
-              <input type="checkbox" id="show-premium" class="rounded border-slate-300">
+            <label class="flex items-center gap-2 text-sm text-[#475569]">
+              <input type="checkbox" id="show-premium" class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-[#2563EB]">
               <span>Show premium only</span>
             </label>
-            <label class="flex items-center gap-2 text-sm text-slate-600">
-              <input type="checkbox" id="show-free" class="rounded border-slate-300" checked>
+            <label class="flex items-center gap-2 text-sm text-[#475569]">
+              <input type="checkbox" id="show-free" class="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-[#2563EB]" checked>
               <span>Show free templates</span>
             </label>
           </div>
@@ -213,7 +213,7 @@
 
         <!-- Load More -->
         <div class="mt-12 text-center">
-          <button id="load-more-templates" class="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-xl bg-white px-6 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+          <button id="load-more-templates" class="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-xl bg-white px-6 text-sm font-medium text-[#0F172A] shadow-sm ring-1 ring-inset ring-[#E2E8F0] transition hover:bg-[#F8FAFC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]">
             Load More Templates
           </button>
         </div>
@@ -221,19 +221,19 @@
     </section>
 
     <!-- CTA SECTION -->
-    <section class="bg-slate-900 py-20 sm:py-24">
+    <section class="bg-gradient-to-br from-[#0A1E3D] via-[#0F2744] to-[#1E5FE0] py-20 sm:py-24">
       <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Can't find the perfect template?</h2>
-        <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#C7D7F5]">
           Our AI generator can create custom visualizations tailored to your specific needs and brand guidelines.
         </p>
         <div class="mt-10 flex items-center justify-center gap-4">
-          <a href="generator.html" class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
-            <i class="fas fa-bolt"></i>
+          <a href="generator.html" class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#22D3EE] px-6 text-sm font-semibold text-[#0A1E3D] shadow-[0_12px_24px_rgba(34,211,238,0.25)] transition-all hover:bg-[#06B6D4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A1E3D]">
+            <i class="fas fa-bolt text-[#0A1E3D]"></i>
             Create Custom Template
           </a>
-          <button id="download-all-templates" class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-white px-6 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 transition-all hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
-            <i class="fas fa-download"></i>
+          <button id="download-all-templates" class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-white/90 px-6 text-sm font-semibold text-[#0F172A] shadow-sm ring-1 ring-inset ring-white/20 transition-all hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
+            <i class="fas fa-download text-[#2563EB]"></i>
             Download All Templates
           </button>
         </div>
@@ -243,33 +243,33 @@
 
 
   <!-- TEMPLATE DETAIL MODAL -->
-  <div id="template-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl shadow-xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
+  <div id="template-modal" class="fixed inset-0 z-50 bg-[#0A1E3D]/70 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
       <div class="flex flex-col lg:flex-row h-full">
         <!-- Preview Section -->
-        <div class="lg:w-3/5 p-6 border-b lg:border-b-0 lg:border-r border-slate-200">
+        <div class="lg:w-3/5 p-6 border-b lg:border-b-0 lg:border-r border-[#E2E8F0]">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-xl font-semibold text-slate-900">Template Preview</h3>
-            <button id="close-template-modal" class="text-slate-400 hover:text-slate-600 transition">
+            <h3 class="text-xl font-semibold text-[#0A1E3D]">Template Preview</h3>
+            <button id="close-template-modal" class="text-[#94A3B8] hover:text-[#0F172A] transition">
               <i class="fas fa-times text-xl"></i>
             </button>
           </div>
           
-          <div id="modal-preview" class="bg-slate-50 rounded-xl p-8 h-96 flex items-center justify-center">
+          <div id="modal-preview" class="bg-[#F1F5F9] rounded-xl p-8 h-96 flex items-center justify-center">
             <!-- Dynamic preview content will be loaded here -->
-            <div class="text-center text-slate-500">
-              <i class="fas fa-chart-simple text-4xl mb-4"></i>
+            <div class="text-center text-[#94A3B8]">
+              <i class="fas fa-chart-simple text-4xl mb-4 text-[#2563EB]"></i>
               <p>Loading preview...</p>
             </div>
           </div>
           
           <div class="mt-6 flex gap-3">
-            <button class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+            <button class="flex-1 px-4 py-2 bg-[#2563EB] text-white rounded-lg shadow-sm hover:bg-[#1E5FE0] transition font-medium">
               <i class="fas fa-expand mr-2"></i>
               Fullscreen Preview
             </button>
-            <button class="px-4 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition">
-              <i class="fas fa-images mr-2"></i>
+            <button class="px-4 py-2 border border-[#E2E8F0] text-[#0F172A] rounded-lg hover:bg-[#F8FAFC] transition">
+              <i class="fas fa-images mr-2 text-[#2563EB]"></i>
               View Screenshots
             </button>
           </div>
@@ -280,33 +280,33 @@
           <div class="space-y-6">
             <!-- Template Info -->
             <div>
-              <h3 id="modal-template-title" class="text-2xl font-bold text-slate-900 mb-2">Template Title</h3>
+              <h3 id="modal-template-title" class="text-2xl font-bold text-[#0A1E3D] mb-2">Template Title</h3>
               <div class="flex items-center gap-3 mb-4">
-                <span id="modal-template-category" class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
+                <span id="modal-template-category" class="inline-flex items-center gap-1 rounded-full bg-[#EFF6FF] px-2.5 py-1 text-xs font-semibold text-[#1E5FE0]">
                   <i class="fa-solid fa-chart-column"></i>
                   Dashboard
                 </span>
-                <span id="modal-template-badge" class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">Free</span>
+                <span id="modal-template-badge" class="inline-flex items-center gap-1 rounded-full bg-[#DBF4FF] px-2.5 py-1 text-xs font-semibold text-[#0F172A]">Free</span>
               </div>
-              <p id="modal-template-description" class="text-slate-600">
+              <p id="modal-template-description" class="text-[#475569]">
                 Template description will be loaded here...
               </p>
             </div>
             
             <!-- Use Cases -->
             <div>
-              <h4 class="font-semibold text-slate-900 mb-3">Use Cases</h4>
-              <ul id="modal-use-cases" class="space-y-2 text-sm text-slate-600">
+              <h4 class="font-semibold text-[#0A1E3D] mb-3">Use Cases</h4>
+              <ul id="modal-use-cases" class="space-y-2 text-sm text-[#475569]">
                 <li class="flex items-start gap-2">
-                  <i class="fas fa-check text-emerald-500 mt-0.5"></i>
+                  <i class="fas fa-check text-[#10B981] mt-0.5"></i>
                   <span>Monthly business reviews</span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <i class="fas fa-check text-emerald-500 mt-0.5"></i>
+                  <i class="fas fa-check text-[#10B981] mt-0.5"></i>
                   <span>Investor presentations</span>
                 </li>
                 <li class="flex items-start gap-2">
-                  <i class="fas fa-check text-emerald-500 mt-0.5"></i>
+                  <i class="fas fa-check text-[#10B981] mt-0.5"></i>
                   <span>Team performance tracking</span>
                 </li>
               </ul>
@@ -314,34 +314,34 @@
             
             <!-- Features -->
             <div>
-              <h4 class="font-semibold text-slate-900 mb-3">Features</h4>
+              <h4 class="font-semibold text-[#0A1E3D] mb-3">Features</h4>
               <div class="space-y-2">
                 <div class="flex items-center justify-between text-sm">
-                  <span class="text-slate-600">Setup Time</span>
-                  <span class="font-medium text-slate-900">15 minutes</span>
+                  <span class="text-[#475569]">Setup Time</span>
+                  <span class="font-medium text-[#0A1E3D]">15 minutes</span>
                 </div>
                 <div class="flex items-center justify-between text-sm">
-                  <span class="text-slate-600">Export Formats</span>
-                  <span class="font-medium text-slate-900">PNG, PDF, SVG, CSV</span>
+                  <span class="text-[#475569]">Export Formats</span>
+                  <span class="font-medium text-[#0A1E3D]">PNG, PDF, SVG, CSV</span>
                 </div>
                 <div class="flex items-center justify-between text-sm">
-                  <span class="text-slate-600">Customization</span>
-                  <span class="font-medium text-slate-900">Full</span>
+                  <span class="text-[#475569]">Customization</span>
+                  <span class="font-medium text-[#0A1E3D]">Full</span>
                 </div>
                 <div class="flex items-center justify-between text-sm">
-                  <span class="text-slate-600">Data Sources</span>
-                  <span class="font-medium text-slate-900">CSV, API, Manual</span>
+                  <span class="text-[#475569]">Data Sources</span>
+                  <span class="font-medium text-[#0A1E3D]">CSV, API, Manual</span>
                 </div>
               </div>
             </div>
             
             <!-- Customization Options -->
             <div>
-              <h4 class="font-semibold text-slate-900 mb-3">Customization Options</h4>
+              <h4 class="font-semibold text-[#0A1E3D] mb-3">Customization Options</h4>
               <div class="space-y-3">
                 <div>
-                  <label class="text-sm text-slate-600 mb-1 block">Color Scheme</label>
-                  <select class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                  <label class="text-sm text-[#475569] mb-1 block">Color Scheme</label>
+                  <select class="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]">
                     <option>Default Blue</option>
                     <option>Professional Gray</option>
                     <option>Vibrant Purple</option>
@@ -350,8 +350,8 @@
                   </select>
                 </div>
                 <div>
-                  <label class="text-sm text-slate-600 mb-1 block">Layout Style</label>
-                  <select class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm">
+                  <label class="text-sm text-[#475569] mb-1 block">Layout Style</label>
+                  <select class="w-full px-3 py-2 border border-[#E2E8F0] rounded-lg text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]">
                     <option>Compact</option>
                     <option>Standard</option>
                     <option>Spacious</option>
@@ -361,18 +361,18 @@
             </div>
             
             <!-- Action Buttons -->
-            <div class="space-y-3 pt-4 border-t border-slate-200">
-              <button id="modal-use-template" class="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">
+            <div class="space-y-3 pt-4 border-t border-[#E2E8F0]">
+              <button id="modal-use-template" class="w-full py-3 bg-[#2563EB] text-white rounded-lg shadow-sm hover:bg-[#1E5FE0] transition font-semibold">
                 <i class="fas fa-bolt mr-2"></i>
                 Use This Template
               </button>
               <div class="flex gap-3">
-                <button class="flex-1 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium">
-                  <i class="far fa-bookmark mr-2"></i>
+                <button class="flex-1 py-2 border border-[#E2E8F0] text-[#0F172A] rounded-lg hover:bg-[#F8FAFC] transition font-medium">
+                  <i class="far fa-bookmark mr-2 text-[#2563EB]"></i>
                   Save for Later
                 </button>
-                <button class="flex-1 py-2 border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium">
-                  <i class="fas fa-share-alt mr-2"></i>
+                <button class="flex-1 py-2 border border-[#E2E8F0] text-[#0F172A] rounded-lg hover:bg-[#F8FAFC] transition font-medium">
+                  <i class="fas fa-share-alt mr-2 text-[#22D3EE]"></i>
                   Share
                 </button>
               </div>
@@ -384,47 +384,47 @@
   </div>
 
   <!-- Footer -->
-  <footer class="bg-slate-900 text-slate-300">
+  <footer class="bg-gradient-to-br from-[#040d21] via-[#071633] to-[#0A1E3D] text-[#C7D7F5]">
     <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
         <div>
           <div class="flex items-center gap-2.5">
-            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
-              <i class="fas fa-chart-simple text-white"></i>
+            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#22D3EE]/20">
+              <i class="fas fa-chart-simple text-[#22D3EE]"></i>
             </div>
             <span class="text-xl font-bold text-white">VIZOM</span>
           </div>
-          <p class="mt-4 text-sm text-slate-400">
+          <p class="mt-4 text-sm text-[#94A3B8]">
             AI-powered visual engine. Create beautiful visualizations in seconds.
           </p>
         </div>
         <div>
-          <h4 class="text-sm font-semibold text-white">Product</h4>
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wide">Product</h4>
           <ul class="mt-4 space-y-3">
-            <li><a href="generator.html" class="text-sm text-slate-400 transition-colors hover:text-white">Generator</a></li>
-            <li><a href="templates.html" class="text-sm text-slate-400 transition-colors hover:text-white">Templates</a></li>
-            <li><a href="pricing.html" class="text-sm text-slate-400 transition-colors hover:text-white">Pricing</a></li>
+            <li><a href="generator.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Generator</a></li>
+            <li><a href="templates.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Templates</a></li>
+            <li><a href="pricing.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Pricing</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-sm font-semibold text-white">Resources</h4>
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wide">Resources</h4>
           <ul class="mt-4 space-y-3">
-            <li><a href="docs.html" class="text-sm text-slate-400 transition-colors hover:text-white">Documentation</a></li>
-            <li><a href="docs.html#api" class="text-sm text-slate-400 transition-colors hover:text-white">API Reference</a></li>
-            <li><a href="blog.html" class="text-sm text-slate-400 transition-colors hover:text-white">Blog</a></li>
+            <li><a href="docs.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Documentation</a></li>
+            <li><a href="docs.html#api" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">API Reference</a></li>
+            <li><a href="blog.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Blog</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-sm font-semibold text-white">Company</h4>
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wide">Company</h4>
           <ul class="mt-4 space-y-3">
-            <li><a href="about.html" class="text-sm text-slate-400 transition-colors hover:text-white">About</a></li>
-            <li><a href="about.html#careers" class="text-sm text-slate-400 transition-colors hover:text-white">Careers</a></li>
-            <li><a href="contact.html" class="text-sm text-slate-400 transition-colors hover:text-white">Contact</a></li>
+            <li><a href="about.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">About</a></li>
+            <li><a href="about.html#careers" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Careers</a></li>
+            <li><a href="contact.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Contact</a></li>
           </ul>
         </div>
       </div>
-      <div class="mt-10 border-t border-slate-800 pt-8 text-center">
-        <p class="text-sm text-slate-400">&copy; 2024 VIZOM. All rights reserved.</p>
+      <div class="mt-10 border-t border-white/10 pt-8 text-center">
+        <p class="text-sm text-[#94A3B8]">&copy; 2024 VIZOM. All rights reserved.</p>
       </div>
     </div>
   </footer>

@@ -3,7 +3,7 @@ class CustomizationPanel {
   constructor() {
     this.currentSettings = {
       theme: 'default',
-      colors: ['#3B82F6', '#8B5CF6', '#06D6A0'],
+      colors: ['#2563EB', '#22D3EE', '#0F2744'],
       fontSize: 12,
       fontFamily: 'Inter',
       showGrid: true,
@@ -50,9 +50,9 @@ class CustomizationPanel {
             <label class="text-sm font-medium brand-text-secondary">Цветовая палитра</label>
             <div class="space-y-2">
               <div class="flex items-center gap-2">
-                <input type="color" id="color-1" value="#3B82F6" class="w-8 h-8 rounded">
-                <input type="color" id="color-2" value="#8B5CF6" class="w-8 h-8 rounded">
-                <input type="color" id="color-3" value="#06D6A0" class="w-8 h-8 rounded">
+                <input type="color" id="color-1" value="#2563EB" class="w-8 h-8 rounded">
+                <input type="color" id="color-2" value="#22D3EE" class="w-8 h-8 rounded">
+                <input type="color" id="color-3" value="#0F2744" class="w-8 h-8 rounded">
                 <button id="add-color" class="text-sm brand-link">
                   <i class="fas fa-plus"></i>
                 </button>
@@ -107,7 +107,7 @@ class CustomizationPanel {
 
           <!-- Style Settings -->
           <div class="space-y-3">
-            <label class="text-sm font-medium text-slate-700">Стиль</label>
+            <label class="text-sm font-medium text-[#0F172A]">Стиль</label>
             <div class="space-y-2">
               <div class="flex items-center gap-2">
                 <label class="text-sm brand-text-secondary w-20">Скругление</label>
@@ -178,7 +178,7 @@ class CustomizationPanel {
   getThemeOptions() {
     const themes = ['default', 'dark', 'vibrant', 'pastel', 'monochrome'];
     return themes.map(theme => `
-      <button class="theme-option p-3 border border-slate-200 rounded-lg hover:border-blue-400 transition text-sm" data-theme="${theme}">
+      <button class="theme-option p-3 border border-[#E2E8F0] rounded-lg hover:border-[#22D3EE] hover:bg-[#EFF6FF] transition text-sm" data-theme="${theme}">
         <div class="w-full h-8 rounded mb-2" style="background: ${this.getThemePreview(theme)}"></div>
         <span class="capitalize">${theme}</span>
       </button>
@@ -187,26 +187,26 @@ class CustomizationPanel {
 
   getThemePreview(theme) {
     const previews = {
-      default: 'linear-gradient(45deg, #3B82F6, #8B5CF6)',
-      dark: 'linear-gradient(45deg, #1f2937, #60A5FA)',
-      vibrant: 'linear-gradient(45deg, #EF4444, #F59E0B)',
-      pastel: 'linear-gradient(45deg, #FCA5A5, #FCD34D)',
-      monochrome: 'linear-gradient(45deg, #1f2937, #9ca3af)'
+      default: 'linear-gradient(45deg, #2563EB, #22D3EE)',
+      dark: 'linear-gradient(45deg, #0A1E3D, #1E5FE0)',
+      vibrant: 'linear-gradient(45deg, #06B6D4, #22D3EE)',
+      pastel: 'linear-gradient(45deg, #C7D7F5, #E0F2FE)',
+      monochrome: 'linear-gradient(45deg, #0F172A, #475569)'
     };
     return previews[theme] || previews.default;
   }
 
   getColorPresets() {
     const presets = [
-      ['#3B82F6', '#8B5CF6', '#06D6A0'],
-      ['#EF4444', '#F59E0B', '#10B981'],
-      ['#8B5CF6', '#EC4899', '#F59E0B'],
-      ['#14B8A6', '#06B6D4', '#3B82F6'],
-      ['#F97316', '#EF4444', '#DC2626']
+      ['#2563EB', '#22D3EE', '#0F2744'],
+      ['#1E5FE0', '#38BDF8', '#06B6D4'],
+      ['#0A1E3D', '#2563EB', '#C7D7F5'],
+      ['#10B981', '#22D3EE', '#2563EB'],
+      ['#F97316', '#22D3EE', '#0A1E3D']
     ];
 
     return presets.map((preset, index) => `
-      <button class="color-preset flex gap-1 p-2 border border-slate-200 rounded hover:border-blue-400 transition" data-preset="${index}">
+      <button class="color-preset flex gap-1 p-2 border border-[#E2E8F0] rounded hover:border-[#22D3EE] hover:bg-[#EFF6FF] transition" data-preset="${index}">
         ${preset.map(color => `<div class="w-4 h-4 rounded" style="background-color: ${color}"></div>`).join('')}
       </button>
     `).join('');
@@ -336,8 +336,10 @@ class CustomizationPanel {
     
     // Update UI
     document.querySelectorAll('.theme-option').forEach(btn => {
-      btn.classList.toggle('border-blue-400', btn.dataset.theme === theme);
-      btn.classList.toggle('bg-blue-50', btn.dataset.theme === theme);
+      const isSelected = btn.dataset.theme === theme;
+      btn.classList.toggle('ring-2', isSelected);
+      btn.classList.toggle('ring-[#22D3EE]', isSelected);
+      btn.classList.toggle('bg-[#EFF6FF]', isSelected);
     });
 
     // Apply theme colors
@@ -350,22 +352,22 @@ class CustomizationPanel {
 
   getThemeColors(theme) {
     const themes = {
-      default: ['#3B82F6', '#8B5CF6', '#06D6A0'],
-      dark: ['#60A5FA', '#A78BFA', '#34D399'],
-      vibrant: ['#EF4444', '#F59E0B', '#10B981'],
-      pastel: ['#FCA5A5', '#FCD34D', '#86EFAC'],
-      monochrome: ['#1f2937', '#4b5563', '#6b7280']
+      default: ['#2563EB', '#22D3EE', '#0F2744'],
+      dark: ['#0A1E3D', '#1E5FE0', '#38BDF8'],
+      vibrant: ['#22D3EE', '#06B6D4', '#10B981'],
+      pastel: ['#C7D7F5', '#E0F2FE', '#FDE68A'],
+      monochrome: ['#0F172A', '#334155', '#94A3B8']
     };
     return themes[theme];
   }
 
   applyColorPreset(presetIndex) {
     const presets = [
-      ['#3B82F6', '#8B5CF6', '#06D6A0'],
-      ['#EF4444', '#F59E0B', '#10B981'],
-      ['#8B5CF6', '#EC4899', '#F59E0B'],
-      ['#14B8A6', '#06B6D4', '#3B82F6'],
-      ['#F97316', '#EF4444', '#DC2626']
+      ['#2563EB', '#22D3EE', '#0F2744'],
+      ['#1E5FE0', '#38BDF8', '#06B6D4'],
+      ['#0A1E3D', '#2563EB', '#C7D7F5'],
+      ['#10B981', '#22D3EE', '#2563EB'],
+      ['#F97316', '#22D3EE', '#0A1E3D']
     ];
 
     this.currentSettings.colors = presets[presetIndex];

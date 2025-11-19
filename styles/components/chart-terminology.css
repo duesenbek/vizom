@@ -322,7 +322,49 @@
 /* Enhanced Chart Option Styles */
 .chart-option {
   position: relative;
-  transition: all 0.3s ease;
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 160ms ease,
+    background-color 160ms ease;
+  will-change: transform, box-shadow;
+}
+
+.chart-option:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 15px 30px -20px rgba(15, 23, 42, 0.35);
+}
+
+.chart-option.selected,
+.chart-option[aria-pressed="true"],
+.chart-option.active {
+  transform: translateY(-1px) scale(1.015);
+  border-color: var(--color-primary, var(--primary));
+  box-shadow: 0 18px 35px -20px rgba(14, 107, 255, 0.45);
+}
+
+.chart-option.selected::after,
+.chart-option[aria-pressed="true"]::after,
+.chart-option.active::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: inherit;
+  border: 1px solid rgba(14, 107, 255, 0.15);
+  opacity: 0;
+  animation: selectionPulse 240ms ease forwards;
+  pointer-events: none;
+}
+
+@keyframes selectionPulse {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .chart-option .chart-title {

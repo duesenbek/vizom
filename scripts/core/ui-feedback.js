@@ -27,11 +27,12 @@ function ensureStylesInjected() {
       backdrop-filter: blur(6px);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.25s ease;
-      z-index: 9998;
+      transition: opacity 0.2s ease;
+      transform: scale(0.98);
     }
     #${OVERLAY_ID}.active {
       opacity: 1;
+      transform: scale(1);
       pointer-events: all;
     }
     #${OVERLAY_ID} .vizom-spinner {
@@ -41,6 +42,7 @@ function ensureStylesInjected() {
       border: 4px solid rgba(255, 255, 255, 0.25);
       border-top-color: #60a5fa;
       animation: vizom-spin 1s linear infinite;
+      box-shadow: 0 0 18px rgba(96, 165, 250, 0.35);
     }
     #${OVERLAY_ID} .vizom-loading-heading {
       font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -109,6 +111,15 @@ function ensureStylesInjected() {
     @keyframes vizom-spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #${OVERLAY_ID} {
+        transition: none;
+        transform: none;
+      }
+      #${OVERLAY_ID} .vizom-spinner {
+        animation: none;
+      }
     }
     @media (max-width: 640px) {
       #${TOAST_CONTAINER_ID} {
