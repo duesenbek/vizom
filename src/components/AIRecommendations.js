@@ -25,15 +25,15 @@ export class AIRecommendations {
     this.userOverride = false;
 
     const container = document.createElement('div');
-    container.className = 'ai-recommendations bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4';
+    container.className = 'ai-recommendations brand-panel-info rounded-xl p-4 mb-4 shadow-sm';
     
     container.innerHTML = `
       <div class="flex items-center gap-2 mb-3">
-        <div class="ai-badge bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
+        <div class="ai-badge brand-badge-primary px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
           <i class="fas fa-robot"></i>
           AI Recommends
         </div>
-        <span class="text-sm text-blue-700">Based on your prompt</span>
+        <span class="text-sm brand-text-secondary">Based on your prompt</span>
       </div>
       
       <div class="recommendations-grid grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -41,10 +41,10 @@ export class AIRecommendations {
       </div>
       
       <div class="mt-3 flex items-center justify-between">
-        <button class="text-sm text-blue-600 hover:text-blue-800 underline" onclick="this.parentElement.parentElement.classList.add('hidden')">
+        <button class="text-sm brand-link underline" onclick="this.parentElement.parentElement.classList.add('hidden')">
           Dismiss recommendations
         </button>
-        <div class="text-xs text-blue-600">
+        <div class="text-xs brand-text-secondary">
           <i class="fas fa-info-circle"></i>
           Click any chart type to override
         </div>
@@ -69,20 +69,19 @@ export class AIRecommendations {
     const iconClass = (chartType.icon && chartType.icon.includes('fa-')) ? chartType.icon : 'fa-chart-column';
 
     const recommendedBadge = isRecommended ? `
-      <div class="recommended-badge absolute top-1 right-1 bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded">
+      <div class="recommended-badge absolute top-1 right-1 brand-badge-primary text-xs px-1.5 py-0.5 rounded">
         <i class="fas fa-star text-xs"></i> Top
       </div>
     ` : '';
 
     return `
-      <div class="recommendation-tile relative bg-white border-2 ${isRecommended ? 'border-blue-500' : 'border-gray-200'} 
-                  rounded-lg p-3 cursor-pointer hover:border-blue-400 hover:shadow-md transition-all"
-           data-type="${typeId}" data-recommended="${isRecommended}">
+      <div class="recommendation-tile brand-recommendation-tile relative p-3"
+           data-type="${typeId}" data-recommended="${isRecommended}" aria-pressed="${isRecommended}">
         ${recommendedBadge}
         <div class="flex flex-col items-center text-center">
-          <div class="chart-icon text-2xl mb-2"><i class="fa-solid ${iconClass}"></i></div>
-          <div class="chart-name font-medium text-sm text-gray-900">${chartType.name}</div>
-          <div class="chart-description text-xs text-gray-600 mt-1 line-clamp-2">${chartType.shortDescription || chartType.description}</div>
+          <div class="chart-icon text-2xl mb-2 brand-text-primary"><i class="fa-solid ${iconClass}"></i></div>
+          <div class="chart-name font-medium text-sm brand-text-primary">${chartType.name}</div>
+          <div class="chart-description text-xs brand-text-secondary mt-1 line-clamp-2">${chartType.shortDescription || chartType.description}</div>
         </div>
       </div>
     `;
@@ -156,21 +155,24 @@ export class AIRecommendations {
       
       // Update border colors
       if (typeId === selectedTypeId) {
-        tile.classList.remove('border-gray-200', 'border-blue-500');
-        tile.classList.add('border-blue-600', 'bg-blue-50');
+        tile.classList.add('selected');
+        tile.setAttribute('aria-pressed', 'true');
       } else {
-        tile.classList.remove('border-blue-600', 'bg-blue-50');
-        tile.classList.add(wasRecommended ? 'border-blue-500' : 'border-gray-200');
+        tile.classList.remove('selected');
+        tile.setAttribute('aria-pressed', 'false');
+        tile.dataset.recommended = wasRecommended;
       }
 
       // Update recommended badge
       const badge = tile.querySelector('.recommended-badge');
       if (badge && typeId !== selectedTypeId && wasRecommended) {
         badge.innerHTML = '<i class="fas fa-star text-xs"></i> Was top';
-        badge.classList.remove('bg-blue-600');
-        badge.classList.add('bg-gray-400');
+        badge.classList.remove('brand-badge-primary');
+        badge.classList.add('brand-badge-muted');
       } else if (badge && typeId === selectedTypeId) {
         badge.innerHTML = '<i class="fas fa-check text-xs"></i> Selected';
+        badge.classList.remove('brand-badge-muted');
+        badge.classList.add('brand-badge-primary');
       }
     });
   }
@@ -228,20 +230,20 @@ export class AIRecommendations {
     this.hideTooltip();
 
     const tooltip = document.createElement('div');
-    tooltip.className = 'chart-tooltip absolute z-50 bg-gray-900 text-white p-3 rounded-lg shadow-xl max-w-xs';
+    tooltip.className = 'chart-tooltip brand-tooltip absolute z-50 p-3 rounded-lg shadow-xl max-w-xs';
     tooltip.style.left = `${event.pageX + 10}px`;
     tooltip.style.top = `${event.pageY - 10}px`;
 
     tooltip.innerHTML = `
       <div class="font-medium mb-2">${chartType.name}</div>
-      <div class="text-sm text-gray-300 mb-2">${chartType.description}</div>
-      <div class="text-xs">
+      <div class="text-sm brand-text-inverse mb-2">${chartType.description}</div>
+      <div class="text-xs brand-text-inverse">
         <div class="mb-1"><strong>Use Cases:</strong></div>
         <ul class="list-disc list-inside space-y-1">
           ${chartType.useCases.slice(0, 3).map(useCase => `<li>${useCase}</li>`).join('')}
         </ul>
       </div>
-      <div class="text-xs mt-2 pt-2 border-t border-gray-700">
+      <div class="text-xs mt-2 pt-2 border-t brand-border">
         <strong>Examples:</strong> ${chartType.examples.slice(0, 2).join(', ')}
       </div>
     `;

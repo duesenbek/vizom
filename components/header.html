@@ -39,21 +39,21 @@
       <!-- Language Selector -->
       <div class="language-selector">
         <button class="language-button" id="language-button">
-          <span class="language-flag">🌐</span>
+          <i class="fas fa-language language-icon" aria-hidden="true"></i>
           <span class="language-text">EN</span>
-          <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
+          <i class="fas fa-chevron-down language-chevron" aria-hidden="true"></i>
         </button>
         <div class="language-dropdown" id="language-dropdown">
           <div class="language-option active" data-lang="en">
-            <span class="language-flag">🇺🇸</span>
+            <i class="fas fa-globe-americas language-icon" aria-hidden="true"></i>
             <span>English</span>
           </div>
           <div class="language-option" data-lang="ru">
-            <span class="language-flag">🇷🇺</span>
+            <i class="fas fa-globe-asia language-icon" aria-hidden="true"></i>
             <span>Русский</span>
           </div>
           <div class="language-option" data-lang="de">
-            <span class="language-flag">🇩🇪</span>
+            <i class="fas fa-globe-europe language-icon" aria-hidden="true"></i>
             <span>Deutsch</span>
           </div>
         </div>
@@ -61,11 +61,11 @@
 
       <!-- Auth Buttons (shown when not logged in) -->
       <div class="auth-section" id="auth-section">
-        <a href="#" class="auth-button secondary group" id="sign-in-btn">
+        <a href="#" class="auth-button secondary" id="sign-in-btn">
           <i class="fas fa-sign-in-alt transition-transform duration-200 group-hover:translate-x-0.5"></i>
           <span>Sign In</span>
         </a>
-        <a href="#" class="auth-button primary group inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="get-started-btn" data-component="PrimaryButton">
+        <a href="#" class="auth-button primary" id="get-started-btn" data-component="PrimaryButton">
           <i class="fas fa-rocket transition-transform duration-200 group-hover:translate-x-0.5"></i>
           <span>Get Started</span>
         </a>
@@ -138,7 +138,7 @@
       <a href="#" class="mobile-auth-button secondary" id="mobile-sign-in-btn">
         Sign In
       </a>
-      <a href="#" class="mobile-auth-button primary group inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="mobile-get-started-btn" data-component="PrimaryButton">
+      <a href="#" class="mobile-auth-button primary" id="mobile-get-started-btn" data-component="PrimaryButton">
         <span>Get Started</span>
         <i class="fas fa-rocket text-sm transition-transform duration-200 group-hover:translate-x-0.5"></i>
       </a>

@@ -56,11 +56,11 @@ class GeneratorLayout {
     const tabButtons = document.querySelectorAll('.tab-button');
     tabButtons.forEach(button => {
       if (button.dataset.tab === tabName) {
-        button.classList.add('active', 'bg-white', 'text-blue-600', 'shadow-sm');
-        button.classList.remove('text-slate-600');
+        button.classList.add('active', 'brand-surface', 'brand-text-primary', 'shadow-sm');
+        button.classList.remove('brand-text-secondary');
       } else {
-        button.classList.remove('active', 'bg-white', 'text-blue-600', 'shadow-sm');
-        button.classList.add('text-slate-600');
+        button.classList.remove('active', 'brand-surface', 'brand-text-primary', 'shadow-sm');
+        button.classList.add('brand-text-secondary');
       }
     });
 
@@ -120,26 +120,22 @@ class GeneratorLayout {
     const chartTypeCards = document.querySelectorAll('.chart-type-card');
     chartTypeCards.forEach(card => {
       if (card.dataset.type === chartType) {
-        // Selected state
-        card.classList.add('border-2', 'border-blue-500', 'bg-blue-50');
+        card.classList.add('brand-selection-active');
         card.classList.remove('border', 'border-slate-200');
-        
-        // Update icon to white
+
         const icon = card.querySelector('.rounded-lg');
         if (icon) {
-          icon.classList.add('bg-blue-500', 'text-white');
-          icon.classList.remove('bg-blue-50', 'text-blue-600');
+          icon.classList.add('brand-icon-pill-active');
+          icon.classList.remove('brand-icon-pill');
         }
       } else {
-        // Unselected state
-        card.classList.remove('border-2', 'border-blue-500', 'bg-blue-50');
-        card.classList.add('border', 'border-slate-200');
-        
-        // Reset icon colors
+        card.classList.remove('brand-selection-active');
+        card.classList.add('border', 'brand-border');
+
         const icon = card.querySelector('.rounded-lg');
         if (icon) {
-          icon.classList.remove('bg-blue-500', 'text-white');
-          icon.classList.add('bg-blue-50', 'text-blue-600');
+          icon.classList.remove('brand-icon-pill-active');
+          icon.classList.add('brand-icon-pill');
         }
       }
     });
@@ -188,18 +184,25 @@ class GeneratorLayout {
     const toggles = document.querySelectorAll('.relative.inline-flex.h-6.w-11');
     
     toggles.forEach(toggle => {
+      toggle.classList.add('brand-toggle-track');
+      const thumb = toggle.querySelector('span');
+      if (thumb) {
+        thumb.classList.add('brand-toggle-thumb');
+      }
+
       toggle.addEventListener('click', () => {
-        const span = toggle.querySelector('span');
-        const isActive = toggle.classList.contains('bg-blue-600');
-        
+        const isActive = toggle.classList.contains('brand-toggle-track-active');
+
         if (isActive) {
-          toggle.classList.remove('bg-blue-600');
-          toggle.classList.add('bg-slate-200');
-          span.style.transform = 'translateX(0.25rem)';
+          toggle.classList.remove('brand-toggle-track-active');
+          if (thumb) {
+            thumb.style.transform = 'translateX(0.25rem)';
+          }
         } else {
-          toggle.classList.remove('bg-slate-200');
-          toggle.classList.add('bg-blue-600');
-          span.style.transform = 'translateX(1.5rem)';
+          toggle.classList.add('brand-toggle-track-active');
+          if (thumb) {
+            thumb.style.transform = 'translateX(1.5rem)';
+          }
         }
       });
     });
@@ -251,11 +254,11 @@ class GeneratorLayout {
     const exportFormatButtons = document.querySelectorAll('.export-format-btn');
     exportFormatButtons.forEach(button => {
       if (button.dataset.format === format) {
-        button.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
-        button.classList.remove('border-slate-200');
+        button.classList.add('brand-selection-active');
+        button.classList.remove('brand-border');
       } else {
-        button.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
-        button.classList.add('border-slate-200');
+        button.classList.remove('brand-selection-active');
+        button.classList.add('brand-border');
       }
     });
 
@@ -362,12 +365,12 @@ class GeneratorLayout {
   }
 
   getCurrentChartType() {
-    const activeChartCard = document.querySelector('.chart-type-card.border-blue-500');
+    const activeChartCard = document.querySelector('.chart-type-card.brand-selection-active');
     return activeChartCard ? activeChartCard.dataset.type : 'bar';
   }
 
   getCurrentExportFormat() {
-    const activeFormatButton = document.querySelector('.export-format-btn.bg-blue-600');
+    const activeFormatButton = document.querySelector('.export-format-btn.brand-selection-active');
     return activeFormatButton ? activeFormatButton.dataset.format : 'png';
   }
 

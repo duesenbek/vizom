@@ -8,10 +8,47 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/images/vizom-icon.png">
     <link rel="apple-touch-icon" href="/images/vizom-icon.png">
-    
-    <!-- Tailwind CSS -->
+
+    <!-- Inter font for unified typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS with Vizom brand config -->
+    <script>
+      window.tailwind = window.tailwind || {};
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+            },
+            colors: {
+              blue: {
+                50:  '#F3F7FF',
+                100: '#E1EDFF',
+                200: '#C2D7FF',
+                300: '#9ABFFF',
+                400: '#5793FF',
+                500: '#2E7BFF',
+                600: '#0F6BFF',
+                700: '#0852D6',
+                800: '#0636A1',
+                900: '#041C5C',
+              },
+            },
+            boxShadow: {
+              card: '0 18px 40px rgba(15,23,42,0.06)',
+            },
+            borderRadius: {
+              pill: '999px',
+            },
+          },
+        },
+      };
+    </script>
     <script src="https://cdn.tailwindcss.com?plugins=line-clamp"></script>
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     

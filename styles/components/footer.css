@@ -3,8 +3,8 @@
 
 /* Footer Container */
 .footer-main {
-  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-secondary-800) 0%, var(--color-secondary-700) 100%);
+  color: var(--color-text-inverse);
   padding: 60px 0 40px;
   position: relative;
   overflow: hidden;
@@ -17,7 +17,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  background: linear-gradient(90deg, transparent, var(--color-primary-500), transparent);
 }
 
 .footer-container {
@@ -45,19 +45,19 @@
   margin-bottom: 20px;
   font-size: 28px;
   font-weight: 700;
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .brand-logo i {
   font-size: 32px;
-  color: #3b82f6;
-  background: rgba(59, 130, 246, 0.1);
+  color: var(--color-primary-500);
+  background: var(--color-primary-50);
   padding: 8px;
   border-radius: 8px;
 }
 
 .brand-description {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   line-height: 1.6;
   margin-bottom: 24px;
   font-size: 15px;
@@ -86,9 +86,9 @@
 
 .app-link:hover {
   background: rgba(255, 255, 255, 0.2);
-  border-color: #3b82f6;
+  border-color: var(--color-primary-500);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(15, 107, 255, 0.3);
 }
 
 .app-link i {
@@ -111,15 +111,15 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 12px;
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .newsletter-title i {
-  color: #3b82f6;
+  color: var(--color-primary-500);
 }
 
 .newsletter-description {
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   margin-bottom: 20px;
   font-size: 14px;
   line-height: 1.5;
@@ -147,19 +147,19 @@
 }
 
 .newsletter-input::placeholder {
-  color: #64748b;
+  color: var(--color-text-tertiary);
 }
 
 .newsletter-input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: var(--color-primary-500);
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(15, 107, 255, 0.15);
 }
 
 .newsletter-input.invalid {
-  border-color: #ef4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  border-color: var(--color-error-500);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
 }
 
 .newsletter-button {
@@ -167,10 +167,10 @@
   align-items: center;
   gap: 8px;
   padding: 12px 20px;
-  background: #3b82f6;
+  background: var(--color-primary);
   border: none;
   border-radius: 8px;
-  color: white;
+  color: var(--color-text-inverse);
   font-weight: 500;
   font-size: 14px;
   cursor: pointer;
@@ -179,9 +179,9 @@
 }
 
 .newsletter-button:hover:not(:disabled) {
-  background: #2563eb;
+  background: var(--color-primary-700);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(15, 107, 255, 0.3);
 }
 
 .newsletter-button:disabled {
@@ -198,19 +198,19 @@
 }
 
 .newsletter-message.success {
-  background: rgba(16, 185, 129, 0.1);
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: rgba(34, 197, 94, 0.12);
+  color: var(--color-success-500);
+  border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
 .newsletter-message.error {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(220, 38, 38, 0.12);
+  color: var(--color-error-500);
+  border: 1px solid rgba(220, 38, 38, 0.25);
 }
 
 .newsletter-message.loading {
-  color: #3b82f6;
+  color: var(--color-primary-500);
   font-style: italic;
 }
 
@@ -232,11 +232,11 @@
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .section-title i {
-  color: #3b82f6;
+  color: var(--color-primary-500);
   font-size: 14px;
 }
 
@@ -254,7 +254,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #94a3b8;
+  color: var(--color-text-secondary);
   text-decoration: none;
   font-size: 14px;
   transition: all 0.3s ease;
@@ -262,23 +262,23 @@
 }
 
 .footer-link:hover {
-  color: white;
+  color: var(--color-text-inverse);
   transform: translateX(4px);
 }
 
 .footer-link i {
   font-size: 12px;
-  color: #64748b;
+  color: var(--color-text-tertiary);
   transition: color 0.3s ease;
 }
 
 .footer-link:hover i {
-  color: #3b82f6;
+  color: var(--color-primary-500);
 }
 
 /* Footer Bottom */
 .footer-bottom {
-  background: #0f172a;
+  background: var(--color-secondary-900);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 24px 0;
 }
@@ -303,11 +303,11 @@
   gap: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: #94a3b8;
+  color: var(--color-text-secondary);
 }
 
 .social-title i {
-  color: #3b82f6;
+  color: var(--color-primary-500);
 }
 
 .social-links {
@@ -330,11 +330,11 @@
 }
 
 .social-link:hover {
-  background: #3b82f6;
-  border-color: #3b82f6;
-  color: white;
+  background: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+  color: var(--color-text-inverse);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(15, 107, 255, 0.3);
 }
 
 .social-link i {
@@ -351,7 +351,7 @@
 }
 
 .copyright-text p {
-  color: #64748b;
+  color: var(--color-text-tertiary);
   font-size: 13px;
   margin: 0;
 }
@@ -371,17 +371,17 @@
 }
 
 .legal-link {
-  color: #64748b;
+  color: var(--color-text-tertiary);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .legal-link:hover {
-  color: #3b82f6;
+  color: var(--color-primary-500);
 }
 
 .separator {
-  color: #475569;
+  color: var(--color-secondary-600);
 }
 
 /* Responsive Design */
@@ -492,7 +492,7 @@
 .social-link:focus,
 .app-link:focus,
 .newsletter-button:focus {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 
@@ -522,14 +522,14 @@
   }
   
   .footer-bottom {
-    background: black;
-    border-top-color: white;
+    background: var(--color-background-dark);
+    border-top-color: var(--color-text-inverse);
   }
   
   .footer-link,
   .social-link,
   .app-link {
-    border: 1px solid white;
+    border: 1px solid var(--color-text-inverse);
   }
 }
 

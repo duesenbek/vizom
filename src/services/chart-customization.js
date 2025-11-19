@@ -163,16 +163,16 @@ class ChartCustomizationService {
     styles.textContent = `
       /* Customization Panel */
       .customization-panel {
-        background: white;
+        background: var(--color-surface);
         border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        border: 1px solid #e5e7eb;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--color-border);
         overflow: hidden;
       }
 
       .customization-header {
-        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-        color: white;
+        background: var(--color-primary-600);
+        color: var(--color-text-inverse);
         padding: 16px 20px;
         display: flex;
         align-items: center;
@@ -190,7 +190,7 @@ class ChartCustomizationService {
       .customization-close {
         background: rgba(255, 255, 255, 0.2);
         border: none;
-        color: white;
+        color: var(--color-text-inverse);
         width: 28px;
         height: 28px;
         border-radius: 6px;
@@ -202,14 +202,14 @@ class ChartCustomizationService {
       }
 
       .customization-close:hover {
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.35);
       }
 
       /* Customization Tabs */
       .customization-tabs {
         display: flex;
-        background: #f9fafb;
-        border-bottom: 1px solid #e5e7eb;
+        background: var(--color-surface);
+        border-bottom: 1px solid var(--color-border);
       }
 
       .customization-tab {
@@ -217,7 +217,7 @@ class ChartCustomizationService {
         padding: 12px 16px;
         background: none;
         border: none;
-        color: #6b7280;
+        color: var(--color-text-secondary);
         font-size: 13px;
         font-weight: 500;
         cursor: pointer;
@@ -226,14 +226,14 @@ class ChartCustomizationService {
       }
 
       .customization-tab:hover {
-        color: #374151;
-        background: rgba(0, 0, 0, 0.02);
+        color: var(--color-text-primary);
+        background: var(--color-state-hover);
       }
 
       .customization-tab.active {
-        color: #3b82f6;
-        border-bottom-color: #3b82f6;
-        background: white;
+        color: var(--color-primary-600);
+        border-bottom-color: var(--color-primary-600);
+        background: var(--color-surface);
       }
 
       /* Customization Content */
@@ -254,7 +254,7 @@ class ChartCustomizationService {
       .customization-section-title {
         font-size: 14px;
         font-weight: 600;
-        color: #1f2937;
+        color: var(--color-text-primary);
         margin-bottom: 12px;
         display: flex;
         align-items: center;
@@ -263,7 +263,7 @@ class ChartCustomizationService {
 
       .customization-section-description {
         font-size: 12px;
-        color: #6b7280;
+        color: var(--color-text-secondary);
         margin-bottom: 16px;
       }
 
@@ -287,13 +287,13 @@ class ChartCustomizationService {
       }
 
       .color-preset:hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: scale(1.05);
+        box-shadow: var(--shadow-sm);
       }
 
       .color-preset.selected {
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        border-color: var(--color-primary-500);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-500) 20%, transparent);
       }
 
       .color-preset.selected::after {
@@ -302,10 +302,10 @@ class ChartCustomizationService {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        color: white;
+        color: var(--color-text-inverse);
         font-size: 16px;
         font-weight: bold;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
       }
 
       /* Custom Color Input */
@@ -314,25 +314,27 @@ class ChartCustomizationService {
         align-items: center;
         gap: 12px;
         padding: 8px 12px;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--color-border);
         border-radius: 8px;
-        background: #f9fafb;
+        background: var(--color-state-hover);
       }
 
       .custom-color-preview {
         width: 32px;
         height: 32px;
         border-radius: 6px;
-        border: 1px solid #d1d5db;
+        border: 1px solid var(--color-border);
       }
 
       .custom-color-text {
         flex: 1;
         padding: 6px 8px;
-        border: 1px solid #d1d5db;
+        border: 1px solid var(--color-border);
         border-radius: 4px;
         font-size: 12px;
         font-family: monospace;
+        color: var(--color-text-primary);
+        background: var(--color-surface);
       }
 
       /* Font Controls */
@@ -343,39 +345,40 @@ class ChartCustomizationService {
 
       .font-preset {
         padding: 12px;
-        border: 2px solid #e5e7eb;
+        border: 2px solid var(--color-border);
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.2s ease;
+        background: var(--color-surface);
       }
 
       .font-preset:hover {
-        border-color: #d1d5db;
-        background: #f9fafb;
+        border-color: var(--color-border-strong);
+        background: var(--color-state-hover);
       }
 
       .font-preset.selected {
-        border-color: #3b82f6;
-        background: #eff6ff;
+        border-color: var(--color-primary-500);
+        background: var(--color-primary-50);
       }
 
       .font-preset-name {
         font-weight: 600;
-        color: #1f2937;
+        color: var(--color-text-primary);
         margin-bottom: 4px;
         font-size: 13px;
       }
 
       .font-preset-preview {
         font-size: 11px;
-        color: #6b7280;
+        color: var(--color-text-secondary);
         margin-bottom: 8px;
       }
 
       .font-preset-sample {
         padding: 8px;
-        background: white;
-        border: 1px solid #e5e7eb;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
         border-radius: 4px;
         font-size: 12px;
       }
@@ -390,14 +393,14 @@ class ChartCustomizationService {
 
       .size-control-label {
         font-size: 12px;
-        color: #4b5563;
+        color: var(--color-text-secondary);
         min-width: 80px;
       }
 
       .size-slider {
         flex: 1;
         height: 4px;
-        background: #e5e7eb;
+        background: var(--color-border);
         border-radius: 2px;
         position: relative;
         cursor: pointer;
@@ -405,7 +408,7 @@ class ChartCustomizationService {
 
       .size-slider-fill {
         height: 100%;
-        background: #3b82f6;
+        background: var(--color-primary-500);
         border-radius: 2px;
         transition: width 0.2s ease;
       }
@@ -416,23 +419,23 @@ class ChartCustomizationService {
         transform: translate(-50%, -50%);
         width: 16px;
         height: 16px;
-        background: white;
-        border: 2px solid #3b82f6;
+        background: var(--color-surface);
+        border: 2px solid var(--color-primary-500);
         border-radius: 50%;
         cursor: grab;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-sm);
       }
 
       .size-slider-thumb:active {
         cursor: grabbing;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-md);
       }
 
       .size-value {
         min-width: 40px;
         text-align: center;
         font-size: 12px;
-        color: #6b7280;
+        color: var(--color-text-secondary);
         font-weight: 500;
       }
 
@@ -445,24 +448,25 @@ class ChartCustomizationService {
 
       .legend-position-option {
         padding: 12px 8px;
-        border: 2px solid #e5e7eb;
+        border: 2px solid var(--color-border);
         border-radius: 8px;
         cursor: pointer;
         text-align: center;
         transition: all 0.2s ease;
         font-size: 12px;
-        color: #6b7280;
+        color: var(--color-text-secondary);
+        background: var(--color-surface);
       }
 
       .legend-position-option:hover {
-        border-color: #d1d5db;
-        background: #f9fafb;
+        border-color: var(--color-border-strong);
+        background: var(--color-state-hover);
       }
 
       .legend-position-option.selected {
-        border-color: #3b82f6;
-        background: #eff6ff;
-        color: #3b82f6;
+        border-color: var(--color-primary-500);
+        background: var(--color-primary-50);
+        color: var(--color-primary-600);
       }
 
       /* Toggle Controls */
@@ -471,7 +475,7 @@ class ChartCustomizationService {
         align-items: center;
         justify-content: space-between;
         padding: 12px 0;
-        border-bottom: 1px solid #f3f4f6;
+        border-bottom: 1px solid var(--color-border-light);
       }
 
       .toggle-control:last-child {
@@ -480,21 +484,21 @@ class ChartCustomizationService {
 
       .toggle-label {
         font-size: 13px;
-        color: #4b5563;
+        color: var(--color-text-secondary);
       }
 
       .toggle-switch {
         position: relative;
         width: 44px;
         height: 24px;
-        background: #d1d5db;
+        background: var(--color-border);
         border-radius: 12px;
         cursor: pointer;
         transition: background 0.2s ease;
       }
 
       .toggle-switch.active {
-        background: #3b82f6;
+        background: var(--color-primary-500);
       }
 
       .toggle-switch-thumb {
@@ -503,10 +507,10 @@ class ChartCustomizationService {
         left: 2px;
         width: 20px;
         height: 20px;
-        background: white;
+        background: var(--color-surface);
         border-radius: 50%;
         transition: transform 0.2s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-sm);
       }
 
       .toggle-switch.active .toggle-switch-thumb {
@@ -518,8 +522,8 @@ class ChartCustomizationService {
         display: flex;
         gap: 12px;
         padding: 16px 20px;
-        background: #f9fafb;
-        border-top: 1px solid #e5e7eb;
+        background: var(--color-surface);
+        border-top: 1px solid var(--color-border);
       }
 
       .customization-button {
@@ -538,23 +542,22 @@ class ChartCustomizationService {
       }
 
       .customization-button.primary {
-        background: #3b82f6;
-        color: white;
+        background: var(--color-primary);
+        color: var(--color-text-inverse);
       }
 
       .customization-button.primary:hover {
-        background: #2563eb;
+        background: var(--color-primary-700);
       }
 
       .customization-button.secondary {
-        background: white;
-        color: #6b7280;
-        border: 1px solid #d1d5db;
+        background: var(--color-surface);
+        color: var(--color-text-secondary);
+        border: 1px solid var(--color-border);
       }
 
       .customization-button.secondary:hover {
-        background: #f9fafb;
-        border-color: #9ca3af;
+        background: var(--color-state-hover);
       }
 
       /* Mobile Optimizations */

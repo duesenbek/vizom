@@ -26,11 +26,11 @@ class CustomizationPanel {
 
   createPanel() {
     const panelHTML = `
-      <div id="customization-panel" class="fixed right-0 top-0 h-full w-80 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
-        <div class="p-6 border-b border-slate-200">
+      <div id="customization-panel" class="fixed right-0 top-0 h-full w-80 brand-panel-floating transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
+        <div class="p-6 border-b brand-border">
           <div class="flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-slate-900">Настройки диаграммы</h3>
-            <button id="close-customization" class="text-slate-400 hover:text-slate-600">
+            <h3 class="text-lg font-semibold brand-text-primary">Настройки диаграммы</h3>
+            <button id="close-customization" class="brand-text-secondary brand-hover-text-primary">
               <i class="fas fa-times"></i>
             </button>
           </div>
@@ -39,7 +39,7 @@ class CustomizationPanel {
         <div class="p-6 space-y-6">
           <!-- Theme Selection -->
           <div class="space-y-3">
-            <label class="text-sm font-medium text-slate-700">Тема</label>
+            <label class="text-sm font-medium brand-text-secondary">Тема</label>
             <div class="grid grid-cols-2 gap-2">
               ${this.getThemeOptions()}
             </div>
@@ -47,13 +47,13 @@ class CustomizationPanel {
 
           <!-- Color Palette -->
           <div class="space-y-3">
-            <label class="text-sm font-medium text-slate-700">Цветовая палитра</label>
+            <label class="text-sm font-medium brand-text-secondary">Цветовая палитра</label>
             <div class="space-y-2">
               <div class="flex items-center gap-2">
                 <input type="color" id="color-1" value="#3B82F6" class="w-8 h-8 rounded">
                 <input type="color" id="color-2" value="#8B5CF6" class="w-8 h-8 rounded">
                 <input type="color" id="color-3" value="#06D6A0" class="w-8 h-8 rounded">
-                <button id="add-color" class="text-blue-600 hover:text-blue-700">
+                <button id="add-color" class="text-sm brand-link">
                   <i class="fas fa-plus"></i>
                 </button>
               </div>
@@ -65,9 +65,9 @@ class CustomizationPanel {
 
           <!-- Typography -->
           <div class="space-y-3">
-            <label class="text-sm font-medium text-slate-700">Типографика</label>
+            <label class="text-sm font-medium brand-text-secondary">Типографика</label>
             <div class="space-y-2">
-              <select id="font-family" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm">
+              <select id="font-family" class="w-full border brand-border rounded-lg px-3 py-2 text-sm">
                 <option value="Inter">Inter</option>
                 <option value="Arial">Arial</option>
                 <option value="Helvetica">Helvetica</option>
@@ -77,14 +77,14 @@ class CustomizationPanel {
               </select>
               <div class="flex items-center gap-2">
                 <input type="range" id="font-size" min="8" max="24" value="12" class="flex-1">
-                <span id="font-size-value" class="text-sm text-slate-600 w-8">12</span>
+                <span id="font-size-value" class="text-sm brand-text-secondary w-8">12</span>
               </div>
             </div>
           </div>
 
           <!-- Chart Elements -->
           <div class="space-y-3">
-            <label class="text-sm font-medium text-slate-700">Элементы диаграммы</label>
+            <label class="text-sm font-medium brand-text-secondary">Элементы диаграммы</label>
             <div class="space-y-2">
               <label class="flex items-center gap-2">
                 <input type="checkbox" id="show-grid" checked class="rounded">
@@ -110,55 +110,55 @@ class CustomizationPanel {
             <label class="text-sm font-medium text-slate-700">Стиль</label>
             <div class="space-y-2">
               <div class="flex items-center gap-2">
-                <label class="text-sm text-slate-600 w-20">Скругление</label>
+                <label class="text-sm brand-text-secondary w-20">Скругление</label>
                 <input type="range" id="border-radius" min="0" max="20" value="8" class="flex-1">
-                <span id="border-radius-value" class="text-sm text-slate-600 w-8">8</span>
+                <span id="border-radius-value" class="text-sm brand-text-secondary w-8">8</span>
               </div>
               <div class="flex items-center gap-2">
-                <label class="text-sm text-slate-600 w-20">Толщина</label>
+                <label class="text-sm brand-text-secondary w-20">Толщина</label>
                 <input type="range" id="stroke-width" min="1" max="10" value="2" class="flex-1">
-                <span id="stroke-width-value" class="text-sm text-slate-600 w-8">2</span>
+                <span id="stroke-width-value" class="text-sm brand-text-secondary w-8">2</span>
               </div>
               <div class="flex items-center gap-2">
-                <label class="text-sm text-slate-600 w-20">Прозрачность</label>
+                <label class="text-sm brand-text-secondary w-20">Прозрачность</label>
                 <input type="range" id="opacity" min="0" max="100" value="80" class="flex-1">
-                <span id="opacity-value" class="text-sm text-slate-600 w-8">80%</span>
+                <span id="opacity-value" class="text-sm brand-text-secondary w-8">80%</span>
               </div>
             </div>
           </div>
 
           <!-- Animation -->
           <div class="space-y-3">
-            <label class="text-sm font-medium text-slate-700">Анимация</label>
+            <label class="text-sm font-medium brand-text-secondary">Анимация</label>
             <div class="space-y-2">
               <label class="flex items-center gap-2">
                 <input type="checkbox" id="enable-animation" checked class="rounded">
                 <span class="text-sm">Включить анимацию</span>
               </label>
               <div class="flex items-center gap-2">
-                <label class="text-sm text-slate-600 w-20">Длительность</label>
+                <label class="text-sm brand-text-secondary w-20">Длительность</label>
                 <input type="range" id="animation-duration" min="0" max="3000" value="1000" step="100" class="flex-1">
-                <span id="animation-duration-value" class="text-sm text-slate-600 w-12">1.0s</span>
+                <span id="animation-duration-value" class="text-sm brand-text-secondary w-12">1.0s</span>
               </div>
             </div>
           </div>
 
           <!-- Actions -->
-          <div class="space-y-3 pt-4 border-t border-slate-200">
-            <button id="apply-settings" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          <div class="space-y-3 pt-4 border-t brand-border">
+            <button id="apply-settings" class="w-full brand-button-primary px-4 py-2 rounded-lg transition">
               Применить настройки
             </button>
-            <button id="reset-settings" class="w-full border border-slate-200 text-slate-700 px-4 py-2 rounded-lg hover:border-slate-300 transition">
+            <button id="reset-settings" class="w-full brand-button-secondary px-4 py-2 rounded-lg transition">
               Сбросить
             </button>
-            <button id="save-preset" class="w-full border border-slate-200 text-slate-700 px-4 py-2 rounded-lg hover:border-slate-300 transition">
+            <button id="save-preset" class="w-full brand-button-secondary px-4 py-2 rounded-lg transition">
               Сохранить как пресет
             </button>
           </div>
 
           <!-- Saved Presets -->
           <div class="space-y-3">
-            <label class="text-sm font-medium text-slate-700">Сохраненные пресеты</label>
+            <label class="text-sm font-medium brand-text-secondary">Сохраненные пресеты</label>
             <div id="saved-presets" class="space-y-2">
               <!-- Presets will be loaded here -->
             </div>
@@ -167,7 +167,7 @@ class CustomizationPanel {
       </div>
 
       <!-- Toggle Button -->
-      <button id="toggle-customization" class="fixed right-4 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white p-3 rounded-l-lg shadow-lg hover:bg-blue-700 transition z-40">
+      <button id="toggle-customization" class="fixed right-4 top-1/2 transform -translate-y-1/2 brand-button-primary p-3 rounded-l-lg shadow-lg transition z-40">
         <i class="fas fa-sliders-h"></i>
       </button>
     `;

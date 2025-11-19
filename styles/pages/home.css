@@ -2,20 +2,20 @@
 
 :root {
   /* Color Palette */
-  --pure-white: #FFFFFF;
-  --background: #FCFCFC;
-  --surface: #FFFFFF;
-  --text-primary: #1A1A1A;
-  --text-secondary: #666666;
-  --text-muted: #999999;
-  --primary: #0066FF;
-  --primary-hover: #0052CC;
-  --primary-light: rgba(0, 102, 255, 0.05);
-  --border: #F0F0F0;
-  --border-hover: #E0E0E0;
-  --success: #00C853;
-  --error: #FF3B30;
-  --warning: #FF9500;
+  --pure-white: var(--color-text-inverse);
+  --background: var(--color-background);
+  --surface: var(--color-surface);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-tertiary);
+  --primary: var(--color-primary-600);
+  --primary-hover: var(--color-primary-700);
+  --primary-light: var(--color-primary-50);
+  --border: var(--color-border);
+  --border-hover: var(--color-border-strong);
+  --success: var(--color-success-600);
+  --error: var(--color-error-600);
+  --warning: var(--color-warning-500);
   
   /* Typography Scale */
   --text-xs: 12px;

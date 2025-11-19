@@ -101,6 +101,318 @@
 .viz-bg-light { background-color: var(--viz-color-light) !important; }
 .viz-bg-dark { background-color: var(--viz-color-dark) !important; }
 
+/* Brand palette utilities */
+.brand-text-primary { color: var(--color-text-primary) !important; }
+.brand-text-secondary { color: var(--color-text-secondary) !important; }
+.brand-text-tertiary { color: var(--color-text-tertiary) !important; }
+.brand-text-inverse { color: var(--color-text-inverse) !important; }
+
+.brand-icon-primary { color: var(--color-primary-600); }
+.brand-icon-secondary { color: var(--color-text-tertiary); }
+.brand-hover-text-primary:hover { color: var(--color-text-primary); }
+.brand-hover-text-secondary:hover { color: var(--color-text-secondary); }
+
+.brand-icon-pill {
+  background: var(--color-primary-50);
+  color: var(--color-primary-600);
+}
+
+.brand-icon-pill-active {
+  background: var(--color-primary-600);
+  color: var(--color-text-inverse);
+}
+
+.brand-panel-floating {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+}
+
+.brand-surface {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+.brand-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.brand-surface-footer {
+  background: var(--color-secondary-900);
+  color: var(--color-text-inverse);
+}
+
+.brand-footer-heading { color: var(--color-text-inverse); }
+
+.brand-footer-link {
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
+}
+
+.brand-footer-link:hover { color: var(--color-text-inverse); }
+
+.brand-footer-bottom-bar {
+  border-color: var(--color-secondary-700) !important;
+  color: var(--color-text-secondary);
+}
+
+.brand-footer-meta { color: var(--color-text-tertiary); }
+
+.brand-overlay {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.brand-input {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.brand-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.brand-button-primary {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: none;
+}
+
+.brand-button-primary:hover {
+  background: var(--color-primary-700);
+}
+
+.brand-button-danger {
+  background: var(--color-error-600);
+  color: var(--color-text-inverse);
+}
+
+.brand-button-danger:hover {
+  background: var(--color-error-700);
+}
+
+.brand-button-secondary {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.brand-button-secondary:hover {
+  background: var(--color-state-hover);
+}
+
+.brand-panel-info {
+  background: var(--color-primary-50);
+  border: 1px solid var(--color-primary-200);
+  color: var(--color-text-primary);
+}
+
+.brand-notice {
+  background: var(--color-primary-50);
+  border: 1px solid var(--color-primary-100);
+  color: var(--color-text-primary);
+}
+
+.brand-notice-icon {
+  color: var(--color-primary-600);
+}
+
+.brand-badge-primary {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.brand-badge-muted {
+  background: var(--color-border-light);
+  color: var(--color-text-secondary);
+}
+
+.brand-badge-success {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--color-success-700);
+}
+
+.brand-success-panel {
+  background: var(--color-success-50);
+  border: 1px solid var(--color-success-200);
+}
+
+.brand-success-indicator {
+  background: var(--color-success-100);
+}
+
+.brand-text-success {
+  color: var(--color-success-700);
+}
+
+.brand-button-success {
+  background: var(--color-success-600);
+  color: var(--color-text-inverse);
+}
+
+.brand-button-success:hover {
+  background: var(--color-success-700);
+}
+
+.brand-link {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.brand-link:hover {
+  color: var(--color-primary-700);
+}
+
+.brand-icon-button {
+  color: var(--color-text-secondary);
+  border-radius: 0.75rem;
+  background: transparent;
+  transition: color 0.2s ease;
+}
+
+.brand-icon-button:hover {
+  color: var(--color-text-primary);
+}
+
+.brand-empty-state {
+  background: var(--color-primary-50);
+}
+
+.brand-icon-muted {
+  color: var(--color-text-tertiary);
+}
+
+.brand-loading-indicator {
+  background: var(--color-primary-100);
+}
+
+.brand-progress-track {
+  background: var(--color-border-light);
+}
+
+.brand-progress-bar {
+  background: var(--color-primary);
+}
+
+.brand-error-indicator {
+  background: var(--color-error-100);
+}
+
+.brand-text-error {
+  color: var(--color-error-600);
+}
+
+.brand-border {
+  border-color: var(--color-border) !important;
+}
+
+.brand-dropdown {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.brand-dropdown-option {
+  color: var(--color-text-secondary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.brand-dropdown-option:hover {
+  background: var(--color-state-hover);
+  color: var(--color-text-primary);
+}
+
+.brand-border-hover:hover {
+  border-color: var(--color-primary-400);
+}
+
+.brand-hover-surface:hover {
+  background: var(--color-state-hover);
+}
+
+.brand-selection-active {
+  border-color: var(--color-primary-400) !important;
+  background: var(--color-primary-50) !important;
+}
+
+.brand-toggle-track {
+  background: var(--color-border);
+  transition: background 0.2s ease;
+}
+
+.brand-toggle-track-active {
+  background: var(--color-primary-500);
+}
+
+.brand-toggle-thumb {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.brand-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.brand-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.brand-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+
+.brand-recommendation-tile {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 0.75rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.brand-recommendation-tile[data-recommended="true"] {
+  border-color: var(--color-primary-200);
+}
+
+.brand-recommendation-tile:hover {
+  border-color: var(--color-primary-300);
+  box-shadow: var(--shadow-sm);
+}
+
+.brand-recommendation-tile.selected {
+  border-color: var(--color-primary-600);
+  background: var(--color-primary-50);
+  box-shadow: var(--shadow-sm);
+}
+
+.brand-modal-panel {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+.brand-button-muted {
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+}
+
+.brand-button-muted:hover {
+  color: var(--color-text-primary);
+}
+
+.brand-tooltip {
+  background: var(--color-secondary-900);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+}
+
 /* Typography utilities */
 .viz-text-xs { font-size: var(--viz-font-size-xs) !important; }
 .viz-text-sm { font-size: var(--viz-font-size-sm) !important; }

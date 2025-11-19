@@ -27,19 +27,19 @@ class DataImportExport {
     const uploadTab = document.getElementById('upload-tab');
     if (uploadTab) {
       const advancedImportHTML = `
-        <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <h4 class="font-medium text-blue-900 mb-2">Расширенный импорт</h4>
+        <div class="mt-4 p-4 brand-panel-info rounded-lg">
+          <h4 class="font-medium brand-text-primary mb-2">Расширенный импорт</h4>
           <div class="grid grid-cols-2 gap-2">
-            <button class="import-source-btn text-sm bg-white border border-blue-200 text-blue-700 px-3 py-2 rounded hover:bg-blue-100 transition" data-source="google-sheets">
+            <button class="import-source-btn text-sm brand-button-secondary px-3 py-2 rounded transition" data-source="google-sheets">
               <i class="fab fa-google"></i> Google Sheets
             </button>
-            <button class="import-source-btn text-sm bg-white border border-blue-200 text-blue-700 px-3 py-2 rounded hover:bg-blue-100 transition" data-source="api">
+            <button class="import-source-btn text-sm brand-button-secondary px-3 py-2 rounded transition" data-source="api">
               <i class="fas fa-code"></i> API
             </button>
-            <button class="import-source-btn text-sm bg-white border border-blue-200 text-blue-700 px-3 py-2 rounded hover:bg-blue-100 transition" data-source="database">
+            <button class="import-source-btn text-sm brand-button-secondary px-3 py-2 rounded transition" data-source="database">
               <i class="fas fa-database"></i> База данных
             </button>
-            <button class="import-source-btn text-sm bg-white border border-blue-200 text-blue-700 px-3 py-2 rounded hover:bg-blue-100 transition" data-source="url">
+            <button class="import-source-btn text-sm brand-button-secondary px-3 py-2 rounded transition" data-source="url">
               <i class="fas fa-link"></i> URL
             </button>
           </div>
@@ -63,13 +63,13 @@ class DataImportExport {
 
       ['dragenter', 'dragover'].forEach(eventName => {
         dropZone.addEventListener(eventName, () => {
-          dropZone.classList.add('border-blue-400', 'bg-blue-50');
+          dropZone.classList.add('brand-border', 'brand-hover-surface');
         }, false);
       });
 
       ['dragleave', 'drop'].forEach(eventName => {
         dropZone.addEventListener(eventName, () => {
-          dropZone.classList.remove('border-blue-400', 'bg-blue-50');
+          dropZone.classList.remove('brand-border', 'brand-hover-surface');
         }, false);
       });
 

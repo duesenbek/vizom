@@ -69,7 +69,7 @@ class UnifiedHeader {
         align-items: center;
         gap: 12px;
         text-decoration: none;
-        color: #1e293b;
+        color: var(--color-secondary-800);
         font-weight: 700;
         font-size: 20px;
         transition: all 0.2s ease;
@@ -86,12 +86,12 @@ class UnifiedHeader {
         height: 28px;
         border-radius: 6px;
         object-fit: cover;
-        border: 1px solid rgba(148, 163, 184, 0.4);
-        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+        border: 1px solid var(--color-border);
+        box-shadow: var(--shadow-sm);
       }
 
       .logo-link:hover {
-        color: #2563eb;
+        color: var(--color-primary);
         transform: translateY(-1px);
       }
 
@@ -108,13 +108,13 @@ class UnifiedHeader {
         align-items: center;
         justify-content: center;
         font-size: 0;
-        box-shadow: 0 2px 8px rgba(24, 114, 217, 0.3);
+        box-shadow: var(--shadow-md);
         transition: all 0.2s ease;
       }
 
       .logo-link:hover .logo-icon {
         transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(24, 114, 217, 0.4);
+        box-shadow: var(--shadow-lg);
       }
 
       .mobile-menu-toggle {
@@ -122,8 +122,8 @@ class UnifiedHeader {
         width: 40px;
         height: 40px;
         border: none;
-        background: #f8fafc;
-        color: #64748b;
+        background: var(--color-secondary-50);
+        color: var(--color-text-secondary);
         border-radius: 8px;
         cursor: pointer;
         align-items: center;
@@ -134,13 +134,13 @@ class UnifiedHeader {
       }
 
       .mobile-menu-toggle:hover {
-        background: #e2e8f0;
-        color: #334155;
+        background: var(--color-secondary-100);
+        color: var(--color-text-primary);
       }
 
       .mobile-menu-toggle.active {
-        background: #dbeafe;
-        color: #2563eb;
+        background: var(--color-primary-50);
+        color: var(--color-primary);
       }
 
       /* Primary Navigation */
@@ -160,7 +160,7 @@ class UnifiedHeader {
         padding: 8px 16px;
         border-radius: 8px;
         text-decoration: none;
-        color: #64748b;
+        color: var(--color-text-secondary);
         font-size: 14px;
         font-weight: 500;
         transition: all 0.2s ease;
@@ -169,14 +169,14 @@ class UnifiedHeader {
       }
 
       .nav-link:hover {
-        background: #f1f5f9;
-        color: #334155;
+        background: var(--color-state-hover);
+        color: var(--color-text-primary);
         transform: translateY(-1px);
       }
 
       .nav-link.active {
-        background: #dbeafe;
-        color: #2563eb;
+        background: var(--color-state-selected);
+        color: var(--color-primary);
         font-weight: 600;
       }
 
@@ -188,7 +188,7 @@ class UnifiedHeader {
         transform: translateX(-50%);
         width: 4px;
         height: 4px;
-        background: #2563eb;
+        background: var(--color-primary);
         border-radius: 50%;
       }
 
@@ -221,26 +221,26 @@ class UnifiedHeader {
       }
 
       .auth-button.secondary {
-        background: #f8fafc;
-        color: #64748b;
-        border: 1px solid #e2e8f0;
+        background: var(--color-secondary-50);
+        color: var(--color-text-secondary);
+        border: 1px solid var(--color-border);
       }
 
       .auth-button.secondary:hover {
-        background: #f1f5f9;
-        color: #334155;
-        border-color: #cbd5e1;
+        background: var(--color-secondary-100);
+        color: var(--color-text-primary);
+        border-color: var(--color-border-strong);
       }
 
       .auth-button.primary {
-        background: #2563eb;
-        color: white;
+        background: var(--color-primary);
+        color: var(--color-text-inverse);
       }
 
       .auth-button.primary:hover {
-        background: #1d4ed8;
+        background: var(--color-primary-700);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        box-shadow: var(--shadow-md);
       }
 
       /* Language Selector */
@@ -253,10 +253,10 @@ class UnifiedHeader {
         align-items: center;
         gap: 6px;
         padding: 8px 12px;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
+        background: var(--color-secondary-50);
+        border: 1px solid var(--color-border);
         border-radius: 8px;
-        color: #64748b;
+        color: var(--color-text-secondary);
         font-size: 14px;
         font-weight: 500;
         cursor: pointer;
@@ -264,9 +264,9 @@ class UnifiedHeader {
       }
 
       .language-button:hover {
-        background: #f1f5f9;
-        color: #334155;
-        border-color: #cbd5e1;
+        background: var(--color-secondary-100);
+        color: var(--color-text-primary);
+        border-color: var(--color-border-strong);
       }
 
       .language-dropdown {
@@ -274,8 +274,8 @@ class UnifiedHeader {
         top: 100%;
         right: 0;
         margin-top: 8px;
-        background: white;
-        border: 1px solid #e2e8f0;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
         border-radius: 8px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         opacity: 0;
@@ -297,25 +297,36 @@ class UnifiedHeader {
         align-items: center;
         gap: 8px;
         padding: 10px 12px;
-        color: #374151;
+        color: var(--color-text-primary);
         font-size: 14px;
         cursor: pointer;
         transition: all 0.2s ease;
       }
 
       .language-option:hover {
-        background: #f9fafb;
-        color: #111827;
+        background: var(--color-state-hover);
+        color: var(--color-text-primary);
       }
 
       .language-option.active {
-        background: #dbeafe;
-        color: #2563eb;
+        background: var(--color-state-selected);
+        color: var(--color-primary);
         font-weight: 500;
       }
 
-      .language-flag {
-        font-size: 16px;
+      .language-icon {
+        font-size: 14px;
+        color: var(--color-text-secondary);
+      }
+
+      .language-option.active .language-icon,
+      .language-button .language-icon {
+        color: var(--color-primary);
+      }
+
+      .language-button .language-chevron {
+        font-size: 10px;
+        color: var(--color-text-tertiary);
       }
 
       /* User Dropdown */
@@ -326,8 +337,8 @@ class UnifiedHeader {
       .user-avatar {
         width: 36px;
         height: 36px;
-        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-        color: white;
+        background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-700));
+        color: var(--color-text-inverse);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -341,7 +352,7 @@ class UnifiedHeader {
 
       .user-avatar:hover {
         transform: scale(1.05);
-        border-color: #e0e7ff;
+        border-color: var(--color-primary-100);
       }
 
       .user-menu {
@@ -349,8 +360,8 @@ class UnifiedHeader {
         top: 100%;
         right: 0;
         margin-top: 8px;
-        background: white;
-        border: 1px solid #e2e8f0;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
         border-radius: 8px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         opacity: 0;
@@ -369,17 +380,17 @@ class UnifiedHeader {
 
       .user-menu-header {
         padding: 12px 16px;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--color-border);
       }
 
       .user-name {
         font-weight: 600;
-        color: #111827;
+        color: var(--color-text-primary);
         font-size: 14px;
       }
 
       .user-email {
-        color: #6b7280;
+        color: var(--color-text-secondary);
         font-size: 12px;
         margin-top: 2px;
       }
@@ -389,7 +400,7 @@ class UnifiedHeader {
         align-items: center;
         gap: 10px;
         padding: 10px 16px;
-        color: #374151;
+        color: var(--color-text-primary);
         font-size: 14px;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -397,20 +408,20 @@ class UnifiedHeader {
       }
 
       .user-menu-item:hover {
-        background: #f9fafb;
-        color: #111827;
+        background: var(--color-state-hover);
+        color: var(--color-text-primary);
       }
 
       .user-menu-divider {
         height: 1px;
-        background: #f1f5f9;
+        background: var(--color-border);
         margin: 4px 0;
       }
 
       .user-menu-icon {
         width: 16px;
         text-align: center;
-        color: #9ca3af;
+        color: var(--color-text-tertiary);
       }
 
       /* Mobile Menu */
@@ -438,7 +449,7 @@ class UnifiedHeader {
         left: 0;
         width: 280px;
         height: 100%;
-        background: white;
+        background: var(--color-surface);
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         transform: translateX(-100%);
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -453,7 +464,7 @@ class UnifiedHeader {
 
       .mobile-menu-header {
         padding: 20px;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--color-border);
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -461,7 +472,7 @@ class UnifiedHeader {
 
       .mobile-menu-title {
         font-weight: 600;
-        color: #111827;
+        color: var(--color-text-primary);
         font-size: 16px;
       }
 
@@ -469,8 +480,8 @@ class UnifiedHeader {
         width: 32px;
         height: 32px;
         border: none;
-        background: #f3f4f6;
-        color: #6b7280;
+        background: var(--color-secondary-100);
+        color: var(--color-text-secondary);
         border-radius: 6px;
         cursor: pointer;
         display: flex;
@@ -480,8 +491,8 @@ class UnifiedHeader {
       }
 
       .mobile-menu-close:hover {
-        background: #e5e7eb;
-        color: #374151;
+        background: var(--color-secondary-200);
+        color: var(--color-text-primary);
       }
 
       .mobile-nav {
@@ -496,7 +507,7 @@ class UnifiedHeader {
         padding: 12px 16px;
         margin-bottom: 4px;
         border-radius: 8px;
-        color: #64748b;
+        color: var(--color-text-secondary);
         font-size: 15px;
         font-weight: 500;
         text-decoration: none;
@@ -504,13 +515,13 @@ class UnifiedHeader {
       }
 
       .mobile-nav-link:hover {
-        background: #f8fafc;
-        color: #334155;
+        background: var(--color-secondary-50);
+        color: var(--color-text-primary);
       }
 
       .mobile-nav-link.active {
-        background: #dbeafe;
-        color: #2563eb;
+        background: var(--color-state-selected);
+        color: var(--color-primary);
       }
 
       .mobile-nav-icon {
@@ -520,7 +531,7 @@ class UnifiedHeader {
 
       .mobile-actions {
         padding: 20px;
-        border-top: 1px solid #f1f5f9;
+        border-top: 1px solid var(--color-border);
       }
 
       .mobile-auth-buttons {
@@ -539,6 +550,26 @@ class UnifiedHeader {
         border: none;
         text-decoration: none;
         text-align: center;
+      }
+
+      .mobile-auth-button.secondary {
+        background: var(--color-secondary-50);
+        color: var(--color-text-secondary);
+        border: 1px solid var(--color-border);
+      }
+
+      .mobile-auth-button.secondary:hover {
+        background: var(--color-secondary-100);
+        color: var(--color-text-primary);
+      }
+
+      .mobile-auth-button.primary {
+        background: var(--color-primary);
+        color: var(--color-text-inverse);
+      }
+
+      .mobile-auth-button.primary:hover {
+        background: var(--color-primary-700);
       }
 
       /* Responsive Design */

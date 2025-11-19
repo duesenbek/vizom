@@ -18,16 +18,16 @@ export class HeroSection {
 
   render() {
     this.container.innerHTML = `
-      <section class="hero-section relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 overflow-hidden">
+      <section class="hero-section relative min-h-screen brand-surface overflow-hidden" style="background: radial-gradient(circle at top, var(--color-primary-50) 0%, var(--color-background) 55%);">
         <!-- Background Pattern -->
         <div class="absolute inset-0 opacity-5">
           <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23000000" fill-opacity="0.1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
         </div>
 
         <!-- Floating Elements -->
-        <div class="absolute top-20 left-10 w-20 h-20 bg-blue-200 rounded-full blur-xl opacity-20 animate-pulse"></div>
-        <div class="absolute top-40 right-20 w-32 h-32 bg-indigo-200 rounded-full blur-xl opacity-20 animate-pulse delay-75"></div>
-        <div class="absolute bottom-20 left-1/4 w-24 h-24 bg-purple-200 rounded-full blur-xl opacity-20 animate-pulse delay-150"></div>
+        <div class="hero-float hero-float-primary absolute top-20 left-10 w-20 h-20 rounded-full blur-xl opacity-20 animate-pulse"></div>
+        <div class="hero-float hero-float-secondary absolute top-40 right-20 w-32 h-32 rounded-full blur-xl opacity-20 animate-pulse delay-75"></div>
+        <div class="hero-float hero-float-accent absolute bottom-20 left-1/4 w-24 h-24 rounded-full blur-xl opacity-20 animate-pulse delay-150"></div>
 
         <div class="relative container mx-auto px-4 pt-20 pb-16">
           <div class="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-8rem)]">
@@ -35,20 +35,20 @@ export class HeroSection {
             <!-- Left Content -->
             <div class="hero-content space-y-8">
               <!-- Badge -->
-              <div class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium animate-fade-in">
-                <span class="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
+              <div class="inline-flex items-center px-4 py-2 brand-badge-primary rounded-full text-sm font-medium animate-fade-in">
+                <span class="w-2 h-2 rounded-full mr-2 animate-pulse" style="background-color: rgba(255,255,255,0.7);"></span>
                 Powered by AI • No credit card required
               </div>
 
               <!-- Main Headline -->
               <div class="space-y-4">
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold brand-text-primary leading-tight">
                   Create Beautiful
-                  <span class="block text-blue-600">Data Visualizations</span>
-                  <span class="block text-indigo-600">in Seconds</span>
+                  <span class="block" style="color: var(--color-primary-600);">Data Visualizations</span>
+                  <span class="block" style="color: var(--color-secondary-600);">in Seconds</span>
                 </h1>
                 
-                <p class="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-2xl">
+                <p class="text-xl md:text-2xl brand-text-secondary leading-relaxed max-w-2xl">
                   Describe your data in plain English and watch AI create stunning, 
                   interactive charts. No design skills, no complex tools—just results.
                 </p>
@@ -57,36 +57,36 @@ export class HeroSection {
               <!-- Key Benefits -->
               <div class="grid sm:grid-cols-3 gap-4 max-w-2xl">
                 <div class="flex items-center space-x-3">
-                  <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: var(--color-success-50);">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-success-600);">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                     </svg>
                   </div>
-                  <span class="text-gray-700 font-medium">Lightning Fast</span>
+                  <span class="brand-text-primary font-medium">Lightning Fast</span>
                 </div>
                 
                 <div class="flex items-center space-x-3">
-                  <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: var(--color-secondary-50);">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-secondary-600);">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
                     </svg>
                   </div>
-                  <span class="text-gray-700 font-medium">Beautiful Design</span>
+                  <span class="brand-text-primary font-medium">Beautiful Design</span>
                 </div>
                 
                 <div class="flex items-center space-x-3">
-                  <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: var(--color-warning-50);">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-warning-600);">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                   </div>
-                  <span class="text-gray-700 font-medium">100% Accurate</span>
+                  <span class="brand-text-primary font-medium">100% Accurate</span>
                 </div>
               </div>
 
               <!-- CTA Buttons -->
               <div class="flex flex-col sm:flex-row gap-4 max-w-md">
-                <button id="hero-cta-primary" class="px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold text-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+                <button id="hero-cta-primary" class="brand-button-primary px-8 py-4 rounded-xl font-semibold text-lg transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
                   <span class="flex items-center justify-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -95,7 +95,7 @@ export class HeroSection {
                   </span>
                 </button>
                 
-                <button id="hero-cta-secondary" class="px-8 py-4 bg-white text-gray-700 rounded-xl font-semibold text-lg hover:bg-gray-50 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl border border-gray-200">
+                <button id="hero-cta-secondary" class="brand-button-secondary px-8 py-4 rounded-xl font-semibold text-lg transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
                   <span class="flex items-center justify-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
@@ -107,13 +107,13 @@ export class HeroSection {
               </div>
 
               <!-- Social Proof -->
-              <div class="flex items-center space-x-8 text-gray-600">
+              <div class="flex items-center space-x-8 brand-text-secondary">
                 <div class="flex items-center space-x-2">
                   <div class="flex -space-x-2">
-                    <img src="https://picsum.photos/seed/user1/32/32.jpg" alt="User" class="w-8 h-8 rounded-full border-2 border-white">
-                    <img src="https://picsum.photos/seed/user2/32/32.jpg" alt="User" class="w-8 h-8 rounded-full border-2 border-white">
-                    <img src="https://picsum.photos/seed/user3/32/32.jpg" alt="User" class="w-8 h-8 rounded-full border-2 border-white">
-                    <div class="w-8 h-8 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-xs font-medium">+2k</div>
+                    <img src="https://picsum.photos/seed/user1/32/32.jpg" alt="User" class="w-8 h-8 rounded-full border-2" style="border-color: var(--color-surface);">
+                    <img src="https://picsum.photos/seed/user2/32/32.jpg" alt="User" class="w-8 h-8 rounded-full border-2" style="border-color: var(--color-surface);">
+                    <img src="https://picsum.photos/seed/user3/32/32.jpg" alt="User" class="w-8 h-8 rounded-full border-2" style="border-color: var(--color-surface);">
+                    <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-medium" style="border-color: var(--color-surface); background: var(--color-state-hover);">+2k</div>
                   </div>
                   <span class="text-sm">Join 2,000+ users</span>
                 </div>
@@ -129,30 +129,30 @@ export class HeroSection {
 
             <!-- Right Demo Preview -->
             <div class="hero-demo relative">
-              <div class="bg-white rounded-2xl shadow-2xl p-6 border border-gray-100">
+              <div class="brand-card rounded-2xl shadow-2xl p-6">
                 <!-- Demo Header -->
                 <div class="flex items-center justify-between mb-4">
                   <div class="flex items-center space-x-2">
-                    <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-                    <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                    <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                    <div class="w-3 h-3 rounded-full" style="background: var(--color-error-400);"></div>
+                    <div class="w-3 h-3 rounded-full" style="background: var(--color-warning-400);"></div>
+                    <div class="w-3 h-3 rounded-full" style="background: var(--color-success-400);"></div>
                   </div>
-                  <span class="text-sm text-gray-500 font-medium">Live Preview</span>
+                  <span class="text-sm brand-text-secondary font-medium">Live Preview</span>
                 </div>
 
                 <!-- Demo Chart Container -->
-                <div class="demo-chart-container bg-gray-50 rounded-lg p-4 h-80 flex items-center justify-center relative overflow-hidden">
+                <div class="demo-chart-container brand-surface rounded-lg p-4 h-80 flex items-center justify-center relative overflow-hidden">
                   <canvas id="hero-demo-chart" class="max-w-full max-h-full"></canvas>
                   
                   <!-- Demo Overlay -->
-                  <div id="demo-overlay" class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+                  <div id="demo-overlay" class="absolute inset-0 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" style="background: rgba(255,255,255,0.95);">
                     <div class="text-center space-y-4">
-                      <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                        <svg class="w-8 h-8 text-blue-600 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto" style="background: var(--color-primary-50);">
+                        <svg class="w-8 h-8 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-primary-600);">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                         </svg>
                       </div>
-                      <p class="text-gray-600 font-medium">AI is creating your chart...</p>
+                      <p class="brand-text-secondary font-medium">AI is creating your chart...</p>
                     </div>
                   </div>
                 </div>
@@ -160,37 +160,37 @@ export class HeroSection {
                 <!-- Demo Controls -->
                 <div class="mt-4 space-y-3">
                   <div class="flex space-x-2">
-                    <button class="demo-prompt flex-1 px-3 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors" data-prompt="Monthly sales data for Q1 2024">
+                    <button class="demo-prompt flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors" data-prompt="Monthly sales data for Q1 2024" style="background: var(--color-primary-50); color: var(--color-primary-600);">
                       <i class="fa-solid fa-chart-column mr-2"></i>
                       Sales Dashboard
                     </button>
-                    <button class="demo-prompt flex-1 px-3 py-2 bg-green-50 text-green-700 rounded-lg text-sm font-medium hover:bg-green-100 transition-colors" data-prompt="User growth over 6 months">
+                    <button class="demo-prompt flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors" data-prompt="User growth over 6 months" style="background: var(--color-success-50); color: var(--color-success-600);">
                       <i class="fa-solid fa-chart-line mr-2"></i>
                       Growth Chart
                     </button>
-                    <button class="demo-prompt flex-1 px-3 py-2 bg-purple-50 text-purple-700 rounded-lg text-sm font-medium hover:bg-purple-100 transition-colors" data-prompt="Market share distribution">
+                    <button class="demo-prompt flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors" data-prompt="Market share distribution" style="background: var(--color-secondary-50); color: var(--color-secondary-600);">
                       <i class="fa-solid fa-chart-pie mr-2"></i>
                       Market Share
                     </button>
                   </div>
                   
                   <div class="text-center">
-                    <p class="text-xs text-gray-500">Click any example to see AI in action</p>
+                    <p class="text-xs brand-text-secondary">Click any example to see AI in action</p>
                   </div>
                 </div>
               </div>
 
               <!-- Floating Stats -->
-              <div class="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-3 border border-gray-100 animate-bounce">
+              <div class="absolute -top-4 -right-4 brand-card rounded-xl shadow-lg p-3 animate-bounce">
                 <div class="flex items-center space-x-2">
-                  <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                    <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background: var(--color-success-50);">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-success-600);">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                     </svg>
                   </div>
                   <div>
-                    <p class="text-xs text-gray-500">Generated in</p>
-                    <p class="text-sm font-bold text-gray-900">2.3s</p>
+                    <p class="text-xs brand-text-secondary">Generated in</p>
+                    <p class="text-sm font-bold brand-text-primary">2.3s</p>
                   </div>
                 </div>
               </div>
@@ -200,7 +200,7 @@ export class HeroSection {
 
         <!-- Scroll Indicator -->
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-text-tertiary);">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
           </svg>
         </div>
@@ -221,8 +221,8 @@ export class HeroSection {
 
     // Demo prompt buttons
     document.querySelectorAll('.demo-prompt').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        this.runDemo(e.target.dataset.prompt);
+      btn.addEventListener('click', () => {
+        this.runDemo(btn.dataset.prompt);
       });
     });
   }
@@ -279,6 +279,8 @@ export class HeroSection {
   }
 
   generateDemoData(prompt) {
+    const palette = this.getPalette();
+
     if (prompt.includes('sales')) {
       return {
         type: 'bar',
@@ -287,8 +289,8 @@ export class HeroSection {
           datasets: [{
             label: 'Sales ($k)',
             data: [65, 78, 90, 81, 95, 110],
-            backgroundColor: 'rgba(59, 130, 246, 0.8)',
-            borderColor: 'rgba(59, 130, 246, 1)',
+            backgroundColor: this.hexToRgba(palette.primary, 0.6),
+            borderColor: palette.primary,
             borderWidth: 2
           }]
         }
@@ -301,8 +303,8 @@ export class HeroSection {
           datasets: [{
             label: 'Users',
             data: [1000, 1500, 2300, 3200, 4100, 5200],
-            borderColor: 'rgba(34, 197, 94, 1)',
-            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+            borderColor: palette.success,
+            backgroundColor: this.hexToRgba(palette.success, 0.15),
             tension: 0.4,
             fill: true
           }]
@@ -316,10 +318,10 @@ export class HeroSection {
           datasets: [{
             data: [35, 25, 20, 20],
             backgroundColor: [
-              'rgba(147, 51, 234, 0.8)',
-              'rgba(59, 130, 246, 0.8)',
-              'rgba(34, 197, 94, 0.8)',
-              'rgba(251, 146, 60, 0.8)'
+              this.hexToRgba(palette.secondary, 0.85),
+              this.hexToRgba(palette.primary, 0.85),
+              this.hexToRgba(palette.success, 0.85),
+              this.hexToRgba(palette.warning, 0.85)
             ]
           }]
         }
@@ -345,6 +347,35 @@ export class HeroSection {
     // Play video or run interactive demo
     this.runDemo('Monthly sales data for Q1 2024');
   }
+
+  getPalette() {
+    if (!this.paletteCache) {
+      this.paletteCache = {
+        primary: this.getColorVar('--color-primary-500', '#2563eb'),
+        secondary: this.getColorVar('--color-secondary-500', '#7c3aed'),
+        success: this.getColorVar('--color-success-500', '#10b981'),
+        warning: this.getColorVar('--color-warning-500', '#f97316')
+      };
+    }
+    return this.paletteCache;
+  }
+
+  getColorVar(variableName, fallback) {
+    const value = getComputedStyle(document.documentElement).getPropertyValue(variableName);
+    return value?.trim() || fallback;
+  }
+
+  hexToRgba(hex, alpha = 1) {
+    if (!hex) return `rgba(0,0,0,${alpha})`;
+    let sanitized = hex.replace('#', '').trim();
+    if (sanitized.length === 3) {
+      sanitized = sanitized.split('').map((char) => `${char}${char}`).join('');
+    }
+    const r = parseInt(sanitized.substring(0, 2), 16);
+    const g = parseInt(sanitized.substring(2, 4), 16);
+    const b = parseInt(sanitized.substring(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
 }
 
 // CSS Animations
@@ -364,6 +395,18 @@ const heroStyles = `
   
   .delay-150 {
     animation-delay: 150ms;
+  }
+
+  .hero-float-primary {
+    background: var(--color-primary-200);
+  }
+
+  .hero-float-secondary {
+    background: var(--color-secondary-200);
+  }
+
+  .hero-float-accent {
+    background: var(--color-warning-200);
   }
 `;
 

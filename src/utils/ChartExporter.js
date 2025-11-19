@@ -61,20 +61,20 @@ export class ChartExporter {
 
     const remaining = this.getRemainingExports();
     const notice = document.createElement('div');
-    notice.className = 'export-notice bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 flex items-center justify-between';
+    notice.className = 'export-notice brand-notice rounded-xl p-4 mb-4 flex items-center justify-between shadow-sm';
     notice.innerHTML = `
       <div class="flex items-center gap-3">
-        <i class="fas fa-info-circle text-blue-600"></i>
+        <i class="fas fa-info-circle brand-notice-icon"></i>
         <div>
-          <p class="text-sm font-medium text-blue-900">
+          <p class="text-sm font-medium brand-text-primary">
             Free tier: ${remaining} of ${this.dailyLimit} daily exports remaining
           </p>
-          <p class="text-xs text-blue-700">
+          <p class="text-xs brand-text-secondary">
             Upgrade to Premium for unlimited exports and no watermarks
           </p>
         </div>
       </div>
-      <button onclick="window.location.href='pricing.html'" class="text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+      <button onclick="window.location.href='pricing.html'" class="text-sm inline-flex items-center gap-2 brand-button-primary px-4 py-2 rounded-lg transition-colors">
         Upgrade
       </button>
     `;
@@ -440,26 +440,26 @@ export class ChartExporter {
     container.className = 'export-dropdown relative';
     
     container.innerHTML = `
-      <button class="export-btn bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2">
+      <button class="export-btn brand-button-primary px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
         <i class="fas fa-download"></i>
         <span>Export</span>
         <i class="fas fa-chevron-down text-xs"></i>
       </button>
-      <div class="export-menu hidden absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[160px]">
-        <button class="export-option w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3" data-format="png">
-          <i class="fas fa-image text-gray-600"></i>
+      <div class="export-menu hidden absolute top-full left-0 mt-2 brand-dropdown z-50 min-w-[160px]">
+        <button class="export-option brand-dropdown-option w-full text-left px-4 py-2 flex items-center gap-3" data-format="png">
+          <i class="fas fa-image brand-icon-secondary"></i>
           <span>PNG Image</span>
         </button>
-        <button class="export-option w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3" data-format="svg">
-          <i class="fas fa-vector-square text-gray-600"></i>
+        <button class="export-option brand-dropdown-option w-full text-left px-4 py-2 flex items-center gap-3" data-format="svg">
+          <i class="fas fa-vector-square brand-icon-secondary"></i>
           <span>SVG Vector</span>
         </button>
-        <button class="export-option w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3" data-format="csv">
-          <i class="fas fa-table text-gray-600"></i>
+        <button class="export-option brand-dropdown-option w-full text-left px-4 py-2 flex items-center gap-3" data-format="csv">
+          <i class="fas fa-table brand-icon-secondary"></i>
           <span>CSV Data</span>
         </button>
-        <button class="export-option w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-3" data-format="pdf">
-          <i class="fas fa-file-pdf text-gray-600"></i>
+        <button class="export-option brand-dropdown-option w-full text-left px-4 py-2 flex items-center gap-3" data-format="pdf">
+          <i class="fas fa-file-pdf brand-icon-secondary"></i>
           <span>PDF Document</span>
         </button>
       </div>

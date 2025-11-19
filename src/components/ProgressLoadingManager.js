@@ -80,33 +80,33 @@ export class ProgressLoadingManager {
    */
   createLoaderElement(id, config) {
     const loader = document.createElement('div');
-    loader.className = 'progress-loading-overlay fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center';
+    loader.className = 'progress-loading-overlay fixed inset-0 brand-overlay z-50 flex items-center justify-center';
     loader.id = `progress-loader-${id}`;
 
     const animationHtml = this.getAnimationHtml(config.animation);
 
     loader.innerHTML = `
-      <div class="progress-loading-card bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
+      <div class="progress-loading-card brand-card rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
         <!-- Header -->
         <div class="text-center mb-6">
           ${animationHtml}
-          <h3 class="text-xl font-semibold text-gray-900 mt-4 mb-2">${config.title}</h3>
-          <p class="text-sm text-gray-600">${config.description}</p>
+          <h3 class="text-xl font-semibold brand-text-primary mt-4 mb-2">${config.title}</h3>
+          <p class="text-sm brand-text-secondary">${config.description}</p>
         </div>
 
         <!-- Progress Section -->
         ${config.showProgress ? `
           <div class="mb-6">
             <div class="flex items-center justify-between mb-2">
-              <span class="text-sm font-medium text-blue-900" id="step-text-${id}">
+              <span class="text-sm font-medium brand-text-primary" id="step-text-${id}">
                 Step 1 of ${config.steps.length}: ${config.steps[0].text}
               </span>
-              <span class="text-sm text-gray-500" id="progress-percent-${id}">0%</span>
+              <span class="text-sm brand-text-secondary" id="progress-percent-${id}">0%</span>
             </div>
             
             ${config.progressBar ? `
-              <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                <div class="progress-bar bg-gradient-to-r from-blue-500 to-blue-600 h-full rounded-full transition-all duration-500 ease-out"
+              <div class="w-full brand-progress-track rounded-full h-2 overflow-hidden">
+                <div class="progress-bar brand-progress-bar h-full rounded-full transition-all duration-500 ease-out"
                      id="progress-bar-${id}" style="width: 0%"></div>
               </div>
             ` : ''}
@@ -115,11 +115,11 @@ export class ProgressLoadingManager {
             <div class="flex justify-between mt-4">
               ${config.steps.map((step, index) => `
                 <div class="step-indicator flex flex-col items-center" data-step="${index}">
-                  <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-xs font-medium transition-all"
+                  <div class="w-8 h-8 rounded-full border-2 brand-border flex items-center justify-center text-xs font-medium transition-all brand-text-secondary"
                        id="step-dot-${id}-${index}">
                     ${index + 1}
                   </div>
-                  <div class="text-xs text-gray-500 mt-1 hidden md:block">${step.id}</div>
+                  <div class="text-xs brand-text-secondary mt-1 hidden md:block">${step.id}</div>
                 </div>
               `).join('')}
             </div>
@@ -128,7 +128,7 @@ export class ProgressLoadingManager {
 
         <!-- Friendly Message -->
         <div class="text-center mb-6">
-          <p class="text-sm text-gray-600 italic" id="friendly-message-${id}">
+          <p class="text-sm brand-text-secondary italic" id="friendly-message-${id}">
             ${config.friendlyMessages[0]}
           </p>
         </div>
@@ -136,7 +136,7 @@ export class ProgressLoadingManager {
         <!-- Actions -->
         <div class="flex justify-center gap-3">
           ${config.showCancel ? `
-            <button class="cancel-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+            <button class="cancel-btn px-4 py-2 text-sm font-medium brand-button-secondary rounded-lg transition-colors"
                     id="cancel-btn-${id}">
               Cancel
             </button>
@@ -316,15 +316,15 @@ export class ProgressLoadingManager {
       if (stepDot) {
         if (index < currentStep) {
           // Completed step
-          stepDot.className = 'w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-xs font-medium transition-all';
+          stepDot.className = 'w-8 h-8 rounded-full brand-icon-pill-active flex items-center justify-center text-xs font-medium transition-all';
           stepDot.innerHTML = '<i class="fas fa-check text-xs"></i>';
         } else if (index === currentStep) {
           // Current step
-          stepDot.className = 'w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-medium transition-all ring-2 ring-blue-200';
+          stepDot.className = 'w-8 h-8 rounded-full brand-icon-pill-active flex items-center justify-center text-xs font-medium transition-all ring-2';
           stepDot.textContent = index + 1;
         } else {
           // Future step
-          stepDot.className = 'w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-xs font-medium text-gray-500 transition-all';
+          stepDot.className = 'w-8 h-8 rounded-full border-2 brand-border flex items-center justify-center text-xs font-medium brand-text-secondary transition-all';
           stepDot.textContent = index + 1;
         }
       }
@@ -377,20 +377,20 @@ export class ProgressLoadingManager {
 
     card.innerHTML = `
       <div class="text-center">
-        <div class="error-icon w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+        <div class="error-icon w-16 h-16 brand-error-indicator rounded-full flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-exclamation-triangle brand-text-error text-2xl"></i>
         </div>
-        <h3 class="text-xl font-semibold text-gray-900 mb-2">${errorConfig.title || 'Something went wrong'}</h3>
-        <p class="text-sm text-gray-600 mb-6">${errorConfig.message || 'Please try again.'}</p>
+        <h3 class="text-xl font-semibold brand-text-primary mb-2">${errorConfig.title || 'Something went wrong'}</h3>
+        <p class="text-sm brand-text-secondary mb-6">${errorConfig.message || 'Please try again.'}</p>
         
         ${errorConfig.actions ? `
           <div class="flex justify-center gap-3 flex-wrap mb-4">
             ${errorConfig.actions.map(action => `
               <button class="error-action-btn px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                action.action === 'cancel' ? 'bg-gray-100 hover:bg-gray-200 text-gray-700' :
-                action.action === 'retry' ? 'bg-blue-600 hover:bg-blue-700 text-white' :
-                action.action === 'continue' ? 'bg-green-600 hover:bg-green-700 text-white' :
-                'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                action.action === 'cancel' ? 'brand-button-secondary' :
+                action.action === 'retry' ? 'brand-button-primary' :
+                action.action === 'continue' ? 'brand-button-primary' :
+                'brand-button-secondary'
               }" data-action="${action.action}">
                 ${action.text}
               </button>
@@ -399,26 +399,26 @@ export class ProgressLoadingManager {
         ` : ''}
         
         ${errorConfig.showPromptActions ? `
-          <div class="mt-4 pt-4 border-t border-gray-200">
-            <p class="text-xs text-gray-500 mb-3">Your prompt:</p>
-            <div class="bg-gray-50 rounded p-3 text-sm text-gray-700 mb-3 font-mono" id="error-prompt-${id}">
+          <div class="mt-4 pt-4 border-t brand-border">
+            <p class="text-xs brand-text-secondary mb-3">Your prompt:</p>
+            <div class="brand-surface rounded p-3 text-sm brand-text-primary mb-3 font-mono" id="error-prompt-${id}">
               ${errorConfig.prompt || 'No prompt available'}
             </div>
             <div class="flex justify-center gap-4">
-              <button class="copy-prompt-btn text-xs text-blue-600 hover:text-blue-800 underline flex items-center gap-1" data-action="copy">
+              <button class="copy-prompt-btn text-xs brand-link underline flex items-center gap-1" data-action="copy">
                 <i class="fas fa-copy"></i> Copy Prompt
               </button>
-              <button class="edit-prompt-btn text-xs text-blue-600 hover:text-blue-800 underline flex items-center gap-1" data-action="edit">
+              <button class="edit-prompt-btn text-xs brand-link underline flex items-center gap-1" data-action="edit">
                 <i class="fas fa-edit"></i> Edit Prompt
               </button>
             </div>
           </div>
         ` : ''}
-
+        
         ${errorConfig.suggestions ? `
-          <div class="mt-4 pt-4 border-t border-gray-200 text-left">
-            <p class="text-xs font-medium text-gray-700 mb-2">Suggestions:</p>
-            <ul class="text-xs text-gray-600 space-y-1">
+          <div class="mt-4 pt-4 border-t brand-border text-left">
+            <p class="text-xs font-medium brand-text-primary mb-2">Suggestions:</p>
+            <ul class="text-xs brand-text-secondary space-y-1">
               ${errorConfig.suggestions.map(suggestion => `<li>• ${suggestion}</li>`).join('')}
             </ul>
           </div>
@@ -471,11 +471,11 @@ export class ProgressLoadingManager {
         if (btn) {
           const originalText = btn.innerHTML;
           btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
-          btn.classList.add('text-green-600');
+          btn.classList.add('brand-text-success');
           
           setTimeout(() => {
             btn.innerHTML = originalText;
-            btn.classList.remove('text-green-600');
+            btn.classList.remove('brand-text-success');
           }, 2000);
         }
       });
@@ -636,7 +636,7 @@ const progressLoadingCSS = `
 }
 
 .progress-bar {
-  background: linear-gradient(90deg, #3B82F6 0%, #2563EB 50%, #1D4ED8 100%);
+  background: linear-gradient(90deg, var(--color-primary-400) 0%, var(--color-primary-600) 50%, var(--color-primary-700) 100%);
   background-size: 200% 100%;
   animation: shimmer 2s ease-in-out infinite;
 }

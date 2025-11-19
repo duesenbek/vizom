@@ -1,45 +1,61 @@
 /* ChartTypeSelector Component Styles - Indigo/Royal Blue Theme */
 
 .chart-type-selector {
-  --primary-color: #1872D9;
-  --primary-hover: #1565C0;
-  --medium-blue: #2196F3;
-  --light-blue: #41C3FF;
-  --dark-blue: #003466;
-  --border-color: #E2E8F0;
-  --text-primary: #003466;
-  --text-secondary: #123472;
-  --bg-hover: #EEF4FF;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 52, 102, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 52, 102, 0.1), 0 2px 4px -1px rgba(0, 52, 102, 0.06);
+  --primary-color: var(--color-primary);
+  --primary-hover: var(--color-primary-700);
+  --medium-blue: var(--color-primary-500);
+  --light-blue: var(--color-primary-300);
+  --dark-blue: var(--color-secondary-900);
+  --border-color: var(--color-border);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --bg-hover: var(--color-state-hover);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
 }
 
 /* Search input */
 .chart-type-selector input[type="search"] {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 3rem;
+  border-radius: 0.8rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
   transition: all 0.2s ease;
 }
 
 .chart-type-selector input[type="search"]:focus {
-  box-shadow: 0 0 0 3px rgba(24, 114, 217, 0.1);
+  box-shadow: 0 0 0 3px rgba(15, 107, 255, 0.15);
+  border-color: var(--primary-color);
+}
+
+.chart-type-selector input[type="search"]::placeholder {
+  color: var(--color-text-tertiary);
 }
 
 /* Category tabs */
 .chart-type-selector .category-tab {
-  background-color: #F1F5F9;
-  color: #123472;
+  background-color: var(--color-state-hover);
+  color: var(--text-secondary);
   border: 1px solid transparent;
   transition: all 0.2s ease;
 }
 
 .chart-type-selector .category-tab:hover:not(.active) {
-  background-color: #E2E8F0;
-  color: #003466;
+  background-color: var(--color-border-light);
+  color: var(--color-text-primary);
 }
 
 .chart-type-selector .category-tab.active {
   background-color: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
+}
+
+.chart-type-selector .category-count {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
 }
 
 .chart-type-selector .category-tab:focus {
@@ -49,7 +65,7 @@
 
 /* Chart tiles */
 .chart-type-selector .chart-tile {
-  background-color: white;
+  background-color: var(--color-surface);
   border: 1px solid var(--border-color);
   transition: all 0.2s ease;
   position: relative;
@@ -58,7 +74,7 @@
 .chart-type-selector .chart-tile:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
-  border-color: #d1d5db;
+  border-color: var(--color-border-strong);
 }
 
 .chart-type-selector .chart-tile:focus {
@@ -69,15 +85,49 @@
 
 .chart-type-selector .chart-tile.selected {
   border-color: var(--primary-color);
-  background-color: #eff6ff;
+  background-color: var(--color-primary-50);
+  box-shadow: var(--shadow-sm);
+}
+
+.chart-type-selector .chart-name {
+  color: var(--color-text-primary);
+}
+
+.chart-type-selector .chart-description {
+  color: var(--color-text-secondary);
 }
 
 /* Tooltip */
 .chart-type-selector .tooltip {
+  border: 1px solid var(--color-border);
+  background-color: var(--color-secondary-900);
+  color: var(--color-text-inverse);
   box-shadow: var(--shadow-md);
   backdrop-filter: blur(8px);
   max-width: 280px;
   z-index: 50;
+}
+
+.chart-type-selector .tooltip::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--color-secondary-900);
+  border-left: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  transform: rotate(45deg);
+  bottom: -6px;
+  left: 50%;
+  margin-left: -6px;
+}
+
+.chart-type-selector .no-results {
+  color: var(--color-text-secondary);
+}
+
+.chart-type-selector .no-results svg {
+  color: var(--color-border-strong);
 }
 
 .chart-type-selector .tooltip::before {

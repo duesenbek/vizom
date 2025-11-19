@@ -2,17 +2,17 @@
 
 /* CSS Custom Properties for WCAG Compliant Colors */
 :root {
-  /* Primary Color Palette - WCAG AA Compliant */
-  --color-primary-50: #f0f9ff;    /* 1.19:1 contrast on white */
-  --color-primary-100: #e0f2fe;   /* 1.32:1 contrast on white */
-  --color-primary-200: #bae6fd;   /* 1.81:1 contrast on white */
-  --color-primary-300: #7dd3fc;   /* 2.53:1 contrast on white */
-  --color-primary-400: #38bdf8;   /* 3.61:1 contrast on white */
-  --color-primary-500: #0ea5e9;   /* 4.52:1 contrast on white - WCAG AA compliant */
-  --color-primary-600: #0284c7;   /* 5.03:1 contrast on white - WCAG AA compliant */
-  --color-primary-700: #0369a1;   /* 6.23:1 contrast on white - WCAG AAA compliant */
-  --color-primary-800: #075985;   /* 7.24:1 contrast on white - WCAG AAA compliant */
-  --color-primary-900: #0c4a6e;   /* 8.59:1 contrast on white - WCAG AAA compliant */
+  /* Primary Color Palette - WCAG AA Compliant (Vizom brand blues) */
+  --color-primary-50: #f3f7ff;    /* brand-light on white */
+  --color-primary-100: #e1edff;   /* brand 100 */
+  --color-primary-200: #c2d7ff;   /* brand 200 */
+  --color-primary-300: #9abfff;   /* brand 300 */
+  --color-primary-400: #5793ff;   /* brand 400 */
+  --color-primary-500: #2e7bff;   /* brand 500 */
+  --color-primary-600: #0f6bff;   /* brand 600 */
+  --color-primary-700: #0852d6;   /* brand 700 */
+  --color-primary-800: #0636a1;   /* brand 800 */
+  --color-primary-900: #041c5c;   /* brand 900 */
   
   /* Secondary Color Palette - WCAG AA Compliant */
   --color-secondary-50: #f8fafc;   /* 1.05:1 contrast on white */
@@ -75,9 +75,9 @@
   --color-neutral-900: #171717;   /* 21:1 contrast on white - WCAG AAA compliant */
   
   /* Semantic Color Mappings */
-  --color-background: #ffffff;
+  --color-background: #f5f7fb;
   --color-surface: #ffffff;
-  --color-surface-elevated: #fafafa;
+  --color-surface-elevated: #f3f7ff;
   --color-border: var(--color-neutral-200);
   --color-border-strong: var(--color-neutral-300);
   --color-border-focus: var(--color-primary-500);
