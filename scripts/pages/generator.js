@@ -331,7 +331,7 @@ class ProjectManager {
       const user = await this.getCurrentUser();
 
       const baseProject = {
-        title: title || `Проект ${new Date().toLocaleDateString()}`,
+        title: title || `Project ${new Date().toLocaleDateString()}`,
         chart_data: chartData,
         html_output: htmlOutput,
         chart_type: chartType,
@@ -663,9 +663,9 @@ document.addEventListener('DOMContentLoaded', () => {
           const htmlOutput = preview?.innerHTML || '';
           await projectManager.saveProject(title, currentChartData, htmlOutput, selectedType);
           hideSaveProjectModal();
-          showToast('Проект успешно сохранен!', 'success');
+          showToast('Project saved successfully!', 'success');
         } catch (error) {
-          showToast('Ошибка сохранения проекта: ' + error.message, 'error');
+          showToast('Error saving project: ' + error.message, 'error');
         }
       });
 
@@ -683,7 +683,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const modal = document.getElementById('save-project-modal');
       const titleInput = document.getElementById('project-title');
       if (titleInput) {
-        titleInput.value = `Проект ${new Date().toLocaleDateString()}`;
+        titleInput.value = `Project ${new Date().toLocaleDateString()}`;
         titleInput.focus();
         titleInput.select();
       }
@@ -741,12 +741,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${new Date(project.created_at).toLocaleDateString()}
                   </p>
                   <p class="text-xs text-slate-400 mt-2">
-                    ${project.chart_data?.length || 0} точек данных
+                    ${project.chart_data?.length || 0} data points
                   </p>
                 </div>
                 <div class="flex gap-2">
                   <button class="load-project-btn text-blue-600 hover:text-blue-700 text-sm" data-project-id="${project.id}">
-                    <i class="fas fa-download"></i> Загрузить
+                    <i class="fas fa-download"></i> Load
                   </button>
                   <button class="delete-project-btn text-red-600 hover:text-red-700 text-sm" data-project-id="${project.id}">
                     <i class="fas fa-trash"></i>
@@ -770,12 +770,12 @@ document.addEventListener('DOMContentLoaded', () => {
           projectsList.querySelectorAll('.delete-project-btn').forEach(btn => {
             btn.addEventListener('click', async () => {
               const projectId = btn.dataset.projectId;
-              if (confirm('Удалить этот проект?')) {
+              if (confirm('Delete this project?')) {
                 try {
                   await projectManager.deleteProject(projectId);
                   await loadProjectsList(); // Refresh list
                 } catch (error) {
-                  showToast('Ошибка удаления проекта: ' + error.message, 'error');
+                  showToast('Error deleting project: ' + error.message, 'error');
                 }
               }
             });
@@ -783,7 +783,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (error) {
         console.error('Error loading projects:', error);
-        showToast('Ошибка загрузки проектов', 'error');
+        showToast('Error loading projects', 'error');
       }
     }
 
@@ -791,7 +791,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         currentChartData = project.chart_data;
         selectedType = project.chart_type || 'bar';
-        
+        this.currentLibrary = 'auto'; // Set default to 'auto' always
         // Update input
         if (input) {
           input.value = project.chart_data?.map(item => 
@@ -809,10 +809,10 @@ document.addEventListener('DOMContentLoaded', () => {
         renderChart(project.chart_data, selectedType);
         
         hideProjectsModal();
-        showToast('Проект загружен!', 'success');
+        showToast('Project loaded!', 'success');
       } catch (error) {
         console.error('Error loading project:', error);
-        showToast('Ошибка загрузки проекта', 'error');
+        showToast('Error loading project', 'error');
       }
     }
 
@@ -888,7 +888,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const templatesHTML = `
         <div class="mb-6">
-          <h3 class="text-lg font-semibold mb-3">Быстрые шаблоны</h3>
+          <h3 class="text-lg font-semibold mb-3">Quick templates</h3>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
             ${Object.entries(QUICK_TEMPLATES).map(([key, template]) => `
               <button class="quick-template-btn flex items-center gap-2 p-3 border border-slate-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition text-sm"

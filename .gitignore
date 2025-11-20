@@ -25,6 +25,9 @@ Thumbs.db
 .netlify/
 tmp/
 
+# Server-only backend code (not part of frontend bundle)
+server/
+
 # Logs
 *.log
 npm-debug.log*

@@ -3,12 +3,12 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { ModalSystem } from '../components/ModalSystemRefactored.js';
-import { ModalManager } from '../components/modal/ModalManager.js';
-import { ModalTemplates } from '../components/modal/ModalTemplates.js';
+import { ModalSystem } from '../src/components/ModalSystemRefactored.js';
+import { ModalManager } from '../src/components/modal/ModalManager.js';
+import { ModalTemplates } from '../src/components/modal/ModalTemplates.js';
 
 describe('ModalSystem', () => {
-  let modalSystem: ModalSystem;
+  let modalSystem;
 
   beforeEach(() => {
     modalSystem = new ModalSystem();
@@ -151,8 +151,8 @@ describe('ModalSystem', () => {
 
       // Simulate confirm button click
       const confirmButton = document.querySelector('[data-action="confirm"]');
-      if (confirmButton) {
-        (confirmButton as HTMLElement).click();
+      if (confirmButton instanceof HTMLElement) {
+        confirmButton.click();
       }
 
       // Modal should close and confirm callback should be called
@@ -165,7 +165,7 @@ describe('ModalSystem', () => {
 });
 
 describe('ModalManager', () => {
-  let manager: ModalManager;
+  let manager;
 
   beforeEach(() => {
     manager = new ModalManager();
@@ -248,7 +248,7 @@ describe('ModalManager', () => {
 
       await manager.open('test-modal', config);
 
-      const input = document.getElementById('test-input') as HTMLInputElement;
+      const input = document.getElementById('test-input');
       expect(input).toBeDefined();
       // Focus would be set asynchronously
     });
@@ -301,7 +301,7 @@ describe('ModalTemplates', () => {
       const customTemplate = {
         title: 'Custom Template',
         content: '<p>Custom content</p>',
-        size: 'medium' as const
+        size: 'medium'
       };
 
       ModalTemplates.registerTemplate('custom', customTemplate);

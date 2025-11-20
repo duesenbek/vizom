@@ -195,7 +195,7 @@ class ProjectManager {
       }
 
       const projectData = {
-        title: title || `Проект ${new Date().toLocaleDateString()}`,
+        title: title || `Project ${new Date().toLocaleDateString()}`,
         chart_data: chartData,
         html_output: htmlOutput,
         chart_type: chartType,
@@ -302,37 +302,37 @@ class ProjectManager {
 // Quick templates
 const QUICK_TEMPLATES = {
   sales: {
-    name: 'Продажи',
+    name: 'Sales',
     icon: 'fa-chart-line',
     prompt: 'Monthly sales: Jan $12K, Feb $15K, Mar $18K, Apr $20K, May $22K',
     type: 'bar'
   },
   traffic: {
-    name: 'Трафик',
+    name: 'Traffic',
     icon: 'fa-users',
     prompt: 'Website visitors: Jan 1,200, Feb 1,500, Mar 1,800, Apr 2,100, May 2,400',
     type: 'line'
   },
   market: {
-    name: 'Рынок',
+    name: 'Market',
     icon: 'fa-chart-pie',
     prompt: 'Market share: Company A 45%, Company B 30%, Company C 25%',
     type: 'pie'
   },
   revenue: {
-    name: 'Выручка',
+    name: 'Revenue',
     icon: 'fa-dollar-sign',
     prompt: 'Q1: $125K, Q2: $145K, Q3: $168K, Q4: $192K',
     type: 'bar'
   },
   users: {
-    name: 'Пользователи',
+    name: 'Users',
     icon: 'fa-user-plus',
     prompt: 'New users: Week 1 450, Week 2 520, Week 3 480, Week 4 610',
     type: 'line'
   },
   conversion: {
-    name: 'Конверсия',
+    name: 'Conversion',
     icon: 'fa-funnel-dollar',
     prompt: 'Conversion funnel: Visitors 10,000, Leads 1,200, Trials 450, Customers 180',
     type: 'bar'
@@ -436,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (error) {
                 console.error('[AI] Generation failed:', error);
-        showToast('Ошибка генерации. Попробуйте еще раз.', 'error');
+        showToast('Generation failed. Please try again.', 'error');
       } finally {
         loading?.classList.add('hidden');
       }
@@ -466,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (saveBtn) {
         saveBtn.addEventListener('click', () => {
           if (!currentChartData) {
-            showToast('Сначала сгенерируйте диаграмму', 'warning');
+            showToast('Generate a chart first', 'warning');
             return;
           }
           showSaveProjectModal();
@@ -488,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('confirm-save-project')?.addEventListener('click', async () => {
         const title = document.getElementById('project-title')?.value;
         if (!title) {
-          showToast('Введите название проекта', 'warning');
+          showToast('Enter a project name', 'warning');
           return;
         }
 
@@ -496,9 +496,9 @@ document.addEventListener('DOMContentLoaded', () => {
           const htmlOutput = preview?.innerHTML || '';
           await projectManager.saveProject(title, currentChartData, htmlOutput, selectedType);
           hideSaveProjectModal();
-          showToast('Проект успешно сохранен!', 'success');
+          showToast('Project saved successfully!', 'success');
         } catch (error) {
-          showToast('Ошибка сохранения проекта: ' + error.message, 'error');
+          showToast('Error saving project: ' + error.message, 'error');
         }
       });
 
@@ -516,7 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const modal = document.getElementById('save-project-modal');
       const titleInput = document.getElementById('project-title');
       if (titleInput) {
-        titleInput.value = `Проект ${new Date().toLocaleDateString()}`;
+        titleInput.value = `Project ${new Date().toLocaleDateString()}`;
         titleInput.focus();
         titleInput.select();
       }
@@ -574,12 +574,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${new Date(project.created_at).toLocaleDateString()}
                   </p>
                   <p class="text-xs text-slate-400 mt-2">
-                    ${project.chart_data?.length || 0} точек данных
+                    ${project.chart_data?.length || 0} data points
                   </p>
                 </div>
                 <div class="flex gap-2">
                   <button class="load-project-btn text-blue-600 hover:text-blue-700 text-sm" data-project-id="${project.id}">
-                    <i class="fas fa-download"></i> Загрузить
+                    <i class="fas fa-download"></i> Load
                   </button>
                   <button class="delete-project-btn text-red-600 hover:text-red-700 text-sm" data-project-id="${project.id}">
                     <i class="fas fa-trash"></i>
@@ -603,12 +603,12 @@ document.addEventListener('DOMContentLoaded', () => {
           projectsList.querySelectorAll('.delete-project-btn').forEach(btn => {
             btn.addEventListener('click', async () => {
               const projectId = btn.dataset.projectId;
-              if (confirm('Удалить этот проект?')) {
+              if (confirm('Delete this project?')) {
                 try {
                   await projectManager.deleteProject(projectId);
                   await loadProjectsList(); // Refresh list
                 } catch (error) {
-                  showToast('Ошибка удаления проекта: ' + error.message, 'error');
+                  showToast('Error deleting project: ' + error.message, 'error');
                 }
               }
             });
@@ -616,7 +616,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (error) {
         console.error('Error loading projects:', error);
-        showToast('Ошибка загрузки проектов', 'error');
+        showToast('Error loading projects', 'error');
       }
     }
 
@@ -642,10 +642,10 @@ document.addEventListener('DOMContentLoaded', () => {
         renderChart(project.chart_data, selectedType);
         
         hideProjectsModal();
-        showToast('Проект загружен!', 'success');
+        showToast('Project loaded!', 'success');
       } catch (error) {
         console.error('Error loading project:', error);
-        showToast('Ошибка загрузки проекта', 'error');
+        showToast('Error loading project', 'error');
       }
     }
 
@@ -721,7 +721,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const templatesHTML = `
         <div class="mb-6">
-          <h3 class="text-lg font-semibold mb-3">Быстрые шаблоны</h3>
+          <h3 class="text-lg font-semibold mb-3">Quick templates</h3>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
             ${Object.entries(QUICK_TEMPLATES).map(([key, template]) => `
               <button class="quick-template-btn flex items-center gap-2 p-3 border border-slate-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition text-sm"

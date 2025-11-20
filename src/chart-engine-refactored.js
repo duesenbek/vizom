@@ -6,29 +6,25 @@
 
 import { ChartConfigBuilder } from './chart/ChartConfigBuilder.js';
 import { ChartDataProcessor } from './chart/ChartDataProcessor.js';
-import { ChartConfig, ChartRenderOptions } from './chart/types.js';
-import { chartMemoizer, performanceMonitor } from '../utils/performance.js';
+import { chartMemoizer, performanceMonitor } from './utils/performance.js';
 
 /**
  * Main Chart Engine - Simplified API for chart operations
  */
 export class ChartEngine {
-  private configBuilder: ChartConfigBuilder;
-  private dataProcessor: typeof ChartDataProcessor;
-  private currentTheme: string = 'default';
-  private animations: boolean = true;
-  private interactive: boolean = true;
-
   constructor() {
     this.configBuilder = new ChartConfigBuilder();
     this.dataProcessor = ChartDataProcessor;
+    this.currentTheme = 'default';
+    this.animations = true;
+    this.interactive = true;
     this.init();
   }
 
   /**
    * Initialize chart engine
    */
-  private init(): void {
+  init() {
     this.setupPerformanceMonitoring();
     this.setupErrorHandling();
   }
@@ -36,7 +32,7 @@ export class ChartEngine {
   /**
    * Setup performance monitoring
    */
-  private setupPerformanceMonitoring(): void {
+  setupPerformanceMonitoring() {
     // Monitor chart operations
     performanceMonitor.startTiming('chart-engine-init');
     
@@ -49,7 +45,7 @@ export class ChartEngine {
   /**
    * Setup memoization
    */
-  private setupMemoization(): void {
+  setupMemoization() {
     // Cache chart configurations
     chartMemoizer.cacheFunction('buildConfig', this.configBuilder.build.bind(this.configBuilder));
     
@@ -60,7 +56,7 @@ export class ChartEngine {
   /**
    * Setup error handling
    */
-  private setupErrorHandling(): void {
+  setupErrorHandling() {
     // Global error handler for chart operations
     window.addEventListener('error', (e) => {
       if (e.message.includes('chart')) {
@@ -74,10 +70,10 @@ export class ChartEngine {
    * Create chart configuration
    */
   async createChartConfig(
-    type: string, 
-    data: any, 
-    options: ChartRenderOptions = {}
-  ): Promise<ChartConfig> {
+    type,
+    data,
+    options = {}
+  ) {
     performanceMonitor.startTiming('chart-config-create');
     
     try {
@@ -121,10 +117,10 @@ export class ChartEngine {
    * Create chart with memoization
    */
   async createChart(
-    type: string, 
-    data: any, 
-    options: ChartRenderOptions = {}
-  ): Promise<ChartConfig> {
+    type,
+    data,
+    options = {}
+  ) {
     const cacheKey = this.generateCacheKey(type, data, options);
     
     return chartMemoizer.memoize(
@@ -138,11 +134,11 @@ export class ChartEngine {
    * Quick chart creation for common use cases
    */
   async createQuickChart(
-    type: string, 
-    labels: string[], 
-    values: number[], 
-    label: string = 'Data'
-  ): Promise<ChartConfig> {
+    type,
+    labels,
+    values,
+    label = 'Data'
+  ) {
     const data = {
       labels,
       datasets: [{
@@ -158,10 +154,10 @@ export class ChartEngine {
    * Create chart from array data
    */
   async createChartFromArray(
-    type: string, 
-    data: any[], 
-    options: ChartRenderOptions = {}
-  ): Promise<ChartConfig> {
+    type,
+    data,
+    options = {}
+  ) {
     return this.createChart(type, data, options);
   }
 
@@ -169,10 +165,10 @@ export class ChartEngine {
    * Create chart from table data
    */
   async createChartFromTable(
-    type: string, 
-    table: { rows: any[]; columns: string[] },
-    options: ChartRenderOptions = {}
-  ): Promise<ChartConfig> {
+    type,
+    table,
+    options = {}
+  ) {
     return this.createChart(type, table, options);
   }
 
@@ -180,9 +176,9 @@ export class ChartEngine {
    * Update chart configuration
    */
   updateChartConfig(
-    config: ChartConfig, 
-    updates: Partial<ChartConfig>
-  ): ChartConfig {
+    config,
+    updates
+  ) {
     const builder = ChartConfigBuilder.fromConfig(config);
     
     if (updates.type) builder.setType(updates.type);
@@ -197,77 +193,77 @@ export class ChartEngine {
   /**
    * Set global theme
    */
-  setTheme(themeName: string): void {
+  setTheme(themeName) {
     this.currentTheme = themeName;
   }
 
   /**
    * Get current theme
    */
-  getTheme(): string {
+  getTheme() {
     return this.currentTheme;
   }
 
   /**
    * Enable/disable animations globally
    */
-  setAnimations(enabled: boolean): void {
+  setAnimations(enabled) {
     this.animations = enabled;
   }
 
   /**
    * Enable/disable interactivity globally
    */
-  setInteractive(enabled: boolean): void {
+  setInteractive(enabled) {
     this.interactive = enabled;
   }
 
   /**
    * Get available chart types
    */
-  getChartTypes(): Record<string, any> {
+  getChartTypes() {
     return ChartConfigBuilder.getAllChartTypes();
   }
 
   /**
    * Get chart types by category
    */
-  getChartTypesByCategory(category: string): any[] {
+  getChartTypesByCategory(category) {
     return ChartConfigBuilder.getChartTypesByCategory(category);
   }
 
   /**
    * Get available themes
    */
-  getThemes(): Record<string, any> {
+  getThemes() {
     return ChartConfigBuilder.getAllThemes();
   }
 
   /**
    * Validate chart data
    */
-  validateData(data: any, chartType: string): any {
+  validateData(data, chartType) {
     return this.dataProcessor.validateData(data, chartType);
   }
 
   /**
    * Clean chart data
    */
-  cleanData(data: any): any {
+  cleanData(data) {
     return this.dataProcessor.cleanData(data);
   }
 
   /**
    * Aggregate large datasets
    */
-  aggregateData(data: any, maxPoints: number = 100): any {
+  aggregateData(data, maxPoints = 100) {
     return this.dataProcessor.aggregateData(data, maxPoints);
   }
 
   /**
    * Get recommended chart type for data
    */
-  getRecommendedChartType(data: any): string {
+  getRecommendedChartType(data) {
     // Simple recommendation logic
     if (!data || !data.datasets || data.datasets.length === 0) {
       return 'bar'; // Default fallback
@@ -293,10 +289,10 @@ export class ChartEngine {
   /**
    * Check if data contains time information
    */
-  private hasTimeData(data: any): boolean {
+  hasTimeData(data) {
     if (!data.labels) return false;
     
-    return data.labels.some((label: any) => {
+    return data.labels.some((label) => {
       // Check if label looks like a date or time
       return !isNaN(Date.parse(label)) || 
              /^\d{4}-\d{2}-\d{2}/.test(label) ||
@@ -307,13 +303,13 @@ export class ChartEngine {
   /**
    * Check if data is suitable for scatter plot
    */
-  private isScatterData(data: any): boolean {
+  isScatterData(data) {
     if (!data.datasets || data.datasets.length === 0) return false;
     
-    return data.datasets.some((dataset: any) => {
+    return data.datasets.some((dataset) => {
       if (!dataset.data) return false;
       
-      return dataset.data.some((point: any) => {
+      return dataset.data.some((point) => {
         return Array.isArray(point) && point.length >= 2 ||
                (typeof point === 'object' && point !== null && 'x' in point && 'y' in point);
       });
@@ -323,7 +319,7 @@ export class ChartEngine {
   /**
    * Generate cache key for memoization
    */
-  private generateCacheKey(type: string, data: any, options: ChartRenderOptions): string {
+  generateCacheKey(type, data, options) {
     const dataHash = this.hashData(data);
     const optionsHash = this.hashOptions(options);
     
@@ -333,7 +329,7 @@ export class ChartEngine {
   /**
    * Simple hash function for data
    */
-  private hashData(data: any): string {
+  hashData(data) {
     const str = JSON.stringify(data);
     let hash = 0;
     
@@ -349,7 +345,7 @@ export class ChartEngine {
   /**
    * Simple hash function for options
    */
-  private hashOptions(options: ChartRenderOptions): string {
+  hashOptions(options) {
     const relevantOptions = {
       responsive: options.responsive,
       maintainAspectRatio: options.maintainAspectRatio,
@@ -364,7 +360,7 @@ export class ChartEngine {
   /**
    * Handle chart errors
    */
-  private handleChartError(error: Error): void {
+  handleChartError(error) {
     // Emit error event for global error handling
     const event = new CustomEvent('chartError', {
       detail: { error, timestamp: new Date() }
@@ -375,28 +371,28 @@ export class ChartEngine {
   /**
    * Get performance metrics
    */
-  getPerformanceMetrics(): any {
+  getPerformanceMetrics() {
     return performanceMonitor.getMetrics();
   }
 
   /**
    * Clear memoization cache
    */
-  clearCache(): void {
+  clearCache() {
     chartMemoizer.clear();
   }
 
   /**
    * Get cache statistics
    */
-  getCacheStats(): any {
+  getCacheStats() {
     return chartMemoizer.getStats();
   }
 
   /**
    * Export chart engine configuration
    */
-  exportConfig(): any {
+  exportConfig() {
     return {
       theme: this.currentTheme,
       animations: this.animations,
@@ -409,7 +405,7 @@ export class ChartEngine {
   /**
    * Import chart engine configuration
    */
-  importConfig(config: any): void {
+  importConfig(config) {
     if (config.theme) this.setTheme(config.theme);
     if (config.animations !== undefined) this.setAnimations(config.animations);
     if (config.interactive !== undefined) this.setInteractive(config.interactive);
@@ -418,7 +414,7 @@ export class ChartEngine {
   /**
    * Cleanup chart engine
    */
-  destroy(): void {
+  destroy() {
     this.clearCache();
     // Remove event listeners
     window.removeEventListener('error', this.handleChartError);

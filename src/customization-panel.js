@@ -29,7 +29,7 @@ class CustomizationPanel {
       <div id="customization-panel" class="fixed right-0 top-0 h-full w-80 brand-panel-floating transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
         <div class="p-6 border-b brand-border">
           <div class="flex items-center justify-between">
-            <h3 class="text-lg font-semibold brand-text-primary">Настройки диаграммы</h3>
+            <h3 class="text-lg font-semibold brand-text-primary">Chart settings</h3>
             <button id="close-customization" class="brand-text-secondary brand-hover-text-primary">
               <i class="fas fa-times"></i>
             </button>
@@ -39,7 +39,7 @@ class CustomizationPanel {
         <div class="p-6 space-y-6">
           <!-- Theme Selection -->
           <div class="space-y-3">
-            <label class="text-sm font-medium brand-text-secondary">Тема</label>
+            <label class="text-sm font-medium brand-text-secondary">Theme</label>
             <div class="grid grid-cols-2 gap-2">
               ${this.getThemeOptions()}
             </div>
@@ -47,7 +47,7 @@ class CustomizationPanel {
 
           <!-- Color Palette -->
           <div class="space-y-3">
-            <label class="text-sm font-medium brand-text-secondary">Цветовая палитра</label>
+            <label class="text-sm font-medium brand-text-secondary">Color palette</label>
             <div class="space-y-2">
               <div class="flex items-center gap-2">
                 <input type="color" id="color-1" value="#2563EB" class="w-8 h-8 rounded">
@@ -65,7 +65,7 @@ class CustomizationPanel {
 
           <!-- Typography -->
           <div class="space-y-3">
-            <label class="text-sm font-medium brand-text-secondary">Типографика</label>
+            <label class="text-sm font-medium brand-text-secondary">Typography</label>
             <div class="space-y-2">
               <select id="font-family" class="w-full border brand-border rounded-lg px-3 py-2 text-sm">
                 <option value="Inter">Inter</option>
@@ -84,43 +84,43 @@ class CustomizationPanel {
 
           <!-- Chart Elements -->
           <div class="space-y-3">
-            <label class="text-sm font-medium brand-text-secondary">Элементы диаграммы</label>
+            <label class="text-sm font-medium brand-text-secondary">Chart elements</label>
             <div class="space-y-2">
               <label class="flex items-center gap-2">
                 <input type="checkbox" id="show-grid" checked class="rounded">
-                <span class="text-sm">Показать сетку</span>
+                <span class="text-sm">Show grid</span>
               </label>
               <label class="flex items-center gap-2">
                 <input type="checkbox" id="show-legend" checked class="rounded">
-                <span class="text-sm">Показать легенду</span>
+                <span class="text-sm">Show legend</span>
               </label>
               <label class="flex items-center gap-2">
                 <input type="checkbox" id="show-labels" checked class="rounded">
-                <span class="text-sm">Показать подписи</span>
+                <span class="text-sm">Show labels</span>
               </label>
               <label class="flex items-center gap-2">
                 <input type="checkbox" id="show-values" class="rounded">
-                <span class="text-sm">Показать значения</span>
+                <span class="text-sm">Show values</span>
               </label>
             </div>
           </div>
 
           <!-- Style Settings -->
           <div class="space-y-3">
-            <label class="text-sm font-medium text-[#0F172A]">Стиль</label>
+            <label class="text-sm font-medium text-[#0F172A]">Style</label>
             <div class="space-y-2">
               <div class="flex items-center gap-2">
-                <label class="text-sm brand-text-secondary w-20">Скругление</label>
+                <label class="text-sm brand-text-secondary w-20">Radius</label>
                 <input type="range" id="border-radius" min="0" max="20" value="8" class="flex-1">
                 <span id="border-radius-value" class="text-sm brand-text-secondary w-8">8</span>
               </div>
               <div class="flex items-center gap-2">
-                <label class="text-sm brand-text-secondary w-20">Толщина</label>
+                <label class="text-sm brand-text-secondary w-20">Stroke</label>
                 <input type="range" id="stroke-width" min="1" max="10" value="2" class="flex-1">
                 <span id="stroke-width-value" class="text-sm brand-text-secondary w-8">2</span>
               </div>
               <div class="flex items-center gap-2">
-                <label class="text-sm brand-text-secondary w-20">Прозрачность</label>
+                <label class="text-sm brand-text-secondary w-20">Opacity</label>
                 <input type="range" id="opacity" min="0" max="100" value="80" class="flex-1">
                 <span id="opacity-value" class="text-sm brand-text-secondary w-8">80%</span>
               </div>
@@ -129,14 +129,14 @@ class CustomizationPanel {
 
           <!-- Animation -->
           <div class="space-y-3">
-            <label class="text-sm font-medium brand-text-secondary">Анимация</label>
+            <label class="text-sm font-medium brand-text-secondary">Animation</label>
             <div class="space-y-2">
               <label class="flex items-center gap-2">
                 <input type="checkbox" id="enable-animation" checked class="rounded">
-                <span class="text-sm">Включить анимацию</span>
+                <span class="text-sm">Enable animation</span>
               </label>
               <div class="flex items-center gap-2">
-                <label class="text-sm brand-text-secondary w-20">Длительность</label>
+                <label class="text-sm brand-text-secondary w-20">Duration</label>
                 <input type="range" id="animation-duration" min="0" max="3000" value="1000" step="100" class="flex-1">
                 <span id="animation-duration-value" class="text-sm brand-text-secondary w-12">1.0s</span>
               </div>
@@ -146,19 +146,19 @@ class CustomizationPanel {
           <!-- Actions -->
           <div class="space-y-3 pt-4 border-t brand-border">
             <button id="apply-settings" class="w-full brand-button-primary px-4 py-2 rounded-lg transition">
-              Применить настройки
+              Apply settings
             </button>
             <button id="reset-settings" class="w-full brand-button-secondary px-4 py-2 rounded-lg transition">
-              Сбросить
+              Reset
             </button>
             <button id="save-preset" class="w-full brand-button-secondary px-4 py-2 rounded-lg transition">
-              Сохранить как пресет
+              Save as preset
             </button>
           </div>
 
           <!-- Saved Presets -->
           <div class="space-y-3">
-            <label class="text-sm font-medium brand-text-secondary">Сохраненные пресеты</label>
+            <label class="text-sm font-medium brand-text-secondary">Saved presets</label>
             <div id="saved-presets" class="space-y-2">
               <!-- Presets will be loaded here -->
             </div>
@@ -422,7 +422,7 @@ class CustomizationPanel {
     this.saveSettings();
     
     // Show feedback
-    this.showNotification('Настройки применены', 'success');
+    this.showNotification('Settings applied', 'success');
   }
 
   resetSettings() {
@@ -483,7 +483,7 @@ class CustomizationPanel {
   }
 
   savePreset() {
-    const name = prompt('Введите название пресета:');
+    const name = prompt('Enter preset name:');
     if (name) {
       const presets = JSON.parse(localStorage.getItem('vizom-presets') || '[]');
       presets.push({
@@ -493,7 +493,7 @@ class CustomizationPanel {
       });
       localStorage.setItem('vizom-presets', JSON.stringify(presets));
       this.loadPresets();
-      this.showNotification('Пресет сохранен', 'success');
+      this.showNotification('Preset saved', 'success');
     }
   }
 
@@ -502,7 +502,7 @@ class CustomizationPanel {
     const container = document.getElementById('saved-presets');
     
     if (presets.length === 0) {
-      container.innerHTML = '<p class="text-sm text-slate-500">Нет сохраненных пресетов</p>';
+      container.innerHTML = '<p class="text-sm text-slate-500">No saved presets</p>';
     } else {
       container.innerHTML = presets.map((preset, index) => `
         <div class="flex items-center justify-between p-2 border border-slate-200 rounded">

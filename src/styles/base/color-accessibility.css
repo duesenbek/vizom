@@ -1,107 +1,95 @@
-/* Color Accessibility System - WCAG Compliant and Color Blind Friendly - Indigo/Royal Blue Theme */
+/* Color Accessibility System - WCAG Compliant and Color Blind Friendly */
 
 /* CSS Custom Properties for WCAG Compliant Colors */
 :root {
-  /* Primary Color Palette - Indigo/Royal Blue - WCAG AA Compliant */
-  --color-primary-50: #EEF4FF;    /* Lightest blue */
-  --color-primary-100: #DDE9FF;   /* Very light blue */
-  --color-primary-200: #B8D9FF;   /* Light blue */
-  --color-primary-300: #7FB8FF;   /* Medium-light blue */
-  --color-primary-400: #4190FF;   /* Medium blue */
-  --color-primary-500: #1872D9;   /* Primary brand blue - 4.52:1 contrast on white - WCAG AA compliant */
-  --color-primary-600: #1565C0;   /* Primary hover - 5.03:1 contrast on white - WCAG AA compliant */
-  --color-primary-700: #123472;   /* Dark blue - 6.23:1 contrast on white - WCAG AAA compliant */
-  --color-primary-800: #003466;   /* Very dark blue - 7.24:1 contrast on white - WCAG AAA compliant */
-  --color-primary-900: #002244;   /* Darkest blue - 8.59:1 contrast on white - WCAG AAA compliant */
+  /* Primary Color Palette - Vizom Navy → Royal → Sky */
+  --color-primary-50: #EFF4FF;
+  --color-primary-100: #DDE7FF;
+  --color-primary-200: #BFD4FF;
+  --color-primary-300: #93B6FF;
+  --color-primary-400: #60A5FA;   /* Sky hover */
+  --color-primary-500: #3B82F6;   /* Sky base */
+  --color-primary-600: #2563EB;   /* Royal blue - primary CTA */
+  --color-primary-700: #1E5FE0;   /* Royal hover */
+  --color-primary-800: #0F2744;   /* Navy accent */
+  --color-primary-900: #0A1E3D;   /* Deep navy */
+
+  /* Accent Cyan Palette */
+  --color-cyan-50: #ECFEFF;
+  --color-cyan-100: #CFFAFE;
+  --color-cyan-200: #A5F3FC;
+  --color-cyan-300: #67E8F9;
+  --color-cyan-400: #22D3EE;
+  --color-cyan-500: #06B6D4;
+  --color-cyan-600: #0891B2;
+  --color-cyan-700: #0E7490;
+  --color-cyan-800: #155E75;
+  --color-cyan-900: #164E63;
+
+  /* Neutral / Slate Palette */
+  --color-neutral-50: #F8FAFC;
+  --color-neutral-100: #F1F5F9;
+  --color-neutral-200: #E2E8F0;
+  --color-neutral-300: #CBD5E1;
+  --color-neutral-400: #94A3B8;
+  --color-neutral-500: #64748B;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1E293B;
+  --color-neutral-900: #0F172A;
   
-  /* Medium Blue Palette - Interactive Elements */
-  --color-medium-50: #E3F2FD;     /* Lightest medium blue */
-  --color-medium-100: #BBDEFB;    /* Very light medium blue */
-  --color-medium-200: #90CAF9;    /* Light medium blue */
-  --color-medium-300: #64B5F6;    /* Medium-light blue */
-  --color-medium-400: #42A5F5;    /* Medium blue */
-  --color-medium-500: #2196F3;    /* Medium blue primary - 4.08:1 contrast on white - WCAG AA compliant */
-  --color-medium-600: #1E88E5;    /* Medium blue hover - 4.52:1 contrast on white - WCAG AA compliant */
-  --color-medium-700: #1976D2;    /* Dark medium blue - 5.12:1 contrast on white - WCAG AA compliant */
-  --color-medium-800: #1565C0;    /* Very dark medium blue - 6.23:1 contrast on white - WCAG AAA compliant */
-  --color-medium-900: #0D47A1;    /* Darkest medium blue - 8.59:1 contrast on white - WCAG AAA compliant */
-  
-  /* Light Blue Palette - Accents */
-  --color-light-50: #E1F5FE;      /* Lightest accent blue */
-  --color-light-100: #B3E5FC;     /* Very light accent blue */
-  --color-light-200: #81D4FA;     /* Light accent blue */
-  --color-light-300: #4FC3F7;     /* Medium-light accent blue */
-  --color-light-400: #29B6F6;     /* Medium accent blue */
-  --color-light-500: #41C3FF;     /* Light blue accent - 3.61:1 contrast on white */
-  --color-light-600: #29B6F6;     /* Light blue hover - 4.52:1 contrast on white - WCAG AA compliant */
-  --color-light-700: #039BE5;     /* Dark light blue - 5.03:1 contrast on white - WCAG AA compliant */
-  --color-light-800: #0288D1;     /* Very dark light blue - 6.23:1 contrast on white - WCAG AAA compliant */
-  --color-light-900: #01579B;     /* Darkest light blue - 8.59:1 contrast on white - WCAG AAA compliant */
-  
-  /* Neutral Color Palette - Blue-tinted grays */
-  --color-neutral-50: #F8FAFC;    /* Lightest neutral */
-  --color-neutral-100: #F1F5F9;   /* Very light neutral */
-  --color-neutral-200: #E2E8F0;   /* Light neutral */
-  --color-neutral-300: #CBD5E1;   /* Medium-light neutral */
-  --color-neutral-400: #94A3B8;   /* Medium neutral */
-  --color-neutral-500: #64748B;   /* Dark neutral - 3.91:1 contrast on white */
-  --color-neutral-600: #475569;   /* Very dark neutral - 4.81:1 contrast on white - WCAG AA compliant */
-  --color-neutral-700: #334155;   /* Extra dark neutral - 6.11:1 contrast on white - WCAG AAA compliant */
-  --color-neutral-800: #1E293B;   /* Darkest neutral - 12.63:1 contrast on white - WCAG AAA compliant */
-  --color-neutral-900: #0F172A;   /* Ultra dark neutral - 21:1 contrast on white - WCAG AAA compliant */
+  /* Secondary Color Palette - WCAG AA Compliant */
+  --color-secondary-50: #f8fafc;   /* 1.05:1 contrast on white */
+  --color-secondary-100: #f1f5f9;  /* 1.13:1 contrast on white */
+  --color-secondary-200: #e2e8f0;  /* 1.48:1 contrast on white */
+  --color-secondary-300: #cbd5e1;  /* 2.07:1 contrast on white */
+  --color-secondary-400: #94a3b8;  /* 3.13:1 contrast on white */
+  --color-secondary-500: #64748b;  /* 3.91:1 contrast on white */
+  --color-secondary-600: #475569;  /* 4.81:1 contrast on white - WCAG AA compliant */
+  --color-secondary-700: #334155;  /* 6.11:1 contrast on white - WCAG AAA compliant */
+  --color-secondary-800: #1e293b;  /* 12.63:1 contrast on white - WCAG AAA compliant */
+  --color-secondary-900: #0f172a;  /* 21:1 contrast on white - WCAG AAA compliant */
   
   /* Success Color Palette - WCAG AA Compliant */
-  --color-success-50: #f0fdf4;    /* 1.02:1 contrast on white */
-  --color-success-100: #dcfce7;   /* 1.24:1 contrast on white */
-  --color-success-200: #bbf7d0;   /* 1.66:1 contrast on white */
-  --color-success-300: #86efac;   /* 2.29:1 contrast on white */
-  --color-success-400: #4ade80;   /* 3.22:1 contrast on white */
-  --color-success-500: #22c55e;   /* 4.52:1 contrast on white - WCAG AA compliant */
-  --color-success-600: #16a34a;   /* 5.03:1 contrast on white - WCAG AA compliant */
-  --color-success-700: #15803d;   /* 6.23:1 contrast on white - WCAG AAA compliant */
-  --color-success-800: #166534;   /* 7.24:1 contrast on white - WCAG AAA compliant */
-  --color-success-900: #14532d;   /* 8.59:1 contrast on white - WCAG AAA compliant */
+  --color-success-50: #ECFDF5;
+  --color-success-100: #D1FAE5;
+  --color-success-200: #A7F3D0;
+  --color-success-300: #6EE7B7;
+  --color-success-400: #34D399;
+  --color-success-500: #10B981;
+  --color-success-600: #0F9F74;
+  --color-success-700: #0D7A5A;
+  --color-success-800: #0B5C44;
+  --color-success-900: #0A3F30;
   
   /* Warning Color Palette - WCAG AA Compliant */
-  --color-warning-50: #fffbeb;    /* 1.13:1 contrast on white */
-  --color-warning-100: #fef3c7;   /* 1.48:1 contrast on white */
-  --color-warning-200: #fde68a;   /* 2.07:1 contrast on white */
-  --color-warning-300: #fcd34d;   /* 2.89:1 contrast on white */
-  --color-warning-400: #fbbf24;   /* 3.91:1 contrast on white */
-  --color-warning-500: #f59e0b;   /* 4.52:1 contrast on white - WCAG AA compliant */
-  --color-warning-600: #d97706;   /* 5.03:1 contrast on white - WCAG AA compliant */
-  --color-warning-700: #b45309;   /* 6.23:1 contrast on white - WCAG AAA compliant */
-  --color-warning-800: #92400e;   /* 7.24:1 contrast on white - WCAG AAA compliant */
-  --color-warning-900: #78350f;   /* 8.59:1 contrast on white - WCAG AAA compliant */
+  --color-warning-50: #FFF7E6;
+  --color-warning-100: #FFEDC2;
+  --color-warning-200: #FFE099;
+  --color-warning-300: #FFD166;
+  --color-warning-400: #FDBA3B;
+  --color-warning-500: #F59E0B;
+  --color-warning-600: #DB7B07;
+  --color-warning-700: #B35509;
+  --color-warning-800: #8C3E0B;
+  --color-warning-900: #6C2D0A;
   
   /* Error Color Palette - WCAG AA Compliant */
-  --color-error-50: #fef2f2;      /* 1.05:1 contrast on white */
-  --color-error-100: #fee2e2;     /* 1.32:1 contrast on white */
-  --color-error-200: #fecaca;     /* 1.81:1 contrast on white */
-  --color-error-300: #fca5a5;     /* 2.53:1 contrast on white */
-  --color-error-400: #f87171;     /* 3.61:1 contrast on white */
-  --color-error-500: #ef4444;     /* 4.52:1 contrast on white - WCAG AA compliant */
-  --color-error-600: #dc2626;     /* 5.03:1 contrast on white - WCAG AA compliant */
-  --color-error-700: #b91c1c;     /* 6.23:1 contrast on white - WCAG AAA compliant */
-  --color-error-800: #991b1b;     /* 7.24:1 contrast on white - WCAG AAA compliant */
-  --color-error-900: #7f1d1d;     /* 8.59:1 contrast on white - WCAG AAA compliant */
-  
-  /* Neutral Color Palette - Optimized for Readability */
-  --color-neutral-50: #fafafa;    /* 1.05:1 contrast on white */
-  --color-neutral-100: #f5f5f5;   /* 1.13:1 contrast on white */
-  --color-neutral-200: #e5e5e5;   /* 1.48:1 contrast on white */
-  --color-neutral-300: #d4d4d4;   /* 2.07:1 contrast on white */
-  --color-neutral-400: #a3a3a3;   /* 3.13:1 contrast on white */
-  --color-neutral-500: #737373;   /* 3.91:1 contrast on white */
-  --color-neutral-600: #525252;   /* 4.81:1 contrast on white - WCAG AA compliant */
-  --color-neutral-700: #404040;   /* 6.11:1 contrast on white - WCAG AAA compliant */
-  --color-neutral-800: #262626;   /* 12.63:1 contrast on white - WCAG AAA compliant */
-  --color-neutral-900: #171717;   /* 21:1 contrast on white - WCAG AAA compliant */
+  --color-error-50: #FEF2F2;
+  --color-error-100: #FEE2E2;
+  --color-error-200: #FECACA;
+  --color-error-300: #FCA5A5;
+  --color-error-400: #F87171;
+  --color-error-500: #EF4444;
+  --color-error-600: #DC2626;
+  --color-error-700: #B91C1C;
+  --color-error-800: #991B1B;
+  --color-error-900: #7F1D1D;
   
   /* Semantic Color Mappings */
-  --color-background: #ffffff;
-  --color-surface: #ffffff;
-  --color-surface-elevated: #fafafa;
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-surface-elevated: #F1F5F9;
   --color-border: var(--color-neutral-200);
   --color-border-strong: var(--color-neutral-300);
   --color-border-focus: var(--color-primary-500);
@@ -115,20 +103,20 @@
   --color-text-inverse: #ffffff;                      /* 21:1 contrast on dark */
   
   /* Link Colors - WCAG AA Compliant */
-  --color-link-default: var(--color-primary-600);     /* 5.03:1 contrast on white */
-  --color-link-hover: var(--color-primary-700);       /* 6.23:1 contrast on white */
+  --color-link-default: var(--color-primary-600);
+  --color-link-hover: var(--color-primary-700);
   --color-link-visited: #663399;                      /* 5.05:1 contrast on white */
   --color-link-focus: var(--color-primary-800);       /* 7.24:1 contrast on white */
   --color-link-active: var(--color-primary-900);      /* 8.59:1 contrast on white */
   
   /* State Colors */
-  --color-state-hover: var(--color-neutral-100);
-  --color-state-active: var(--color-neutral-200);
-  --color-state-selected: var(--color-primary-100);
-  --color-state-focus: var(--color-primary-100);
+  --color-state-hover: #F1F5F9;
+  --color-state-active: #E2E8F0;
+  --color-state-selected: #EFF6FF;
+  --color-state-focus: #DDE7FF;
   
   /* Focus Colors - High Contrast for Accessibility */
-  --color-focus-ring: var(--color-primary-500);
+  --color-focus-ring: #1E5FE0;
   --color-focus-ring-offset: #ffffff;
   --color-focus-ring-width: 2px;
   --color-focus-ring-offset-width: 2px;

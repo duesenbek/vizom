@@ -1,0 +1,667 @@
+/* VIZOM Pricing Page Styles */
+/* Page-specific styles for the pricing plans page */
+
+/* =================================== */
+/* PRICING PAGE LAYOUT */
+/* =================================== */
+.viz-pricing-page {
+  min-height: 100vh;
+  background: var(--viz-color-light);
+}
+
+.viz-pricing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--viz-spacing-6);
+}
+
+.viz-pricing-header {
+  text-align: center;
+  margin-bottom: var(--viz-spacing-16);
+}
+
+.viz-pricing-title {
+  font-size: var(--viz-font-size-4xl);
+  font-weight: var(--viz-font-weight-bold);
+  color: var(--viz-color-primary);
+  margin-bottom: var(--viz-spacing-4);
+  line-height: 1.2;
+}
+
+.viz-pricing-subtitle {
+  font-size: var(--viz-font-size-lg);
+  color: var(--viz-color-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* =================================== */
+/* BILLING TOGGLE */
+/* =================================== */
+.viz-billing-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--viz-spacing-4);
+  margin-bottom: var(--viz-spacing-12);
+}
+
+.viz-billing-label {
+  font-size: var(--viz-font-size-base);
+  color: var(--viz-color-secondary);
+  font-weight: var(--viz-font-weight-medium);
+}
+
+.viz-billing-label.active {
+  color: var(--viz-color-primary);
+}
+
+.viz-billing-switch {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  background: var(--viz-color-border);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: var(--viz-transition-colors);
+}
+
+.viz-billing-switch.active {
+  background: var(--viz-color-primary);
+}
+
+.viz-billing-switch-handle {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  transition: var(--viz-transition-transform);
+  box-shadow: var(--viz-shadow-sm);
+}
+
+.viz-billing-switch.active .viz-billing-switch-handle {
+  transform: translateX(28px);
+}
+
+.viz-billing-discount {
+  display: inline-block;
+  padding: var(--viz-spacing-1) var(--viz-spacing-2);
+  background: var(--viz-color-success);
+  color: white;
+  font-size: var(--viz-font-size-xs);
+  font-weight: var(--viz-font-weight-semibold);
+  border-radius: var(--viz-border-radius-sm);
+  margin-left: var(--viz-spacing-2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* =================================== */
+/* PRICING CARDS */
+/* =================================== */
+.viz-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--viz-spacing-8);
+  margin-bottom: var(--viz-spacing-16);
+}
+
+.viz-pricing-card {
+  background: white;
+  border-radius: var(--viz-border-radius-xl);
+  padding: var(--viz-spacing-8);
+  box-shadow: var(--viz-shadow-sm);
+  border: 2px solid var(--viz-color-border);
+  position: relative;
+  transition: var(--viz-transition-all);
+}
+
+.viz-pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--viz-shadow-lg);
+  border-color: var(--viz-color-primary);
+}
+
+.viz-pricing-card.featured {
+  border-color: var(--viz-color-primary);
+  transform: scale(1.05);
+  box-shadow: var(--viz-shadow-xl);
+}
+
+.viz-pricing-card.featured:hover {
+  transform: scale(1.05) translateY(-4px);
+}
+
+.viz-pricing-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--viz-color-primary);
+  color: white;
+  padding: var(--viz-spacing-2) var(--viz-spacing-4);
+  border-radius: var(--viz-border-radius-lg);
+  font-size: var(--viz-font-size-sm);
+  font-weight: var(--viz-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.viz-pricing-plan {
+  text-align: center;
+  margin-bottom: var(--viz-spacing-6);
+}
+
+.viz-pricing-plan-name {
+  font-size: var(--viz-font-size-2xl);
+  font-weight: var(--viz-font-weight-bold);
+  color: var(--viz-color-primary);
+  margin-bottom: var(--viz-spacing-2);
+}
+
+.viz-pricing-plan-description {
+  font-size: var(--viz-font-size-base);
+  color: var(--viz-color-secondary);
+  line-height: 1.5;
+}
+
+.viz-pricing-price {
+  text-align: center;
+  margin-bottom: var(--viz-spacing-8);
+  padding: var(--viz-spacing-6) 0;
+  border-top: 1px solid var(--viz-color-border);
+  border-bottom: 1px solid var(--viz-color-border);
+}
+
+.viz-pricing-currency {
+  font-size: var(--viz-font-size-2xl);
+  font-weight: var(--viz-font-weight-medium);
+  color: var(--viz-color-secondary);
+  vertical-align: top;
+  line-height: 1;
+}
+
+.viz-pricing-amount {
+  font-size: var(--viz-font-size-5xl);
+  font-weight: var(--viz-font-weight-bold);
+  color: var(--viz-color-primary);
+  line-height: 1;
+}
+
+.viz-pricing-period {
+  font-size: var(--viz-font-size-base);
+  color: var(--viz-color-secondary);
+  margin-left: var(--viz-spacing-1);
+}
+
+.viz-pricing-price-note {
+  font-size: var(--viz-font-size-sm);
+  color: var(--viz-color-muted);
+  margin-top: var(--viz-spacing-2);
+}
+
+.viz-pricing-features {
+  margin-bottom: var(--viz-spacing-8);
+}
+
+.viz-pricing-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.viz-pricing-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--viz-spacing-3);
+  margin-bottom: var(--viz-spacing-4);
+  font-size: var(--viz-font-size-base);
+  color: var(--viz-color-secondary);
+}
+
+.viz-pricing-feature i {
+  color: var(--viz-color-success);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.viz-pricing-feature.disabled {
+  opacity: 0.5;
+}
+
+.viz-pricing-feature.disabled i {
+  color: var(--viz-color-muted);
+}
+
+.viz-pricing-cta {
+  text-align: center;
+}
+
+.viz-pricing-button {
+  width: 100%;
+  padding: var(--viz-spacing-4) var(--viz-spacing-6);
+  border-radius: var(--viz-border-radius-lg);
+  font-size: var(--viz-font-size-base);
+  font-weight: var(--viz-font-weight-semibold);
+  cursor: pointer;
+  transition: var(--viz-transition-all);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--viz-spacing-2);
+}
+
+.viz-pricing-button.primary {
+  background: var(--viz-color-primary);
+  color: white;
+}
+
+.viz-pricing-button.primary:hover {
+  background: var(--viz-color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--viz-shadow-lg);
+}
+
+.viz-pricing-button.secondary {
+  background: var(--viz-color-light);
+  color: var(--viz-color-primary);
+  border: 2px solid var(--viz-color-border);
+}
+
+.viz-pricing-button.secondary:hover {
+  background: var(--viz-color-border);
+  border-color: var(--viz-color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--viz-shadow-lg);
+}
+
+.viz-pricing-trial-text {
+  font-size: var(--viz-font-size-sm);
+  color: var(--viz-color-muted);
+  margin-top: var(--viz-spacing-3);
+}
+
+/* =================================== */
+/* FAQ SECTION */
+/* =================================== */
+.viz-pricing-faq {
+  background: white;
+  border-radius: var(--viz-border-radius-xl);
+  padding: var(--viz-spacing-12);
+  box-shadow: var(--viz-shadow-sm);
+  border: 1px solid var(--viz-color-border);
+  margin-bottom: var(--viz-spacing-16);
+}
+
+.viz-pricing-faq-header {
+  text-align: center;
+  margin-bottom: var(--viz-spacing-8);
+}
+
+.viz-pricing-faq-title {
+  font-size: var(--viz-font-size-3xl);
+  font-weight: var(--viz-font-weight-bold);
+  color: var(--viz-color-primary);
+  margin-bottom: var(--viz-spacing-3);
+}
+
+.viz-pricing-faq-subtitle {
+  font-size: var(--viz-font-size-base);
+  color: var(--viz-color-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.viz-pricing-faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.viz-pricing-faq-item {
+  border-bottom: 1px solid var(--viz-color-border);
+  padding: var(--viz-spacing-6) 0;
+}
+
+.viz-pricing-faq-item:last-child {
+  border-bottom: none;
+}
+
+.viz-pricing-faq-question {
+  font-size: var(--viz-font-size-lg);
+  font-weight: var(--viz-font-weight-semibold);
+  color: var(--viz-color-primary);
+  margin-bottom: var(--viz-spacing-3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--viz-spacing-3);
+  transition: var(--viz-transition-colors);
+}
+
+.viz-pricing-faq-question:hover {
+  color: var(--viz-color-primary-dark);
+}
+
+.viz-pricing-faq-question i {
+  color: var(--viz-color-muted);
+  transition: var(--viz-transition-transform);
+}
+
+.viz-pricing-faq-item.active .viz-pricing-faq-question i {
+  transform: rotate(180deg);
+}
+
+.viz-pricing-faq-answer {
+  font-size: var(--viz-font-size-base);
+  color: var(--viz-color-secondary);
+  line-height: 1.6;
+  max-height: 0;
+  overflow: hidden;
+  transition: var(--viz-transition-all);
+}
+
+.viz-pricing-faq-item.active .viz-pricing-faq-answer {
+  max-height: 500px;
+  padding-top: var(--viz-spacing-3);
+}
+
+/* =================================== */
+/* COMPARISON TABLE */
+/* =================================== */
+.viz-pricing-comparison {
+  background: white;
+  border-radius: var(--viz-border-radius-xl);
+  padding: var(--viz-spacing-8);
+  box-shadow: var(--viz-shadow-sm);
+  border: 1px solid var(--viz-color-border);
+  margin-bottom: var(--viz-spacing-16);
+  overflow-x: auto;
+}
+
+.viz-pricing-comparison-header {
+  text-align: center;
+  margin-bottom: var(--viz-spacing-8);
+}
+
+.viz-pricing-comparison-title {
+  font-size: var(--viz-font-size-3xl);
+  font-weight: var(--viz-font-weight-bold);
+  color: var(--viz-color-primary);
+  margin-bottom: var(--viz-spacing-3);
+}
+
+.viz-pricing-comparison-table {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: collapse;
+}
+
+.viz-pricing-comparison-table th,
+.viz-pricing-comparison-table td {
+  padding: var(--viz-spacing-4);
+  text-align: left;
+  border-bottom: 1px solid var(--viz-color-border);
+}
+
+.viz-pricing-comparison-table th {
+  font-weight: var(--viz-font-weight-semibold);
+  color: var(--viz-color-primary);
+  background: var(--viz-color-light);
+}
+
+.viz-pricing-comparison-table th:first-child {
+  border-top-left-radius: var(--viz-border-radius-base);
+}
+
+.viz-pricing-comparison-table th:last-child {
+  border-top-right-radius: var(--viz-border-radius-base);
+}
+
+.viz-pricing-comparison-table td {
+  color: var(--viz-color-secondary);
+}
+
+.viz-pricing-comparison-table tr:hover td {
+  background: var(--viz-color-light);
+}
+
+.viz-pricing-comparison-check {
+  color: var(--viz-color-success);
+  font-size: var(--viz-font-size-lg);
+}
+
+.viz-pricing-comparison-cross {
+  color: var(--viz-color-error);
+  font-size: var(--viz-font-size-lg);
+}
+
+.viz-pricing-comparison-feature {
+  font-weight: var(--viz-font-weight-medium);
+  color: var(--viz-color-primary);
+}
+
+/* =================================== */
+/* CTA SECTION */
+/* =================================== */
+.viz-pricing-cta-section {
+  text-align: center;
+  padding: var(--viz-spacing-16) var(--viz-spacing-6);
+  background: linear-gradient(135deg, var(--viz-color-primary) 0%, var(--viz-color-accent) 100%);
+  border-radius: var(--viz-border-radius-xl);
+  color: white;
+  margin-bottom: var(--viz-spacing-16);
+}
+
+.viz-pricing-cta-title {
+  font-size: var(--viz-font-size-3xl);
+  font-weight: var(--viz-font-weight-bold);
+  margin-bottom: var(--viz-spacing-4);
+}
+
+.viz-pricing-cta-description {
+  font-size: var(--viz-font-size-lg);
+  opacity: 0.9;
+  margin-bottom: var(--viz-spacing-8);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.viz-pricing-cta-button {
+  background: white;
+  color: var(--viz-color-primary);
+  padding: var(--viz-spacing-4) var(--viz-spacing-8);
+  border-radius: var(--viz-border-radius-lg);
+  font-size: var(--viz-font-size-base);
+  font-weight: var(--viz-font-weight-semibold);
+  cursor: pointer;
+  transition: var(--viz-transition-all);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--viz-spacing-2);
+}
+
+.viz-pricing-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* =================================== */
+/* RESPONSIVE DESIGN */
+/* =================================== */
+@media (max-width: 1024px) {
+  .viz-pricing-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--viz-spacing-6);
+  }
+  
+  .viz-pricing-card.featured {
+    transform: scale(1);
+  }
+  
+  .viz-pricing-card.featured:hover {
+    transform: scale(1) translateY(-4px);
+  }
+}
+
+@media (max-width: 768px) {
+  .viz-pricing-container {
+    padding: var(--viz-spacing-4);
+  }
+  
+  .viz-pricing-title {
+    font-size: var(--viz-font-size-3xl);
+  }
+  
+  .viz-pricing-grid {
+    grid-template-columns: 1fr;
+    gap: var(--viz-spacing-6);
+  }
+  
+  .viz-pricing-card {
+    padding: var(--viz-spacing-6);
+  }
+  
+  .viz-pricing-amount {
+    font-size: var(--viz-font-size-4xl);
+  }
+  
+  .viz-pricing-faq {
+    padding: var(--viz-spacing-8);
+  }
+  
+  .viz-pricing-comparison {
+    padding: var(--viz-spacing-6);
+  }
+  
+  .viz-pricing-cta-section {
+    padding: var(--viz-spacing-12) var(--viz-spacing-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .viz-pricing-container {
+    padding: var(--viz-spacing-3);
+  }
+  
+  .viz-pricing-title {
+    font-size: var(--viz-font-size-2xl);
+  }
+  
+  .viz-pricing-card {
+    padding: var(--viz-spacing-4);
+  }
+  
+  .viz-pricing-plan-name {
+    font-size: var(--viz-font-size-xl);
+  }
+  
+  .viz-pricing-amount {
+    font-size: var(--viz-font-size-3xl);
+  }
+  
+  .viz-pricing-faq {
+    padding: var(--viz-spacing-6);
+  }
+  
+  .viz-pricing-comparison {
+    padding: var(--viz-spacing-4);
+  }
+  
+  .viz-pricing-comparison-table th,
+  .viz-pricing-comparison-table td {
+    padding: var(--viz-spacing-3);
+    font-size: var(--viz-font-size-sm);
+  }
+  
+  .viz-pricing-cta-section {
+    padding: var(--viz-spacing-8) var(--viz-spacing-3);
+  }
+  
+  .viz-pricing-cta-title {
+    font-size: var(--viz-font-size-2xl);
+  }
+  
+  .viz-pricing-cta-button {
+    padding: var(--viz-spacing-3) var(--viz-spacing-6);
+    font-size: var(--viz-font-size-sm);
+  }
+}
+
+/* =================================== */
+/* ACCESSIBILITY */
+/* =================================== */
+@media (prefers-reduced-motion: reduce) {
+  .viz-pricing-card,
+  .viz-pricing-card:hover,
+  .viz-pricing-button,
+  .viz-pricing-button:hover,
+  .viz-pricing-faq-question,
+  .viz-pricing-faq-answer,
+  .viz-pricing-cta-button,
+  .viz-pricing-cta-button:hover {
+    transition: none;
+  }
+  
+  .viz-pricing-card:hover {
+    transform: none;
+  }
+  
+  .viz-pricing-button:hover {
+    transform: none;
+  }
+}
+
+.viz-pricing-card:focus-visible,
+.viz-billing-switch:focus-visible,
+.viz-pricing-button:focus-visible,
+.viz-pricing-faq-question:focus-visible,
+.viz-pricing-cta-button:focus-visible {
+  outline: 2px solid var(--viz-color-primary);
+  outline-offset: 2px;
+}
+
+/* =================================== */
+/* DARK MODE */
+/* =================================== */
+@media (prefers-color-scheme: dark) {
+  .viz-pricing-page {
+    background: var(--viz-color-dark);
+  }
+  
+  .viz-pricing-card,
+  .viz-pricing-faq,
+  .viz-pricing-comparison {
+    background: var(--viz-color-dark-secondary);
+    border-color: var(--viz-color-dark-border);
+  }
+  
+  .viz-pricing-cta-section {
+    background: linear-gradient(135deg, var(--viz-color-primary-dark) 0%, var(--viz-color-accent-dark) 100%);
+  }
+  
+  .viz-pricing-comparison-table th {
+    background: var(--viz-color-dark);
+  }
+  
+  .viz-pricing-comparison-table tr:hover td {
+    background: var(--viz-color-dark);
+  }
+  
+  .viz-pricing-button.secondary {
+    background: var(--viz-color-dark);
+    border-color: var(--viz-color-dark-border);
+    color: var(--viz-color-dark-primary);
+  }
+  
+  .viz-pricing-button.secondary:hover {
+    background: var(--viz-color-dark-border);
+  }
+}

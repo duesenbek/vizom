@@ -70,6 +70,35 @@
             20%, 60% { transform: translateX(-6px); }
             40%, 80% { transform: translateX(6px); }
         }
+
+        .chart-option {
+            border-width: 2px;
+            border-color: var(--color-border, #e2e8f0);
+            background-color: #fff;
+            transition: all 200ms ease;
+            will-change: transform, box-shadow;
+            box-shadow: 0 8px 18px -16px rgba(15, 23, 42, 0.4);
+            transform: translateY(0) scale(1);
+            touch-action: manipulation;
+        }
+
+        .chart-option:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 18px 30px -22px rgba(15, 23, 42, 0.45);
+        }
+
+        .chart-option.selected,
+        .chart-option[aria-pressed="true"] {
+            border-color: var(--color-primary-600, #0F6BFF);
+            background-color: var(--color-primary-50, #F3F7FF);
+            box-shadow: 0 0 0 3px rgba(15, 107, 255, 0.15), 0 20px 35px -25px rgba(15, 23, 42, 0.45);
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        .chart-option:focus-visible {
+            outline: 2px solid var(--color-primary-600, #0F6BFF);
+            outline-offset: 3px;
+        }
     </style>
     
     <!-- Shared vendor bundle: Chart.js, D3, Supabase auth/stripe -->
@@ -125,7 +154,7 @@
             <aside class="lg:col-span-3 p-6 space-y-6">
                 <h3 class="text-sm font-semibold text-slate-900 tracking-wide">Chart Type</h3>
                 <div class="grid grid-cols-2 gap-4" role="list" aria-labelledby="chart-type-label">
-                    <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-blue-500 ring-2 ring-blue-500 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="bar" aria-pressed="true" aria-label="Bar chart">
+                    <button class="chart-option selected flex flex-col gap-2 overflow-hidden rounded-xl border bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="bar" aria-pressed="true" aria-label="Bar chart">
                         <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
                             <i class="fa-solid fa-chart-column"></i>
                         </div>
@@ -373,30 +402,20 @@
 
     <!-- Main Scripts -->
     <script type="module" src="scripts/main.js"></script>
-    
-    <!-- Generator Script -->
+
     <script type="module">
-        import { supabase } from './src/supabase-client.js';
-        import { ErrorTracker } from './src/tracking/error-tracking.stub.js';
-        import { trackEvent } from './src/tracking/analytics.stub.js';
-        import { ChartExporter } from './src/utils/ChartExporter.js';
-        import { exportChartToPDF } from './src/utils/export-pdf.js';
-        import { chartExporter } from './src/utils/ChartExporter.js';
-        import { AIRecommendations } from './src/components/AIRecommendations.js';
-        import { progressLoading } from './src/components/ProgressLoadingManager.js';
-        import { OptimizedChartTypeSelector } from './src/components/OptimizedChartTypeSelector.js';
-        import { simpleParse } from './src/utils/simple-parser.js';
-        import { showLoading as showGlobalLoading, hideLoading as hideGlobalLoading, showToast as showGlobalToast } from './scripts/core/ui-feedback.js';
-
-        const noop = () => {};
-        const feedback = {
-          showLoading: showGlobalLoading || noop,
-          hideLoading: hideGlobalLoading || noop,
-          showToast: showGlobalToast || ((message) => console.info('[toast]', message))
-        };
-
-        // Simple script loader with caching
-        const __loadedScripts = new Map();
+      import { ChartGenerator } from './scripts/pages/generator/chart-generator.js';
+      import { ExportHandler } from './scripts/pages/generator/export-handler.js';
+      import { ProjectManager } from './scripts/pages/generator/project-manager.js';
+      import { UIController } from './scripts/pages/generator/ui-controller.js';
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        const generator = new ChartGenerator();
+        const exporter = new ExportHandler(generator);
+        const projectManager = new ProjectManager(generator);
+        const uiController = new UIController(generator);
+      });
+    </script>
         function ensureScriptOnce(src, globalVar) {
             if (__loadedScripts.has(src)) return __loadedScripts.get(src);
             const p = new Promise((resolve, reject) => {
@@ -547,29 +566,9 @@
                     this.generateChart();
                 });
 
-                // Library selector
-                const libSel = document.getElementById('chart-library');
-                if (libSel) {
-                    libSel.addEventListener('change', (e) => {
-                        const value = e.target.value;
-                        if (['apexcharts','plotly'].includes(value) && !this.isPro) {
-                            this.showUpgradeModal();
-                            e.target.value = 'chartjs';
-                            this.currentLibrary = 'chartjs';
-                            return;
-                        }
-                        this.currentLibrary = value;
-                    });
-                }
-                // Disable PRO-only libraries when not pro
-                if (libSel && !this.isPro) {
-                    Array.from(libSel.options).forEach((opt) => {
-                        if (opt.getAttribute('data-pro-only') !== null) {
-                            opt.disabled = true;
-                            opt.textContent = (opt.textContent || '') + ' • PRO';
-                        }
-                    });
-                }
+                // Library selector - removed, always use 'auto'
+                // Set default to 'auto' always
+                this.currentLibrary = 'auto';
 
                 // Chart type selection with PRO gating
                 const proOnlyTypes = ['sankey'];
@@ -796,16 +795,12 @@
             selectChartType(type) {
                 if (!type) return;
                 this.currentChartType = type;
-                document.querySelectorAll('.chart-option').forEach(option => {
+                const options = document.querySelectorAll('.chart-option');
+                options.forEach(option => {
                     const isActive = option.dataset.type === type;
                     option.setAttribute('aria-pressed', String(isActive));
-                    // Reset visual state
-                    option.classList.remove('ring-2','ring-blue-500','border-blue-500','border-slate-200','selected');
-                    if (isActive) {
-                        option.classList.add('ring-2','ring-blue-500','border-blue-500','selected');
-                    } else {
-                        option.classList.add('border-slate-200');
-                    }
+                    option.classList.toggle('selected', isActive);
+                    option.classList.toggle('border-slate-200', !isActive);
                 });
                 try { trackEvent('chart_type_selected', { chartType: type }); } catch {}
             }
@@ -831,10 +826,7 @@
                     this.isPro = false;
                 }
 
-                this.aiClient = new DeepSeekClient({
-                    // Initialize with your DeepSeek API key
-                    apiKey: 'YOUR_API_KEY',
-                });
+                this.aiClient = new DeepSeekClient();
             }
 
             async generateChart() {
@@ -930,108 +922,6 @@
                 } catch (error) {
                     this.handleError(error);
                 }
-            }
-
-            async renderWithLibrary(lib, type, chartJsConfig) {
-                try {
-                    const container = document.getElementById('chart-container');
-                    container.innerHTML = '';
-                    // basic sample data if no config mapping
-                    const source = this.chartTypes || window.chartTypes;
-                    const sample = (source && typeof source.generateSampleData === 'function')
-                        ? source.generateSampleData(type)
-                        : { labels: ['A','B','C','D'], datasets: [{ label: 'Series', data: [12, 19, 3, 5] }] };
-
-                    if (lib === 'chartjs') {
-                        this.renderChart(chartJsConfig);
-                        return true;
-                    }
-
-                    if (lib === 'echarts') {
-                        await ensureScriptOnce('https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js', 'echarts');
-                        const el = document.createElement('div');
-                        el.style.width = '100%'; el.style.height = '360px';
-                        container.appendChild(el);
-                        const inst = window.echarts.init(el);
-                        const option = this.buildEChartsOption(type, sample);
-                        inst.setOption(option);
-                        this.currentChart = inst;
-                        this.maybeShowWatermark(container);
-                        return true;
-                    }
-
-                    if (lib === 'apexcharts') {
-                        await ensureScriptOnce('https://cdn.jsdelivr.net/npm/apexcharts', 'ApexCharts');
-                        const el = document.createElement('div');
-                        container.appendChild(el);
-                        const options = this.buildApexOption(type, sample);
-                        const chart = new window.ApexCharts(el, options);
-                        await chart.render();
-                        this.currentChart = chart;
-                        this.maybeShowWatermark(container);
-                        return true;
-                    }
-
-                    if (lib === 'plotly') {
-                        await ensureScriptOnce('https://cdn.plot.ly/plotly-2.27.0.min.js', 'Plotly');
-                        const el = document.createElement('div');
-                        container.appendChild(el);
-                        const payload = this.buildPlotlyPayload(type, sample);
-                        await window.Plotly.newPlot(el, payload.data, payload.layout, { displayModeBar: true });
-                        this.currentChart = el;
-                        this.maybeShowWatermark(container);
-                        return true;
-                    }
-
-                    return false;
-                } catch (e) {
-                    console.warn('Library render failed, falling back to Chart.js', e);
-                    return false;
-                }
-            }
-
-            buildEChartsOption(type, sample) {
-                const { labels, datasets } = sample;
-                const data = datasets[0]?.data || [];
-                if (['bar','line','area'].includes(type)) {
-                    return {
-                        tooltip: {}, xAxis: { type: 'category', data: labels }, yAxis: { type: 'value' },
-                        series: [{ type: type === 'area' ? 'line' : type, data, areaStyle: type==='area'?{}:undefined }]
-                    };
-                }
-                if (['pie','doughnut'].includes(type)) {
-                    return {
-                        tooltip: {}, series: [{ type: 'pie', radius: type==='doughnut'?['40%','70%']:'55%', data: labels.map((l,i)=>({ name:l, value:data[i]||0 })) }]
-                    };
-                }
-                return { title: { text: 'Chart' } };
-            }
-
-            buildApexOption(type, sample) {
-                const { labels, datasets } = sample;
-                const data = datasets[0]?.data || [];
-                if (['bar','line','area'].includes(type)) {
-                    return { chart: { type: type==='area'?'area':type }, series:[{ name: datasets[0]?.label||'Series', data }], xaxis:{ categories: labels } };
-                }
-                if (['pie','doughnut'].includes(type)) {
-                    return { chart:{ type:'donut' }, labels, series: data };
-                }
-                return { chart:{ type:'line' }, series:[{ data }], xaxis:{ categories: labels } };
-            }
-
-            buildPlotlyPayload(type, sample) {
-                const { labels, datasets } = sample;
-                const data = datasets[0]?.data || [];
-                if (['bar'].includes(type)) {
-                    return { data:[{ type:'bar', x: labels, y: data }], layout:{ margin:{ t:20 } } };
-                }
-                if (['line','area'].includes(type)) {
-                    return { data:[{ type:'scatter', mode:'lines', fill: type==='area'?'tozeroy':'none', x: labels, y: data }], layout:{ margin:{ t:20 } } };
-                }
-                if (['pie','doughnut'].includes(type)) {
-                    return { data:[{ type:'pie', labels, values: data, hole: type==='doughnut'?0.5:0 }], layout:{ margin:{ t:20 } } };
-                }
-                return { data:[{ type:'scatter', x: labels, y: data }], layout:{ margin:{ t:20 } } };
             }
 
             showUpgradeModal() {
@@ -1583,7 +1473,7 @@
 
             showLoading() {
                 const prompt = document.getElementById('prompt-input')?.value || '';
-                feedback.showLoading('AI анализирует ваш запрос', 'Генерация диаграммы');
+                feedback.showLoading('AI is analyzing your request', 'Generating chart');
                 progressLoading.showLoading('chart-generation', {
                     title: 'AI is generating your chart',
                     description: prompt ? `Creating visuals for: ${prompt.slice(0, 60)}${prompt.length > 60 ? '…' : ''}` : 'This usually takes 5-10 seconds',
@@ -1841,7 +1731,7 @@
   <div id="projects-modal" class="modal hidden modal-fade" role="dialog" aria-modal="true" aria-labelledby="projects-title">
     <div class="modal-content bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[80vh] overflow-hidden">
       <div class="flex items-center justify-between p-6 border-b border-slate-200" id="projects-modal-title">
-        <h3 class="text-xl font-semibold text-slate-900">Мои проекты</h3>
+        <h3 class="text-xl font-semibold text-slate-900">My Projects</h3>
         <button id="close-projects-modal" class="text-slate-400 hover:text-slate-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Close projects modal">
           <i class="fas fa-times text-xl"></i>
         </button>
@@ -1852,8 +1742,8 @@
         </div>
         <div id="no-projects" class="hidden text-center py-12">
           <i class="fas fa-folder-open text-4xl text-slate-300 mb-4"></i>
-          <p class="text-slate-500">У вас пока нет сохраненных проектов</p>
-          <p class="text-sm text-slate-400 mt-2">Создайте свой первый проект и сохраните его</p>
+          <p class="text-slate-500">You don't have any saved projects yet</p>
+          <p class="text-sm text-slate-400 mt-2">Create your first project and save it</p>
         </div>
       </div>
     </div>
@@ -1863,22 +1753,22 @@
   <div id="save-project-modal" class="modal hidden modal-fade" role="dialog" aria-modal="true" aria-labelledby="save-project-title">
     <div class="modal-content bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
       <div class="flex items-center justify-between" id="save-project-modal-title">
-        <h3 class="text-xl font-semibold text-slate-900" id="save-project-modal-description">Сохранить проект</h3>
+        <h3 class="text-xl font-semibold text-slate-900" id="save-project-modal-description">Save Project</h3>
         <button id="close-save-modal" class="text-slate-400 hover:text-slate-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Close save project modal">
           <i class="fas fa-times"></i>
         </button>
       </div>
       <div class="space-y-2">
         <label class="text-sm font-medium text-slate-700" id="project-title-label">Project Title</label>
-        <input type="text" id="project-title" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500" placeholder="Мои продажи Q1 2024" aria-labelledby="project-title-label" aria-describedby="project-title-description">
+        <input type="text" id="project-title" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500" placeholder="My Sales Q1 2024" aria-labelledby="project-title-label" aria-describedby="project-title-description">
         <p id="project-title-description" class="text-sm text-slate-400">Enter a title for your project</p>
       </div>
       <div class="flex gap-3">
         <button id="confirm-save-project" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Confirm save project">
-          Сохранить
+          Save
         </button>
         <button id="cancel-save-project" class="flex-1 border border-slate-200 text-slate-700 px-4 py-2 rounded-lg hover:border-slate-300 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Cancel save project">
-          Отмена
+          Cancel
         </button>
       </div>
     </div>

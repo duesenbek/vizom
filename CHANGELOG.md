@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2025-11-20] - Production Ready Cleanup
+
+### Changed
+- Removed technical UI elements (chart library selector)
+- Replaced all Russian text with English
+- Secured API keys (moved to backend)
+- Cleaned duplicate and test files
+- Refactored generator.html into modules
+- Merged styles directories
+
+### Why
+Prepare for production launch - clean, secure, professional codebase
+
+### Impact
+- Better UX (simpler interface)
+- Secure (no exposed keys)
+- Maintainable (modular code)
+- Faster (smaller bundles)
+- Professional (consistent language)
+
 ## [0.3.0] - 2025-11-17
 Reason for change: Unify icon system, remove all emoji placeholders, and finalize dual chart library setup.
 

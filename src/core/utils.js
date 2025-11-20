@@ -60,19 +60,37 @@ export function formatCurrency(num, currency = 'USD') {
  * Parse data series from text
  */
 export function parseSeries(text) {
-  const cleaned = text.replace(/\n/g, ' ').trim();
-  const parts = cleaned.split(/[,;]+/).map(s => s.trim()).filter(Boolean);
+  const normalized = typeof text === 'string' ? text.trim() : '';
+  const parts = normalized.split(/[,;]+/).map(part => part.trim()).filter(Boolean);
   const result = [];
+  const multipliers = { k: 1000, m: 1_000_000, b: 1_000_000_000 };
 
-  for (const part of parts) {
-    const match = part.match(/([A-Za-zА-Яа-я]+)\s*[:\-]?\s*\$?([\d,.]+)\s*%?\s*K?/);
-    if (match) {
-      const label = match[1];
-      let value = parseFloat(match[2].replace(/,/g, ''));
-      if (/K/i.test(part)) value *= 1000;
-      result.push({ label, value });
+  parts.forEach((part, index) => {
+    const labeledMatch = part.match(/^(.+?)\s*[:\-]?\s*\$?([\d.,]+)\s*([KkMmBb])?\s*$/);
+    const numericMatch = part.match(/^\$?([\d.,]+)\s*([KkMmBb])?\s*$/);
+
+    if (!labeledMatch && !numericMatch) {
+      return;
     }
-  }
+
+    const [, rawLabel = '', labeledValue, labeledSuffix] = labeledMatch || [];
+    const [, numericValue, numericSuffix] = numericMatch || [];
+
+    const valueString = labeledValue ?? numericValue;
+    const suffix = (labeledSuffix ?? numericSuffix ?? '').toLowerCase();
+    let value = parseFloat((valueString || '').replace(/,/g, ''));
+
+    if (Number.isNaN(value)) {
+      return;
+    }
+
+    if (suffix && multipliers[suffix]) {
+      value *= multipliers[suffix];
+    }
+
+    const label = (rawLabel || '').trim() || `Item ${index + 1}`;
+    result.push({ label, value });
+  });
 
   return result.length ? result : [
     { label: 'Jan', value: 12000 },

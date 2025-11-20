@@ -702,7 +702,7 @@ class UnifiedHeader {
                 </div>
                 <div class="language-option" data-lang="ru">
                   <span class="language-flag">🇷🇺</span>
-                  <span>Русский</span>
+                  <span>Russian</span>
                 </div>
                 <div class="language-option" data-lang="de">
                   <span class="language-flag">🇩🇪</span>
@@ -1073,3 +1073,4 @@ class UnifiedHeader {
 
 // Export class for external instantiation
 export default UnifiedHeader;
+export { UnifiedHeader };

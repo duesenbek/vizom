@@ -291,7 +291,7 @@ class MobileNavigation {
                   <option value="de">Deutsch</option>
                   <option value="zh">中文</option>
                   <option value="ja">日本語</option>
-                  <option value="ru">Русский</option>
+                  <option value="ru">Russian</option>
                 </select>
               </div>
             </div>
@@ -553,7 +553,7 @@ class MobileNavigation {
       de: 'Deutsch',
       zh: '中文',
       ja: '日本語',
-      ru: 'Русский'
+      ru: 'Russian'
     };
     return languages[code] || code;
   }

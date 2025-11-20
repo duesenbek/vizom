@@ -1,8 +1,28 @@
 import { useState } from 'react';
-import { EnhancedDeepSeekClient } from '../../core/deepseek-complete';
 import { ErrorTracker } from '../../tracking/error-tracking.js';
 import { trackEvent } from '../../tracking/analytics';
 import ChartRenderer from './ChartRenderer';
+
+async function callDeepSeek(prompt: string, chartType: string) {
+  const response = await fetch('/.netlify/functions/deepseek-proxy', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt, chartType })
+  });
+
+  if (!response.ok) {
+    let errorMessage = 'Generation failed';
+    try {
+      const error = await response.json();
+      errorMessage = error.error || errorMessage;
+    } catch {
+      // ignore JSON parse errors
+    }
+    throw new Error(errorMessage);
+  }
+
+  return response.json();
+}
 
 export default function LiveDemo() {
   const [type, setType] = useState<'bar'|'line'|'pie'|'area'>('bar');
@@ -12,24 +32,15 @@ export default function LiveDemo() {
   const [chartConfig, setChartConfig] = useState<any | null>(null);
   const [remaining, setRemaining] = useState<string | null>(null);
 
-  const client = new EnhancedDeepSeekClient({
-    apiKey: (import.meta as any).env?.VITE_DEEPSEEK_API_KEY || '',
-    baseURL: (import.meta as any).env?.VITE_DEEPSEEK_BASE_URL || 'https://api.deepseek.com/v1',
-    model: (import.meta as any).env?.VITE_DEEPSEEK_MODEL || 'deepseek-chat',
-    timeout: Number((import.meta as any).env?.VITE_DEEPSEEK_TIMEOUT) || 30000,
-    enableCaching: true,
-    enableUserFeedback: false
-  });
-
   async function generate() {
     if (loading || !prompt.trim()) return;
     setLoading(true);
     setError(null);
     setChartConfig(null);
     try {
-      const res = await client.generateChart({ prompt, options: { enableCache: true, estimatedDuration: 8000 } });
-      if (!res.success || !res.data) throw new Error(res.error?.message || 'Failed to generate');
-      const cfg = res.data.config ?? res.data;
+      const res = await callDeepSeek(prompt, type);
+      if (!res.success || !res.chartConfig) throw new Error(res.error || 'Failed to generate');
+      const cfg = JSON.parse(res.chartConfig);
       setChartConfig(cfg);
       trackEvent('demo_chart_generated', { promptLength: prompt.length, chartType: cfg?.type || type });
     } catch (e: any) {

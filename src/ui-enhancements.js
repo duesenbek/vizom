@@ -79,7 +79,7 @@ class UIEnhancements {
     if (input && counter) {
       input.addEventListener('input', () => {
         const count = input.value.length;
-        counter.textContent = `${count} символов`;
+        counter.textContent = `${count} characters`;
         
         if (count > 1000) {
           counter.classList.add('text-orange-600');
@@ -152,7 +152,7 @@ class UIEnhancements {
       button.disabled = false;
       
       // Show success feedback
-      this.showNotification(`${text} выполнен успешно`, 'success');
+      this.showNotification(`${text} completed successfully`, 'success');
     }, 800);
   }
 
@@ -166,7 +166,7 @@ class UIEnhancements {
         input.value = '';
         input.focus();
         this.updateCharCount();
-        this.showNotification('Поле очищено', 'info');
+        this.showNotification('Field cleared', 'info');
       });
     }
   }
@@ -176,7 +176,7 @@ class UIEnhancements {
     const counter = document.getElementById('char-count');
     
     if (input && counter) {
-      counter.textContent = `${input.value.length} символов`;
+      counter.textContent = `${input.value.length} characters`;
     }
   }
 
@@ -214,9 +214,9 @@ class UIEnhancements {
       link.href = 'data:image/svg+xml;base64,' + btoa(preview.innerHTML);
       link.click();
       
-      this.showNotification('Диаграмма скачана', 'success');
+      this.showNotification('Chart downloaded', 'success');
     } else {
-      this.showNotification('Сначала создайте диаграмму', 'warning');
+      this.showNotification('Create a chart first', 'warning');
     }
   }
 
@@ -224,13 +224,13 @@ class UIEnhancements {
     if (navigator.share) {
       navigator.share({
         title: 'VIZOM Chart',
-        text: 'Посмотрите на диаграмму, которую я создал!',
+        text: 'Check out the chart I created!',
         url: window.location.href
       });
     } else {
       // Fallback: copy to clipboard
       navigator.clipboard.writeText(window.location.href);
-      this.showNotification('Ссылка скопирована в буфер обмена', 'success');
+      this.showNotification('Link copied to clipboard', 'success');
     }
   }
 
@@ -239,7 +239,7 @@ class UIEnhancements {
     
     if (!document.fullscreenElement) {
       preview.requestFullscreen().catch(err => {
-        this.showNotification('Не удалось открыть полный экран', 'error');
+        this.showNotification('Failed to enter fullscreen', 'error');
       });
     } else {
       document.exitFullscreen();
@@ -371,12 +371,12 @@ class UIEnhancements {
     const validationMessage = document.getElementById('validation-message');
     
     if (!value) {
-      this.showValidation('Пожалуйста, введите данные', 'error');
+      this.showValidation('Please enter some data', 'error');
       return false;
     }
 
     if (value.length < 10) {
-      this.showValidation('Слишком мало данных для построения диаграммы', 'warning');
+      this.showValidation('Not enough data to build a chart', 'warning');
       return false;
     }
 

@@ -105,13 +105,17 @@ export class ChartTypeSelector {
       return '';
     }
     
-    return this.filteredTypes.map(type => `
+    return this.filteredTypes.map(type => {
+      const isSelected = this.selectedId === type.id;
+      return `
       <div
-        class="chart-tile relative p-4 border border-gray-200 rounded-lg cursor-pointer transition-all hover:shadow-md hover:border-blue-300 ${this.selectedId === type.id ? 'ring-2 ring-blue-500 border-blue-500' : ''}"
+        class="chart-tile relative p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:shadow-md hover:border-blue-300 ${isSelected ? 'selected' : ''}"
         data-type-id="${type.id}"
         role="gridcell"
         tabindex="0"
         aria-label="${type.name} chart"
+        aria-selected="${isSelected}"
+        aria-pressed="${isSelected}"
       >
         <div class="flex flex-col items-center text-center">
           <div class="text-2xl mb-2" role="img" aria-label="${type.name} icon"><i class="fa-solid ${type.icon && type.icon.includes('fa-') ? type.icon : 'fa-chart-column'}"></i></div>
@@ -137,7 +141,8 @@ export class ChartTypeSelector {
           <div class="absolute w-3 h-3 bg-gray-900 transform rotate-45 -bottom-1 left-1/2 -translate-x-1/2"></div>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
   }
   
   bindEvents() {
@@ -258,11 +263,10 @@ export class ChartTypeSelector {
     // Update tile states
     this.container.querySelectorAll('.chart-tile').forEach(tile => {
       const isSelected = tile.dataset.typeId === typeId;
-      tile.classList.toggle('ring-2', isSelected);
-      tile.classList.toggle('ring-blue-500', isSelected);
-      tile.classList.toggle('border-blue-500', isSelected);
+      tile.classList.toggle('selected', isSelected);
       tile.classList.toggle('border-gray-200', !isSelected);
       tile.setAttribute('aria-selected', isSelected);
+      tile.setAttribute('aria-pressed', isSelected);
     });
     
     // Call onChange callback

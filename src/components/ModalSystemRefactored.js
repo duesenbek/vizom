@@ -6,15 +6,11 @@
 
 import { ModalManager } from './modal/ModalManager.js';
 import { ModalTemplates } from './modal/ModalTemplates.js';
-import { ModalConfig, ModalOptions } from './modal/types.js';
 
 /**
  * Main Modal System - Simplified API for modal operations
  */
 export class ModalSystem {
-  private manager: ModalManager;
-  private templates: typeof ModalTemplates;
-
   constructor() {
     this.manager = new ModalManager();
     this.templates = ModalTemplates;
@@ -25,9 +21,9 @@ export class ModalSystem {
   /**
    * Setup event listeners for modal system
    */
-  private setupEventListeners(): void {
+  setupEventListeners() {
     // Handle modal events
-    document.addEventListener('modalEvent', (e: CustomEvent) => {
+    document.addEventListener('modalEvent', (e) => {
       this.handleModalEvent(e.detail);
     });
   }
@@ -35,7 +31,7 @@ export class ModalSystem {
   /**
    * Handle modal events
    */
-  private handleModalEvent(event: any): void {
+  handleModalEvent(event) {
     // Log events for debugging
     console.log('Modal event:', event);
     
@@ -45,7 +41,7 @@ export class ModalSystem {
   /**
    * Open a modal with configuration
    */
-  async open(config: ModalConfig, options: ModalOptions = {}): Promise<string> {
+  async open(config, options = {}) {
     const modalId = config.id || this.generateModalId();
     
     await this.manager.open(modalId, { ...config, id: modalId }, options);
@@ -56,7 +52,7 @@ export class ModalSystem {
   /**
    * Open a predefined template modal
    */
-  async openTemplate(templateId: string, data?: any, options: ModalOptions = {}): Promise<string> {
+  async openTemplate(templateId, data = null, options = {}) {
     const template = this.templates.getTemplate(templateId);
     if (!template) {
       throw new Error(`Template "${templateId}" not found`);
@@ -68,7 +64,7 @@ export class ModalSystem {
       content = this.processTemplateContent(content, data);
     }
 
-    const config: ModalConfig = {
+    const config = {
       id: templateId,
       title: template.title,
       content,
@@ -83,7 +79,7 @@ export class ModalSystem {
   /**
    * Open authentication modal
    */
-  async openAuth(options: ModalOptions = {}): Promise<string> {
+  async openAuth(options = {}) {
     return this.openTemplate('auth', null, {
       ...options,
       onOpen: () => {
@@ -96,7 +92,7 @@ export class ModalSystem {
   /**
    * Open template preview modal
    */
-  async openTemplatePreview(templateData: any, options: ModalOptions = {}): Promise<string> {
+  async openTemplatePreview(templateData, options = {}) {
     return this.openTemplate('template-preview', templateData, {
       ...options,
       onOpen: () => {
@@ -109,7 +105,7 @@ export class ModalSystem {
   /**
    * Open export settings modal
    */
-  async openExportSettings(chartData: any, options: ModalOptions = {}): Promise<string> {
+  async openExportSettings(chartData, options = {}) {
     return this.openTemplate('export-settings', chartData, {
       ...options,
       onOpen: () => {
@@ -122,7 +118,7 @@ export class ModalSystem {
   /**
    * Open project save modal
    */
-  async openProjectSave(projectData: any, options: ModalOptions = {}): Promise<string> {
+  async openProjectSave(projectData, options = {}) {
     return this.openTemplate('project-save', projectData, {
       ...options,
       onOpen: () => {
@@ -135,7 +131,7 @@ export class ModalSystem {
   /**
    * Open confirmation modal
    */
-  async openConfirmation(message: string, onConfirm: () => void, options: ModalOptions = {}): Promise<string> {
+  async openConfirmation(message, onConfirm, options = {}) {
     const data = { message, onConfirm };
     return this.openTemplate('confirmation', data, {
       ...options,
@@ -149,7 +145,7 @@ export class ModalSystem {
   /**
    * Open alert modal
    */
-  async openAlert(title: string, message: string, options: ModalOptions = {}): Promise<string> {
+  async openAlert(title, message, options = {}) {
     const data = { title, message };
     return this.openTemplate('alert', data, options);
   }
@@ -157,49 +153,49 @@ export class ModalSystem {
   /**
    * Close a modal by ID
    */
-  async close(modalId: string): Promise<void> {
+  async close(modalId) {
     await this.manager.close(modalId);
   }
 
   /**
    * Close all open modals
    */
-  async closeAll(): Promise<void> {
+  async closeAll() {
     await this.manager.closeAll();
   }
 
   /**
    * Check if a modal is open
    */
-  isOpen(modalId: string): boolean {
+  isOpen(modalId) {
     return this.manager.isOpen(modalId);
   }
 
   /**
    * Get all open modals
    */
-  getAllModals(): any[] {
+  getAllModals() {
     return this.manager.getAllModals();
   }
 
   /**
    * Get modal stack
    */
-  getModalStack(): string[] {
+  getModalStack() {
     return this.manager.getModalStack();
   }
 
   /**
    * Generate unique modal ID
    */
-  private generateModalId(): string {
+  generateModalId() {
     return `modal-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
    * Process template content with data
    */
-  private processTemplateContent(content: string, data: any): string {
+  processTemplateContent(content, data) {
     let processedContent = content;
     
     // Simple template processing - replace {{key}} with data[key]
@@ -214,7 +210,7 @@ export class ModalSystem {
   /**
    * Setup authentication modal handlers
    */
-  private setupAuthHandlers(): void {
+  setupAuthHandlers() {
     // Tab switching
     const tabs = document.querySelectorAll('.auth-tab');
     const contents = document.querySelectorAll('.auth-tab-content');
@@ -228,7 +224,9 @@ export class ModalSystem {
         contents.forEach(c => c.classList.remove('active'));
         
         tab.classList.add('active');
-        document.getElementById(`${targetTab}-tab`)?.classList.add('active');
+        if (targetTab) {
+          document.getElementById(`${targetTab}-tab`)?.classList.add('active');
+        }
       });
     });
 
@@ -236,23 +234,31 @@ export class ModalSystem {
     const signinForm = document.getElementById('signin-form');
     const signupForm = document.getElementById('signup-form');
 
-    signinForm?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.handleSignin(new FormData(signinForm as HTMLFormElement));
-    });
+    if (signinForm instanceof HTMLFormElement) {
+      signinForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.handleSignin(new FormData(signinForm));
+      });
+    }
 
-    signupForm?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.handleSignup(new FormData(signupForm as HTMLFormElement));
-    });
+    if (signupForm instanceof HTMLFormElement) {
+      signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.handleSignup(new FormData(signupForm));
+      });
+    }
 
     // Password toggles
     const toggleButtons = document.querySelectorAll('.password-toggle');
     toggleButtons.forEach(button => {
       button.addEventListener('click', () => {
-        const input = button.previousElementSibling as HTMLInputElement;
+        const input = button.previousElementSibling;
         const icon = button.querySelector('i');
         
+        if (!(input instanceof HTMLInputElement)) {
+          return;
+        }
+
         if (input.type === 'password') {
           input.type = 'text';
           icon?.classList.remove('fa-eye');
@@ -269,7 +275,7 @@ export class ModalSystem {
   /**
    * Setup template preview handlers
    */
-  private setupTemplatePreviewHandlers(templateData: any): void {
+  setupTemplatePreviewHandlers(templateData) {
     const useButton = document.querySelector('.template-actions .btn-primary');
     const previewButton = document.querySelector('.template-actions .btn-secondary');
 
@@ -285,33 +291,37 @@ export class ModalSystem {
   /**
    * Setup export settings handlers
    */
-  private setupExportHandlers(chartData: any): void {
+  setupExportHandlers(chartData) {
     const form = document.querySelector('.export-settings-modal');
     
-    form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(form as HTMLFormElement);
-      this.handleExport(chartData, formData);
-    });
+    if (form instanceof HTMLFormElement) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        this.handleExport(chartData, formData);
+      });
+    }
   }
 
   /**
    * Setup project save handlers
    */
-  private setupProjectSaveHandlers(projectData: any): void {
+  setupProjectSaveHandlers(projectData) {
     const form = document.querySelector('.project-save-modal form');
     
-    form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(form as HTMLFormElement);
-      this.handleProjectSave(projectData, formData);
-    });
+    if (form instanceof HTMLFormElement) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        this.handleProjectSave(projectData, formData);
+      });
+    }
   }
 
   /**
    * Setup confirmation handlers
    */
-  private setupConfirmationHandlers(data: { message: string; onConfirm: () => void }): void {
+  setupConfirmationHandlers(data) {
     const confirmButton = document.querySelector('[data-action="confirm"]');
     const cancelButton = document.querySelector('[data-action="cancel"]');
 
@@ -328,9 +338,9 @@ export class ModalSystem {
   /**
    * Handle sign in form submission
    */
-  private handleSignin(formData: FormData): void {
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+  handleSignin(formData) {
+    const email = formData.get('email');
+    const password = formData.get('password');
     const remember = formData.get('remember') === 'on';
 
     // Emit sign in event
@@ -340,10 +350,10 @@ export class ModalSystem {
   /**
    * Handle sign up form submission
    */
-  private handleSignup(formData: FormData): void {
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+  handleSignup(formData) {
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const password = formData.get('password');
     const terms = formData.get('terms') === 'on';
 
     // Emit sign up event
@@ -353,9 +363,9 @@ export class ModalSystem {
   /**
    * Handle export form submission
    */
-  private handleExport(chartData: any, formData: FormData): void {
-    const format = formData.get('format') as string;
-    const quality = formData.get('quality') as string;
+  handleExport(chartData, formData) {
+    const format = formData.get('format');
+    const quality = formData.get('quality');
     const options = {
       includeBackground: formData.get('include-background') === 'on',
       includeLegend: formData.get('include-legend') === 'on',
@@ -369,10 +379,10 @@ export class ModalSystem {
   /**
    * Handle project save form submission
    */
-  private handleProjectSave(projectData: any, formData: FormData): void {
-    const name = formData.get('name') as string;
-    const description = formData.get('description') as string;
-    const location = formData.get('save-location') as string;
+  handleProjectSave(projectData, formData) {
+    const name = formData.get('name');
+    const description = formData.get('description');
+    const location = formData.get('save-location');
     const sharing = {
       makePublic: formData.get('make-public') === 'on',
       allowCopy: formData.get('allow-copy') === 'on'
@@ -385,7 +395,7 @@ export class ModalSystem {
   /**
    * Emit authentication events
    */
-  private emitAuthEvent(type: string, data: any): void {
+  emitAuthEvent(type, data) {
     const event = new CustomEvent('authEvent', {
       detail: { type, data }
     });
@@ -395,7 +405,7 @@ export class ModalSystem {
   /**
    * Emit template events
    */
-  private emitTemplateEvent(type: string, data: any): void {
+  emitTemplateEvent(type, data) {
     const event = new CustomEvent('templateEvent', {
       detail: { type, data }
     });
@@ -405,7 +415,7 @@ export class ModalSystem {
   /**
    * Emit export events
    */
-  private emitExportEvent(type: string, data: any): void {
+  emitExportEvent(type, data) {
     const event = new CustomEvent('exportEvent', {
       detail: { type, data }
     });
@@ -415,7 +425,7 @@ export class ModalSystem {
   /**
    * Emit project events
    */
-  private emitProjectEvent(type: string, data: any): void {
+  emitProjectEvent(type, data) {
     const event = new CustomEvent('projectEvent', {
       detail: { type, data }
     });
@@ -425,7 +435,7 @@ export class ModalSystem {
   /**
    * Cleanup modal system
    */
-  destroy(): void {
+  destroy() {
     this.manager.destroy();
   }
 }

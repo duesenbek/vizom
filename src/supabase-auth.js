@@ -111,13 +111,13 @@ class AuthService {
       if (error) {
         console.error('Error signing in with Google:', error);
         if (window.uiFeedback?.showToast) {
-          window.uiFeedback.showToast('Ошибка входа через Google. Попробуйте еще раз.', 'error');
+          window.uiFeedback.showToast('Google sign-in failed. Please try again.', 'error');
         }
       }
     } catch (err) {
       console.error('Unexpected error:', err);
       if (window.uiFeedback?.showToast) {
-        window.uiFeedback.showToast('Произошла ошибка. Попробуйте еще раз.', 'error');
+        window.uiFeedback.showToast('An error occurred. Please try again.', 'error');
       }
     }
   }

@@ -70,26 +70,25 @@
   border-radius: 1rem;
   position: relative;
   overflow: hidden;
-  transition:
-    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    border-color 160ms ease,
-    background-color 160ms ease;
+  transition: all 200ms ease;
   will-change: transform, box-shadow;
+  touch-action: manipulation;
+  box-shadow: var(--shadow-sm);
+  transform: translateY(0) scale(1);
 }
 
 .chart-type-selector .chart-tile:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.01);
   box-shadow: var(--shadow-md);
   border-color: var(--color-border-strong);
 }
 
 .chart-type-selector .chart-tile.selected,
 .chart-type-selector .chart-tile[aria-selected="true"] {
-  transform: translateY(-1px) scale(1.015);
-  border-color: var(--primary-color);
-  box-shadow: 0 20px 40px -25px rgba(14, 107, 255, 0.45);
-  background-color: var(--color-primary-50);
+  transform: translateY(-1px) scale(1.02);
+  border: 2px solid var(--primary-color);
+  background-color: var(--color-primary-50, rgba(15, 107, 255, 0.08));
+  box-shadow: 0 0 0 3px rgba(15, 107, 255, 0.15), var(--shadow-md);
 }
 
 .chart-type-selector .chart-tile::after {

@@ -60,29 +60,43 @@ export class AbortController {
 
   constructor(public id: string) {
     // Create a proper AbortSignal
-    this._signal = new (window.AbortController || (class MockAbortController {
-      aborted: boolean = false;
-      onabort: ((event: Event) => void) | null = null;
-      reason: any = undefined;
-      
-      throwIfAborted(): void {
-        if (this.aborted) {
-          throw new DOMException('Aborted', 'AbortError');
-        }
-      }
-      
-      dispatchEvent(event: Event): boolean {
-        return false;
-      }
-      
-      addEventListener(type: string, listener: EventListener | null, options?: boolean | AddEventListenerOptions): void {
-        // Mock implementation
-      }
-      
-      removeEventListener(type: string, listener: EventListener | null, options?: boolean | EventListenerOptions): void {
-        // Mock implementation
-      }
-    })) as any).signal;
+    const NativeAbortController =
+      typeof window !== 'undefined' && (window as any).AbortController
+        ? (window as any).AbortController
+        : class MockAbortController {
+            aborted: boolean = false;
+            onabort: ((event: Event) => void) | null = null;
+            reason: any = undefined;
+
+            throwIfAborted(): void {
+              if (this.aborted) {
+                throw new DOMException('Aborted', 'AbortError');
+              }
+            }
+
+            dispatchEvent(event: Event): boolean {
+              return false;
+            }
+
+            addEventListener(
+              type: string,
+              listener: EventListener | null,
+              options?: boolean | AddEventListenerOptions
+            ): void {
+              // Mock implementation
+            }
+
+            removeEventListener(
+              type: string,
+              listener: EventListener | null,
+              options?: boolean | EventListenerOptions
+            ): void {
+              // Mock implementation
+            }
+          };
+
+    const controller = new (NativeAbortController as any)();
+    this._signal = (controller as any).signal as AbortSignal;
   }
 
   get aborted(): boolean {

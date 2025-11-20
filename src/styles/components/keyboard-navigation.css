@@ -1,0 +1,883 @@
+/* Keyboard Navigation and Shortcuts Styles */
+
+/* Command Palette */
+.command-palette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.command-palette.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.command-palette-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.command-palette-container {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 640px;
+  max-height: 60vh;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: commandPaletteSlideIn 0.3s ease;
+}
+
+@keyframes commandPaletteSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.command-palette-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
+}
+
+.command-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+}
+
+.command-search:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+.command-search i {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.command-search input {
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.command-search input::placeholder {
+  color: var(--text-muted);
+}
+
+.command-shortcut-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.command-shortcut-hint kbd {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+/* Command Palette Content */
+.command-palette-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.command-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.command-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.command-section h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 4px 12px;
+}
+
+.command-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.command-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.command-item:hover,
+.command-item:focus {
+  background: var(--primary-light);
+  border-color: var(--primary);
+}
+
+.command-item:focus {
+  outline: none;
+}
+
+.command-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.command-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.command-shortcut {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: monospace;
+  background: var(--background);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.command-action i {
+  color: var(--text-muted);
+  font-size: 12px;
+  transition: color 0.2s ease;
+}
+
+.command-item:hover .command-action i {
+  color: var(--primary);
+}
+
+/* Keyboard Help Modal */
+.keyboard-help-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.keyboard-help-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.keyboard-help-modal .modal-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  max-width: 700px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.keyboard-help-modal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.keyboard-help-modal .modal-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.keyboard-help-modal .modal-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.keyboard-help-modal .modal-footer {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+/* Shortcut Categories */
+.shortcut-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.shortcut-category {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shortcut-category h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.shortcut-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.shortcut-item:last-child {
+  border-bottom: none;
+}
+
+.shortcut-keys {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.shortcut-keys kbd {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--text-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.shortcut-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  flex: 1;
+  text-align: right;
+}
+
+/* Quick Actions */
+.quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.quick-action-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
+  font-size: 14px;
+  position: relative;
+}
+
+.quick-action-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.quick-action-btn:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.quick-action-btn:active {
+  transform: translateY(0);
+}
+
+/* Tooltip for quick actions */
+.quick-action-btn::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-primary);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.quick-action-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+  bottom: -28px;
+}
+
+/* Keyboard Focus Indicators */
+.keyboard-nav *:focus {
+  outline: 2px solid var(--primary) !important;
+  outline-offset: 2px !important;
+}
+
+.keyboard-nav .chart-option:focus {
+  outline: 3px solid var(--primary) !important;
+  outline-offset: 2px !important;
+  border-radius: 8px !important;
+}
+
+.keyboard-nav .tab:focus {
+  outline: 2px solid var(--primary) !important;
+  outline-offset: 2px !important;
+  border-radius: 6px 6px 0 0 !important;
+}
+
+.keyboard-nav .btn:focus {
+  outline: 2px solid var(--primary) !important;
+  outline-offset: 2px !important;
+  border-radius: 6px !important;
+}
+
+/* Skip Links for Keyboard Navigation */
+.skip-links {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--primary);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: top 0.3s ease;
+  z-index: 10000;
+}
+
+.skip-link:focus {
+  top: 6px;
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* Focus Trap for Modals */
+.focus-trap {
+  outline: none;
+}
+
+.focus-trap-active *:not(.focus-trap):focus {
+  outline: none;
+}
+
+/* Keyboard Navigation Status */
+.keyboard-nav-status {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: var(--text-primary);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: monospace;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.keyboard-nav-status.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Command Palette Animations */
+.command-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.command-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.command-item:focus::before {
+  left: 100%;
+}
+
+/* Keyboard Shortcuts Legend */
+.shortcuts-legend {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+  max-width: 200px;
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+}
+
+.shortcuts-legend h5 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.shortcuts-legend ul {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.shortcuts-legend li {
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .command-palette-container {
+    top: 10%;
+    width: 95%;
+    max-height: 70vh;
+  }
+  
+  .command-palette-header {
+    padding: 12px 16px;
+  }
+  
+  .command-search {
+    padding: 6px 10px;
+  }
+  
+  .command-search input {
+    font-size: 13px;
+  }
+  
+  .command-shortcut-hint {
+    display: none;
+  }
+  
+  .command-item {
+    padding: 12px;
+  }
+  
+  .command-name {
+    font-size: 13px;
+  }
+  
+  .command-shortcut {
+    font-size: 11px;
+  }
+  
+  .keyboard-help-modal .modal-container {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .shortcut-categories {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .quick-actions {
+    gap: 2px;
+  }
+  
+  .quick-action-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+  
+  .shortcuts-legend {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .command-palette-container {
+    top: 5%;
+    width: 98%;
+    max-height: 80vh;
+  }
+  
+  .command-item {
+    padding: 10px;
+  }
+  
+  .command-info {
+    gap: 8px;
+  }
+  
+  .command-shortcut {
+    display: none;
+  }
+  
+  .quick-actions {
+    flex-direction: column;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    gap: 8px;
+  }
+  
+  .quick-action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+/* High Contrast Mode */
+.high-contrast .command-palette-container {
+  background: black;
+  border: 2px solid white;
+}
+
+.high-contrast .command-palette-header {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .command-search {
+  background: black;
+  border-color: white;
+}
+
+.high-contrast .command-search input {
+  color: white;
+}
+
+.high-contrast .command-search input::placeholder {
+  color: #CCCCCC;
+}
+
+.high-contrast .command-item {
+  border-color: white;
+}
+
+.high-contrast .command-item:hover,
+.high-contrast .command-item:focus {
+  background: #333333;
+  border-color: white;
+}
+
+.high-contrast .command-name {
+  color: white;
+}
+
+.high-contrast .command-shortcut {
+  background: black;
+  border-color: white;
+  color: white;
+}
+
+.high-contrast .keyboard-help-modal .modal-container {
+  background: black;
+  border: 2px solid white;
+}
+
+.high-contrast .shortcut-category h4 {
+  color: white;
+  border-color: white;
+}
+
+.high-contrast .shortcut-keys kbd {
+  background: black;
+  border-color: white;
+  color: white;
+}
+
+.high-contrast .shortcut-description {
+  color: #CCCCCC;
+}
+
+.high-contrast .quick-action-btn {
+  background: black;
+  border-color: white;
+  color: white;
+}
+
+.high-contrast .quick-action-btn:hover {
+  background: white;
+  color: black;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .command-palette-container {
+    background: var(--surface-dark);
+  }
+  
+  .command-palette-header {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .command-search {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .command-search input {
+    color: var(--text-primary-dark);
+  }
+  
+  .command-search input::placeholder {
+    color: var(--text-muted-dark);
+  }
+  
+  .command-item:hover,
+  .command-item:focus {
+    background: rgba(0, 102, 255, 0.1);
+    border-color: var(--primary);
+  }
+  
+  .command-name {
+    color: var(--text-primary-dark);
+  }
+  
+  .command-shortcut {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+    color: var(--text-primary-dark);
+  }
+  
+  .keyboard-help-modal .modal-container {
+    background: var(--surface-dark);
+  }
+  
+  .shortcut-category h4 {
+    color: var(--text-primary-dark);
+    border-color: var(--border-dark);
+  }
+  
+  .shortcut-keys kbd {
+    background: var(--background-dark);
+    border-color: var(--border-dark);
+    color: var(--text-primary-dark);
+  }
+  
+  .shortcut-description {
+    color: var(--text-secondary-dark);
+  }
+  
+  .quick-action-btn {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+    color: var(--text-secondary-dark);
+  }
+  
+  .quick-action-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+  
+  .shortcuts-legend {
+    background: var(--surface-dark);
+    border-color: var(--border-dark);
+    color: var(--text-muted-dark);
+  }
+  
+  .shortcuts-legend h5 {
+    color: var(--text-primary-dark);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .command-palette,
+  .command-palette-container,
+  .command-item,
+  .quick-action-btn,
+  .keyboard-nav-status {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Focus Management */
+.command-palette:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.keyboard-help-modal:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .command-palette,
+  .keyboard-help-modal,
+  .quick-actions,
+  .keyboard-nav-status,
+  .shortcuts-legend {
+    display: none !important;
+  }
+  
+  .skip-link {
+    position: static;
+    margin: 10px 0;
+  }
+}
+
+/* Loading States */
+.command-palette.loading .command-search input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpath d='M21 21l-6-6m6 6v-4.5m0 4.5h-4.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+}
+
+/* Success/Error States */
+.command-palette.success .command-search {
+  border-color: var(--success);
+}
+
+.command-palette.error .command-search {
+  border-color: var(--error);
+}
+
+/* Keyboard Navigation Indicator */
+.keyboard-nav-indicator {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: var(--primary);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.keyboard-nav-indicator.show {
+  opacity: 1;
+}
+
+/* Custom Scrollbar for Command Palette */
+.command-palette-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.command-palette-content::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+.command-palette-content::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.command-palette-content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}

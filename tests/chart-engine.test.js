@@ -3,12 +3,12 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { ChartEngine } from '../chart-engine-refactored.js';
-import { ChartConfigBuilder } from '../chart/ChartConfigBuilder.js';
-import { ChartDataProcessor } from '../chart/ChartDataProcessor.js';
+import { ChartEngine } from '../src/chart-engine-refactored.js';
+import { ChartConfigBuilder } from '../src/chart/ChartConfigBuilder.js';
+import { ChartDataProcessor } from '../src/chart/ChartDataProcessor.js';
 
 describe('ChartEngine', () => {
-  let chartEngine: ChartEngine;
+  let chartEngine;
 
   beforeEach(() => {
     chartEngine = new ChartEngine();
@@ -230,7 +230,7 @@ describe('ChartEngine', () => {
 });
 
 describe('ChartConfigBuilder', () => {
-  let builder: ChartConfigBuilder;
+  let builder;
 
   beforeEach(() => {
     builder = new ChartConfigBuilder();

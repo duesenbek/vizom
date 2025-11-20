@@ -3,14 +3,14 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { WorkflowOptimizer } from '../components/workflow/WorkflowOptimizer.js';
-import { WorkflowDetectionService } from '../components/workflow/WorkflowDetectionService.js';
-import { ChartCreationWorkflow } from '../components/workflow/ChartCreationWorkflow.js';
-import { WorkflowProgressTracker } from '../components/workflow/WorkflowProgressTracker.js';
-import { WorkflowUIManager } from '../components/workflow/WorkflowUIManager.js';
+import { WorkflowOptimizer } from '../src/components/workflow/WorkflowOptimizer.js';
+import { WorkflowDetectionService } from '../src/components/workflow/WorkflowDetectionService.js';
+import { ChartCreationWorkflow } from '../src/components/workflow/ChartCreationWorkflow.js';
+import { WorkflowProgressTracker } from '../src/components/workflow/WorkflowProgressTracker.js';
+import { WorkflowUIManager } from '../src/components/workflow/WorkflowUIManager.js';
 
 describe('WorkflowOptimizer', () => {
-  let workflowOptimizer: WorkflowOptimizer;
+  let workflowOptimizer;
 
   beforeEach(() => {
     workflowOptimizer = new WorkflowOptimizer();
@@ -118,7 +118,7 @@ describe('WorkflowOptimizer', () => {
 });
 
 describe('WorkflowDetectionService', () => {
-  let detectionService: WorkflowDetectionService;
+  let detectionService;
 
   beforeEach(() => {
     detectionService = new WorkflowDetectionService();
@@ -191,7 +191,7 @@ describe('WorkflowDetectionService', () => {
 });
 
 describe('ChartCreationWorkflow', () => {
-  let workflow: ChartCreationWorkflow;
+  let workflow;
 
   beforeEach(() => {
     workflow = new ChartCreationWorkflow();
@@ -298,7 +298,7 @@ describe('ChartCreationWorkflow', () => {
 });
 
 describe('WorkflowProgressTracker', () => {
-  let tracker: WorkflowProgressTracker;
+  let tracker;
 
   beforeEach(() => {
     tracker = new WorkflowProgressTracker();
@@ -412,7 +412,7 @@ describe('WorkflowProgressTracker', () => {
 });
 
 describe('WorkflowUIManager', () => {
-  let uiManager: WorkflowUIManager;
+  let uiManager;
 
   beforeEach(() => {
     uiManager = new WorkflowUIManager();
@@ -492,11 +492,11 @@ describe('WorkflowUIManager', () => {
 
   describe('Event Handling', () => {
     it('should emit navigation events', () => {
-      const emitSpy = vi.spyOn(uiManager, 'emitNavigationEvent' as any);
+      const emitSpy = vi.spyOn(uiManager, 'emitNavigationEvent');
       
       const prevButton = document.getElementById('prev-step-btn');
-      if (prevButton) {
-        (prevButton as HTMLElement).click();
+      if (prevButton instanceof HTMLElement) {
+        prevButton.click();
         expect(emitSpy).toHaveBeenCalledWith('previous');
       }
     });
@@ -505,8 +505,8 @@ describe('WorkflowUIManager', () => {
       const toggleButton = document.getElementById('nav-toggle');
       const content = document.getElementById('nav-content');
       
-      if (toggleButton && content) {
-        (toggleButton as HTMLElement).click();
+      if (toggleButton instanceof HTMLElement && content) {
+        toggleButton.click();
         expect(content.style.display).toBe('none');
       }
     });

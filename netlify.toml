@@ -1,6 +1,7 @@
 [build]
 publish = "dist"
 command = "npm run build"
+functions = "netlify/functions"
 
 # Global headers
 [[headers]]
@@ -41,5 +42,9 @@ status = 200
 # Staging environment (deploy previews)
 [context.deploy-preview]
   [context.deploy-preview.environment]
-  VITE_DEEPSEEK_API_KEY = "staging-key"
+  DEEPSEEK_API_KEY = "staging-key"
   VITE_SENTRY_ENVIRONMENT = "staging"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["encoding"]

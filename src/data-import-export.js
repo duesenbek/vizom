@@ -28,7 +28,7 @@ class DataImportExport {
     if (uploadTab) {
       const advancedImportHTML = `
         <div class="mt-4 p-4 brand-panel-info rounded-lg">
-          <h4 class="font-medium brand-text-primary mb-2">Расширенный импорт</h4>
+          <h4 class="font-medium brand-text-primary mb-2">Advanced import</h4>
           <div class="grid grid-cols-2 gap-2">
             <button class="import-source-btn text-sm brand-button-secondary px-3 py-2 rounded transition" data-source="google-sheets">
               <i class="fab fa-google"></i> Google Sheets
@@ -37,7 +37,7 @@ class DataImportExport {
               <i class="fas fa-code"></i> API
             </button>
             <button class="import-source-btn text-sm brand-button-secondary px-3 py-2 rounded transition" data-source="database">
-              <i class="fas fa-database"></i> База данных
+              <i class="fas fa-database"></i> Database
             </button>
             <button class="import-source-btn text-sm brand-button-secondary px-3 py-2 rounded transition" data-source="url">
               <i class="fas fa-link"></i> URL
@@ -108,24 +108,24 @@ class DataImportExport {
       const data = await this.parseFile(file);
       this.displayImportedData(data, file.name);
       this.hideImportProgress();
-      this.showNotification(`Файл "${file.name}" успешно импортирован`, 'success');
+      this.showNotification(`File "${file.name}" imported successfully`, 'success');
     } catch (error) {
       this.hideImportProgress();
-      this.showNotification(`Ошибка импорта: ${error.message}`, 'error');
+      this.showNotification(`Import error: ${error.message}`, 'error');
     }
   }
 
   validateFile(file) {
     // Check file size
     if (file.size > this.maxFileSize) {
-      this.showNotification('Файл слишком большой (максимум 10MB)', 'error');
+      this.showNotification('File is too large (max 10MB)', 'error');
       return false;
     }
 
     // Check file extension
     const extension = file.name.split('.').pop().toLowerCase();
     if (!this.supportedFormats.includes(extension)) {
-      this.showNotification(`Неподдерживаемый формат: ${extension}`, 'error');
+      this.showNotification(`Unsupported format: ${extension}`, 'error');
       return false;
     }
 
@@ -288,9 +288,9 @@ class DataImportExport {
     
     lines.forEach(line => {
       const patterns = [
-        /([A-Za-zА-Яа-я\s]+?)(?:[:\-]?\s*\$?)([\d,.]+)\s*(K|M|%)?/gi,
-        /([A-Za-zА-Яа-я\s]+?)\s+(\d+(?:,\d+)*(?:\.\d+)?)\s*(K|M|%)?/gi,
-        /([A-Za-zА-Яа-я\s]+?)\s*=\s*(\d+(?:,\d+)*(?:\.\d+)?)\s*(K|M|%)?/gi
+        /([A-Za-z\s]+?)(?:[:\-]?\s*\$?)([\d,.]+)\s*(K|M|%)?/gi,
+        /([A-Za-z\s]+?)\s+(\d+(?:,\d+)*(?:\.\d+)?)\s*(K|M|%)?/gi,
+        /([A-Za-z\s]+?)\s*=\s*(\d+(?:,\d+)*(?:\.\d+)?)\s*(K|M|%)?/gi
       ];
       
       for (const pattern of patterns) {
@@ -356,15 +356,15 @@ class DataImportExport {
 
   importFromGoogleSheets() {
     // Google Sheets integration
-    const sheetUrl = prompt('Введите URL Google Sheets:');
+    const sheetUrl = prompt('Enter Google Sheets URL:');
     if (sheetUrl) {
-      this.showNotification('Интеграция с Google Sheets в разработке', 'info');
+      this.showNotification('Google Sheets integration is under development', 'info');
     }
   }
 
   importFromAPI() {
     // API integration
-    const apiUrl = prompt('Введите URL API:');
+    const apiUrl = prompt('Enter API URL:');
     if (apiUrl) {
       this.fetchDataFromAPI(apiUrl);
     }
@@ -378,20 +378,20 @@ class DataImportExport {
       const parsedData = this.parseJSONData(data);
       this.displayImportedData(parsedData, 'API Data');
       this.hideImportProgress();
-      this.showNotification('Данные успешно загружены из API', 'success');
+      this.showNotification('Data successfully loaded from API', 'success');
     } catch (error) {
       this.hideImportProgress();
-      this.showNotification(`Ошибка загрузки из API: ${error.message}`, 'error');
+      this.showNotification(`Error loading from API: ${error.message}`, 'error');
     }
   }
 
   importFromDatabase() {
     // Database integration
-    this.showNotification('Интеграция с базой данных в разработке', 'info');
+    this.showNotification('Database integration is under development', 'info');
   }
 
   async importFromURL() {
-    const url = prompt('Введите URL файла данных:');
+    const url = prompt('Enter data file URL:');
     if (url) {
       try {
         this.showImportProgress();
@@ -409,10 +409,10 @@ class DataImportExport {
         
         this.displayImportedData(data, 'URL Data');
         this.hideImportProgress();
-        this.showNotification('Данные успешно загружены из URL', 'success');
+        this.showNotification('Data successfully loaded from URL', 'success');
       } catch (error) {
         this.hideImportProgress();
-        this.showNotification(`Ошибка загрузки из URL: ${error.message}`, 'error');
+        this.showNotification(`Error loading from URL: ${error.message}`, 'error');
       }
     }
   }
@@ -427,7 +427,7 @@ class DataImportExport {
     if (exportSection) {
       const exportHTML = `
         <div class="space-y-4">
-          <h3 class="text-lg font-semibold text-slate-900">Экспорт данных</h3>
+          <h3 class="text-lg font-semibold text-slate-900">Data export</h3>
           <div class="grid grid-cols-2 gap-2">
             <button class="export-btn bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-lg hover:border-blue-400 hover:text-blue-600 transition" data-format="csv">
               <i class="fas fa-file-csv"></i> CSV
@@ -444,10 +444,10 @@ class DataImportExport {
           </div>
           <div class="flex gap-2">
             <button id="export-chart" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-              <i class="fas fa-download"></i> Экспорт диаграммы
+              <i class="fas fa-download"></i> Export chart
             </button>
             <button id="export-report" class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
-              <i class="fas fa-file-pdf"></i> Экспорт отчет
+              <i class="fas fa-file-pdf"></i> Export report
             </button>
           </div>
         </div>
@@ -468,7 +468,7 @@ class DataImportExport {
   exportData(format) {
     const data = this.getCurrentChartData();
     if (!data || data.length === 0) {
-      this.showNotification('Нет данных для экспорта', 'warning');
+      this.showNotification('No data to export', 'warning');
       return;
     }
 
@@ -498,7 +498,7 @@ class DataImportExport {
     }
 
     this.downloadFile(content, filename, mimeType);
-    this.showNotification(`Данные экспортированы в ${format.toUpperCase()}`, 'success');
+    this.showNotification(`Data exported to ${format.toUpperCase()}`, 'success');
   }
 
   convertToCSV(data) {
@@ -535,13 +535,13 @@ class DataImportExport {
 
   exportToExcel(data) {
     // Simplified Excel export (would need a library like SheetJS)
-    this.showNotification('Экспорт в Excel требует дополнительной библиотеки', 'info');
+    this.showNotification('Export to Excel requires an additional library', 'info');
   }
 
   exportChart() {
     const chartElement = document.getElementById('preview');
     if (!chartElement) {
-      this.showNotification('Нет диаграммы для экспорта', 'warning');
+      this.showNotification('No chart to export', 'warning');
       return;
     }
 
@@ -556,14 +556,14 @@ class DataImportExport {
         a.click();
         URL.revokeObjectURL(url);
         
-        this.showNotification('Диаграмма экспортирована', 'success');
+        this.showNotification('Chart exported', 'success');
       }
     }
   }
 
   exportReport() {
     // Generate PDF report
-    this.showNotification('Экспорт отчета в PDF в разработке', 'info');
+    this.showNotification('PDF report export is under development', 'info');
   }
 
   downloadFile(content, filename, mimeType) {
@@ -605,7 +605,7 @@ class DataImportExport {
       // Update character count
       const counter = document.getElementById('char-count');
       if (counter) {
-        counter.textContent = `${text.length} символов`;
+        counter.textContent = `${text.length} characters`;
       }
       
       // Trigger chart generation
@@ -619,7 +619,7 @@ class DataImportExport {
   showImportProgress() {
     const fileInfo = document.getElementById('file-info');
     if (fileInfo) {
-      fileInfo.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Импортирование данных...';
+      fileInfo.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Importing data...';
       fileInfo.classList.remove('hidden');
     }
   }
