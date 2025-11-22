@@ -3,14 +3,13 @@
  * Detects and manages current workflow based on URL and user actions
  */
 
-import { Workflow, WorkflowState, WorkflowEvent } from './types.js';
+import { WorkflowEvent } from './types.js';
 
 export class WorkflowDetectionService {
-  private currentWorkflow: string | null = null;
-  private workflows: Map<string, Workflow> = new Map();
-  private eventListeners: Set<{ target: EventTarget; event: string; handler: Function }> = new Set();
-
   constructor() {
+    this.currentWorkflow = null;
+    this.workflows = new Map();
+    this.eventListeners = new Set();
     this.setupEventListeners();
   }
 
@@ -25,7 +24,7 @@ export class WorkflowDetectionService {
   /**
    * Setup event listeners for workflow changes
    */
-  private setupEventListeners() {
+  setupEventListeners() {
     const handleNavigationChange = () => {
       this.detectCurrentWorkflow();
     };
@@ -42,14 +41,14 @@ export class WorkflowDetectionService {
   /**
    * Track event listeners for cleanup
    */
-  private trackEventListener(target: EventTarget, event: string, handler: Function) {
+  trackEventListener(target, event, handler) {
     this.eventListeners.add({ target, event, handler });
   }
 
   /**
    * Detect current workflow based on URL path
    */
-  private detectCurrentWorkflow(): string | null {
+  detectCurrentWorkflow() {
     const path = window.location.pathname;
     const previousWorkflow = this.currentWorkflow;
 
@@ -77,7 +76,7 @@ export class WorkflowDetectionService {
   /**
    * Register available workflows
    */
-  private registerWorkflows() {
+  registerWorkflows() {
     // These will be populated by workflow definitions
     // Chart creation workflow
     this.workflows.set('chart-creation', {
@@ -99,15 +98,15 @@ export class WorkflowDetectionService {
   /**
    * Emit workflow change event
    */
-  private emitWorkflowChange(previousWorkflow: string | null, newWorkflow: string | null) {
-    const event: WorkflowEvent = {
+  emitWorkflowChange(previousWorkflow, newWorkflow) {
+    const event = /** @type {WorkflowEvent} */ ({
       type: newWorkflow ? 'workflow:start' : 'workflow:complete',
       workflowId: newWorkflow || previousWorkflow || '',
       data: {
         previousWorkflow,
         newWorkflow
       }
-    };
+    });
 
     this.dispatchEvent(event);
   }
@@ -115,7 +114,7 @@ export class WorkflowDetectionService {
   /**
    * Dispatch custom workflow event
    */
-  private dispatchEvent(event: WorkflowEvent) {
+  dispatchEvent(event) {
     const customEvent = new CustomEvent('workflowChange', {
       detail: event
     });
@@ -125,42 +124,42 @@ export class WorkflowDetectionService {
   /**
    * Get current workflow
    */
-  getCurrentWorkflow(): string | null {
+  getCurrentWorkflow() {
     return this.currentWorkflow;
   }
 
   /**
    * Get workflow by ID
    */
-  getWorkflow(id: string): Workflow | undefined {
+  getWorkflow(id) {
     return this.workflows.get(id);
   }
 
   /**
    * Get all available workflows
    */
-  getAllWorkflows(): Workflow[] {
+  getAllWorkflows() {
     return Array.from(this.workflows.values());
   }
 
   /**
    * Register a new workflow
    */
-  registerWorkflow(workflow: Workflow): void {
+  registerWorkflow(workflow) {
     this.workflows.set(workflow.id, workflow);
   }
 
   /**
    * Check if a workflow exists
    */
-  hasWorkflow(id: string): boolean {
+  hasWorkflow(id) {
     return this.workflows.has(id);
   }
 
   /**
    * Cleanup event listeners
    */
-  destroy(): void {
+  destroy() {
     this.eventListeners.forEach(({ target, event, handler }) => {
       target.removeEventListener(event, handler as EventListener);
     });

@@ -3,23 +3,21 @@
  * Manages UI updates and user interactions for workflow system
  */
 
-import { Workflow, WorkflowStep, WorkflowState } from './types.js';
 import { workflowProgress } from './WorkflowProgressTracker.js';
 
 export class WorkflowUIManager {
-  private currentUI: HTMLElement | null = null;
-  private progressIndicator: HTMLElement | null = null;
-  private stepNavigation: HTMLElement | null = null;
-  private helpPanel: HTMLElement | null = null;
-
   constructor() {
+    this.currentUI = null;
+    this.progressIndicator = null;
+    this.stepNavigation = null;
+    this.helpPanel = null;
     this.setupUIComponents();
   }
 
   /**
    * Initialize UI components
    */
-  private setupUIComponents(): void {
+  setupUIComponents() {
     this.createProgressIndicator();
     this.createStepNavigation();
     this.createHelpPanel();
@@ -28,7 +26,7 @@ export class WorkflowUIManager {
   /**
    * Create progress indicator
    */
-  private createProgressIndicator(): void {
+  createProgressIndicator() {
     const progressHTML = `
       <div class="workflow-progress" id="workflow-progress">
         <div class="progress-header">
@@ -55,7 +53,7 @@ export class WorkflowUIManager {
   /**
    * Create step navigation
    */
-  private createStepNavigation(): void {
+  createStepNavigation() {
     const navigationHTML = `
       <div class="workflow-navigation" id="workflow-navigation">
         <div class="nav-header">
@@ -92,7 +90,7 @@ export class WorkflowUIManager {
   /**
    * Create help panel
    */
-  private createHelpPanel(): void {
+  createHelpPanel() {
     const helpHTML = `
       <div class="workflow-help" id="workflow-help" style="display: none;">
         <div class="help-header">
@@ -120,7 +118,7 @@ export class WorkflowUIManager {
   /**
    * Setup progress styles
    */
-  private setupProgressStyles(): void {
+  setupProgressStyles() {
     if (document.getElementById('workflow-ui-styles')) return;
 
     const styles = document.createElement('style');
@@ -435,7 +433,7 @@ export class WorkflowUIManager {
   /**
    * Setup navigation events
    */
-  private setupNavigationEvents(): void {
+  setupNavigationEvents() {
     const prevBtn = document.getElementById('prev-step-btn');
     const nextBtn = document.getElementById('next-step-btn');
     const toggleBtn = document.getElementById('nav-toggle');
@@ -462,7 +460,7 @@ export class WorkflowUIManager {
   /**
    * Setup help events
    */
-  private setupHelpEvents(): void {
+  setupHelpEvents() {
     const closeBtn = document.getElementById('help-close');
     
     if (closeBtn) {
@@ -482,7 +480,7 @@ export class WorkflowUIManager {
   /**
    * Update UI for current workflow
    */
-  updateWorkflowUI(workflow: Workflow, currentState: WorkflowState): void {
+  updateWorkflowUI(workflow, currentState) {
     this.updateProgressIndicator(workflow, currentState);
     this.updateStepNavigation(workflow, currentState);
   }
@@ -490,7 +488,7 @@ export class WorkflowUIManager {
   /**
    * Update progress indicator
    */
-  private updateProgressIndicator(workflow: Workflow, currentState: WorkflowState): void {
+  updateProgressIndicator(workflow, currentState) {
     if (!this.progressIndicator) return;
 
     const progress = workflowProgress.getProgress(workflow.id, workflow.steps.length);
@@ -526,7 +524,7 @@ export class WorkflowUIManager {
   /**
    * Update step navigation
    */
-  private updateStepNavigation(workflow: Workflow, currentState: WorkflowState): void {
+  updateStepNavigation(workflow, currentState) {
     if (!this.stepNavigation) return;
 
     // Update step list
@@ -565,7 +563,7 @@ export class WorkflowUIManager {
   /**
    * Show help for current step
    */
-  showStepHelp(step: WorkflowStep): void {
+  showStepHelp(step) {
     if (!this.helpPanel) return;
 
     const tipsContainer = document.getElementById('help-tips');
@@ -594,7 +592,7 @@ export class WorkflowUIManager {
   /**
    * Hide help panel
    */
-  hideHelp(): void {
+  hideHelp() {
     if (this.helpPanel) {
       this.helpPanel.style.display = 'none';
     }
@@ -603,7 +601,7 @@ export class WorkflowUIManager {
   /**
    * Toggle navigation panel
    */
-  private toggleNavigation(): void {
+  toggleNavigation() {
     const content = document.getElementById('nav-content');
     const toggle = document.getElementById('nav-toggle');
 
@@ -621,7 +619,7 @@ export class WorkflowUIManager {
   /**
    * Get step status
    */
-  private getStepStatus(stepIndex: number, currentStep: number): string {
+  getStepStatus(stepIndex, currentStep) {
     if (stepIndex < currentStep) return 'completed';
     if (stepIndex === currentStep) return 'current';
     return 'pending';
@@ -630,7 +628,7 @@ export class WorkflowUIManager {
   /**
    * Get step marker
    */
-  private getStepMarker(status: string, stepNumber: number): string {
+  getStepMarker(status, stepNumber) {
     switch (status) {
       case 'completed': return '✓';
       case 'current': return stepNumber.toString();
@@ -641,7 +639,7 @@ export class WorkflowUIManager {
   /**
    * Emit navigation event
    */
-  private emitNavigationEvent(action: string, data?: any): void {
+  emitNavigationEvent(action, data) {
     const event = new CustomEvent('workflowNavigation', {
       detail: { action, data }
     });
@@ -651,7 +649,7 @@ export class WorkflowUIManager {
   /**
    * Cleanup UI elements
    */
-  destroy(): void {
+  destroy() {
     // Remove DOM elements
     this.progressIndicator?.remove();
     this.stepNavigation?.remove();

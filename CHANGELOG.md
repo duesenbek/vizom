@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2025-11-20
+
+### Changed
+- Cleaned up duplicate refactored app and chart engine files
+- Centralized Vite configuration and added dedicated `chart-libs` lazy-loaded chunk
+- Added Node version pinning via `.nvmrc`
+- Added CI pipeline (lint, test, build) via GitHub Actions
+- Added Husky + lint-staged pre-commit hooks for lint/format on staged files
+- Documented project setup, env vars, and tech stack in `README.md`
+
+### Why
+- Prepare for production release v2.0.0
+- Reduce confusion around multiple refactored entrypoints
+- Enforce consistent Node/tooling and automated quality checks
+
+### Impact
+- Clearer onboarding (single app entry, better docs)
+- Smaller, better-structured bundles for chart libraries
+- Safer contributions via pre-commit checks and CI
+
 ## [2025-11-20] - Production Ready Cleanup
 
 ### Changed

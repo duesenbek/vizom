@@ -3,17 +3,16 @@
  * Core modal functionality with state management
  */
 
-import { ModalConfig, ModalOptions, ModalState, ModalEvent } from './types.js';
 import { ModalError, ModalNotFoundError, ModalAlreadyOpenError } from './types.js';
 
 export class ModalManager {
-  private modals: Map<string, ModalState> = new Map();
-  private modalStack: string[] = [];
-  private container: HTMLElement | null = null;
-  private zIndexBase = 1000;
-  private nextZIndex = this.zIndexBase;
-
   constructor() {
+    this.modals = new Map();
+    this.modalStack = [];
+    this.container = null;
+    this.zIndexBase = 1000;
+    this.nextZIndex = this.zIndexBase;
+
     this.createContainer();
     this.setupGlobalStyles();
     this.setupGlobalEventListeners();
@@ -22,7 +21,7 @@ export class ModalManager {
   /**
    * Create modal container
    */
-  private createContainer(): void {
+  createContainer() {
     this.container = document.createElement('div');
     this.container.id = 'modal-container';
     this.container.className = 'modal-container';
@@ -32,7 +31,7 @@ export class ModalManager {
   /**
    * Setup global modal styles
    */
-  private setupGlobalStyles(): void {
+  setupGlobalStyles() {
     if (document.getElementById('modal-styles')) return;
 
     const styles = document.createElement('style');
@@ -197,7 +196,7 @@ export class ModalManager {
   /**
    * Setup global event listeners
    */
-  private setupGlobalEventListeners(): void {
+  setupGlobalEventListeners() {
     // Handle escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && this.modalStack.length > 0) {
@@ -226,14 +225,14 @@ export class ModalManager {
   /**
    * Open a modal
    */
-  async open(id: string, config: ModalConfig, options: ModalOptions = {}): Promise<void> {
+  async open(id, config, options = {}) {
     // Check if modal is already open
     if (this.modals.has(id)) {
       throw new ModalAlreadyOpenError(id);
     }
 
     // Create modal state
-    const modalState: ModalState = {
+    const modalState = {
       id,
       config: { ...config },
       options: { 
@@ -278,7 +277,7 @@ export class ModalManager {
   /**
    * Close a modal
    */
-  async close(id: string): Promise<void> {
+  async close(id) {
     const modalState = this.modals.get(id);
     if (!modalState) {
       throw new ModalNotFoundError(id);
@@ -327,7 +326,7 @@ export class ModalManager {
   /**
    * Create modal element
    */
-  private createModalElement(modalState: ModalState): HTMLElement {
+  createModalElement(modalState) {
     const modal = document.createElement('div');
     modal.className = `modal modal-${modalState.config.size} ${modalState.config.animation || 'fade'}`;
     modal.style.zIndex = modalState.zIndex.toString();
@@ -384,7 +383,7 @@ export class ModalManager {
   /**
    * Create modal header
    */
-  private createModalHeader(modalState: ModalState): HTMLElement {
+  createModalHeader(modalState) {
     const header = document.createElement('div');
     header.className = 'modal-header';
     
@@ -399,7 +398,7 @@ export class ModalManager {
   /**
    * Create modal body
    */
-  private createModalBody(modalState: ModalState): HTMLElement {
+  createModalBody(modalState) {
     const body = document.createElement('div');
     body.className = 'modal-body';
 
@@ -415,7 +414,7 @@ export class ModalManager {
   /**
    * Animate modal open
    */
-  private async animateOpen(modalState: ModalState): Promise<void> {
+  async animateOpen(modalState) {
     if (!modalState.element) return;
 
     // Force reflow
@@ -435,7 +434,7 @@ export class ModalManager {
   /**
    * Animate modal close
    */
-  private async animateClose(modalState: ModalState): Promise<void> {
+  async animateClose(modalState) {
     if (!modalState.element) return;
 
     // Remove open class
@@ -450,12 +449,12 @@ export class ModalManager {
   /**
    * Trap focus within modal
    */
-  private trapFocus(modalState: ModalState): void {
+  trapFocus(modalState) {
     if (!modalState.element) return;
 
     const focusableElements = modalState.element.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    ) as NodeListOf<HTMLElement>;
+    );
 
     if (focusableElements.length === 0) return;
 
@@ -482,17 +481,14 @@ export class ModalManager {
     firstElement.focus();
 
     // Store handler for cleanup
-    (modalState as any).focusHandler = handleTabKey;
+    modalState.focusHandler = handleTabKey;
   }
 
   /**
    * Focus specific element
    */
-  private focusElement(
-    element: string | HTMLElement, 
-    modalElement: HTMLElement
-  ): void {
-    let targetElement: HTMLElement | null = null;
+  focusElement(element, modalElement) {
+    let targetElement = null;
 
     if (typeof element === 'string') {
       targetElement = modalElement.querySelector(element);
@@ -506,7 +502,7 @@ export class ModalManager {
   /**
    * Emit modal event
    */
-  private emitEvent(event: ModalEvent): void {
+  emitEvent(event) {
     const customEvent = new CustomEvent('modalEvent', {
       detail: event
     });
@@ -516,7 +512,7 @@ export class ModalManager {
   /**
    * Check if modal is open
    */
-  isOpen(id: string): boolean {
+  isOpen(id) {
     const modalState = this.modals.get(id);
     return modalState?.isOpen || false;
   }
@@ -524,28 +520,28 @@ export class ModalManager {
   /**
    * Get modal state
    */
-  getModal(id: string): ModalState | undefined {
+  getModal(id) {
     return this.modals.get(id);
   }
 
   /**
    * Get all open modals
    */
-  getAllModals(): ModalState[] {
+  getAllModals() {
     return Array.from(this.modals.values());
   }
 
   /**
    * Get modal stack
    */
-  getModalStack(): string[] {
+  getModalStack() {
     return [...this.modalStack];
   }
 
   /**
    * Close all modals
    */
-  async closeAll(): Promise<void> {
+  async closeAll() {
     const modalIds = [...this.modalStack];
     await Promise.all(modalIds.map(id => this.close(id)));
   }
@@ -553,7 +549,7 @@ export class ModalManager {
   /**
    * Cleanup manager
    */
-  destroy(): void {
+  destroy() {
     this.closeAll();
     this.container?.remove();
     this.modals.clear();

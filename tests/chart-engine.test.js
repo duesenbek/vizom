@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { ChartEngine } from '../src/chart-engine-refactored.js';
+import ChartEngine from '../src/chart-engine.js';
 import { ChartConfigBuilder } from '../src/chart/ChartConfigBuilder.js';
 import { ChartDataProcessor } from '../src/chart/ChartDataProcessor.js';
 

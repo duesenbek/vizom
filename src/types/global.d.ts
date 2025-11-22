@@ -7,7 +7,7 @@
 declare global {
   interface Window {
     // Chart system
-    chartEngine: import('./chart-engine-refactored').ChartEngine;
+    chartEngine: import('../chart-engine').default;
     
     // Modal system
     ModalSystem: import('./components/ModalSystemRefactored').ModalSystem;
@@ -17,7 +17,7 @@ declare global {
     workflowOptimizer: import('./components/workflow/WorkflowOptimizer').WorkflowOptimizer;
     
     // Application
-    vizomApp: import('./app-refactored-new').VizomApp;
+    vizomApp: import('../app').default;
     
     // Legacy compatibility
     Chart: any;
