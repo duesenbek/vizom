@@ -54,6 +54,59 @@ SUPABASE_ANON_KEY=your_supabase_key
 - `npm run test` — unit tests (Vitest)
 - `npm run build` — optimized production build
 
+## E2E Testing (Playwright)
+
+Full end-to-end tests for `/generator.html` and `/index.html`.
+
+### Run E2E Tests
+
+```bash
+# Run all E2E tests (headless)
+npx playwright test tests/e2e/
+
+# Run in headed mode (see browser)
+npx playwright test tests/e2e/ --headed
+
+# Run specific test file
+npx playwright test tests/e2e/generator.e2e.spec.js
+
+# Run with UI mode
+npx playwright test --ui
+
+# Generate HTML report
+npx playwright test tests/e2e/ --reporter=html
+npx playwright show-report
+```
+
+### Test Coverage
+
+**Generator Page (`/generator.html`)**
+- Prompt input and Generate button visibility
+- Chart generation flow with preview
+- Chart type switching (bar, line, pie, etc.)
+- Export menu (PNG, SVG, PDF)
+- Save/Load project modals
+- Guest user: Sign In UI, Pro features disabled
+- Mobile responsiveness
+- Console error detection
+
+**Homepage (`/index.html`)**
+- Hero section with CTA form
+- Navigation links
+- Auth modal (open/close via ESC, button, backdrop)
+- Hero form redirect to generator
+- Mobile menu toggle
+- Footer links
+
+### Configuration
+
+Tests use `playwright.config.js` with:
+- Base URL: `http://localhost:3000`
+- Browsers: Chromium, Mobile Chrome
+- Auto-start dev server before tests
+- Screenshots on failure
+- HTML report generation
+
 ## License
 
 ISC
