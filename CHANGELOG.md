@@ -2,6 +2,66 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - 2025-11-26
+
+### Added
+- **Real Chart Previews:** Replaced all placeholder icons/emojis in chart demo cards with actual mini-chart previews rendered via Chart.js
+- **Canonical Examples Database:** Created `src/components/examples/examples.json` with 8-10 realistic examples per chart type (bar, line, pie, doughnut, radar, scatter, area, polar, bubble)
+- **ChartPreviewRenderer Component:** New `src/components/examples/ChartPreviewRenderer.js` for rendering mini-charts with lazy loading and debouncing
+- **Try This Functionality:** Clicking any example card auto-fills the prompt with real data and generates the chart instantly
+
+### Changed
+- Updated `generator.html` chart type selector to show real chart previews instead of Font Awesome icons
+- Updated quick prompts section with grid layout and mini-chart previews
+- Updated `LiveDemoSection.js` example prompts with real chart previews
+- Updated `MobileGenerator.js` quick prompts with real data and chart previews
+
+### Why
+- Improve user understanding of chart types with visual previews
+- Provide instant gratification with one-click chart generation
+- Better UX with real data examples instead of placeholder icons
+
+### Impact
+- Users can visually identify chart types before selecting
+- Quick examples generate real charts instantly with realistic data
+- Performance optimized with lazy loading and IntersectionObserver
+
+## [2.0.1] - 2025-11-26
+
+### Fixed
+- **CRITICAL:** Moved modals inside `<body>` tag in generator.html (were placed after `</body></html>`)
+- Added missing auth modal to all main pages (index, generator, pricing, templates)
+- Wired Sign In button event handlers (desktop and mobile) across all pages
+- Added modal close handlers (close button, backdrop click, ESC key)
+- Fixed modal styling to use proper fixed positioning with backdrop
+- Added ESC key handler for upgrade modal on pricing page
+- Added template modal close handlers on templates page
+
+### Added
+- **Playwright E2E Tests:** Comprehensive UI control tests (`tests/ui-controls.spec.js`)
+- **Smoke Tests:** Generator and auth flow smoke tests (`tests/smoke/`)
+- **UI Element Scanner:** Browser-based interactive element scanner (`tests/ui-element-scanner.js`)
+- **Playwright Config:** Configuration for Chrome and Mobile Chrome (`playwright.config.js`)
+- **Test Scripts:** `npm run test:controls`, `npm run test:e2e`, `npm run test:e2e:ui`
+
+### Changed
+- Consolidated modal event binding code for consistency
+- Updated `src/components/HeaderIntegration.js` to handle mobile Sign In button
+- Created comprehensive UI test log (`docs/UI_ELEMENT_TEST_LOG.md`)
+
+### Why
+- Ensure all critical UI controls respond correctly to user interaction
+- Fix broken modals that were not rendering due to invalid HTML placement
+- Provide consistent auth experience across all pages
+- Automated testing prevents regression of UI functionality
+
+### Impact
+- All buttons, inputs, and modals now work end-to-end
+- Sign In flow works correctly on all pages (desktop and mobile)
+- Save/Load Project modals function properly on generator page
+- 74 UI elements tested with 100% pass rate
+- E2E test coverage for all main user flows
+
 ## [2.0.0] - 2025-11-20
 
 ### Changed
