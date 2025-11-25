@@ -40,9 +40,10 @@ to = "/.netlify/functions/:splat"
 status = 200
 
 # Staging environment (deploy previews)
+# Note: DEEPSEEK_API_KEY must be set in Netlify dashboard for all environments
+# No mock/staging keys - always use real API
 [context.deploy-preview]
   [context.deploy-preview.environment]
-  DEEPSEEK_API_KEY = "staging-key"
   VITE_SENTRY_ENVIRONMENT = "staging"
 
 [functions]

@@ -38,17 +38,55 @@ class AIService {
   }
 
   async callAIService(prompt, chartType) {
-    // Simulate API call - replace with actual AI service
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          success: true,
-          data: this.smartParse(prompt, chartType),
-          chartType,
-          timestamp: Date.now()
-        });
-      }, 800);
+    // Call real AI backend proxy
+    const response = await fetch('/.netlify/functions/deepseek-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt, chartType })
     });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `AI service error: ${response.status}`);
+    }
+
+    const result = await response.json();
+    
+    if (!result.success || !result.chartConfig) {
+      throw new Error('Invalid response from AI service');
+    }
+
+    // Parse the AI response into chart data
+    let chartData;
+    try {
+      chartData = typeof result.chartConfig === 'string' 
+        ? JSON.parse(result.chartConfig) 
+        : result.chartConfig;
+    } catch (e) {
+      // If AI returns non-JSON, try to parse as data
+      chartData = this.smartParse(prompt, chartType);
+    }
+
+    return {
+      success: true,
+      data: chartData.data?.datasets?.[0]?.data 
+        ? this.extractDataFromChartConfig(chartData)
+        : this.smartParse(prompt, chartType),
+      chartConfig: chartData,
+      chartType,
+      timestamp: Date.now()
+    };
+  }
+
+  extractDataFromChartConfig(config) {
+    // Extract label/value pairs from Chart.js config
+    const labels = config.data?.labels || [];
+    const values = config.data?.datasets?.[0]?.data || [];
+    
+    return labels.map((label, i) => ({
+      label: String(label),
+      value: Number(values[i]) || 0
+    }));
   }
 
   smartParse(inputText, chartType = 'bar') {
@@ -138,34 +176,9 @@ class AIService {
       if (matches.length > 0) break; // Use first successful pattern
     }
 
-    // Fallback examples if no matches
+    // No fallback examples - require valid data input
     if (matches.length === 0) {
-      const examples = {
-        bar: [
-          { label: 'Jan', value: 12000 },
-          { label: 'Feb', value: 15000 },
-          { label: 'Mar', value: 18000 },
-          { label: 'Apr', value: 20000 }
-        ],
-        line: [
-          { label: 'Jan', value: 1200 },
-          { label: 'Feb', value: 1500 },
-          { label: 'Mar', value: 1800 },
-          { label: 'Apr', value: 2100 },
-          { label: 'May', value: 2400 }
-        ],
-        pie: [
-          { label: 'Segment A', value: 45 },
-          { label: 'Segment B', value: 30 },
-          { label: 'Segment C', value: 25 }
-        ],
-        table: [
-          { label: 'Product A', value: 4500 },
-          { label: 'Product B', value: 3600 },
-          { label: 'Product C', value: 6000 }
-        ]
-      };
-      matches = examples[chartType] || examples.bar;
+      throw new Error('Could not parse data from input. Please provide data in format: "Label: Value" or "Label, Value"');
     }
 
     return matches;

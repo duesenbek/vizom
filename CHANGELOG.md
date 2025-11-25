@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.4] - 2025-11-26
+
+### Changed
+- **AI Backend Only:** Removed all mock/fake/sample data generation from chart generation
+- **Real API Calls:** All chart generation now uses real DeepSeek AI backend proxy
+- **Error Handling:** Added "AI temporarily unavailable" banner when backend is unreachable
+- **No Fallback Data:** Removed hardcoded example data fallbacks - requires valid user input
+
+### Removed
+- Mock `callAIService` simulation in `scripts/pages/generator.js`
+- `simulateChartGeneration` fallback in `src/page-specific/generator-modern.js`
+- Hardcoded fallback example data in `parsePlainText` and `parseSeriesSimple`
+- Staging mock API key from `netlify.toml`
+
+### Why
+- Production and development environments should use the same real AI backend
+- Mock data can mask integration issues and provide inconsistent UX
+- Users should see real AI-generated charts, not pre-built examples
+
+### Impact
+- All chart generation requires working DeepSeek API key in Netlify environment
+- Clear error messaging when AI service is unavailable
+- Consistent behavior across all environments
+
+## [2.0.3] - 2025-11-26
+
+### Added
+- **SVG Chart Previews:** Added SVG-based previews for Force Graph, TreeMap, and Sankey diagrams
+- **Extended Examples Database:** Added 8 examples each for force, treemap, and sankey chart types
+- **More Quick Prompts:** Added radar, area, scatter, and polar chart quick prompt cards
+
+### Changed
+- Replaced Font Awesome icons for Force Graph, TreeMap, and Sankey with real SVG previews
+- Updated `ChartPreviewRenderer.js` with SVG rendering functions for non-Chart.js chart types
+- Extended quick prompts grid from 4 to 8 examples covering all major chart types
+
+### Why
+- Complete visual preview coverage for all 12 chart types
+- Users can see exactly what each chart type looks like before selecting
+
+### Impact
+- All chart type cards now show real chart previews (no more placeholder icons)
+- 8 quick prompt examples with one-click chart generation
+- 96 total chart examples in the examples database (8 per type × 12 types)
+
 ## [2.0.2] - 2025-11-26
 
 ### Added

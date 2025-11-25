@@ -568,11 +568,6 @@ async function handleGenerate() {
     return;
   }
 
-  if (!DEEPSEEK_API_KEY) {
-    showError('API key not configured. Please add your DeepSeek API key in app.js');
-    return;
-  }
-
   // Detect chart type from prompt
   currentChartType = detectChartType(prompt);
   
@@ -580,8 +575,37 @@ async function handleGenerate() {
     await generateVisual(prompt, currentChartType);
   } catch (error) {
     console.error('Generation failed:', error);
+    showAIUnavailableBanner();
     showError(`Failed to generate visual: ${error.message}`);
   }
+}
+
+/**
+ * Show banner when AI service is unavailable
+ */
+function showAIUnavailableBanner() {
+  let banner = document.getElementById('ai-unavailable-banner');
+  
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'ai-unavailable-banner';
+    banner.className = 'fixed top-0 left-0 right-0 bg-amber-500 text-white px-4 py-3 text-center z-50 flex items-center justify-center gap-2';
+    banner.innerHTML = `
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+      </svg>
+      <span>AI temporarily unavailable. Please retry later.</span>
+      <button onclick="this.parentElement.remove()" class="ml-4 text-white hover:text-amber-100">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    `;
+    document.body.prepend(banner);
+  }
+  
+  // Auto-hide after 10 seconds
+  setTimeout(() => banner?.remove(), 10000);
 }
 
 /**
@@ -739,7 +763,7 @@ function parseSeriesSimple(text) {
       res.push({label, value:v});
     }
   }
-  if (!res.length) return [ {label:'Jan',value:12000},{label:'Feb',value:15000},{label:'Mar',value:18000},{label:'Apr',value:20000} ];
+  // No fallback data - require valid input
   return res;
 }
 

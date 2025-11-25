@@ -123,14 +123,9 @@ class ModernGenerator {
     generateBtn.disabled = true;
 
     try {
-      // Use existing AI service if available
-      if (window.aiService) {
-        const result = await window.aiService.generateWithCache(input, this.currentChartType);
-        this.displayChart(result);
-      } else {
-        // Fallback generation
-        await this.simulateChartGeneration(input);
-      }
+      // Always use real AI backend
+      const result = await this.callRealAIBackend(input, this.currentChartType);
+      this.displayChart(result);
 
       // Track generation
       if (window.analytics) {
@@ -182,13 +177,90 @@ class ModernGenerator {
     this.showToast('Chart generated successfully!', 'success');
   }
 
-  async simulateChartGeneration(input) {
-    // Simulate AI processing time
-    await new Promise(resolve => setTimeout(resolve, 1500));
+  async callRealAIBackend(input, chartType) {
+    // Call real AI backend proxy - no mock/fallback
+    const response = await fetch('/.netlify/functions/deepseek-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: input, chartType })
+    });
 
-    // Create a simple chart preview
-    const chartPreview = this.createSimpleChartPreview(input, this.currentChartType);
-    this.displayChart({ html: chartPreview });
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      // Show unavailable banner
+      this.showAIUnavailableBanner();
+      throw new Error(errorData.error || 'AI service temporarily unavailable');
+    }
+
+    const result = await response.json();
+    
+    if (!result.success || !result.chartConfig) {
+      this.showAIUnavailableBanner();
+      throw new Error('Invalid response from AI service');
+    }
+
+    // Parse the AI response and create chart HTML
+    let chartConfig;
+    try {
+      chartConfig = typeof result.chartConfig === 'string' 
+        ? JSON.parse(result.chartConfig) 
+        : result.chartConfig;
+    } catch (e) {
+      throw new Error('Failed to parse AI response');
+    }
+
+    // Generate chart HTML from config
+    const chartHTML = this.generateChartHTML(chartConfig, chartType);
+    return { html: chartHTML, config: chartConfig };
+  }
+
+  generateChartHTML(config, type) {
+    // Generate SVG/HTML from Chart.js config
+    const data = this.extractDataFromConfig(config);
+    
+    if (type === 'table') {
+      return this.createTablePreview(data);
+    } else if (type === 'pie') {
+      return this.createPiePreview(data);
+    } else {
+      return this.createBarPreview(data);
+    }
+  }
+
+  extractDataFromConfig(config) {
+    const labels = config?.data?.labels || [];
+    const values = config?.data?.datasets?.[0]?.data || [];
+    
+    if (labels.length === 0) {
+      return [{ label: 'No data', value: 0 }];
+    }
+    
+    return labels.map((label, i) => ({
+      label: String(label),
+      value: Number(values[i]) || 0
+    }));
+  }
+
+  showAIUnavailableBanner() {
+    // Show banner indicating AI is temporarily unavailable
+    let banner = document.getElementById('ai-unavailable-banner');
+    
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'ai-unavailable-banner';
+      banner.className = 'fixed top-0 left-0 right-0 bg-amber-500 text-white px-4 py-3 text-center z-50 flex items-center justify-center gap-2';
+      banner.innerHTML = `
+        <i class="fas fa-exclamation-triangle"></i>
+        <span>AI temporarily unavailable. Please retry later.</span>
+        <button onclick="this.parentElement.remove()" class="ml-4 text-white hover:text-amber-100">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      document.body.prepend(banner);
+    }
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => banner?.remove(), 10000);
   }
 
   createSimpleChartPreview(input, type) {
@@ -498,12 +570,8 @@ class ModernGenerator {
   }
 
   initializeAIIntegration() {
-    // Hook into existing AI service
-    if (window.aiService) {
-      console.log('AI service integrated');
-    } else {
-      console.log('AI service not available, using fallback');
-    }
+    // AI integration - always use real backend
+    console.log('AI service: using real backend proxy');
   }
 
   setupProjectManagement() {
