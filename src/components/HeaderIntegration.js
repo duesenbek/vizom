@@ -58,17 +58,24 @@ class HeaderIntegration {
       this.showAuthModal();
     });
 
-    // Wire up header buttons
+    // Wire up header buttons (desktop and mobile)
     const signInTrigger = document.getElementById('auth-signin');
+    const signInTriggerMobile = document.getElementById('auth-signin-mobile');
+    
+    const handleSignInClick = (event) => {
+      event.preventDefault();
+      if (window.modalSystem?.openAuthModal) {
+        window.modalSystem.openAuthModal();
+      } else {
+        this.showAuthModal();
+      }
+    };
+
     if (signInTrigger) {
-      signInTrigger.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (window.modalSystem?.openAuthModal) {
-          window.modalSystem.openAuthModal();
-        } else {
-          this.showAuthModal();
-        }
-      });
+      signInTrigger.addEventListener('click', handleSignInClick);
+    }
+    if (signInTriggerMobile) {
+      signInTriggerMobile.addEventListener('click', handleSignInClick);
     }
 
     const getStartedButtons = document.querySelectorAll('[data-action="get-started"]');

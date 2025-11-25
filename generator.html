@@ -155,72 +155,72 @@
                 <h3 class="text-sm font-semibold text-slate-900 tracking-wide">Chart Type</h3>
                 <div class="grid grid-cols-2 gap-4" role="list" aria-labelledby="chart-type-label">
                     <button class="chart-option selected flex flex-col gap-2 overflow-hidden rounded-xl border bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="bar" aria-pressed="true" aria-label="Bar chart">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-chart-column"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="bar" data-example-id="bar-quarterly-sales">
+                            <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Bar Chart</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="line" aria-pressed="false" aria-label="Line chart">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-chart-line"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="line" data-example-id="line-temperature-trend">
+                            <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Line Chart</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="pie" aria-pressed="false" aria-label="Pie chart">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-chart-pie"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="pie" data-example-id="pie-market-share">
+                            <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Pie Chart</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="doughnut" aria-pressed="false" aria-label="Doughnut chart">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-circle-notch"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="doughnut" data-example-id="doughnut-budget-allocation">
+                            <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Doughnut</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="area" aria-pressed="false" aria-label="Area chart">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-chart-area"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="area" data-example-id="area-revenue-growth">
+                            <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Area Chart</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="scatter" aria-pressed="false" aria-label="Scatter plot">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-bolt"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="scatter" data-example-id="scatter-age-income">
+                            <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Scatter Plot</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="bubble" aria-pressed="false" aria-label="Bubble chart">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-circle"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="bubble" data-example-id="bubble-market-analysis">
+                            <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Bubble Chart</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="radar" aria-pressed="false" aria-label="Radar chart">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-bullseye"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="radar" data-example-id="radar-skill-assessment">
+                            <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Radar Chart</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="polar" aria-pressed="false" aria-label="Polar area chart">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-circle-nodes"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="polar" data-example-id="polar-activity-breakdown">
+                            <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Polar Area</h4>
@@ -281,28 +281,57 @@
                         <span>Generate Chart</span>
                     </button>
 
-                    <!-- Quick Prompts -->
+                    <!-- Quick Prompts with Real Chart Previews -->
                     <div class="space-y-3">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <h4 class="text-sm font-medium text-slate-700">Quick Prompts</h4>
-                            <span class="text-xs text-slate-500" id="prompt-format-hint">Use data like&nbsp;<code>[{&quot;label&quot;:&quot;Jan&quot;,&quot;value&quot;:10}]</code> or <code>{&quot;labels&quot;:[&quot;Jan&quot;,&quot;Feb&quot;],&quot;data&quot;:[10,20]}</code></span>
+                            <h4 class="text-sm font-medium text-slate-700">Quick Examples</h4>
+                            <span class="text-xs text-slate-500">Click to try with real data</span>
                         </div>
-                        <div class="flex flex-wrap gap-3" id="quick-prompts">
-                            <button class="inline-flex h-10 items-center justify-center rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-prompt='{"labels":["Apple","Google","Microsoft","Amazon"],"data":[35,28,22,15]}' data-type="pie">
-                                <i class="fa-solid fa-chart-pie mr-2"></i>
-                                Market Share Pie
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="quick-prompts">
+                            <!-- Quick prompt cards with mini chart previews -->
+                            <button class="quick-prompt-card group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-inset ring-slate-200 hover:ring-blue-400 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" 
+                                    data-prompt='{"labels":["Apple","Google","Microsoft","Amazon"],"data":[35,28,22,15]}' 
+                                    data-type="pie"
+                                    data-example-id="pie-market-share">
+                                <div class="chart-preview-container h-16 bg-slate-50 p-1.5" data-chart-type="pie" data-example-id="pie-market-share">
+                                    <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                                </div>
+                                <div class="p-2 text-center">
+                                    <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Market Share</span>
+                                </div>
                             </button>
-                            <button class="inline-flex h-10 items-center justify-center rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-prompt='{"labels":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"data":[-2,0,4,9,14,19,22,21,17,10,4,0]}' data-type="line">
-                                <i class="fa-solid fa-chart-line mr-2"></i>
-                                Temperature Trends
+                            <button class="quick-prompt-card group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-inset ring-slate-200 hover:ring-blue-400 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" 
+                                    data-prompt='{"labels":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"data":[-2,0,4,9,14,19,22,21,17,10,4,0]}' 
+                                    data-type="line"
+                                    data-example-id="line-temperature-trend">
+                                <div class="chart-preview-container h-16 bg-slate-50 p-1.5" data-chart-type="line" data-example-id="line-temperature-trend">
+                                    <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                                </div>
+                                <div class="p-2 text-center">
+                                    <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Temperature</span>
+                                </div>
                             </button>
-                            <button class="inline-flex h-10 items-center justify-center rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-prompt='{"labels":["Q1","Q2","Q3","Q4"],"data":[180,220,260,310]}' data-type="bar">
-                                <i class="fa-solid fa-chart-column mr-2"></i>
-                                Sales Comparison
+                            <button class="quick-prompt-card group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-inset ring-slate-200 hover:ring-blue-400 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" 
+                                    data-prompt='{"labels":["Q1 2024","Q2 2024","Q3 2024","Q4 2024"],"data":[180,220,260,310]}' 
+                                    data-type="bar"
+                                    data-example-id="bar-quarterly-sales">
+                                <div class="chart-preview-container h-16 bg-slate-50 p-1.5" data-chart-type="bar" data-example-id="bar-quarterly-sales">
+                                    <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                                </div>
+                                <div class="p-2 text-center">
+                                    <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Quarterly Sales</span>
+                                </div>
                             </button>
-                            <button class="inline-flex h-10 items-center justify-center rounded-xl bg-white px-4 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" data-prompt='{"labels":["25","30","35","40","45","50"],"data":[32,45,51,63,70,78]}' data-type="scatter">
-                                <i class="fa-solid fa-bolt mr-2"></i>
-                                Correlation Plot
+                            <button class="quick-prompt-card group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-inset ring-slate-200 hover:ring-blue-400 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" 
+                                    data-prompt='{"labels":["R&D","Marketing","Operations","Sales","Admin"],"data":[30,25,20,15,10]}' 
+                                    data-type="doughnut"
+                                    data-example-id="doughnut-budget-allocation">
+                                <div class="chart-preview-container h-16 bg-slate-50 p-1.5" data-chart-type="doughnut" data-example-id="doughnut-budget-allocation">
+                                    <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                                </div>
+                                <div class="p-2 text-center">
+                                    <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Budget</span>
+                                </div>
                             </button>
                         </div>
                     </div>
@@ -409,12 +438,75 @@
       import { ProjectManager } from './scripts/pages/generator/project-manager.js';
       import { UIController } from './scripts/pages/generator/ui-controller.js';
       
-      document.addEventListener('DOMContentLoaded', () => {
-        const generator = new ChartGenerator();
-        const exporter = new ExportHandler(generator);
-        const projectManager = new ProjectManager(generator);
-        const uiController = new UIController(generator);
-      });
+      // Initialize generator page modules after the layout and core app are ready.
+      // The script tag is already at the end of <body>, so DOM is available here.
+      console.log('[generator-init] Bootstrapping generator modules');
+      const generatorInstance = new ChartGenerator();
+      new ExportHandler(generatorInstance);
+      new ProjectManager(generatorInstance);
+      new UIController(generatorInstance);
+      window.chartGenerator = generatorInstance;
+    </script>
+
+    <!-- Chart Preview Renderer for real chart previews in demo cards -->
+    <script type="module">
+      import ChartPreviewRenderer from './src/components/examples/ChartPreviewRenderer.js';
+      
+      // Wait for Chart.js to be available
+      function initChartPreviews() {
+        const ChartJS = typeof Chart !== 'undefined' ? Chart : window.Chart;
+        if (!ChartJS) {
+          // Retry after a short delay if Chart.js isn't loaded yet
+          setTimeout(initChartPreviews, 100);
+          return;
+        }
+        
+        console.log('[chart-previews] Initializing real chart previews');
+        
+        // Initialize lazy loading for all chart preview containers
+        ChartPreviewRenderer.initLazyLoading('.chart-preview-container');
+        
+        // Setup quick prompt card click handlers
+        document.querySelectorAll('.quick-prompt-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const prompt = card.dataset.prompt;
+            const chartType = card.dataset.type;
+            
+            // Select chart type
+            const chartOption = document.querySelector(`.chart-option[data-type="${chartType}"]`);
+            if (chartOption) {
+              chartOption.click();
+            }
+            
+            // Fill prompt input
+            const promptInput = document.getElementById('prompt-input');
+            if (promptInput && prompt) {
+              promptInput.value = prompt;
+              promptInput.dispatchEvent(new Event('input', { bubbles: true }));
+              promptInput.focus();
+            }
+            
+            // Auto-generate after a brief delay
+            setTimeout(() => {
+              const generateBtn = document.getElementById('generate-chart');
+              if (generateBtn) generateBtn.click();
+            }, 150);
+          });
+        });
+      }
+      
+      // Start initialization when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initChartPreviews);
+      } else {
+        initChartPreviews();
+      }
+    </script>
+    <script type="module">
+      import { ChartGenerator as GeneratorModule } from './scripts/pages/generator/chart-generator.js';
+      import { ExportHandler as ExportHandlerModule } from './scripts/pages/generator/export-handler.js';
+      import { ProjectManager as ProjectManagerModule } from './scripts/pages/generator/project-manager.js';
+      import { UIController as UIControllerModule } from './scripts/pages/generator/ui-controller.js';
     </script>
         function ensureScriptOnce(src, globalVar) {
             if (__loadedScripts.has(src)) return __loadedScripts.get(src);
@@ -1724,12 +1816,10 @@
             }, 3000);
         }
     </script>
-</body>
-</html>
 
   <!-- Projects Modal -->
-  <div id="projects-modal" class="modal hidden modal-fade" role="dialog" aria-modal="true" aria-labelledby="projects-title">
-    <div class="modal-content bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[80vh] overflow-hidden">
+  <div id="projects-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="projects-title">
+    <div class="bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[80vh] overflow-hidden">
       <div class="flex items-center justify-between p-6 border-b border-slate-200" id="projects-modal-title">
         <h3 class="text-xl font-semibold text-slate-900">My Projects</h3>
         <button id="close-projects-modal" class="text-slate-400 hover:text-slate-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Close projects modal">
@@ -1750,8 +1840,8 @@
   </div>
 
   <!-- Save Project Modal -->
-  <div id="save-project-modal" class="modal hidden modal-fade" role="dialog" aria-modal="true" aria-labelledby="save-project-title">
-    <div class="modal-content bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
+  <div id="save-project-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="save-project-title">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-4">
       <div class="flex items-center justify-between" id="save-project-modal-title">
         <h3 class="text-xl font-semibold text-slate-900" id="save-project-modal-description">Save Project</h3>
         <button id="close-save-modal" class="text-slate-400 hover:text-slate-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" aria-label="Close save project modal">
@@ -1774,17 +1864,34 @@
     </div>
   </div>
 
-  </main>
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 space-y-5">
+      <div class="flex items-center justify-between gap-4">
+        <h3 id="auth-modal-title" class="text-xl font-semibold text-slate-900">Sign In to VIZOM</h3>
+        <button id="close-auth-modal" class="text-slate-400 hover:text-slate-600 transition" aria-label="Close authentication modal">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p id="auth-modal-description" class="text-sm text-slate-500" data-i18n="auth.description">Sign in with Google to access the visualization generator.</p>
+      <button id="google-signin" aria-describedby="auth-modal-description" class="w-full inline-flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-700 px-4 py-3 rounded-lg hover:bg-slate-50 transition focus:ring-2 focus:ring-blue-500">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        <span>Continue with Google</span>
+      </button>
+    </div>
+  </div>
 
   <!-- Unified Footer -->
   <footer id="unified-footer">
     <!-- Footer content will be dynamically loaded by UnifiedFooter.js -->
   </footer>
 
-  <!-- /* LEGACY/IGNORE: for demo only */ footer.css was previously used by a dynamic footer; Tailwind footers are inline on key pages -->
-  <!-- <link rel="stylesheet" href="src/styles/components/footer.css"> -->
-
-  <!-- Подключения библиотек и модулей -->
+  <!-- External libraries -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     
@@ -1837,17 +1944,55 @@
       return false;
     }
 
-    // Example usage with Smart Parse button
+    // Modal close handlers
     document.addEventListener('DOMContentLoaded', () => {
+      // Auth modal elements
+      const authModal = document.getElementById('auth-modal');
+      const closeAuthModal = document.getElementById('close-auth-modal');
+      const authSignin = document.getElementById('auth-signin');
+      const authSigninMobile = document.getElementById('auth-signin-mobile');
+
+      // Project modals
+      const saveProjectModal = document.getElementById('save-project-modal');
+      const projectsModal = document.getElementById('projects-modal');
+
+      // Helper functions
+      const openModal = (modal) => modal?.classList.remove('hidden');
+      const closeModal = (modal) => modal?.classList.add('hidden');
+
+      // Auth modal open handlers
+      if (authSignin) authSignin.addEventListener('click', () => openModal(authModal));
+      if (authSigninMobile) authSigninMobile.addEventListener('click', () => openModal(authModal));
+
+      // Auth modal close handlers
+      if (closeAuthModal) closeAuthModal.addEventListener('click', () => closeModal(authModal));
+      if (authModal) {
+        authModal.addEventListener('click', (e) => {
+          if (e.target === authModal) closeModal(authModal);
+        });
+      }
+
+      // ESC key to close any open modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (authModal && !authModal.classList.contains('hidden')) {
+            closeModal(authModal);
+          }
+          if (saveProjectModal && !saveProjectModal.classList.contains('hidden')) {
+            closeModal(saveProjectModal);
+          }
+          if (projectsModal && !projectsModal.classList.contains('hidden')) {
+            closeModal(projectsModal);
+          }
+        }
+      });
+
+      // Smart Parse button
       const smartParseBtn = document.getElementById('smart-parse-btn');
-      
       if (smartParseBtn) {
         smartParseBtn.addEventListener('click', () => {
-          // Check if input is ready for generation
           const isReady = window.inputValidation?.isReadyForGeneration('prompt-input');
-          
           if (!isReady) {
-            // Show validation feedback instead of loading
             const feedback = document.getElementById('input-feedback');
             if (feedback && feedback.classList.contains('hidden')) {
               window.inputValidation?.validate('prompt-input', 'input-feedback');
@@ -1855,7 +2000,6 @@
             return;
           }
           
-          // Show enhanced loading
           const loader = showLoading('chart-generation', {
             title: 'AI is generating your chart',
             description: 'Analyzing your data and creating the perfect visualization...',
@@ -1863,11 +2007,9 @@
             progressBar: true
           });
           
-          // Simulate progress updates
           let progress = 0;
           const progressInterval = setInterval(() => {
             progress += Math.random() * 10;
-            
             if (progress < 30) {
               updateProgress('chart-generation', progress, 'Processing your input...');
             } else if (progress < 70) {
@@ -1878,30 +2020,21 @@
               progress = 100;
               updateProgress('chart-generation', progress, 'Complete!');
               clearInterval(progressInterval);
-              
-              // Hide loading after completion
-              setTimeout(() => {
-                hideLoading('chart-generation');
-              }, 1000);
+              setTimeout(() => hideLoading('chart-generation'), 1000);
             }
           }, 300);
           
-          // Simulate completion after 5 seconds
           setTimeout(() => {
             clearInterval(progressInterval);
             updateProgress('chart-generation', 100, 'Chart generated successfully!');
-            setTimeout(() => {
-              hideLoading('chart-generation');
-            }, 1000);
+            setTimeout(() => hideLoading('chart-generation'), 1000);
           }, 5000);
         });
       }
 
-      // Listen for validation events
+      // Validation events
       document.addEventListener('input:validated', (e) => {
         const { validation } = e.detail;
-        
-        // Enable/disable smart parse button based on validation
         const smartParseBtn = document.getElementById('smart-parse-btn');
         if (smartParseBtn) {
           if (validation.isValid && validation.score >= 70) {
@@ -1914,44 +2047,25 @@
         }
       });
 
-      // Example with file upload
+      // File upload
       const csvUpload = document.getElementById('csv-upload');
       if (csvUpload) {
         csvUpload.addEventListener('change', (e) => {
           if (e.target.files.length > 0) {
-            const loader = showLoading('file-upload', {
+            showLoading('file-upload', {
               title: 'Processing your file',
               description: 'Analyzing CSV data and preparing for visualization...',
               progressBar: true,
               steps: false
             });
-            
-            // Simulate file processing
-            setTimeout(() => {
-              hideLoading('file-upload');
-            }, 3000);
+            setTimeout(() => hideLoading('file-upload'), 3000);
           }
         });
       }
 
-      // Example with project save
-      const saveProjectBtn = document.getElementById('save-project');
-      if (saveProjectBtn) {
-        saveProjectBtn.addEventListener('click', () => {
-          const buttonLoader = window.loadingStates?.showButtonLoading(saveProjectBtn, 'Saving...');
-          
-          setTimeout(() => {
-            if (buttonLoader) {
-              buttonLoader.hide();
-            }
-          }, 2000);
-        });
-      }
-
-      // Clear input functionality
+      // Clear input
       const clearBtn = document.getElementById('clear-input');
       const textarea = document.getElementById('prompt-input');
-      
       if (clearBtn && textarea) {
         clearBtn.addEventListener('click', () => {
           textarea.value = '';
@@ -1962,14 +2076,11 @@
       }
     });
 
-    // Global error handling for loading timeouts
-    window.addEventListener('error', (e) => {
-      // Hide any active loading states on error
+    // Global error handling
+    window.addEventListener('error', () => {
       if (window.loadingStates) {
         const activeLoaders = window.loadingStates.getActiveLoaders();
-        activeLoaders.forEach(id => {
-          window.loadingStates.hideLoading(id);
-        });
+        activeLoaders.forEach(id => window.loadingStates.hideLoading(id));
       }
     });
   </script>
