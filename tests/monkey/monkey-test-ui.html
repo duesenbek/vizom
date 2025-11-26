@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vizom Monkey Testing UI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/gremlins.js@2.2.0/dist/gremlins.min.js"></script>
+    <style>
+        .log-entry { font-family: 'Monaco', 'Menlo', monospace; font-size: 12px; }
+        .log-error { color: #ef4444; }
+        .log-warn { color: #f59e0b; }
+        .log-info { color: #3b82f6; }
+        .log-success { color: #10b981; }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold mb-2">🐒 Vizom Monkey Testing</h1>
+            <p class="text-slate-400">Automated chaos testing for UI bug hunting</p>
+        </header>
+
+        <!-- Controls -->
+        <div class="bg-slate-800 rounded-xl p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Test Configuration</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-sm text-slate-400 mb-1">Target Page</label>
+                    <select id="target-page" class="w-full bg-slate-700 rounded-lg px-4 py-2 text-white">
+                        <option value="/">Home Page</option>
+                        <option value="/generator.html" selected>Generator Page</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-slate-400 mb-1">Duration (seconds)</label>
+                    <input type="number" id="duration" value="30" min="5" max="300" 
+                           class="w-full bg-slate-700 rounded-lg px-4 py-2 text-white">
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-slate-400 mb-1">Seed (optional, for reproducibility)</label>
+                    <input type="number" id="seed" placeholder="Random" 
+                           class="w-full bg-slate-700 rounded-lg px-4 py-2 text-white">
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-slate-400 mb-1">Action Delay (ms)</label>
+                    <input type="number" id="delay" value="50" min="10" max="500" 
+                           class="w-full bg-slate-700 rounded-lg px-4 py-2 text-white">
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <label class="block text-sm text-slate-400 mb-2">Gremlin Species</label>
+                <div class="flex flex-wrap gap-3">
+                    <label class="flex items-center gap-2 bg-slate-700 px-3 py-2 rounded-lg cursor-pointer">
+                        <input type="checkbox" id="species-clicker" checked class="rounded">
+                        <span>Clicker</span>
+                    </label>
+                    <label class="flex items-center gap-2 bg-slate-700 px-3 py-2 rounded-lg cursor-pointer">
+                        <input type="checkbox" id="species-formfiller" checked class="rounded">
+                        <span>Form Filler</span>
+                    </label>
+                    <label class="flex items-center gap-2 bg-slate-700 px-3 py-2 rounded-lg cursor-pointer">
+                        <input type="checkbox" id="species-scroller" checked class="rounded">
+                        <span>Scroller</span>
+                    </label>
+                    <label class="flex items-center gap-2 bg-slate-700 px-3 py-2 rounded-lg cursor-pointer">
+                        <input type="checkbox" id="species-typer" checked class="rounded">
+                        <span>Typer</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="flex gap-4">
+                <button id="start-btn" 
+                        class="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold transition-colors">
+                    🚀 Start Monkey Test
+                </button>
+                <button id="stop-btn" disabled
+                        class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-lg font-semibold transition-colors disabled:opacity-50">
+                    ⏹️ Stop Test
+                </button>
+                <button id="clear-btn" 
+                        class="bg-slate-600 hover:bg-slate-700 px-6 py-3 rounded-lg font-semibold transition-colors">
+                    🗑️ Clear Logs
+                </button>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div id="status-panel" class="bg-slate-800 rounded-xl p-6 mb-6 hidden">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold">Test Status</h2>
+                <span id="status-badge" class="px-3 py-1 rounded-full text-sm font-medium bg-blue-600">
+                    Running
+                </span>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-slate-700 rounded-lg p-4 text-center">
+                    <div id="stat-actions" class="text-2xl font-bold text-blue-400">0</div>
+                    <div class="text-sm text-slate-400">Actions</div>
+                </div>
+                <div class="bg-slate-700 rounded-lg p-4 text-center">
+                    <div id="stat-errors" class="text-2xl font-bold text-red-400">0</div>
+                    <div class="text-sm text-slate-400">Errors</div>
+                </div>
+                <div class="bg-slate-700 rounded-lg p-4 text-center">
+                    <div id="stat-elapsed" class="text-2xl font-bold text-green-400">0s</div>
+                    <div class="text-sm text-slate-400">Elapsed</div>
+                </div>
+                <div class="bg-slate-700 rounded-lg p-4 text-center">
+                    <div id="stat-fps" class="text-2xl font-bold text-yellow-400">--</div>
+                    <div class="text-sm text-slate-400">FPS</div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <div class="flex justify-between text-sm text-slate-400 mb-1">
+                    <span>Progress</span>
+                    <span id="progress-text">0%</span>
+                </div>
+                <div class="bg-slate-700 rounded-full h-2">
+                    <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Frame -->
+        <div class="bg-slate-800 rounded-xl p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Test Target</h2>
+            <div class="bg-white rounded-lg overflow-hidden" style="height: 500px;">
+                <iframe id="test-frame" class="w-full h-full border-0" src="/generator.html"></iframe>
+            </div>
+        </div>
+
+        <!-- Logs -->
+        <div class="bg-slate-800 rounded-xl p-6">
+            <h2 class="text-xl font-semibold mb-4">Event Log</h2>
+            <div id="log-container" class="bg-slate-900 rounded-lg p-4 h-64 overflow-y-auto font-mono text-sm">
+                <div class="text-slate-500">Waiting for test to start...</div>
+            </div>
+        </div>
+
+        <!-- Report -->
+        <div id="report-panel" class="bg-slate-800 rounded-xl p-6 mt-6 hidden">
+            <h2 class="text-xl font-semibold mb-4">Test Report</h2>
+            <pre id="report-content" class="bg-slate-900 rounded-lg p-4 overflow-x-auto text-sm"></pre>
+            <button id="download-report" class="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg">
+                📥 Download Report
+            </button>
+        </div>
+    </div>
+
+    <script type="module">
+        import gremlinsConfig from './gremlins-config.js';
+        
+        const elements = {
+            targetPage: document.getElementById('target-page'),
+            duration: document.getElementById('duration'),
+            seed: document.getElementById('seed'),
+            delay: document.getElementById('delay'),
+            startBtn: document.getElementById('start-btn'),
+            stopBtn: document.getElementById('stop-btn'),
+            clearBtn: document.getElementById('clear-btn'),
+            statusPanel: document.getElementById('status-panel'),
+            statusBadge: document.getElementById('status-badge'),
+            statActions: document.getElementById('stat-actions'),
+            statErrors: document.getElementById('stat-errors'),
+            statElapsed: document.getElementById('stat-elapsed'),
+            statFps: document.getElementById('stat-fps'),
+            progressBar: document.getElementById('progress-bar'),
+            progressText: document.getElementById('progress-text'),
+            testFrame: document.getElementById('test-frame'),
+            logContainer: document.getElementById('log-container'),
+            reportPanel: document.getElementById('report-panel'),
+            reportContent: document.getElementById('report-content'),
+            downloadReport: document.getElementById('download-report')
+        };
+        
+        let isRunning = false;
+        let horde = null;
+        let startTime = null;
+        let actionCount = 0;
+        let errorCount = 0;
+        let updateInterval = null;
+        let report = null;
+        
+        function log(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            elements.logContainer.appendChild(entry);
+            elements.logContainer.scrollTop = elements.logContainer.scrollHeight;
+        }
+        
+        function updateStats() {
+            if (!startTime) return;
+            
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const duration = parseInt(elements.duration.value);
+            const progress = Math.min((elapsed / duration) * 100, 100);
+            
+            elements.statActions.textContent = actionCount;
+            elements.statErrors.textContent = errorCount;
+            elements.statElapsed.textContent = `${elapsed}s`;
+            elements.progressBar.style.width = `${progress}%`;
+            elements.progressText.textContent = `${Math.round(progress)}%`;
+        }
+        
+        async function startTest() {
+            const targetPage = elements.targetPage.value;
+            const duration = parseInt(elements.duration.value) * 1000;
+            const seed = elements.seed.value ? parseInt(elements.seed.value) : Date.now();
+            const delay = parseInt(elements.delay.value);
+            
+            // Update iframe
+            elements.testFrame.src = targetPage;
+            await new Promise(resolve => elements.testFrame.onload = resolve);
+            
+            const frameWindow = elements.testFrame.contentWindow;
+            const frameDocument = elements.testFrame.contentDocument;
+            
+            // Wait for gremlins to be available in frame
+            if (!frameWindow.gremlins) {
+                const script = frameDocument.createElement('script');
+                script.src = 'https://unpkg.com/gremlins.js@2.2.0/dist/gremlins.min.js';
+                frameDocument.head.appendChild(script);
+                await new Promise(resolve => script.onload = resolve);
+            }
+            
+            isRunning = true;
+            startTime = Date.now();
+            actionCount = 0;
+            errorCount = 0;
+            
+            elements.startBtn.disabled = true;
+            elements.stopBtn.disabled = false;
+            elements.statusPanel.classList.remove('hidden');
+            elements.statusBadge.textContent = 'Running';
+            elements.statusBadge.className = 'px-3 py-1 rounded-full text-sm font-medium bg-blue-600';
+            
+            log(`Starting monkey test on ${targetPage}`, 'info');
+            log(`Duration: ${duration/1000}s, Seed: ${seed}, Delay: ${delay}ms`, 'info');
+            
+            // Setup error listener
+            frameWindow.addEventListener('error', (e) => {
+                errorCount++;
+                log(`Error: ${e.message}`, 'error');
+            });
+            
+            // Build species array
+            const species = [];
+            if (document.getElementById('species-clicker').checked) {
+                species.push(frameWindow.gremlins.species.clicker());
+            }
+            if (document.getElementById('species-formfiller').checked) {
+                species.push(frameWindow.gremlins.species.formFiller());
+            }
+            if (document.getElementById('species-scroller').checked) {
+                species.push(frameWindow.gremlins.species.scroller());
+            }
+            if (document.getElementById('species-typer').checked) {
+                species.push(frameWindow.gremlins.species.typer());
+            }
+            
+            // Create horde
+            horde = frameWindow.gremlins.createHorde({
+                species,
+                mogwais: [
+                    frameWindow.gremlins.mogwais.alert(),
+                    frameWindow.gremlins.mogwais.fps({
+                        delay: 500,
+                        levelSelector: (fps) => {
+                            elements.statFps.textContent = fps;
+                            if (fps < 10) return 'error';
+                            if (fps < 30) return 'warn';
+                            return 'log';
+                        }
+                    }),
+                    {
+                        cleanUp: () => {
+                            actionCount++;
+                        }
+                    }
+                ],
+                strategies: [
+                    frameWindow.gremlins.strategies.distribution({ delay })
+                ],
+                randomizer: new frameWindow.gremlins.Chance(seed)
+            });
+            
+            // Start update interval
+            updateInterval = setInterval(updateStats, 100);
+            
+            // Run horde
+            const timeout = setTimeout(() => {
+                if (horde) horde.stop();
+            }, duration);
+            
+            try {
+                await horde.unleash();
+            } catch (e) {
+                log(`Horde error: ${e.message}`, 'error');
+            }
+            
+            clearTimeout(timeout);
+            stopTest();
+        }
+        
+        function stopTest() {
+            if (horde) {
+                horde.stop();
+                horde = null;
+            }
+            
+            isRunning = false;
+            clearInterval(updateInterval);
+            
+            elements.startBtn.disabled = false;
+            elements.stopBtn.disabled = true;
+            elements.statusBadge.textContent = errorCount > 0 ? 'Failed' : 'Passed';
+            elements.statusBadge.className = `px-3 py-1 rounded-full text-sm font-medium ${
+                errorCount > 0 ? 'bg-red-600' : 'bg-green-600'
+            }`;
+            
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            log(`Test completed: ${actionCount} actions, ${errorCount} errors in ${elapsed}s`, 
+                errorCount > 0 ? 'error' : 'success');
+            
+            // Generate report
+            report = {
+                summary: {
+                    page: elements.targetPage.value,
+                    duration: elapsed,
+                    seed: elements.seed.value || 'random',
+                    totalActions: actionCount,
+                    totalErrors: errorCount,
+                    passed: errorCount === 0
+                },
+                timestamp: new Date().toISOString()
+            };
+            
+            elements.reportPanel.classList.remove('hidden');
+            elements.reportContent.textContent = JSON.stringify(report, null, 2);
+        }
+        
+        // Event listeners
+        elements.startBtn.addEventListener('click', startTest);
+        elements.stopBtn.addEventListener('click', stopTest);
+        elements.clearBtn.addEventListener('click', () => {
+            elements.logContainer.innerHTML = '<div class="text-slate-500">Logs cleared</div>';
+        });
+        
+        elements.targetPage.addEventListener('change', () => {
+            elements.testFrame.src = elements.targetPage.value;
+        });
+        
+        elements.downloadReport.addEventListener('click', () => {
+            if (!report) return;
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `monkey-test-${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+        
+        log('Monkey testing UI ready', 'success');
+    </script>
+</body>
+</html>

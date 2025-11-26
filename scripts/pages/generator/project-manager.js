@@ -67,6 +67,18 @@ export class ProjectManager {
             this.closeModal(projectsModal);
          }
       });
+
+      // ESC key to close modals
+      document.addEventListener('keydown', (event) => {
+         if (event.key === 'Escape') {
+            if (saveModal && !saveModal.classList.contains('hidden')) {
+               this.closeModal(saveModal);
+            }
+            if (projectsModal && !projectsModal.classList.contains('hidden')) {
+               this.closeModal(projectsModal);
+            }
+         }
+      });
    }
 
    openModal(modal) {

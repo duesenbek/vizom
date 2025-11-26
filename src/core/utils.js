@@ -57,46 +57,47 @@ export function formatCurrency(num, currency = 'USD') {
 }
 
 /**
- * Parse data series from text
- */
-export function parseSeries(text) {
-  const normalized = typeof text === 'string' ? text.trim() : '';
-  const parts = normalized.split(/[,;]+/).map(part => part.trim()).filter(Boolean);
-  const result = [];
-  const multipliers = { k: 1000, m: 1_000_000, b: 1_000_000_000 };
+Parse series data from string input with suffix support
+@param {string} input - Comma or space separated values (supports K, M, B suffixes)
+@returns {number[]} Array of numbers
+*/
+export function parseSeries(input) {
+  if (!input || typeof input !== 'string') {
+    return [];
+  }
 
-  parts.forEach((part, index) => {
-    const labeledMatch = part.match(/^(.+?)\s*[:\-]?\s*\$?([\d.,]+)\s*([KkMmBb])?\s*$/);
-    const numericMatch = part.match(/^\$?([\d.,]+)\s*([KkMmBb])?\s*$/);
+  // Split by comma or whitespace, filter empty strings
+  const tokens = input
+    .split(/[\s,]+/)
+    .map(s => s.trim())
+    .filter(s => s.length > 0);
 
-    if (!labeledMatch && !numericMatch) {
-      return;
+  return tokens.map(token => {
+    // Check for suffix
+    const match = token.match(/^([\d.]+)([KMB])?$/i);
+
+    if (!match) {
+      const num = parseFloat(token);
+      return Number.isNaN(num) ? 0 : num;
     }
 
-    const [, rawLabel = '', labeledValue, labeledSuffix] = labeledMatch || [];
-    const [, numericValue, numericSuffix] = numericMatch || [];
+    const [, numStr, suffix] = match;
+    let value = parseFloat(numStr);
 
-    const valueString = labeledValue ?? numericValue;
-    const suffix = (labeledSuffix ?? numericSuffix ?? '').toLowerCase();
-    let value = parseFloat((valueString || '').replace(/,/g, ''));
+    if (Number.isNaN(value)) return 0;
 
-    if (Number.isNaN(value)) {
-      return;
+    // Apply multiplier based on suffix
+    if (suffix) {
+      const multipliers = {
+        K: 1000,
+        M: 1000000,
+        B: 1000000000,
+      };
+      value *= multipliers[suffix.toUpperCase()] || 1;
     }
 
-    if (suffix && multipliers[suffix]) {
-      value *= multipliers[suffix];
-    }
-
-    const label = (rawLabel || '').trim() || `Item ${index + 1}`;
-    result.push({ label, value });
+    return value;
   });
-
-  return result.length ? result : [
-    { label: 'Jan', value: 12000 },
-    { label: 'Feb', value: 15000 },
-    { label: 'Mar', value: 18000 },
-  ];
 }
 
 /**

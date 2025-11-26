@@ -1,7 +1,7 @@
 {
-  "name": "VIZOM - AI Visual Builder",
-  "short_name": "VIZOM",
-  "description": "Build beautiful charts, tables, and dashboards in seconds using AI",
+  "name": "Vizom - AI Chart Generator",
+  "short_name": "Vizom",
+  "description": "Transform your data into stunning charts with AI. Create professional visualizations from natural language in seconds.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0f172a",

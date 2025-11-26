@@ -1,0 +1,590 @@
+/* =================================== */
+/* VIZOM UI POLISH - Maximum Visual Enhancement */
+/* =================================== */
+
+/* ----------------------------------- */
+/* CSS Custom Properties for Animations */
+/* ----------------------------------- */
+:root {
+  --polish-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --polish-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --polish-duration-fast: 150ms;
+  --polish-duration-normal: 200ms;
+  --polish-duration-slow: 300ms;
+  --polish-ring-color: rgba(59, 130, 246, 0.5);
+  --polish-ring-offset: 2px;
+  --polish-shadow-hover: 0 20px 40px -15px rgba(15, 23, 42, 0.2);
+  --polish-shadow-active: 0 10px 20px -10px rgba(15, 23, 42, 0.15);
+}
+
+/* ----------------------------------- */
+/* Enhanced Chart Option Cards */
+/* ----------------------------------- */
+.chart-option {
+  position: relative;
+  border-radius: 0.75rem;
+  border: 2px solid var(--color-border, #e2e8f0);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  transition: 
+    transform var(--polish-duration-normal) var(--polish-ease),
+    box-shadow var(--polish-duration-normal) var(--polish-ease),
+    border-color var(--polish-duration-fast) ease,
+    background var(--polish-duration-fast) ease;
+  will-change: transform, box-shadow;
+  box-shadow: 0 4px 12px -4px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+.chart-option::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity var(--polish-duration-normal) ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.chart-option:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--polish-shadow-hover);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.chart-option:hover::before {
+  opacity: 1;
+}
+
+.chart-option:active {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: var(--polish-shadow-active);
+  transition-duration: 100ms;
+}
+
+.chart-option:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--polish-ring-color), var(--polish-shadow-hover);
+  border-color: #3b82f6;
+}
+
+.chart-option.selected,
+.chart-option[aria-pressed="true"] {
+  border-color: #3b82f6;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  box-shadow: 
+    0 0 0 3px rgba(59, 130, 246, 0.15),
+    0 12px 24px -8px rgba(59, 130, 246, 0.25);
+  transform: translateY(-2px) scale(1.015);
+}
+
+.chart-option.selected::before {
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+}
+
+/* Chart preview container animation */
+.chart-option .chart-preview-container {
+  transition: transform var(--polish-duration-normal) var(--polish-ease);
+}
+
+.chart-option:hover .chart-preview-container {
+  transform: scale(1.02);
+}
+
+/* ----------------------------------- */
+/* Enhanced Buttons */
+/* ----------------------------------- */
+.btn,
+button[class*="inline-flex"],
+[data-component="PrimaryButton"] {
+  position: relative;
+  overflow: hidden;
+  transition: 
+    transform var(--polish-duration-normal) var(--polish-ease),
+    box-shadow var(--polish-duration-normal) var(--polish-ease),
+    background-color var(--polish-duration-fast) ease,
+    border-color var(--polish-duration-fast) ease;
+}
+
+/* Ripple effect on click */
+.btn::after,
+button[class*="inline-flex"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.btn:active::after,
+button[class*="inline-flex"]:active::after {
+  width: 300px;
+  height: 300px;
+  opacity: 0;
+  transition: width 0s, height 0s, opacity 0.4s ease;
+}
+
+/* Primary button enhancements */
+.btn-primary,
+button[class*="bg-blue-600"],
+[data-component="PrimaryButton"] {
+  box-shadow: 0 4px 14px -3px rgba(37, 99, 235, 0.4);
+}
+
+.btn-primary:hover,
+button[class*="bg-blue-600"]:hover,
+[data-component="PrimaryButton"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.5);
+}
+
+.btn-primary:active,
+button[class*="bg-blue-600"]:active,
+[data-component="PrimaryButton"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px -2px rgba(37, 99, 235, 0.4);
+}
+
+/* Secondary/outline button enhancements */
+.btn-secondary,
+button[class*="ring-slate-200"],
+button[class*="border-slate-200"] {
+  box-shadow: 0 2px 8px -2px rgba(15, 23, 42, 0.08);
+}
+
+.btn-secondary:hover,
+button[class*="ring-slate-200"]:hover,
+button[class*="border-slate-200"]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px -4px rgba(15, 23, 42, 0.12);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* Icon button enhancements */
+.btn-icon,
+button[class*="h-10"][class*="w-10"] {
+  transition: 
+    transform var(--polish-duration-fast) var(--polish-ease),
+    box-shadow var(--polish-duration-fast) ease,
+    background-color var(--polish-duration-fast) ease;
+}
+
+.btn-icon:hover,
+button[class*="h-10"][class*="w-10"]:hover {
+  transform: translateY(-2px) rotate(3deg);
+  box-shadow: 0 6px 12px -4px rgba(15, 23, 42, 0.15);
+}
+
+/* Focus ring for all interactive elements */
+.btn:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--polish-ring-color);
+}
+
+/* ----------------------------------- */
+/* Enhanced Modal Animations */
+/* ----------------------------------- */
+.modal,
+.modal-overlay,
+[role="dialog"] {
+  transition: 
+    opacity var(--polish-duration-slow) var(--polish-ease),
+    visibility var(--polish-duration-slow) ease;
+}
+
+.modal-content,
+[role="dialog"] > div {
+  transition: 
+    transform var(--polish-duration-slow) var(--polish-ease-bounce),
+    opacity var(--polish-duration-slow) var(--polish-ease);
+}
+
+/* Modal closed state */
+.modal:not(.modal-active),
+[role="dialog"].hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.modal:not(.modal-active) .modal-content,
+[role="dialog"].hidden > div {
+  transform: scale(0.95) translateY(-10px);
+  opacity: 0;
+}
+
+/* Modal open state */
+.modal.modal-active,
+[role="dialog"]:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal.modal-active .modal-content,
+[role="dialog"]:not(.hidden) > div {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* Modal backdrop blur enhancement */
+.modal-backdrop,
+[role="dialog"]::before {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Modal close button */
+.modal-close,
+[aria-label*="Close"] {
+  transition: 
+    transform var(--polish-duration-fast) var(--polish-ease),
+    background-color var(--polish-duration-fast) ease,
+    color var(--polish-duration-fast) ease;
+}
+
+.modal-close:hover,
+[aria-label*="Close"]:hover {
+  transform: rotate(90deg);
+  background-color: #f1f5f9;
+}
+
+/* ----------------------------------- */
+/* Unified Toast/Notification System */
+/* ----------------------------------- */
+.toast,
+.notification,
+[role="alert"],
+[aria-live="polite"],
+[aria-live="assertive"] {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  max-width: 400px;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 
+    0 20px 40px -10px rgba(15, 23, 42, 0.15),
+    0 0 0 1px rgba(15, 23, 42, 0.05);
+  transform: translateX(120%);
+  opacity: 0;
+  transition: 
+    transform var(--polish-duration-slow) var(--polish-ease-bounce),
+    opacity var(--polish-duration-slow) var(--polish-ease);
+}
+
+.toast.show,
+.notification.show,
+[role="alert"].show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Toast variants */
+.toast.success,
+.toast--success {
+  border-left: 4px solid #10b981;
+  background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+}
+
+.toast.error,
+.toast--error {
+  border-left: 4px solid #ef4444;
+  background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+}
+
+.toast.warning,
+.toast--warning {
+  border-left: 4px solid #f59e0b;
+  background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);
+}
+
+.toast.info,
+.toast--info {
+  border-left: 4px solid #3b82f6;
+  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+}
+
+/* Toast icon animation */
+.toast i,
+.toast svg {
+  animation: toastIconPop 0.4s var(--polish-ease-bounce);
+}
+
+@keyframes toastIconPop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ----------------------------------- */
+/* PRO Badge & Locked State Styles */
+/* ----------------------------------- */
+.pro-badge,
+[data-pro-only]::after {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #1e293b;
+  border-radius: 9999px;
+  box-shadow: 0 2px 4px -1px rgba(245, 158, 11, 0.4);
+  animation: proBadgeShine 3s ease-in-out infinite;
+}
+
+@keyframes proBadgeShine {
+  0%, 100% { box-shadow: 0 2px 4px -1px rgba(245, 158, 11, 0.4); }
+  50% { box-shadow: 0 2px 8px -1px rgba(245, 158, 11, 0.6), 0 0 20px -5px rgba(245, 158, 11, 0.3); }
+}
+
+/* Locked/Pro-only element styling */
+.pro-locked,
+[data-pro-only="true"] {
+  position: relative;
+  opacity: 0.6;
+  filter: grayscale(30%);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pro-locked::before,
+[data-pro-only="true"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(148, 163, 184, 0.1) 100%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* PRO badge positioning on cards */
+.chart-option[data-pro-only="true"] .pro-badge,
+.chart-option .pro-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+}
+
+/* Unlock hover effect */
+.pro-locked:hover,
+[data-pro-only="true"]:hover {
+  opacity: 0.75;
+  filter: grayscale(20%);
+}
+
+/* ----------------------------------- */
+/* Quick Prompt Cards Enhancement */
+/* ----------------------------------- */
+.quick-prompt-card {
+  transition: 
+    transform var(--polish-duration-normal) var(--polish-ease),
+    box-shadow var(--polish-duration-normal) var(--polish-ease),
+    border-color var(--polish-duration-fast) ease;
+}
+
+.quick-prompt-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 24px -8px rgba(59, 130, 246, 0.2);
+}
+
+.quick-prompt-card:active {
+  transform: translateY(-1px) scale(1.01);
+}
+
+/* ----------------------------------- */
+/* Export Menu Enhancement */
+/* ----------------------------------- */
+.export-menu {
+  transform-origin: top left;
+  transition: 
+    opacity var(--polish-duration-fast) var(--polish-ease),
+    transform var(--polish-duration-fast) var(--polish-ease);
+}
+
+.export-menu:not(.is-open) {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.95);
+}
+
+.export-menu.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.export-menu-option {
+  transition: 
+    background-color var(--polish-duration-fast) ease,
+    transform var(--polish-duration-fast) var(--polish-ease);
+}
+
+.export-menu-option:hover {
+  background-color: #f8fafc;
+  transform: translateX(4px);
+}
+
+/* ----------------------------------- */
+/* Loading Overlay Enhancement */
+/* ----------------------------------- */
+.loading-overlay {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: opacity var(--polish-duration-slow) ease;
+}
+
+.loading-spinner {
+  animation: spinnerRotate 1s linear infinite, spinnerPulse 2s ease-in-out infinite;
+}
+
+@keyframes spinnerRotate {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spinnerPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ----------------------------------- */
+/* Form Input Enhancements */
+/* ----------------------------------- */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  transition: 
+    border-color var(--polish-duration-fast) ease,
+    box-shadow var(--polish-duration-fast) ease,
+    transform var(--polish-duration-fast) var(--polish-ease);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), 0 4px 12px -4px rgba(59, 130, 246, 0.1);
+  transform: translateY(-1px);
+}
+
+/* ----------------------------------- */
+/* Feature Cards & Articles */
+/* ----------------------------------- */
+article,
+.feature-card {
+  transition: 
+    transform var(--polish-duration-normal) var(--polish-ease),
+    box-shadow var(--polish-duration-normal) var(--polish-ease),
+    border-color var(--polish-duration-fast) ease;
+}
+
+article:hover,
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* ----------------------------------- */
+/* Navigation Link Enhancements */
+/* ----------------------------------- */
+nav a,
+.nav-link {
+  position: relative;
+  transition: color var(--polish-duration-fast) ease;
+}
+
+nav a::after,
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  border-radius: 1px;
+  transition: width var(--polish-duration-normal) var(--polish-ease);
+}
+
+nav a:hover::after,
+.nav-link:hover::after,
+nav a[aria-current="page"]::after {
+  width: 100%;
+}
+
+/* ----------------------------------- */
+/* Scroll Animations */
+/* ----------------------------------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s var(--polish-ease) forwards;
+}
+
+/* ----------------------------------- */
+/* Reduced Motion Support */
+/* ----------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .chart-option:hover,
+  .btn:hover,
+  article:hover,
+  .quick-prompt-card:hover {
+    transform: none;
+  }
+}
+
+/* ----------------------------------- */
+/* High Contrast Mode Support */
+/* ----------------------------------- */
+@media (prefers-contrast: high) {
+  .chart-option,
+  .btn,
+  .modal-content {
+    border-width: 2px;
+  }
+  
+  .pro-badge {
+    background: #000;
+    color: #fff;
+  }
+  
+  :focus-visible {
+    outline: 3px solid #000 !important;
+    outline-offset: 2px;
+  }
+}

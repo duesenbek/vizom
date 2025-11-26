@@ -188,9 +188,58 @@ BROKEN: [selector] Element Name - Issue description
 
 ---
 
+## Monkey Testing (Gremlins.js)
+
+Automated chaos testing for UI bug hunting and regression checks.
+
+### Quick Start
+
+```bash
+# Run standard monkey test (30 seconds)
+npm run test:monkey
+
+# Quick test (10 seconds)
+npm run test:monkey:quick
+
+# Long test (2 minutes)
+npm run test:monkey:long
+
+# Reproducible test with fixed seed
+npm run test:monkey:seed
+```
+
+### Browser UI
+
+Open `http://localhost:5173/tests/monkey/monkey-test-ui.html` for interactive testing.
+
+### Test Types
+
+| Test | Description |
+|------|-------------|
+| Standard Monkey | Random clicking, typing, scrolling across pages |
+| Modal Stress | Rapid open/close of modals |
+| Form Fuzzing | XSS, SQL injection, long strings, unicode |
+| Rapid Click | Stress test for click handlers |
+| Regression | Fixed seed for reproducible tests |
+
+### Files
+
+```
+tests/monkey/
+├── gremlins-config.js    # Configuration
+├── gremlins-horde.js     # Main testing engine
+├── monkey.spec.js        # Playwright test specs
+├── monkey-test-ui.html   # Browser testing UI
+├── screenshots/          # Test screenshots
+└── reports/              # Test reports
+```
+
+---
+
 ## Recommendations
 
 1. ~~**Add E2E Tests:** Use Playwright to automate UI testing~~ ✅ Done
-2. **Centralize Modals:** Consider a shared modal component to avoid duplication
-3. **Event Delegation:** Use event delegation for dynamic elements
-4. **CI Integration:** Add Playwright tests to GitHub Actions workflow
+2. ~~**Add Monkey Testing:** Automated chaos testing for edge cases~~ ✅ Done
+3. **Centralize Modals:** Consider a shared modal component to avoid duplication
+4. **Event Delegation:** Use event delegation for dynamic elements
+5. **CI Integration:** Add Playwright tests to GitHub Actions workflow

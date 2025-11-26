@@ -3,15 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIZOM - AI Chart Generator</title>
+    <title>Vizom - AI Chart Generator | Create Charts with Natural Language</title>
+    <meta name="description" content="Generate professional charts instantly with AI. Describe your data visualization in plain English and Vizom creates bar, line, pie, radar, and advanced charts.">
+    <meta name="keywords" content="AI chart generator, data visualization, chart maker, natural language charts, Chart.js, D3.js">
+    <meta name="author" content="Vizom">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://vizom.app/generator">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vizom.app/generator">
+    <meta property="og:title" content="Vizom - AI Chart Generator">
+    <meta property="og:description" content="Generate professional charts instantly with AI. Describe your visualization in plain English.">
+    <meta property="og:image" content="https://vizom.app/images/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Vizom">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://vizom.app/generator">
+    <meta name="twitter:title" content="Vizom - AI Chart Generator">
+    <meta name="twitter:description" content="Generate professional charts instantly with AI. Describe your visualization in plain English.">
+    <meta name="twitter:image" content="https://vizom.app/images/og-image.png">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/images/vizom-icon.png">
-    <link rel="apple-touch-icon" href="/images/vizom-icon.png">
-
-    <!-- Inter font for unified typography -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/vizom-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/vizom-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/vizom-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2563EB">
+    
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- DNS Prefetch for third-party resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+
+    <!-- Inter font for unified typography - with display swap for better LCP -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS with Vizom brand config -->
@@ -48,6 +81,11 @@
     
     <!-- Modern Styles -->
     <style>
+        #export-controls {
+            position: relative;
+            z-index: 30;
+        }
+
         #export-controls .export-menu {
             opacity: 0;
             transform: translateY(6px) scale(0.98);
@@ -59,6 +97,13 @@
             opacity: 1;
             transform: translateY(0) scale(1);
             pointer-events: auto;
+        }
+
+        /* Ensure menu options are clickable */
+        #export-controls .export-menu .export-menu-option {
+            pointer-events: auto;
+            position: relative;
+            z-index: 31;
         }
 
         #prompt-input.prompt-error-shake {
@@ -100,6 +145,12 @@
             outline-offset: 3px;
         }
     </style>
+    
+    <!-- UI Polish Styles -->
+    <link rel="stylesheet" href="styles/components/ui-polish.css">
+    
+    <!-- Unified Toast System -->
+    <script type="module" src="src/components/ToastSystem.js"></script>
     
     <!-- Shared vendor bundle: Chart.js, D3, Supabase auth/stripe -->
     <script type="module" src="src/app/vendor-loader.js"></script>
@@ -227,24 +278,24 @@
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="force" aria-pressed="false" aria-label="Force graph">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-share-nodes"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="force" data-example-id="force-social-network">
+                            <!-- SVG will be rendered here -->
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Force Graph</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="treemap" aria-pressed="false" aria-label="Treemap">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-table-cells-large"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="treemap" data-example-id="treemap-disk-usage">
+                            <!-- SVG will be rendered here -->
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">TreeMap</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="sankey" aria-pressed="false" aria-label="Sankey diagram">
-                        <div class="h-24 flex items-center justify-center text-4xl bg-slate-50">
-                            <i class="fa-solid fa-water"></i>
+                        <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="sankey" data-example-id="sankey-user-flow">
+                            <!-- SVG will be rendered here -->
                         </div>
                         <div class="p-4">
                             <h4 class="font-semibold text-sm line-clamp-1">Sankey</h4>
@@ -331,6 +382,50 @@
                                 </div>
                                 <div class="p-2 text-center">
                                     <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Budget</span>
+                                </div>
+                            </button>
+                            <button class="quick-prompt-card group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-inset ring-slate-200 hover:ring-blue-400 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" 
+                                    data-prompt='{"labels":["JavaScript","Python","SQL","DevOps","Design","Communication"],"data":[90,75,80,65,50,85]}' 
+                                    data-type="radar"
+                                    data-example-id="radar-skill-assessment">
+                                <div class="chart-preview-container h-16 bg-slate-50 p-1.5" data-chart-type="radar" data-example-id="radar-skill-assessment">
+                                    <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                                </div>
+                                <div class="p-2 text-center">
+                                    <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Skills</span>
+                                </div>
+                            </button>
+                            <button class="quick-prompt-card group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-inset ring-slate-200 hover:ring-blue-400 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" 
+                                    data-prompt='{"labels":["Jan","Feb","Mar","Apr","May","Jun"],"data":[45,98,156,225,302,395]}' 
+                                    data-type="area"
+                                    data-example-id="area-revenue-growth">
+                                <div class="chart-preview-container h-16 bg-slate-50 p-1.5" data-chart-type="area" data-example-id="area-revenue-growth">
+                                    <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                                </div>
+                                <div class="p-2 text-center">
+                                    <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Revenue</span>
+                                </div>
+                            </button>
+                            <button class="quick-prompt-card group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-inset ring-slate-200 hover:ring-blue-400 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" 
+                                    data-prompt='{"labels":["25","30","35","40","45","50"],"data":[32,45,58,72,85,92]}' 
+                                    data-type="scatter"
+                                    data-example-id="scatter-age-income">
+                                <div class="chart-preview-container h-16 bg-slate-50 p-1.5" data-chart-type="scatter" data-example-id="scatter-age-income">
+                                    <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                                </div>
+                                <div class="p-2 text-center">
+                                    <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Age vs Income</span>
+                                </div>
+                            </button>
+                            <button class="quick-prompt-card group flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-inset ring-slate-200 hover:ring-blue-400 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" 
+                                    data-prompt='{"labels":["Work","Exercise","Leisure","Sleep","Commute","Meals"],"data":[8,1.5,3,7,1.5,2]}' 
+                                    data-type="polar"
+                                    data-example-id="polar-activity-breakdown">
+                                <div class="chart-preview-container h-16 bg-slate-50 p-1.5" data-chart-type="polar" data-example-id="polar-activity-breakdown">
+                                    <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                                </div>
+                                <div class="p-2 text-center">
+                                    <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Daily Activity</span>
                                 </div>
                             </button>
                         </div>

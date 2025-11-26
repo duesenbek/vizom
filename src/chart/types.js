@@ -412,3 +412,41 @@ export const DEFAULT_ANIMATION = {
     easing: 'easeInOutQuart',
     delay: 0
 };
+
+// Lightweight chart type definitions used by UI and workflow helpers
+export const ChartType = {
+    BAR: 'bar',
+    LINE: 'line',
+    PIE: 'pie',
+    DOUGHNUT: 'doughnut',
+    AREA: 'area',
+    SCATTER: 'scatter',
+    BUBBLE: 'bubble',
+    RADAR: 'radar',
+    POLAR: 'polarArea',
+    MIXED: 'mixed'
+};
+
+export const ChartStatus = {
+    IDLE: 'idle',
+    LOADING: 'loading',
+    RENDERING: 'rendering',
+    COMPLETE: 'complete',
+    ERROR: 'error'
+};
+
+export class ChartConfig {
+    constructor(type, data, options = {}) {
+        this.type = type;
+        this.data = data;
+        this.options = options;
+    }
+}
+
+export class ChartError extends Error {
+    constructor(message, code) {
+        super(message);
+        this.name = 'ChartError';
+        this.code = code;
+    }
+}

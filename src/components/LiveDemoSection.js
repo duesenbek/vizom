@@ -105,21 +105,33 @@ export class LiveDemoSection {
                     </div>
                   </div>
 
-                  <!-- Example Prompts -->
+                  <!-- Example Prompts with Real Chart Previews -->
                   <div class="mb-6">
                     <label class="block text-sm font-medium brand-text-secondary mb-3">Quick Examples</label>
-                    <div class="grid grid-cols-1 gap-2">
-                      <button class="example-prompt-btn" data-prompt="Create a bar chart showing monthly sales data for Q1 2024">
-                        <i class="fa-solid fa-chart-column mr-2"></i>
-                        Monthly sales comparison
+                    <div class="grid grid-cols-3 gap-3">
+                      <button class="example-prompt-btn group flex flex-col items-center p-3 rounded-lg border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all" 
+                              data-prompt='{"labels":["Q1 2024","Q2 2024","Q3 2024","Q4 2024"],"data":[180,220,260,310]}'
+                              data-type="bar">
+                        <div class="chart-preview-container w-full h-12 mb-2" data-chart-type="bar" data-example-id="bar-quarterly-sales">
+                          <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                        </div>
+                        <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Sales</span>
                       </button>
-                      <button class="example-prompt-btn" data-prompt="Generate a line chart showing user growth over 6 months">
-                        <i class="fa-solid fa-chart-line mr-2"></i>
-                        User growth trend
+                      <button class="example-prompt-btn group flex flex-col items-center p-3 rounded-lg border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all" 
+                              data-prompt='{"labels":["2019","2020","2021","2022","2023","2024"],"data":[50000,125000,280000,520000,890000,1450000]}'
+                              data-type="line">
+                        <div class="chart-preview-container w-full h-12 mb-2" data-chart-type="line" data-example-id="line-user-growth">
+                          <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                        </div>
+                        <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Growth</span>
                       </button>
-                      <button class="example-prompt-btn" data-prompt="Build a pie chart displaying market share percentages">
-                        <i class="fa-solid fa-chart-pie mr-2"></i>
-                        Market share distribution
+                      <button class="example-prompt-btn group flex flex-col items-center p-3 rounded-lg border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all" 
+                              data-prompt='{"labels":["Apple","Google","Microsoft","Amazon"],"data":[35,28,22,15]}'
+                              data-type="pie">
+                        <div class="chart-preview-container w-full h-12 mb-2" data-chart-type="pie" data-example-id="pie-market-share">
+                          <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                        </div>
+                        <span class="text-xs font-medium text-slate-700 group-hover:text-blue-600">Market Share</span>
                       </button>
                     </div>
                   </div>

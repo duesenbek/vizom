@@ -78,8 +78,13 @@ class HeaderIntegration {
       signInTriggerMobile.addEventListener('click', handleSignInClick);
     }
 
+    // Get Started buttons - only intercept if they don't have href to generator
     const getStartedButtons = document.querySelectorAll('[data-action="get-started"]');
     getStartedButtons.forEach(btn => {
+      // Skip if button is a link to generator page (let it navigate normally)
+      if (btn.tagName === 'A' && btn.href?.includes('generator.html')) {
+        return;
+      }
       btn.addEventListener('click', (event) => {
         event.preventDefault();
         if (window.modalSystem?.openAuthModal) {
@@ -253,11 +258,37 @@ class HeaderIntegration {
     const authModal = document.getElementById('auth-modal');
     if (authModal) {
       authModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
       
       // Focus on the modal
       setTimeout(() => {
         authModal.focus();
       }, 100);
+
+      // Setup close handlers if not already set
+      if (!authModal.dataset.closeHandlersSet) {
+        authModal.dataset.closeHandlersSet = 'true';
+        
+        // Close on backdrop click
+        authModal.addEventListener('click', (e) => {
+          if (e.target === authModal) {
+            this.hideAuthModal();
+          }
+        });
+
+        // Close button
+        const closeBtn = document.getElementById('close-auth-modal');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', () => this.hideAuthModal());
+        }
+
+        // ESC key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && authModal && !authModal.classList.contains('hidden')) {
+            this.hideAuthModal();
+          }
+        });
+      }
     }
   }
 
@@ -266,6 +297,7 @@ class HeaderIntegration {
     const authModal = document.getElementById('auth-modal');
     if (authModal) {
       authModal.classList.add('hidden');
+      document.body.style.overflow = '';
     }
   }
 

@@ -1,7 +1,26 @@
-/**
- * Test Setup File
- * Runs before all tests
- */
+import { afterEach, expect, vi } from 'vitest';
+import { cleanup } from '@testing-library/dom';
+import '@testing-library/jest-dom';
+
+// Cleanup after each test
+afterEach(() => {
+  cleanup();
+});
+
+// Mock window.matchMedia for components using media queries
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: (query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  }),
+});
 
 // Mock localStorage
 global.localStorage = {
@@ -44,6 +63,8 @@ global.fetch = vi.fn();
 global.Chart = class Chart {
   constructor() {}
   destroy() {}
+  update() {}
+  render() {}
   static getChart() {
     return null;
   }

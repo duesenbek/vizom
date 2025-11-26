@@ -249,21 +249,52 @@ class MobileGenerator {
   }
 
   addQuickPrompts(promptSection) {
+    // Quick prompts with real data for instant chart generation
     const quickPrompts = [
-      'Create a bar chart showing sales data',
-      'Generate a pie chart for market share',
-      'Build a line chart for trends over time',
-      'Make a scatter plot for correlation analysis'
+      {
+        label: 'Sales',
+        type: 'bar',
+        exampleId: 'bar-quarterly-sales',
+        data: { labels: ['Q1', 'Q2', 'Q3', 'Q4'], data: [180, 220, 260, 310] }
+      },
+      {
+        label: 'Market Share',
+        type: 'pie',
+        exampleId: 'pie-market-share',
+        data: { labels: ['Apple', 'Google', 'Microsoft', 'Amazon'], data: [35, 28, 22, 15] }
+      },
+      {
+        label: 'Trends',
+        type: 'line',
+        exampleId: 'line-temperature-trend',
+        data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], data: [12, 19, 15, 25, 22, 30] }
+      },
+      {
+        label: 'Budget',
+        type: 'doughnut',
+        exampleId: 'doughnut-budget-allocation',
+        data: { labels: ['R&D', 'Marketing', 'Ops', 'Sales'], data: [30, 25, 20, 25] }
+      }
     ];
 
     const quickPromptsContainer = document.createElement('div');
     quickPromptsContainer.className = 'mobile-quick-prompts';
     quickPromptsContainer.innerHTML = `
-      <div class="quick-prompts-label">Quick prompts:</div>
-      <div class="quick-prompts-list">
+      <div class="quick-prompts-label">Quick Examples:</div>
+      <div class="quick-prompts-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
         ${quickPrompts.map(prompt => `
-          <button class="quick-prompt-btn" data-prompt="${prompt}">
-            ${prompt}
+          <button class="quick-prompt-btn" 
+                  data-prompt='${JSON.stringify(prompt.data)}' 
+                  data-type="${prompt.type}"
+                  data-example-id="${prompt.exampleId}"
+                  style="display: flex; flex-direction: column; align-items: center; padding: 12px; border-radius: 12px; background: white; border: 1px solid #e2e8f0;">
+            <div class="chart-preview-container" 
+                 data-chart-type="${prompt.type}" 
+                 data-example-id="${prompt.exampleId}"
+                 style="width: 100%; height: 48px; margin-bottom: 8px;">
+              <canvas class="chart-preview-canvas" style="width: 100%; height: 100%;"></canvas>
+            </div>
+            <span style="font-size: 12px; font-weight: 500; color: #475569;">${prompt.label}</span>
           </button>
         `).join('')}
       </div>
@@ -271,18 +302,38 @@ class MobileGenerator {
 
     promptSection.appendChild(quickPromptsContainer);
 
-    // Add click handlers
+    // Add click handlers with chart type selection and auto-generate
     quickPromptsContainer.querySelectorAll('.quick-prompt-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const prompt = btn.dataset.prompt;
-        const textarea = document.querySelector('.prompt-textarea');
-        if (textarea) {
+        const chartType = btn.dataset.type;
+        
+        // Select chart type if available
+        const chartOption = document.querySelector(`.chart-option[data-type="${chartType}"]`);
+        if (chartOption) {
+          chartOption.click();
+        }
+        
+        // Fill prompt input
+        const textarea = document.querySelector('.prompt-textarea') || document.getElementById('prompt-input');
+        if (textarea && prompt) {
           textarea.value = prompt;
-          textarea.dispatchEvent(new Event('input'));
+          textarea.dispatchEvent(new Event('input', { bubbles: true }));
           textarea.focus();
         }
+        
+        // Auto-generate after a brief delay
+        setTimeout(() => {
+          const generateBtn = document.getElementById('generate-chart');
+          if (generateBtn) generateBtn.click();
+        }, 150);
       });
     });
+
+    // Initialize chart previews if ChartPreviewRenderer is available
+    if (window.ChartPreviewRenderer) {
+      window.ChartPreviewRenderer.initLazyLoading('.chart-preview-container');
+    }
   }
 
   reorganizeControls() {

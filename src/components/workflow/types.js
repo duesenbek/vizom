@@ -24,3 +24,31 @@ export class WorkflowTransitionError extends WorkflowError {
         this.name = 'WorkflowTransitionError';
     }
 }
+
+// Workflow type definitions
+export const WorkflowStatus = {
+    PENDING: 'pending',
+    IN_PROGRESS: 'in_progress',
+    COMPLETED: 'completed',
+    FAILED: 'failed',
+    CANCELLED: 'cancelled'
+};
+
+export const WorkflowStep = {
+    VALIDATION: 'validation',
+    PROCESSING: 'processing',
+    RENDERING: 'rendering',
+    EXPORT: 'export',
+    CLEANUP: 'cleanup'
+};
+
+export class WorkflowConfig {
+    constructor(options = {}) {
+        this.steps = options.steps || [];
+        this.timeout = options.timeout || 30000;
+        this.retries = options.retries || 3;
+        this.onProgress = options.onProgress || (() => {});
+        this.onComplete = options.onComplete || (() => {});
+        this.onError = options.onError || (() => {});
+    }
+}

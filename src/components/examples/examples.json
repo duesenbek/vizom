@@ -1,0 +1,859 @@
+{
+  "version": "1.0.0",
+  "examples": {
+    "bar": [
+      {
+        "id": "bar-quarterly-sales",
+        "title": "Quarterly Sales",
+        "description": "Compare sales performance across quarters",
+        "labels": ["Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024"],
+        "data": [180, 220, 260, 310],
+        "prompt": "Create a bar chart showing quarterly sales data for 2024"
+      },
+      {
+        "id": "bar-regional-revenue",
+        "title": "Regional Revenue",
+        "description": "Revenue breakdown by region",
+        "labels": ["USA", "China", "EU", "Japan", "India"],
+        "data": [450, 380, 320, 180, 150],
+        "prompt": "Create a bar chart comparing regional revenue"
+      },
+      {
+        "id": "bar-product-comparison",
+        "title": "Product Comparison",
+        "description": "Compare product performance",
+        "labels": ["Product A", "Product B", "Product C", "Product D"],
+        "data": [85, 72, 95, 68],
+        "prompt": "Create a bar chart comparing product sales"
+      },
+      {
+        "id": "bar-monthly-users",
+        "title": "Monthly Active Users",
+        "description": "Track user growth by month",
+        "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        "data": [12500, 14200, 15800, 18200, 21000, 24500],
+        "prompt": "Create a bar chart showing monthly active users"
+      },
+      {
+        "id": "bar-department-budget",
+        "title": "Department Budget",
+        "description": "Budget allocation by department",
+        "labels": ["Engineering", "Marketing", "Sales", "Operations", "HR"],
+        "data": [850, 420, 380, 290, 180],
+        "prompt": "Create a bar chart showing department budgets in thousands"
+      },
+      {
+        "id": "bar-website-traffic",
+        "title": "Traffic Sources",
+        "description": "Website traffic by source",
+        "labels": ["Organic", "Direct", "Social", "Referral", "Email"],
+        "data": [42, 28, 15, 10, 5],
+        "prompt": "Create a bar chart showing website traffic sources as percentages"
+      },
+      {
+        "id": "bar-customer-satisfaction",
+        "title": "Customer Satisfaction",
+        "description": "CSAT scores by category",
+        "labels": ["Support", "Product", "Delivery", "Pricing", "UX"],
+        "data": [4.5, 4.2, 4.7, 3.8, 4.4],
+        "prompt": "Create a bar chart showing customer satisfaction scores"
+      },
+      {
+        "id": "bar-employee-count",
+        "title": "Team Size by Office",
+        "description": "Employee distribution across offices",
+        "labels": ["New York", "London", "Tokyo", "Sydney", "Berlin"],
+        "data": [245, 180, 120, 85, 95],
+        "prompt": "Create a bar chart showing employee count by office location"
+      }
+    ],
+    "line": [
+      {
+        "id": "line-temperature-trend",
+        "title": "Temperature Trends",
+        "description": "Monthly average temperature",
+        "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        "data": [-2, 0, 4, 9, 14, 19, 22, 21, 17, 10, 4, 0],
+        "prompt": "Create a line chart showing monthly temperature trends"
+      },
+      {
+        "id": "line-stock-price",
+        "title": "Stock Price History",
+        "description": "6-month stock performance",
+        "labels": ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"],
+        "data": [142, 156, 148, 165, 172, 189],
+        "prompt": "Create a line chart showing stock price over 6 months"
+      },
+      {
+        "id": "line-user-growth",
+        "title": "User Growth",
+        "description": "Platform user growth over time",
+        "labels": ["2019", "2020", "2021", "2022", "2023", "2024"],
+        "data": [50000, 125000, 280000, 520000, 890000, 1450000],
+        "prompt": "Create a line chart showing user growth over years"
+      },
+      {
+        "id": "line-website-visits",
+        "title": "Daily Website Visits",
+        "description": "Weekly traffic pattern",
+        "labels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        "data": [4200, 4800, 5100, 4900, 5500, 3200, 2800],
+        "prompt": "Create a line chart showing daily website visits"
+      },
+      {
+        "id": "line-revenue-trend",
+        "title": "Revenue Trend",
+        "description": "Monthly revenue over a year",
+        "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        "data": [45, 52, 48, 61, 55, 67, 72, 69, 78, 82, 91, 103],
+        "prompt": "Create a line chart showing monthly revenue in thousands"
+      },
+      {
+        "id": "line-cpu-usage",
+        "title": "CPU Usage",
+        "description": "Server CPU utilization over 24 hours",
+        "labels": ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"],
+        "data": [15, 12, 45, 72, 68, 35],
+        "prompt": "Create a line chart showing CPU usage percentage over 24 hours"
+      },
+      {
+        "id": "line-conversion-rate",
+        "title": "Conversion Rate",
+        "description": "Weekly conversion rate trend",
+        "labels": ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6"],
+        "data": [2.1, 2.4, 2.2, 2.8, 3.1, 3.5],
+        "prompt": "Create a line chart showing conversion rate trend"
+      },
+      {
+        "id": "line-response-time",
+        "title": "API Response Time",
+        "description": "Average response time in ms",
+        "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        "data": [245, 232, 218, 195, 178, 165],
+        "prompt": "Create a line chart showing API response time improvement"
+      }
+    ],
+    "pie": [
+      {
+        "id": "pie-market-share",
+        "title": "Market Share",
+        "description": "Tech company market share",
+        "labels": ["Apple", "Google", "Microsoft", "Amazon"],
+        "data": [35, 28, 22, 15],
+        "prompt": "Create a pie chart showing tech company market share"
+      },
+      {
+        "id": "pie-browser-usage",
+        "title": "Browser Usage",
+        "description": "Web browser market share",
+        "labels": ["Chrome", "Safari", "Firefox", "Edge", "Other"],
+        "data": [65, 18, 8, 5, 4],
+        "prompt": "Create a pie chart showing browser market share"
+      },
+      {
+        "id": "pie-expense-breakdown",
+        "title": "Expense Breakdown",
+        "description": "Monthly expense categories",
+        "labels": ["Rent", "Food", "Transport", "Utilities", "Entertainment"],
+        "data": [35, 25, 15, 12, 13],
+        "prompt": "Create a pie chart showing monthly expense breakdown"
+      },
+      {
+        "id": "pie-device-types",
+        "title": "Device Types",
+        "description": "User device distribution",
+        "labels": ["Mobile", "Desktop", "Tablet"],
+        "data": [58, 35, 7],
+        "prompt": "Create a pie chart showing device type distribution"
+      },
+      {
+        "id": "pie-age-demographics",
+        "title": "Age Demographics",
+        "description": "User age distribution",
+        "labels": ["18-24", "25-34", "35-44", "45-54", "55+"],
+        "data": [22, 35, 25, 12, 6],
+        "prompt": "Create a pie chart showing user age demographics"
+      },
+      {
+        "id": "pie-revenue-sources",
+        "title": "Revenue Sources",
+        "description": "Revenue by channel",
+        "labels": ["Subscriptions", "Ads", "Partnerships", "Services"],
+        "data": [45, 30, 15, 10],
+        "prompt": "Create a pie chart showing revenue sources"
+      },
+      {
+        "id": "pie-project-status",
+        "title": "Project Status",
+        "description": "Project completion status",
+        "labels": ["Completed", "In Progress", "On Hold", "Not Started"],
+        "data": [42, 35, 15, 8],
+        "prompt": "Create a pie chart showing project status distribution"
+      },
+      {
+        "id": "pie-customer-segments",
+        "title": "Customer Segments",
+        "description": "Customer type breakdown",
+        "labels": ["Enterprise", "SMB", "Startup", "Individual"],
+        "data": [40, 32, 18, 10],
+        "prompt": "Create a pie chart showing customer segments"
+      }
+    ],
+    "doughnut": [
+      {
+        "id": "doughnut-budget-allocation",
+        "title": "Budget Allocation",
+        "description": "Annual budget distribution",
+        "labels": ["R&D", "Marketing", "Operations", "Sales", "Admin"],
+        "data": [30, 25, 20, 15, 10],
+        "prompt": "Create a doughnut chart showing budget allocation"
+      },
+      {
+        "id": "doughnut-time-tracking",
+        "title": "Time Tracking",
+        "description": "Weekly time distribution",
+        "labels": ["Meetings", "Development", "Planning", "Review", "Admin"],
+        "data": [15, 45, 20, 12, 8],
+        "prompt": "Create a doughnut chart showing time distribution"
+      },
+      {
+        "id": "doughnut-skill-distribution",
+        "title": "Team Skills",
+        "description": "Team skill distribution",
+        "labels": ["Frontend", "Backend", "DevOps", "Design", "QA"],
+        "data": [28, 32, 15, 15, 10],
+        "prompt": "Create a doughnut chart showing team skill distribution"
+      },
+      {
+        "id": "doughnut-traffic-sources",
+        "title": "Traffic Sources",
+        "description": "Website traffic breakdown",
+        "labels": ["Organic Search", "Direct", "Social", "Referral"],
+        "data": [42, 28, 18, 12],
+        "prompt": "Create a doughnut chart showing traffic sources"
+      },
+      {
+        "id": "doughnut-storage-usage",
+        "title": "Storage Usage",
+        "description": "Cloud storage breakdown",
+        "labels": ["Documents", "Images", "Videos", "Backups", "Free"],
+        "data": [25, 20, 30, 15, 10],
+        "prompt": "Create a doughnut chart showing storage usage"
+      },
+      {
+        "id": "doughnut-lead-sources",
+        "title": "Lead Sources",
+        "description": "Sales lead origin",
+        "labels": ["Website", "Referral", "Events", "Cold Outreach", "Partners"],
+        "data": [35, 25, 18, 12, 10],
+        "prompt": "Create a doughnut chart showing lead sources"
+      },
+      {
+        "id": "doughnut-content-types",
+        "title": "Content Types",
+        "description": "Content format distribution",
+        "labels": ["Blog Posts", "Videos", "Podcasts", "Infographics"],
+        "data": [40, 30, 18, 12],
+        "prompt": "Create a doughnut chart showing content type distribution"
+      },
+      {
+        "id": "doughnut-support-tickets",
+        "title": "Support Tickets",
+        "description": "Ticket category breakdown",
+        "labels": ["Technical", "Billing", "Feature Request", "General"],
+        "data": [45, 25, 18, 12],
+        "prompt": "Create a doughnut chart showing support ticket categories"
+      }
+    ],
+    "radar": [
+      {
+        "id": "radar-skill-assessment",
+        "title": "Skill Assessment",
+        "description": "Developer skill radar",
+        "labels": ["JavaScript", "Python", "SQL", "DevOps", "Design", "Communication"],
+        "data": [90, 75, 80, 65, 50, 85],
+        "prompt": "Create a radar chart showing developer skill assessment"
+      },
+      {
+        "id": "radar-product-comparison",
+        "title": "Product Comparison",
+        "description": "Compare product features",
+        "labels": ["Performance", "Usability", "Features", "Price", "Support", "Security"],
+        "data": [85, 90, 75, 70, 88, 92],
+        "prompt": "Create a radar chart comparing product attributes"
+      },
+      {
+        "id": "radar-team-performance",
+        "title": "Team Performance",
+        "description": "Team metrics overview",
+        "labels": ["Velocity", "Quality", "Collaboration", "Innovation", "Delivery"],
+        "data": [82, 88, 75, 68, 90],
+        "prompt": "Create a radar chart showing team performance metrics"
+      },
+      {
+        "id": "radar-competitor-analysis",
+        "title": "Competitor Analysis",
+        "description": "Compare against competitors",
+        "labels": ["Market Share", "Brand", "Technology", "Price", "Service"],
+        "data": [75, 85, 90, 65, 80],
+        "prompt": "Create a radar chart for competitor analysis"
+      },
+      {
+        "id": "radar-employee-review",
+        "title": "Employee Review",
+        "description": "Performance review metrics",
+        "labels": ["Technical", "Leadership", "Communication", "Teamwork", "Initiative"],
+        "data": [88, 72, 85, 90, 78],
+        "prompt": "Create a radar chart for employee performance review"
+      },
+      {
+        "id": "radar-website-audit",
+        "title": "Website Audit",
+        "description": "Website health metrics",
+        "labels": ["SEO", "Performance", "Accessibility", "Security", "Mobile", "Content"],
+        "data": [78, 85, 72, 90, 88, 75],
+        "prompt": "Create a radar chart showing website audit scores"
+      },
+      {
+        "id": "radar-project-health",
+        "title": "Project Health",
+        "description": "Project status indicators",
+        "labels": ["Budget", "Timeline", "Scope", "Quality", "Risk", "Resources"],
+        "data": [85, 70, 88, 92, 75, 80],
+        "prompt": "Create a radar chart showing project health metrics"
+      },
+      {
+        "id": "radar-customer-feedback",
+        "title": "Customer Feedback",
+        "description": "Customer satisfaction areas",
+        "labels": ["Product", "Support", "Pricing", "UX", "Documentation"],
+        "data": [88, 92, 70, 85, 78],
+        "prompt": "Create a radar chart showing customer feedback scores"
+      }
+    ],
+    "scatter": [
+      {
+        "id": "scatter-age-income",
+        "title": "Age vs Income",
+        "description": "Correlation between age and income",
+        "labels": ["25", "30", "35", "40", "45", "50"],
+        "data": [32, 45, 58, 72, 85, 92],
+        "prompt": "Create a scatter plot showing age vs income correlation"
+      },
+      {
+        "id": "scatter-price-sales",
+        "title": "Price vs Sales",
+        "description": "Price impact on sales volume",
+        "labels": ["$10", "$20", "$30", "$40", "$50", "$60"],
+        "data": [850, 720, 580, 420, 280, 150],
+        "prompt": "Create a scatter plot showing price vs sales relationship"
+      },
+      {
+        "id": "scatter-study-score",
+        "title": "Study Hours vs Score",
+        "description": "Study time impact on test scores",
+        "labels": ["1h", "2h", "3h", "4h", "5h", "6h"],
+        "data": [55, 62, 71, 78, 85, 92],
+        "prompt": "Create a scatter plot showing study hours vs test scores"
+      },
+      {
+        "id": "scatter-experience-salary",
+        "title": "Experience vs Salary",
+        "description": "Years of experience vs salary",
+        "labels": ["1yr", "3yr", "5yr", "7yr", "10yr", "15yr"],
+        "data": [55, 72, 88, 105, 125, 150],
+        "prompt": "Create a scatter plot showing experience vs salary"
+      },
+      {
+        "id": "scatter-ad-spend-revenue",
+        "title": "Ad Spend vs Revenue",
+        "description": "Marketing ROI analysis",
+        "labels": ["$1K", "$2K", "$5K", "$10K", "$20K", "$50K"],
+        "data": [8, 18, 42, 75, 140, 320],
+        "prompt": "Create a scatter plot showing ad spend vs revenue"
+      },
+      {
+        "id": "scatter-temp-sales",
+        "title": "Temperature vs Sales",
+        "description": "Weather impact on ice cream sales",
+        "labels": ["15°C", "20°C", "25°C", "30°C", "35°C"],
+        "data": [120, 280, 450, 680, 850],
+        "prompt": "Create a scatter plot showing temperature vs ice cream sales"
+      },
+      {
+        "id": "scatter-distance-time",
+        "title": "Distance vs Time",
+        "description": "Delivery distance vs time",
+        "labels": ["1km", "3km", "5km", "10km", "15km", "20km"],
+        "data": [8, 15, 22, 38, 52, 68],
+        "prompt": "Create a scatter plot showing delivery distance vs time"
+      },
+      {
+        "id": "scatter-engagement-followers",
+        "title": "Engagement vs Followers",
+        "description": "Social media engagement rate",
+        "labels": ["1K", "5K", "10K", "50K", "100K", "500K"],
+        "data": [8.5, 6.2, 4.8, 3.2, 2.1, 1.2],
+        "prompt": "Create a scatter plot showing followers vs engagement rate"
+      }
+    ],
+    "area": [
+      {
+        "id": "area-revenue-growth",
+        "title": "Revenue Growth",
+        "description": "Cumulative revenue over time",
+        "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        "data": [45, 98, 156, 225, 302, 395],
+        "prompt": "Create an area chart showing cumulative revenue growth"
+      },
+      {
+        "id": "area-user-sessions",
+        "title": "User Sessions",
+        "description": "Daily active sessions",
+        "labels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        "data": [2400, 2800, 3100, 2900, 3400, 1800, 1500],
+        "prompt": "Create an area chart showing daily user sessions"
+      },
+      {
+        "id": "area-memory-usage",
+        "title": "Memory Usage",
+        "description": "Server memory over 24h",
+        "labels": ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00"],
+        "data": [45, 42, 68, 82, 78, 55],
+        "prompt": "Create an area chart showing memory usage over 24 hours"
+      },
+      {
+        "id": "area-sales-trend",
+        "title": "Sales Trend",
+        "description": "Monthly sales volume",
+        "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+        "data": [120, 145, 132, 168, 185, 210, 198, 235],
+        "prompt": "Create an area chart showing monthly sales trend"
+      },
+      {
+        "id": "area-bandwidth",
+        "title": "Bandwidth Usage",
+        "description": "Network bandwidth over time",
+        "labels": ["Week 1", "Week 2", "Week 3", "Week 4"],
+        "data": [450, 520, 680, 590],
+        "prompt": "Create an area chart showing weekly bandwidth usage"
+      },
+      {
+        "id": "area-downloads",
+        "title": "App Downloads",
+        "description": "Cumulative app downloads",
+        "labels": ["Q1", "Q2", "Q3", "Q4"],
+        "data": [25000, 68000, 145000, 280000],
+        "prompt": "Create an area chart showing cumulative app downloads"
+      },
+      {
+        "id": "area-page-views",
+        "title": "Page Views",
+        "description": "Daily page views trend",
+        "labels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        "data": [15200, 18400, 17800, 19200, 21500, 12800, 10500],
+        "prompt": "Create an area chart showing daily page views"
+      },
+      {
+        "id": "area-energy-consumption",
+        "title": "Energy Consumption",
+        "description": "Monthly energy usage",
+        "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        "data": [850, 780, 620, 480, 420, 550],
+        "prompt": "Create an area chart showing monthly energy consumption"
+      }
+    ],
+    "polar": [
+      {
+        "id": "polar-activity-breakdown",
+        "title": "Activity Breakdown",
+        "description": "Daily activity distribution",
+        "labels": ["Work", "Exercise", "Leisure", "Sleep", "Commute", "Meals"],
+        "data": [8, 1.5, 3, 7, 1.5, 2],
+        "prompt": "Create a polar area chart showing daily activity breakdown"
+      },
+      {
+        "id": "polar-skill-levels",
+        "title": "Skill Levels",
+        "description": "Team skill proficiency",
+        "labels": ["React", "Node.js", "Python", "AWS", "Docker"],
+        "data": [90, 85, 70, 75, 80],
+        "prompt": "Create a polar area chart showing skill levels"
+      },
+      {
+        "id": "polar-priority-matrix",
+        "title": "Priority Matrix",
+        "description": "Task priority distribution",
+        "labels": ["Critical", "High", "Medium", "Low", "Backlog"],
+        "data": [15, 25, 35, 18, 7],
+        "prompt": "Create a polar area chart showing task priorities"
+      },
+      {
+        "id": "polar-resource-allocation",
+        "title": "Resource Allocation",
+        "description": "Team resource distribution",
+        "labels": ["Development", "Testing", "Design", "Planning", "Support"],
+        "data": [40, 20, 15, 15, 10],
+        "prompt": "Create a polar area chart showing resource allocation"
+      },
+      {
+        "id": "polar-satisfaction-scores",
+        "title": "Satisfaction Scores",
+        "description": "Customer satisfaction by area",
+        "labels": ["Product", "Service", "Price", "Support", "UX"],
+        "data": [88, 92, 75, 85, 90],
+        "prompt": "Create a polar area chart showing satisfaction scores"
+      },
+      {
+        "id": "polar-investment-portfolio",
+        "title": "Investment Portfolio",
+        "description": "Portfolio allocation",
+        "labels": ["Stocks", "Bonds", "Real Estate", "Crypto", "Cash"],
+        "data": [45, 25, 15, 10, 5],
+        "prompt": "Create a polar area chart showing investment portfolio"
+      },
+      {
+        "id": "polar-content-performance",
+        "title": "Content Performance",
+        "description": "Content type engagement",
+        "labels": ["Articles", "Videos", "Podcasts", "Infographics", "Webinars"],
+        "data": [75, 90, 60, 70, 55],
+        "prompt": "Create a polar area chart showing content performance"
+      },
+      {
+        "id": "polar-risk-assessment",
+        "title": "Risk Assessment",
+        "description": "Project risk categories",
+        "labels": ["Technical", "Schedule", "Budget", "Resource", "External"],
+        "data": [65, 45, 55, 40, 30],
+        "prompt": "Create a polar area chart showing risk assessment"
+      }
+    ],
+    "bubble": [
+      {
+        "id": "bubble-market-analysis",
+        "title": "Market Analysis",
+        "description": "Market size vs growth rate",
+        "labels": ["Tech", "Healthcare", "Finance", "Retail", "Energy"],
+        "data": [85, 72, 65, 58, 45],
+        "sizes": [120, 95, 80, 70, 55],
+        "prompt": "Create a bubble chart showing market analysis"
+      },
+      {
+        "id": "bubble-product-portfolio",
+        "title": "Product Portfolio",
+        "description": "Revenue vs profit margin",
+        "labels": ["Product A", "Product B", "Product C", "Product D"],
+        "data": [75, 60, 85, 45],
+        "sizes": [100, 75, 120, 50],
+        "prompt": "Create a bubble chart showing product portfolio"
+      },
+      {
+        "id": "bubble-customer-segments",
+        "title": "Customer Segments",
+        "description": "Value vs acquisition cost",
+        "labels": ["Enterprise", "SMB", "Startup", "Individual"],
+        "data": [90, 65, 45, 25],
+        "sizes": [150, 100, 60, 30],
+        "prompt": "Create a bubble chart showing customer segments"
+      },
+      {
+        "id": "bubble-city-comparison",
+        "title": "City Comparison",
+        "description": "Population vs GDP per capita",
+        "labels": ["NYC", "London", "Tokyo", "Singapore", "Dubai"],
+        "data": [85, 80, 75, 90, 88],
+        "sizes": [130, 110, 140, 60, 45],
+        "prompt": "Create a bubble chart comparing cities"
+      },
+      {
+        "id": "bubble-investment-risk",
+        "title": "Investment Risk",
+        "description": "Return vs risk level",
+        "labels": ["Stocks", "Bonds", "Real Estate", "Crypto", "Commodities"],
+        "data": [75, 35, 55, 95, 60],
+        "sizes": [85, 40, 70, 120, 55],
+        "prompt": "Create a bubble chart showing investment risk vs return"
+      },
+      {
+        "id": "bubble-employee-performance",
+        "title": "Employee Performance",
+        "description": "Productivity vs satisfaction",
+        "labels": ["Team A", "Team B", "Team C", "Team D"],
+        "data": [85, 72, 90, 65],
+        "sizes": [95, 80, 110, 70],
+        "prompt": "Create a bubble chart showing employee performance"
+      },
+      {
+        "id": "bubble-feature-priority",
+        "title": "Feature Priority",
+        "description": "Impact vs effort matrix",
+        "labels": ["Feature 1", "Feature 2", "Feature 3", "Feature 4", "Feature 5"],
+        "data": [90, 45, 75, 60, 85],
+        "sizes": [40, 90, 60, 75, 50],
+        "prompt": "Create a bubble chart showing feature priority matrix"
+      },
+      {
+        "id": "bubble-campaign-roi",
+        "title": "Campaign ROI",
+        "description": "Spend vs conversion rate",
+        "labels": ["Email", "Social", "PPC", "Content", "Affiliate"],
+        "data": [85, 70, 60, 75, 55],
+        "sizes": [50, 80, 120, 60, 40],
+        "prompt": "Create a bubble chart showing campaign ROI"
+      }
+    ],
+    "force": [
+      {
+        "id": "force-social-network",
+        "title": "Social Network",
+        "description": "User connections graph",
+        "nodes": ["Alice", "Bob", "Carol", "David", "Eve", "Frank"],
+        "links": [[0,1], [0,2], [1,2], [2,3], [3,4], [4,5], [5,0], [1,4]],
+        "prompt": "Create a force graph showing social network connections"
+      },
+      {
+        "id": "force-org-structure",
+        "title": "Organization Structure",
+        "description": "Company hierarchy",
+        "nodes": ["CEO", "CTO", "CFO", "Dev Lead", "Finance Lead", "Engineer 1", "Engineer 2", "Analyst"],
+        "links": [[0,1], [0,2], [1,3], [2,4], [3,5], [3,6], [4,7]],
+        "prompt": "Create a force graph showing organization structure"
+      },
+      {
+        "id": "force-dependencies",
+        "title": "Package Dependencies",
+        "description": "Module dependency graph",
+        "nodes": ["App", "React", "Redux", "Axios", "Lodash", "Moment", "Chart.js"],
+        "links": [[0,1], [0,2], [0,3], [2,1], [0,4], [0,5], [0,6]],
+        "prompt": "Create a force graph showing package dependencies"
+      },
+      {
+        "id": "force-knowledge-graph",
+        "title": "Knowledge Graph",
+        "description": "Topic relationships",
+        "nodes": ["AI", "ML", "Deep Learning", "NLP", "Computer Vision", "Robotics"],
+        "links": [[0,1], [1,2], [2,3], [2,4], [0,5], [1,5]],
+        "prompt": "Create a force graph showing AI knowledge relationships"
+      },
+      {
+        "id": "force-team-collaboration",
+        "title": "Team Collaboration",
+        "description": "Cross-team interactions",
+        "nodes": ["Frontend", "Backend", "DevOps", "Design", "QA", "Product"],
+        "links": [[0,1], [0,3], [1,2], [3,5], [4,0], [4,1], [5,0], [5,1]],
+        "prompt": "Create a force graph showing team collaboration"
+      },
+      {
+        "id": "force-api-endpoints",
+        "title": "API Endpoints",
+        "description": "Service connections",
+        "nodes": ["Gateway", "Auth", "Users", "Products", "Orders", "Payments"],
+        "links": [[0,1], [0,2], [0,3], [0,4], [0,5], [4,5], [4,3], [2,1]],
+        "prompt": "Create a force graph showing API endpoint connections"
+      },
+      {
+        "id": "force-citation-network",
+        "title": "Citation Network",
+        "description": "Research paper citations",
+        "nodes": ["Paper A", "Paper B", "Paper C", "Paper D", "Paper E"],
+        "links": [[0,1], [0,2], [1,2], [2,3], [3,4], [1,4]],
+        "prompt": "Create a force graph showing citation network"
+      },
+      {
+        "id": "force-supply-chain",
+        "title": "Supply Chain",
+        "description": "Supplier relationships",
+        "nodes": ["Manufacturer", "Supplier A", "Supplier B", "Distributor", "Retailer", "Customer"],
+        "links": [[1,0], [2,0], [0,3], [3,4], [4,5]],
+        "prompt": "Create a force graph showing supply chain"
+      }
+    ],
+    "treemap": [
+      {
+        "id": "treemap-disk-usage",
+        "title": "Disk Usage",
+        "description": "Storage breakdown by folder",
+        "labels": ["Documents", "Images", "Videos", "Music", "Downloads", "System"],
+        "data": [25, 18, 35, 8, 10, 4],
+        "prompt": "Create a treemap showing disk usage by folder"
+      },
+      {
+        "id": "treemap-portfolio",
+        "title": "Investment Portfolio",
+        "description": "Asset allocation",
+        "labels": ["US Stocks", "Int'l Stocks", "Bonds", "Real Estate", "Commodities", "Cash"],
+        "data": [40, 20, 20, 10, 5, 5],
+        "prompt": "Create a treemap showing investment portfolio allocation"
+      },
+      {
+        "id": "treemap-revenue-breakdown",
+        "title": "Revenue Breakdown",
+        "description": "Revenue by product line",
+        "labels": ["Enterprise", "Pro", "Basic", "Free", "Add-ons"],
+        "data": [45, 30, 15, 5, 5],
+        "prompt": "Create a treemap showing revenue by product"
+      },
+      {
+        "id": "treemap-budget-categories",
+        "title": "Budget Categories",
+        "description": "Monthly budget allocation",
+        "labels": ["Housing", "Food", "Transport", "Utilities", "Entertainment", "Savings"],
+        "data": [35, 20, 15, 10, 10, 10],
+        "prompt": "Create a treemap showing budget categories"
+      },
+      {
+        "id": "treemap-market-cap",
+        "title": "Market Cap",
+        "description": "Company market capitalization",
+        "labels": ["Apple", "Microsoft", "Google", "Amazon", "Meta", "Tesla"],
+        "data": [28, 25, 18, 15, 8, 6],
+        "prompt": "Create a treemap showing market capitalization"
+      },
+      {
+        "id": "treemap-website-sections",
+        "title": "Website Sections",
+        "description": "Page views by section",
+        "labels": ["Home", "Products", "Blog", "About", "Contact", "Support"],
+        "data": [30, 25, 20, 10, 8, 7],
+        "prompt": "Create a treemap showing website section traffic"
+      },
+      {
+        "id": "treemap-employee-distribution",
+        "title": "Employee Distribution",
+        "description": "Staff by department",
+        "labels": ["Engineering", "Sales", "Marketing", "Operations", "HR", "Finance"],
+        "data": [40, 20, 15, 12, 8, 5],
+        "prompt": "Create a treemap showing employee distribution"
+      },
+      {
+        "id": "treemap-energy-sources",
+        "title": "Energy Sources",
+        "description": "Power generation mix",
+        "labels": ["Natural Gas", "Coal", "Nuclear", "Hydro", "Wind", "Solar"],
+        "data": [35, 20, 20, 10, 10, 5],
+        "prompt": "Create a treemap showing energy source distribution"
+      }
+    ],
+    "sankey": [
+      {
+        "id": "sankey-user-flow",
+        "title": "User Flow",
+        "description": "Website navigation paths",
+        "nodes": ["Landing", "Products", "Cart", "Checkout", "Purchase", "Exit"],
+        "flows": [
+          {"from": 0, "to": 1, "value": 1000},
+          {"from": 1, "to": 2, "value": 400},
+          {"from": 2, "to": 3, "value": 250},
+          {"from": 3, "to": 4, "value": 180},
+          {"from": 1, "to": 5, "value": 600},
+          {"from": 2, "to": 5, "value": 150}
+        ],
+        "prompt": "Create a sankey diagram showing user flow"
+      },
+      {
+        "id": "sankey-budget-flow",
+        "title": "Budget Flow",
+        "description": "Money flow through departments",
+        "nodes": ["Revenue", "Operations", "Marketing", "R&D", "Salaries", "Profit"],
+        "flows": [
+          {"from": 0, "to": 1, "value": 300},
+          {"from": 0, "to": 2, "value": 200},
+          {"from": 0, "to": 3, "value": 250},
+          {"from": 1, "to": 4, "value": 200},
+          {"from": 2, "to": 4, "value": 100},
+          {"from": 3, "to": 4, "value": 150},
+          {"from": 0, "to": 5, "value": 250}
+        ],
+        "prompt": "Create a sankey diagram showing budget flow"
+      },
+      {
+        "id": "sankey-energy-flow",
+        "title": "Energy Flow",
+        "description": "Energy production to consumption",
+        "nodes": ["Solar", "Wind", "Gas", "Grid", "Homes", "Industry", "Commercial"],
+        "flows": [
+          {"from": 0, "to": 3, "value": 200},
+          {"from": 1, "to": 3, "value": 300},
+          {"from": 2, "to": 3, "value": 500},
+          {"from": 3, "to": 4, "value": 400},
+          {"from": 3, "to": 5, "value": 350},
+          {"from": 3, "to": 6, "value": 250}
+        ],
+        "prompt": "Create a sankey diagram showing energy flow"
+      },
+      {
+        "id": "sankey-conversion-funnel",
+        "title": "Conversion Funnel",
+        "description": "Lead to customer journey",
+        "nodes": ["Visitors", "Leads", "MQL", "SQL", "Opportunity", "Customer"],
+        "flows": [
+          {"from": 0, "to": 1, "value": 10000},
+          {"from": 1, "to": 2, "value": 3000},
+          {"from": 2, "to": 3, "value": 1200},
+          {"from": 3, "to": 4, "value": 500},
+          {"from": 4, "to": 5, "value": 180}
+        ],
+        "prompt": "Create a sankey diagram showing conversion funnel"
+      },
+      {
+        "id": "sankey-supply-chain",
+        "title": "Supply Chain",
+        "description": "Product flow from source to customer",
+        "nodes": ["Raw Materials", "Manufacturing", "Warehouse", "Distribution", "Retail", "Customer"],
+        "flows": [
+          {"from": 0, "to": 1, "value": 1000},
+          {"from": 1, "to": 2, "value": 900},
+          {"from": 2, "to": 3, "value": 850},
+          {"from": 3, "to": 4, "value": 700},
+          {"from": 4, "to": 5, "value": 650}
+        ],
+        "prompt": "Create a sankey diagram showing supply chain flow"
+      },
+      {
+        "id": "sankey-data-pipeline",
+        "title": "Data Pipeline",
+        "description": "Data flow through systems",
+        "nodes": ["Sources", "Ingestion", "Processing", "Storage", "Analytics", "Reports"],
+        "flows": [
+          {"from": 0, "to": 1, "value": 500},
+          {"from": 1, "to": 2, "value": 480},
+          {"from": 2, "to": 3, "value": 450},
+          {"from": 3, "to": 4, "value": 400},
+          {"from": 4, "to": 5, "value": 350}
+        ],
+        "prompt": "Create a sankey diagram showing data pipeline"
+      },
+      {
+        "id": "sankey-traffic-sources",
+        "title": "Traffic Sources",
+        "description": "Website traffic flow",
+        "nodes": ["Organic", "Paid", "Social", "Direct", "Homepage", "Products", "Conversion"],
+        "flows": [
+          {"from": 0, "to": 4, "value": 400},
+          {"from": 1, "to": 4, "value": 300},
+          {"from": 2, "to": 4, "value": 200},
+          {"from": 3, "to": 4, "value": 100},
+          {"from": 4, "to": 5, "value": 600},
+          {"from": 5, "to": 6, "value": 200}
+        ],
+        "prompt": "Create a sankey diagram showing traffic sources"
+      },
+      {
+        "id": "sankey-carbon-footprint",
+        "title": "Carbon Footprint",
+        "description": "Emissions by category",
+        "nodes": ["Total Emissions", "Transport", "Energy", "Food", "Goods", "Offset"],
+        "flows": [
+          {"from": 0, "to": 1, "value": 30},
+          {"from": 0, "to": 2, "value": 35},
+          {"from": 0, "to": 3, "value": 20},
+          {"from": 0, "to": 4, "value": 15},
+          {"from": 1, "to": 5, "value": 5},
+          {"from": 2, "to": 5, "value": 10}
+        ],
+        "prompt": "Create a sankey diagram showing carbon footprint"
+      }
+    ]
+  }
+}
