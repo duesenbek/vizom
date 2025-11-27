@@ -1,0 +1,182 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e4]:
+      - link "Vizom Logo VIZOM" [ref=e5] [cursor=pointer]:
+        - /url: index.html
+        - img "Vizom Logo" [ref=e6]
+        - generic [ref=e7]: VIZOM
+      - generic [ref=e8]:
+        - link "Home" [ref=e9] [cursor=pointer]:
+          - /url: index.html
+        - link "Generator" [ref=e10] [cursor=pointer]:
+          - /url: generator.html
+        - link "Templates" [ref=e11] [cursor=pointer]:
+          - /url: templates.html
+        - link "Pricing" [ref=e12] [cursor=pointer]:
+          - /url: pricing.html
+        - button "Select language" [ref=e14] [cursor=pointer]:
+          - generic [ref=e15]: 🇺🇸
+          - generic [ref=e16]: 
+        - generic [ref=e17]:
+          - button "Sign In" [ref=e18] [cursor=pointer]
+          - link "Get Started" [ref=e19] [cursor=pointer]:
+            - /url: generator.html
+        - text:  
+      - text: 
+  - generic [ref=e22]:
+    - generic [ref=e23]:
+      - generic [ref=e24]: 
+      - text: AI Visual Engine
+    - heading "Design premium dashboards with natural language" [level=1] [ref=e25]
+    - paragraph [ref=e26]: Describe your data vision and Vizom crafts a production-ready visualization with advanced layouts, premium styling, and export-ready assets in seconds.
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - textbox "Describe the chart you want to generate" [ref=e29]:
+          - /placeholder: "Try: Compare 2023 vs 2024 revenue with growth delta and trendline"
+        - button "Generate Chart " [ref=e30] [cursor=pointer]:
+          - generic [ref=e31]: Generate Chart
+          - generic [ref=e32]: 
+      - paragraph [ref=e33]: Instant AI charts. No onboarding, no credit card.
+    - generic [ref=e34]:
+      - generic [ref=e36]: Enterprise-grade security
+      - generic [ref=e37]:
+        - generic [ref=e38]: 
+        - generic [ref=e39]: 10× faster than manual design
+  - generic [ref=e41]:
+    - generic [ref=e42]:
+      - heading "Powerful automation for modern teams" [level=2] [ref=e43]
+      - paragraph [ref=e44]: Vizom blends AI-driven insights with a premium Chart.js engine, so your dashboards feel bespoke—not boilerplate.
+    - generic [ref=e45]:
+      - article [ref=e46]:
+        - generic [ref=e48]: 
+        - heading "Context-aware charting" [level=3] [ref=e49]
+        - paragraph [ref=e50]: Natural language prompts become polished Chart.js configs with smart annotations, legends, and responsive layouts.
+        - button "Learn more " [ref=e51] [cursor=pointer]:
+          - generic [ref=e52]: Learn more
+          - generic [ref=e53]: 
+      - article [ref=e54]:
+        - generic [ref=e56]: 
+        - heading "Design-grade themes" [level=3] [ref=e57]
+        - paragraph [ref=e58]: Premium palettes, cohesive typography, and glassmorphism surfaces designed to impress stakeholders and leadership.
+        - button "Explore themes " [ref=e59] [cursor=pointer]:
+          - generic [ref=e60]: Explore themes
+          - generic [ref=e61]: 
+      - article [ref=e62]:
+        - generic [ref=e64]: 
+        - heading "Enterprise delivery" [level=3] [ref=e65]
+        - paragraph [ref=e66]: Export high-resolution assets, embed responsive code snippets, and sync analytics events with one click.
+        - button "Start exporting " [ref=e67] [cursor=pointer]:
+          - generic [ref=e68]: Start exporting
+          - generic [ref=e69]: 
+  - generic [ref=e71]:
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e74]: 
+        - text: Live Chart Examples
+      - heading "See what you can create" [level=2] [ref=e75]
+      - paragraph [ref=e76]: Click any example to instantly generate it in the editor
+    - generic [ref=e77]:
+      - link "Quarterly Sales Bar Chart" [ref=e78] [cursor=pointer]:
+        - /url: generator.html?example=bar-quarterly-sales
+        - generic [ref=e81]:
+          - heading "Quarterly Sales" [level=4] [ref=e82]
+          - paragraph [ref=e83]: Bar Chart
+      - link "Temperature Trend Line Chart" [ref=e84] [cursor=pointer]:
+        - /url: generator.html?example=line-temperature-trend
+        - generic [ref=e87]:
+          - heading "Temperature Trend" [level=4] [ref=e88]
+          - paragraph [ref=e89]: Line Chart
+      - link "Market Share Pie Chart" [ref=e90] [cursor=pointer]:
+        - /url: generator.html?example=pie-market-share
+        - generic [ref=e93]:
+          - heading "Market Share" [level=4] [ref=e94]
+          - paragraph [ref=e95]: Pie Chart
+      - link "Skill Assessment Radar Chart" [ref=e96] [cursor=pointer]:
+        - /url: generator.html?example=radar-skill-assessment
+        - generic [ref=e99]:
+          - heading "Skill Assessment" [level=4] [ref=e100]
+          - paragraph [ref=e101]: Radar Chart
+      - link "Budget Allocation Doughnut Chart" [ref=e102] [cursor=pointer]:
+        - /url: generator.html?example=doughnut-budget-allocation
+        - generic [ref=e105]:
+          - heading "Budget Allocation" [level=4] [ref=e106]
+          - paragraph [ref=e107]: Doughnut Chart
+      - link "Revenue Growth Area Chart" [ref=e108] [cursor=pointer]:
+        - /url: generator.html?example=area-revenue-growth
+        - generic [ref=e111]:
+          - heading "Revenue Growth" [level=4] [ref=e112]
+          - paragraph [ref=e113]: Area Chart
+      - link "Age vs Income Scatter Plot" [ref=e114] [cursor=pointer]:
+        - /url: generator.html?example=scatter-age-income
+        - generic [ref=e117]:
+          - heading "Age vs Income" [level=4] [ref=e118]
+          - paragraph [ref=e119]: Scatter Plot
+      - link "Daily Activity Polar Area" [ref=e120] [cursor=pointer]:
+        - /url: generator.html?example=polar-activity-breakdown
+        - generic [ref=e123]:
+          - heading "Daily Activity" [level=4] [ref=e124]
+          - paragraph [ref=e125]: Polar Area
+    - link "Create Your Own Chart " [ref=e127] [cursor=pointer]:
+      - /url: generator.html
+      - text: Create Your Own Chart
+      - generic [ref=e128]: 
+  - generic [ref=e130]:
+    - heading "Ready to craft your next executive dashboard?" [level=2] [ref=e131]
+    - paragraph [ref=e132]: Join top data teams transforming raw metrics into interactive stories. Vizom delivers in minutes, not weeks.
+    - generic [ref=e133]:
+      - button "Start Free Trial " [ref=e134] [cursor=pointer]:
+        - text: Start Free Trial
+        - generic [ref=e135]: 
+      - button "View Examples " [ref=e136] [cursor=pointer]:
+        - text: View Examples
+        - generic [ref=e137]: 
+  - contentinfo [ref=e138]:
+    - generic [ref=e139]:
+      - generic [ref=e140]:
+        - generic [ref=e141]:
+          - generic [ref=e142]:
+            - img "Vizom Logo" [ref=e143]
+            - generic [ref=e144]: VIZOM
+          - paragraph [ref=e145]: AI-powered visual engine. Create beautiful visualizations in seconds.
+        - generic [ref=e146]:
+          - heading "Product" [level=4] [ref=e147]
+          - list [ref=e148]:
+            - listitem [ref=e149]:
+              - link "Generator" [ref=e150] [cursor=pointer]:
+                - /url: generator.html
+            - listitem [ref=e151]:
+              - link "Templates" [ref=e152] [cursor=pointer]:
+                - /url: templates.html
+            - listitem [ref=e153]:
+              - link "Pricing" [ref=e154] [cursor=pointer]:
+                - /url: pricing.html
+        - generic [ref=e155]:
+          - heading "Resources" [level=4] [ref=e156]
+          - list [ref=e157]:
+            - listitem [ref=e158]:
+              - link "Documentation" [ref=e159] [cursor=pointer]:
+                - /url: docs.html
+            - listitem [ref=e160]:
+              - link "API Reference" [ref=e161] [cursor=pointer]:
+                - /url: docs.html#api
+            - listitem [ref=e162]:
+              - link "Blog" [ref=e163] [cursor=pointer]:
+                - /url: blog.html
+        - generic [ref=e164]:
+          - heading "Company" [level=4] [ref=e165]
+          - list [ref=e166]:
+            - listitem [ref=e167]:
+              - link "About" [ref=e168] [cursor=pointer]:
+                - /url: about.html
+            - listitem [ref=e169]:
+              - link "Careers" [ref=e170] [cursor=pointer]:
+                - /url: about.html#careers
+            - listitem [ref=e171]:
+              - link "Contact" [ref=e172] [cursor=pointer]:
+                - /url: contact.html
+      - paragraph [ref=e174]: © 2024 VIZOM. All rights reserved.
+  - generic "Notifications"
+```

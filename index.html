@@ -28,9 +28,8 @@
     <meta name="twitter:image" content="https://vizom.app/images/og-image.png">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/vizom-icon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/vizom-icon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/vizom-icon.png">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2563EB">
     
@@ -100,6 +99,12 @@
     <!-- Header/auth integration for unified header & ModalSystem -->
     <script type="module" src="src/components/HeaderIntegration.js"></script>
     
+    <!-- Internationalization (i18n) -->
+    <script src="src/lib/i18n.js"></script>
+    
+    <!-- Supabase Auth Service -->
+    <script type="module" src="src/supabase-auth.js"></script>
+    
     <!-- Analytics Initialization -->
     <script type="module">
       import { initializeAnalytics, trackPageview } from '/src/tracking/analytics.js';
@@ -122,12 +127,72 @@
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden items-center gap-8 md:flex">
-                    <a href="index.html" aria-current="page" class="text-sm font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]">Home</a>
-                    <a href="generator.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Generator</a>
-                    <a href="templates.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Templates</a>
+                    <a href="index.html" aria-current="page" class="text-sm font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]" data-i18n="nav.home">Home</a>
+                    <a href="generator.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.generator">Generator</a>
+                    <a href="templates.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.templates">Templates</a>
                     <a href="pricing.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Pricing</a>
-                    <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin" type="button">Sign In</button>
-                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+                    <!-- Language Selector -->
+                    <div class="relative" id="language-selector">
+                        <button class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition" id="language-toggle" aria-label="Select language">
+                            <span id="language-flag" class="text-lg">🇺🇸</span>
+                            <i class="fas fa-chevron-down text-xs text-slate-400"></i>
+                        </button>
+                        <div class="hidden absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50" id="language-menu">
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="en">
+                                <span class="text-lg">🇺🇸</span><span>English</span>
+                            </button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="ru">
+                                <span class="text-lg">🇷🇺</span><span>Русский</span>
+                            </button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="kk">
+                                <span class="text-lg">🇰🇿</span><span>Қазақша</span>
+                            </button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="tr">
+                                <span class="text-lg">🇹🇷</span><span>Türkçe</span>
+                            </button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="pt">
+                                <span class="text-lg">🇧🇷</span><span>Português</span>
+                            </button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="es">
+                                <span class="text-lg">🇪🇸</span><span>Español</span>
+                            </button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="fr">
+                                <span class="text-lg">🇫🇷</span><span>Français</span>
+                            </button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="pl">
+                                <span class="text-lg">🇵🇱</span><span>Polski</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Auth Section (shown when not logged in) -->
+                    <div id="auth-section" class="flex items-center gap-3">
+                        <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin" type="button" data-i18n="auth.signIn">Sign In</button>
+                        <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" data-i18n="auth.getStarted">Get Started</a>
+                    </div>
+                    
+                    <!-- User Dropdown (shown when logged in) -->
+                    <div id="user-dropdown" class="hidden relative">
+                        <button id="user-avatar-btn" class="flex items-center gap-2 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 h-10 w-10 items-center justify-center text-white font-semibold text-sm hover:from-blue-600 hover:to-blue-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            <span id="user-initials">U</span>
+                        </button>
+                        <div id="user-menu" class="absolute right-0 top-12 w-64 bg-white rounded-xl shadow-lg border border-slate-200 py-2 hidden z-50">
+                            <div class="px-4 py-3 border-b border-slate-100">
+                                <p id="user-name" class="text-sm font-semibold text-slate-900">User Name</p>
+                                <p id="user-email" class="text-xs text-slate-500">user@example.com</p>
+                            </div>
+                            <a href="generator.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                                <i class="fas fa-chart-line w-4 text-slate-400"></i>
+                                <span>My Charts</span>
+                            </a>
+                            <div class="border-t border-slate-100 mt-1 pt-1">
+                                <button id="sign-out-btn" class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left">
+                                    <i class="fas fa-sign-out-alt w-4"></i>
+                                    <span>Sign Out</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Mobile Menu Toggle -->
@@ -139,12 +204,12 @@
             <!-- Mobile Navigation -->
             <div class="hidden md:hidden -translate-y-2 transition-all duration-200 ease-[cubic-bezier(0.18,0.89,0.32,1.28)] data-[state=open]:translate-y-0 data-[state=closed]:-translate-y-2" id="mobile-menu" data-state="closed">
                 <div class="space-y-2 py-4">
-                    <a href="index.html" aria-current="page" class="block py-2 text-base font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]">Home</a>
-                    <a href="generator.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Generator</a>
-                    <a href="templates.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Templates</a>
+                    <a href="index.html" aria-current="page" class="block py-2 text-base font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]" data-i18n="nav.home">Home</a>
+                    <a href="generator.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.generator">Generator</a>
+                    <a href="templates.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.templates">Templates</a>
                     <a href="pricing.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Pricing</a>
-                    <button class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#EFF6FF] px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#E2E8F0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin-mobile" type="button">Sign In</button>
-                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+                    <button class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#EFF6FF] px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#E2E8F0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin-mobile" type="button" data-i18n="auth.signIn">Sign In</button>
+                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" data-i18n="auth.getStarted">Get Started</a>
                 </div>
             </div>
         </div>
@@ -158,10 +223,10 @@
                     <i class="fas fa-bolt text-[#06B6D4]"></i>
                     AI Visual Engine
                 </span>
-                <h1 class="mt-6 text-4xl font-bold tracking-tight text-[#0A1E3D] sm:text-5xl lg:text-6xl">
+                <h1 class="mt-6 text-4xl font-bold tracking-tight text-[#0A1E3D] sm:text-5xl lg:text-6xl" data-i18n="hero.title">
                     Design premium dashboards with natural language
                 </h1>
-                <p class="mt-6 text-lg leading-8 text-[#64748B]">
+                <p class="mt-6 text-lg leading-8 text-[#64748B]" data-i18n="hero.subtitle">
                     Describe your data vision and Vizom crafts a production-ready visualization with advanced layouts,
                     premium styling, and export-ready assets in seconds.
                 </p>
@@ -174,10 +239,11 @@
                             type="text"
                             class="h-12 w-full flex-1 rounded-xl border border-[#E2E8F0] bg-white px-5 text-sm text-[#0F172A] shadow-sm placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#2563EB] focus:ring-offset-1"
                             placeholder="Try: Compare 2023 vs 2024 revenue with growth delta and trendline"
+                            data-i18n-placeholder="quickStart.placeholder"
                             aria-label="Describe the chart you want to generate"
                         >
                         <button type="submit" class="group inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#2563EB] px-6 text-sm font-medium text-white shadow-[0_15px_30px_rgba(14,41,92,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">
-                            Generate Chart
+                            <span data-i18n="hero.generateChart">Generate Chart</span>
                             <i class="fas fa-arrow-right transition-transform duration-200 group-hover:translate-x-0.5"></i>
                         </button>
                     </div>
@@ -187,11 +253,11 @@
                 <div class="mt-10 flex flex-wrap justify-center gap-4">
                     <div class="flex items-center gap-3 rounded-xl bg-white px-6 py-4 shadow-sm">
                         <i class="fas fa-shield-check text-[#2563EB]"></i>
-                        <span class="text-sm font-medium text-[#0F172A]">Enterprise-grade security</span>
+                        <span class="text-sm font-medium text-[#0F172A]" data-i18n="hero.security">Enterprise-grade security</span>
                     </div>
                     <div class="flex items-center gap-3 rounded-xl bg-white px-6 py-4 shadow-sm">
                         <i class="fas fa-bolt text-[#06B6D4]"></i>
-                        <span class="text-sm font-medium text-[#0F172A]">10× faster than manual design</span>
+                        <span class="text-sm font-medium text-[#0F172A]" data-i18n="hero.speed">10× faster than manual design</span>
                     </div>
                 </div>
             </div>
@@ -202,10 +268,10 @@
     <section class="bg-[#E5F0FF] py-20 sm:py-24 lg:py-32">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="mx-auto max-w-3xl text-center">
-                <h2 class="text-3xl font-bold tracking-tight text-[#1E5FE0] sm:text-4xl">
+                <h2 class="text-3xl font-bold tracking-tight text-[#1E5FE0] sm:text-4xl" data-i18n="features.title">
                     Powerful automation for modern teams
                 </h2>
-                <p class="mt-6 text-lg leading-8 text-[#64748B]">
+                <p class="mt-6 text-lg leading-8 text-[#64748B]" data-i18n="features.subtitle">
                     Vizom blends AI-driven insights with a premium Chart.js engine, so your dashboards feel bespoke—not boilerplate.
                 </p>
             </div>
@@ -215,12 +281,12 @@
                     <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#EFF6FF] to-[#E0F2FE] text-2xl text-[#2563EB]">
                         <i class="fas fa-brain"></i>
                     </div>
-                    <h3 class="mb-2 text-lg font-semibold leading-tight text-[#0F172A]">Context-aware charting</h3>
-                    <p class="mb-4 flex-1 text-sm text-[#64748B]">
+                    <h3 class="mb-2 text-lg font-semibold leading-tight text-[#0F172A]" data-i18n="features.card1.title">Context-aware charting</h3>
+                    <p class="mb-4 flex-1 text-sm text-[#64748B]" data-i18n="features.card1.desc">
                         Natural language prompts become polished Chart.js configs with smart annotations, legends, and responsive layouts.
                     </p>
                     <button class="group mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50">
-                        Learn more
+                        <span data-i18n="common.learnMore">Learn more</span>
                         <i class="fas fa-arrow-right ml-2 text-xs transition-transform duration-200 group-hover:translate-x-0.5"></i>
                     </button>
                 </article>
@@ -229,12 +295,12 @@
                     <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#EFF6FF] to-[#DFFAFB] text-2xl text-[#06B6D4]">
                         <i class="fas fa-layer-group"></i>
                     </div>
-                    <h3 class="mb-2 text-lg font-semibold leading-tight text-[#0F172A]">Design-grade themes</h3>
-                    <p class="mb-4 flex-1 text-sm text-[#64748B]">
+                    <h3 class="mb-2 text-lg font-semibold leading-tight text-[#0F172A]" data-i18n="features.card2.title">Design-grade themes</h3>
+                    <p class="mb-4 flex-1 text-sm text-[#64748B]" data-i18n="features.card2.desc">
                         Premium palettes, cohesive typography, and glassmorphism surfaces designed to impress stakeholders and leadership.
                     </p>
                     <button class="group mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50">
-                        Explore themes
+                        <span data-i18n="features.exploreThemes">Explore themes</span>
                         <i class="fas fa-arrow-right ml-2 text-xs transition-transform duration-200 group-hover:translate-x-0.5"></i>
                     </button>
                 </article>
@@ -243,15 +309,130 @@
                     <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#EFF6FF] to-[#E0F2FE] text-2xl text-[#22D3EE]">
                         <i class="fas fa-code-branch"></i>
                     </div>
-                    <h3 class="mb-2 text-lg font-semibold leading-tight text-[#0F172A]">Enterprise delivery</h3>
-                    <p class="mb-4 flex-1 text-sm text-[#64748B]">
+                    <h3 class="mb-2 text-lg font-semibold leading-tight text-[#0F172A]" data-i18n="features.card3.title">Enterprise delivery</h3>
+                    <p class="mb-4 flex-1 text-sm text-[#64748B]" data-i18n="features.card3.desc">
                         Export high-resolution assets, embed responsive code snippets, and sync analytics events with one click.
                     </p>
                     <button class="group mt-auto inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50">
-                        Start exporting
+                        <span data-i18n="features.startExporting">Start exporting</span>
                         <i class="fas fa-arrow-right ml-2 text-xs transition-transform duration-200 group-hover:translate-x-0.5"></i>
                     </button>
                 </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chart Examples Section with Live Previews -->
+    <section class="bg-white py-20 sm:py-24">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-3xl text-center mb-16">
+                <span class="inline-flex items-center gap-2 rounded-full bg-[#EFF6FF] px-4 py-2 text-sm font-medium text-[#1E5FE0]">
+                    <i class="fas fa-chart-simple text-[#06B6D4]"></i>
+                    Live Chart Examples
+                </span>
+                <h2 class="mt-6 text-3xl font-bold tracking-tight text-[#0A1E3D] sm:text-4xl" data-i18n="examples.title">
+                    See what you can create
+                </h2>
+                <p class="mt-4 text-lg text-[#64748B]" data-i18n="examples.subtitle">
+                    Click any example to instantly generate it in the editor
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6" id="home-chart-examples">
+                <!-- Bar Chart Example -->
+                <a href="generator.html?example=bar-quarterly-sales" class="chart-example-card group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-slate-200 hover:ring-[#2563EB] hover:shadow-xl transition-all duration-300">
+                    <div class="chart-preview-container h-32 bg-gradient-to-br from-slate-50 to-blue-50 p-3" data-chart-type="bar" data-example-id="bar-quarterly-sales">
+                        <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h4 class="font-semibold text-sm text-[#0F172A] group-hover:text-[#2563EB]">Quarterly Sales</h4>
+                        <p class="text-xs text-[#64748B] mt-1">Bar Chart</p>
+                    </div>
+                </a>
+
+                <!-- Line Chart Example -->
+                <a href="generator.html?example=line-temperature-trend" class="chart-example-card group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-slate-200 hover:ring-[#2563EB] hover:shadow-xl transition-all duration-300">
+                    <div class="chart-preview-container h-32 bg-gradient-to-br from-slate-50 to-cyan-50 p-3" data-chart-type="line" data-example-id="line-temperature-trend">
+                        <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h4 class="font-semibold text-sm text-[#0F172A] group-hover:text-[#2563EB]">Temperature Trend</h4>
+                        <p class="text-xs text-[#64748B] mt-1">Line Chart</p>
+                    </div>
+                </a>
+
+                <!-- Pie Chart Example -->
+                <a href="generator.html?example=pie-market-share" class="chart-example-card group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-slate-200 hover:ring-[#2563EB] hover:shadow-xl transition-all duration-300">
+                    <div class="chart-preview-container h-32 bg-gradient-to-br from-slate-50 to-green-50 p-3" data-chart-type="pie" data-example-id="pie-market-share">
+                        <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h4 class="font-semibold text-sm text-[#0F172A] group-hover:text-[#2563EB]">Market Share</h4>
+                        <p class="text-xs text-[#64748B] mt-1">Pie Chart</p>
+                    </div>
+                </a>
+
+                <!-- Radar Chart Example -->
+                <a href="generator.html?example=radar-skill-assessment" class="chart-example-card group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-slate-200 hover:ring-[#2563EB] hover:shadow-xl transition-all duration-300">
+                    <div class="chart-preview-container h-32 bg-gradient-to-br from-slate-50 to-purple-50 p-3" data-chart-type="radar" data-example-id="radar-skill-assessment">
+                        <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h4 class="font-semibold text-sm text-[#0F172A] group-hover:text-[#2563EB]">Skill Assessment</h4>
+                        <p class="text-xs text-[#64748B] mt-1">Radar Chart</p>
+                    </div>
+                </a>
+
+                <!-- Doughnut Chart Example -->
+                <a href="generator.html?example=doughnut-budget-allocation" class="chart-example-card group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-slate-200 hover:ring-[#2563EB] hover:shadow-xl transition-all duration-300">
+                    <div class="chart-preview-container h-32 bg-gradient-to-br from-slate-50 to-amber-50 p-3" data-chart-type="doughnut" data-example-id="doughnut-budget-allocation">
+                        <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h4 class="font-semibold text-sm text-[#0F172A] group-hover:text-[#2563EB]">Budget Allocation</h4>
+                        <p class="text-xs text-[#64748B] mt-1">Doughnut Chart</p>
+                    </div>
+                </a>
+
+                <!-- Area Chart Example -->
+                <a href="generator.html?example=area-revenue-growth" class="chart-example-card group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-slate-200 hover:ring-[#2563EB] hover:shadow-xl transition-all duration-300">
+                    <div class="chart-preview-container h-32 bg-gradient-to-br from-slate-50 to-emerald-50 p-3" data-chart-type="line" data-example-id="area-revenue-growth">
+                        <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h4 class="font-semibold text-sm text-[#0F172A] group-hover:text-[#2563EB]">Revenue Growth</h4>
+                        <p class="text-xs text-[#64748B] mt-1">Area Chart</p>
+                    </div>
+                </a>
+
+                <!-- Scatter Plot Example -->
+                <a href="generator.html?example=scatter-age-income" class="chart-example-card group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-slate-200 hover:ring-[#2563EB] hover:shadow-xl transition-all duration-300">
+                    <div class="chart-preview-container h-32 bg-gradient-to-br from-slate-50 to-violet-50 p-3" data-chart-type="scatter" data-example-id="scatter-age-income">
+                        <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h4 class="font-semibold text-sm text-[#0F172A] group-hover:text-[#2563EB]">Age vs Income</h4>
+                        <p class="text-xs text-[#64748B] mt-1">Scatter Plot</p>
+                    </div>
+                </a>
+
+                <!-- Polar Area Example -->
+                <a href="generator.html?example=polar-activity-breakdown" class="chart-example-card group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-slate-200 hover:ring-[#2563EB] hover:shadow-xl transition-all duration-300">
+                    <div class="chart-preview-container h-32 bg-gradient-to-br from-slate-50 to-rose-50 p-3" data-chart-type="polarArea" data-example-id="polar-activity-breakdown">
+                        <canvas class="chart-preview-canvas w-full h-full"></canvas>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h4 class="font-semibold text-sm text-[#0F172A] group-hover:text-[#2563EB]">Daily Activity</h4>
+                        <p class="text-xs text-[#64748B] mt-1">Polar Area</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="generator.html" class="group inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#2563EB] px-8 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2">
+                    Create Your Own Chart
+                    <i class="fas fa-arrow-right transition-transform duration-200 group-hover:translate-x-0.5"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -391,8 +572,51 @@
           closeAuthModalFn();
         }
       });
+
+      // User dropdown toggle
+      const userAvatarBtn = document.getElementById('user-avatar-btn');
+      const userMenu = document.getElementById('user-menu');
+      const signOutBtn = document.getElementById('sign-out-btn');
+
+      if (userAvatarBtn && userMenu) {
+        userAvatarBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          userMenu.classList.toggle('hidden');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!userMenu.contains(e.target) && !userAvatarBtn.contains(e.target)) {
+            userMenu.classList.add('hidden');
+          }
+        });
+      }
+
+      // Sign out handler
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          if (window.authService) {
+            await window.authService.signOut();
+          }
+        });
+      }
     </script>
     
     <script type="module" src="/src/components/mobile-menu.js"></script>
+    
+    <!-- Mini Chart Previews for Home Page Examples -->
+    <script type="module">
+      import { initMiniChartPreviews } from '/src/components/MiniChartPreview.js';
+      
+      // Initialize mini chart previews when DOM is ready
+      document.addEventListener('DOMContentLoaded', async () => {
+        // Wait for vendor-loader to complete
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Initialize mini chart previews with lazy loading
+        initMiniChartPreviews();
+      });
+    </script>
 </body>
 </html>

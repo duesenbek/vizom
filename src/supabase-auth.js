@@ -101,10 +101,13 @@ class AuthService {
 
   async signInWithGoogle() {
     try {
+      // Store current page for redirect after auth
+      sessionStorage.setItem('vizom_post_login_redirect', window.location.pathname);
+      
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin,
+          redirectTo: `${window.location.origin}/auth-callback.html`,
         },
       });
       
@@ -143,62 +146,129 @@ class AuthService {
   }
 
   updateAuthUI(user) {
-    if (user) {
-      localStorage.setItem('user', JSON.stringify({
-        id: user.id,
-        email: user.email,
-        name: user.user_metadata?.full_name || user.email,
-        avatar: user.user_metadata?.avatar_url || null
-      }));
+    const isSignedIn = !!user;
+    const userData = user ? {
+      id: user.id,
+      email: user.email,
+      name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
+      avatar: user.user_metadata?.avatar_url || null
+    } : null;
+
+    // Store user data in localStorage
+    if (userData) {
+      localStorage.setItem('user', JSON.stringify(userData));
+      console.log('[AuthService] User signed in:', userData.email);
     } else {
       localStorage.removeItem('user');
+      console.log('[AuthService] User signed out');
     }
 
+    // Update UnifiedHeader if available
     if (window.unifiedHeader) {
-      if (user) {
-        window.unifiedHeader.setUserInfo({
-          name: user.user_metadata?.full_name || user.email,
-          email: user.email,
-          avatar: user.user_metadata?.avatar_url || null
-        });
+      if (isSignedIn) {
+        window.unifiedHeader.setUserInfo(userData);
         window.unifiedHeader.isUserLoggedIn = true;
       } else {
-        window.unifiedHeader.signOut();
         window.unifiedHeader.isUserLoggedIn = false;
       }
       window.unifiedHeader.updateAuthUI();
     }
 
-    if (this.headerSignInBtn && this.headerGetStartedBtn) {
-      if (user) {
-        this.headerSignInBtn.classList.add('hidden');
-        this.headerGetStartedBtn.classList.add('hidden');
-      } else {
-        this.headerSignInBtn.classList.remove('hidden');
-        this.headerGetStartedBtn.classList.remove('hidden');
+    // Update static HTML auth buttons (index.html, generator.html, etc.)
+    this.updateStaticAuthButtons(isSignedIn, userData);
+
+    // Update mobile auth buttons
+    this.updateMobileAuthButtons(isSignedIn);
+
+    // Dispatch auth state change event for other components
+    document.dispatchEvent(new CustomEvent('auth:stateChanged', {
+      detail: { isSignedIn, user: userData }
+    }));
+
+    // Hide auth modal if open
+    if (isSignedIn) {
+      this.hideAuthModal();
+    }
+  }
+
+  updateStaticAuthButtons(isSignedIn, userData) {
+    // Get all possible auth button selectors
+    const signInBtns = document.querySelectorAll('#auth-signin, #sign-in-btn, [data-auth="signin"]');
+    const getStartedBtns = document.querySelectorAll('[data-action="get-started"], #get-started-btn, #auth-getstarted');
+    const signOutBtns = document.querySelectorAll('#sign-out-btn, [data-auth="signout"]');
+    const authSections = document.querySelectorAll('#auth-section, .auth-section');
+    const userDropdowns = document.querySelectorAll('#user-dropdown, .user-dropdown');
+
+    if (isSignedIn) {
+      // Hide sign in buttons
+      signInBtns.forEach(btn => btn.classList.add('hidden'));
+      getStartedBtns.forEach(btn => btn.classList.add('hidden'));
+      authSections.forEach(section => section.classList.add('hidden'));
+      
+      // Show user dropdown and sign out
+      userDropdowns.forEach(dropdown => dropdown.classList.remove('hidden'));
+      signOutBtns.forEach(btn => btn.classList.remove('hidden'));
+
+      // Update user info display
+      if (userData) {
+        const initials = userData.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        document.querySelectorAll('#user-initials').forEach(el => el.textContent = initials);
+        document.querySelectorAll('#user-name').forEach(el => el.textContent = userData.name);
+        document.querySelectorAll('#user-email').forEach(el => el.textContent = userData.email);
+        
+        // Update avatar if available
+        if (userData.avatar) {
+          document.querySelectorAll('#user-avatar-img').forEach(img => {
+            img.src = userData.avatar;
+            img.classList.remove('hidden');
+          });
+        }
       }
+    } else {
+      // Show sign in buttons
+      signInBtns.forEach(btn => btn.classList.remove('hidden'));
+      getStartedBtns.forEach(btn => btn.classList.remove('hidden'));
+      authSections.forEach(section => section.classList.remove('hidden'));
+      
+      // Hide user dropdown and sign out
+      userDropdowns.forEach(dropdown => dropdown.classList.add('hidden'));
+      signOutBtns.forEach(btn => btn.classList.add('hidden'));
     }
+  }
 
-    if (this.headerSignOutBtn) {
-      this.headerSignOutBtn.classList.toggle('hidden', !user);
-    }
+  updateMobileAuthButtons(isSignedIn) {
+    const mobileSignIn = document.querySelectorAll('#auth-signin-mobile, #mobile-sign-in-btn');
+    const mobileGetStarted = document.querySelectorAll('#mobile-get-started-btn');
+    const mobileAuthSection = document.querySelectorAll('#mobile-auth-buttons, .mobile-auth-buttons');
+    const mobileUserSection = document.querySelectorAll('#mobile-user-section, .mobile-user-section');
 
-    if (this.mobileSignInBtn && this.mobileGetStartedBtn) {
-      const isAuth = !!user;
-      this.mobileSignInBtn.textContent = isAuth ? 'Sign Out' : 'Sign In';
-      this.mobileGetStartedBtn.classList.toggle('hidden', isAuth);
-      if (isAuth) {
-        this.mobileSignInBtn.onclick = (event) => {
-          event.preventDefault();
+    mobileSignIn.forEach(btn => {
+      if (isSignedIn) {
+        btn.textContent = 'Sign Out';
+        btn.onclick = (e) => {
+          e.preventDefault();
           this.signOut();
         };
       } else {
-        this.mobileSignInBtn.onclick = (event) => {
-          event.preventDefault();
+        btn.textContent = 'Sign In';
+        btn.onclick = (e) => {
+          e.preventDefault();
           this.showAuthModal();
         };
       }
-    }
+    });
+
+    mobileGetStarted.forEach(btn => {
+      btn.classList.toggle('hidden', isSignedIn);
+    });
+
+    mobileAuthSection.forEach(section => {
+      section.classList.toggle('hidden', isSignedIn);
+    });
+
+    mobileUserSection.forEach(section => {
+      section.classList.toggle('hidden', !isSignedIn);
+    });
   }
 
   showAuthModal() {
@@ -233,8 +303,13 @@ class AuthService {
 }
 
 // Initialize auth service when DOM is loaded
+let authServiceInstance = null;
+
 document.addEventListener('DOMContentLoaded', () => {
-  new AuthService();
+  authServiceInstance = new AuthService();
+  window.authService = authServiceInstance;
 });
 
+// Export for module usage
 export { AuthService };
+export const getAuthService = () => authServiceInstance;

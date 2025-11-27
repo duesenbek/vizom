@@ -3,10 +3,7 @@
     <!-- Logo Section -->
     <div class="logo-section text-[#0A1E3D]">
       <a href="index.html" class="logo-link" aria-label="Vizom home">
-        <div class="logo-icon">
-          <img src="/public/images/vizom-icon.png" alt="VIZOM" style="width: 100%; height: 100%; object-fit: contain;">
-        </div>
-        <img src="/favicon.png" alt="Vizom logo" class="logo-favicon">
+        <img src="assets/images/logos/vizom-icon.png" alt="VIZOM" class="h-8 w-8">
         <span class="logo-text">VIZOM</span>
       </a>
       <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
@@ -36,26 +33,45 @@
 
     <!-- User Actions -->
     <div class="user-actions">
-      <!-- Language Selector -->
-      <div class="language-selector">
-        <button class="language-button brand-button-secondary" id="language-button">
-          <i class="fas fa-language language-icon" aria-hidden="true"></i>
-          <span class="language-text">EN</span>
-          <i class="fas fa-chevron-down language-chevron" aria-hidden="true"></i>
+      <!-- Language Selector with Flags -->
+      <div class="language-selector relative" id="language-selector">
+        <button class="language-toggle flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition" id="language-toggle" aria-label="Select language">
+          <span id="language-flag" class="text-lg">🇺🇸</span>
+          <i class="fas fa-chevron-down text-xs text-slate-400"></i>
         </button>
-        <div class="language-dropdown brand-panel-floating" id="language-dropdown">
-          <div class="language-option active" data-lang="en">
-            <i class="fas fa-globe-americas language-icon" aria-hidden="true"></i>
+        <div class="language-menu hidden absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50" id="language-menu">
+          <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="en">
+            <span class="text-lg">🇺🇸</span>
             <span>English</span>
-          </div>
-          <div class="language-option" data-lang="ru">
-            <i class="fas fa-globe-asia language-icon" aria-hidden="true"></i>
+          </button>
+          <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="ru">
+            <span class="text-lg">🇷🇺</span>
             <span>Русский</span>
-          </div>
-          <div class="language-option" data-lang="de">
-            <i class="fas fa-globe-europe language-icon" aria-hidden="true"></i>
-            <span>Deutsch</span>
-          </div>
+          </button>
+          <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="kk">
+            <span class="text-lg">🇰🇿</span>
+            <span>Қазақша</span>
+          </button>
+          <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="tr">
+            <span class="text-lg">🇹🇷</span>
+            <span>Türkçe</span>
+          </button>
+          <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="pt">
+            <span class="text-lg">🇧🇷</span>
+            <span>Português</span>
+          </button>
+          <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="es">
+            <span class="text-lg">🇪🇸</span>
+            <span>Español</span>
+          </button>
+          <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="fr">
+            <span class="text-lg">🇫🇷</span>
+            <span>Français</span>
+          </button>
+          <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="pl">
+            <span class="text-lg">🇵🇱</span>
+            <span>Polski</span>
+          </button>
         </div>
       </div>
 

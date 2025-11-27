@@ -670,15 +670,15 @@ class UnifiedHeader {
           <nav class="primary-nav">
             <a href="index.html" class="nav-link" data-page="index">
               <i class="fas fa-home nav-icon"></i>
-              <span>Home</span>
+              <span data-i18n="nav.home">Home</span>
             </a>
             <a href="generator.html" class="nav-link" data-page="generator">
               <i class="fas fa-chart-line nav-icon"></i>
-              <span>Generator</span>
+              <span data-i18n="nav.generator">Generator</span>
             </a>
             <a href="templates.html" class="nav-link" data-page="templates">
               <i class="fas fa-layer-group nav-icon"></i>
-              <span>Templates</span>
+              <span data-i18n="nav.templates">Templates</span>
             </a>
             <a href="pricing.html" class="nav-link" data-page="pricing">
               <i class="fas fa-tag nav-icon"></i>
@@ -770,15 +770,15 @@ class UnifiedHeader {
         <nav class="mobile-nav">
           <a href="index.html" class="mobile-nav-link" data-page="index">
             <i class="fas fa-home mobile-nav-icon"></i>
-            <span>Home</span>
+            <span data-i18n="nav.home">Home</span>
           </a>
           <a href="generator.html" class="mobile-nav-link" data-page="generator">
             <i class="fas fa-chart-line mobile-nav-icon"></i>
-            <span>Generator</span>
+            <span data-i18n="nav.generator">Generator</span>
           </a>
           <a href="templates.html" class="mobile-nav-link" data-page="templates">
             <i class="fas fa-layer-group mobile-nav-icon"></i>
-            <span>Templates</span>
+            <span data-i18n="nav.templates">Templates</span>
           </a>
           <a href="pricing.html" class="mobile-nav-link" data-page="pricing">
             <i class="fas fa-tag mobile-nav-icon"></i>
@@ -808,6 +808,11 @@ class UnifiedHeader {
 
     // Announce that the header has been rendered
     document.dispatchEvent(new CustomEvent('header:rendered'));
+    
+    // Re-apply translations after header is rendered
+    if (window.VIZOM_I18N?.apply) {
+      window.VIZOM_I18N.apply();
+    }
   }
 
   // Helper to create fragment from HTML
@@ -839,6 +844,10 @@ class UnifiedHeader {
         this.selectLanguage(e.currentTarget.dataset.lang);
       });
     });
+
+    // Initialize language button with saved preference
+    const savedLang = localStorage.getItem('vizom_lang') || localStorage.getItem('preferred-language') || 'en';
+    this.updateLanguageButtonText(savedLang);
 
     // User dropdown
     const userAvatar = document.getElementById('user-avatar');
@@ -909,6 +918,29 @@ class UnifiedHeader {
     dropdown?.classList.toggle('show');
   }
 
+  // Update language button text without triggering translation
+  updateLanguageButtonText(lang) {
+    const button = document.getElementById('language-button');
+    const options = document.querySelectorAll('.language-option');
+    const langNames = { en: 'EN', ru: 'RU', de: 'DE', es: 'ES', pt: 'PT', tr: 'TR', kk: 'KK' };
+    
+    if (button) {
+      const textEl = button.querySelector('.language-text');
+      if (textEl) {
+        textEl.textContent = langNames[lang] || lang.toUpperCase();
+      }
+    }
+    
+    // Update active state on options
+    options.forEach(option => {
+      if (option.dataset.lang === lang) {
+        option.classList.add('active');
+      } else {
+        option.classList.remove('active');
+      }
+    });
+  }
+
   // Select language
   selectLanguage(lang) {
     const dropdown = document.getElementById('language-dropdown');
@@ -925,21 +957,29 @@ class UnifiedHeader {
     });
 
     // Update button text
-    const langNames = { en: 'EN', ru: 'RU', de: 'DE' };
+    const langNames = { en: 'EN', ru: 'RU', de: 'DE', es: 'ES', pt: 'PT', tr: 'TR', kk: 'KK' };
     if (button) {
-      button.querySelector('.language-text').textContent = langNames[lang];
+      button.querySelector('.language-text').textContent = langNames[lang] || lang.toUpperCase();
     }
 
     // Close dropdown
     dropdown?.classList.remove('show');
 
-    // Store preference
+    // Store preference (both keys for compatibility)
     localStorage.setItem('preferred-language', lang);
+    localStorage.setItem('vizom_lang', lang);
+
+    // Apply translations using i18n system
+    if (window.VIZOM_I18N?.set) {
+      window.VIZOM_I18N.set(lang);
+    }
 
     // Emit language change event
     document.dispatchEvent(new CustomEvent('language:change', {
       detail: { language: lang }
     }));
+    
+    console.log('[UnifiedHeader] Language changed to:', lang);
   }
 
   // Toggle user menu

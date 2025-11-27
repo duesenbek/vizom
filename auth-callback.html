@@ -6,8 +6,8 @@
   <title>Auth Callback • VIZOM</title>
   
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="public/images/vizom-icon.png">
-  <link rel="apple-touch-icon" href="public/images/vizom-icon.png">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
   
   <link rel="stylesheet" href="src/styles/minimal.css?v=2.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -21,20 +21,36 @@
     <div class="w-6 h-6 mx-auto rounded-full border-2 border-slate-300 border-t-slate-900 animate-spin"></div>
   </div>
   <script type="module">
-    import { authService } from './src/services/authService.js';
+    import { supabase } from './src/supabase-client.js';
 
     (async () => {
       try {
-        const session = await authService.handleAuthCallback();
+        // Get the session from the URL hash (Supabase OAuth callback)
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('[Auth Callback] Session error:', error);
+          throw error;
+        }
+        
+        if (data?.session) {
+          console.log('[Auth Callback] Session established');
+        }
+        
+        // Redirect to the stored page or home
         const redirect = sessionStorage.getItem('vizom_post_login_redirect') || '/index.html';
         sessionStorage.removeItem('vizom_post_login_redirect');
-        location.replace(redirect);
+        
+        // Small delay to ensure session is persisted
+        setTimeout(() => {
+          location.replace(redirect);
+        }, 100);
       } catch (e) {
         console.error('[Auth Callback] Error:', e);
-        if (window.uiFeedback?.showToast) {
-          window.uiFeedback.showToast('Authentication failed. Please try again.', 'error');
-        }
-        location.replace('/index.html');
+        // Redirect to home even on error
+        setTimeout(() => {
+          location.replace('/index.html');
+        }, 1000);
       }
     })();
   </script>

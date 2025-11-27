@@ -6,8 +6,8 @@
     <title>VIZOM - Pricing Plans | Choose Your Chart Generation Plan</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/images/vizom-icon.png">
-    <link rel="apple-touch-icon" href="/images/vizom-icon.png">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
 
     <!-- Inter font for unified typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +48,12 @@
 
     <!-- Shared vendor bundle: Chart.js, D3, Supabase auth/stripe -->
     <script type="module" src="src/app/vendor-loader.js"></script>
+    
+    <!-- Internationalization (i18n) -->
+    <script src="src/lib/i18n.js"></script>
+    
+    <!-- Supabase Auth Service -->
+    <script type="module" src="src/supabase-auth.js"></script>
 </head>
 <body class="bg-[#F8FAFC] font-sans text-[#0F172A] antialiased">
   <script type="module" src="scripts/main.js"></script>
@@ -104,12 +110,54 @@
         </a>
         <!-- Desktop Navigation -->
         <div class="hidden items-center gap-8 md:flex">
-          <a href="index.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Home</a>
-          <a href="generator.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Generator</a>
-          <a href="templates.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Templates</a>
+          <a href="index.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.home">Home</a>
+          <a href="generator.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.generator">Generator</a>
+          <a href="templates.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.templates">Templates</a>
           <a href="pricing.html" aria-current="page" class="text-sm font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]">Pricing</a>
-          <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin" type="button">Sign In</button>
-          <a href="generator.html" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+          <!-- Language Selector -->
+          <div class="relative" id="language-selector">
+            <button class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition" id="language-toggle" aria-label="Select language">
+              <span id="language-flag" class="text-lg">🇺🇸</span>
+              <i class="fas fa-chevron-down text-xs text-slate-400"></i>
+            </button>
+            <div class="hidden absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50" id="language-menu">
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="en"><span class="text-lg">🇺🇸</span><span>English</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="ru"><span class="text-lg">🇷🇺</span><span>Русский</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="kk"><span class="text-lg">🇰🇿</span><span>Қазақша</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="tr"><span class="text-lg">🇹🇷</span><span>Türkçe</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="pt"><span class="text-lg">🇧🇷</span><span>Português</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="es"><span class="text-lg">🇪🇸</span><span>Español</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="fr"><span class="text-lg">🇫🇷</span><span>Français</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="pl"><span class="text-lg">🇵🇱</span><span>Polski</span></button>
+            </div>
+          </div>
+          <!-- Auth Section (shown when not logged in) -->
+          <div id="auth-section" class="flex items-center gap-3">
+            <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin" type="button" data-i18n="auth.signIn">Sign In</button>
+            <a href="generator.html" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" data-i18n="auth.getStarted">Get Started</a>
+          </div>
+          <!-- User Dropdown (shown when logged in) -->
+          <div id="user-dropdown" class="hidden relative">
+            <button id="user-avatar-btn" class="flex items-center gap-2 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 h-10 w-10 items-center justify-center text-white font-semibold text-sm hover:from-blue-600 hover:to-blue-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              <span id="user-initials">U</span>
+            </button>
+            <div id="user-menu" class="absolute right-0 top-12 w-64 bg-white rounded-xl shadow-lg border border-slate-200 py-2 hidden z-50">
+              <div class="px-4 py-3 border-b border-slate-100">
+                <p id="user-name" class="text-sm font-semibold text-slate-900">User Name</p>
+                <p id="user-email" class="text-xs text-slate-500">user@example.com</p>
+              </div>
+              <a href="generator.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                <i class="fas fa-chart-line w-4 text-slate-400"></i>
+                <span>My Charts</span>
+              </a>
+              <div class="border-t border-slate-100 mt-1 pt-1">
+                <button id="sign-out-btn" class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left">
+                  <i class="fas fa-sign-out-alt w-4"></i>
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- Mobile Menu Toggle -->
         <button class="inline-flex h-10 w-10 items-center justify-center rounded-xl md:hidden" id="mobile-menu-toggle" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
@@ -119,13 +167,13 @@
       <!-- Mobile Navigation -->
       <div class="hidden md:hidden" id="mobile-menu">
         <div class="space-y-2 py-4">
-          <a href="index.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Home</a>
-          <a href="generator.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Generator</a>
-          <a href="templates.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Templates</a>
+          <a href="index.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.home">Home</a>
+          <a href="generator.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.generator">Generator</a>
+          <a href="templates.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.templates">Templates</a>
           <a href="pricing.html" aria-current="page" class="block py-2 text-base font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]">Pricing</a>
         </div>
-        <button class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#EFF6FF] px-6 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#E2E8F0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin-mobile" type="button">Sign In</button>
-        <a href="generator.html" class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-6 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+        <button class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#EFF6FF] px-6 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#E2E8F0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin-mobile" type="button" data-i18n="auth.signIn">Sign In</button>
+        <a href="generator.html" class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-6 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" data-i18n="auth.getStarted">Get Started</a>
       </div>
     </div>
   </header>
@@ -151,38 +199,157 @@
         <span class="text-sm font-medium text-[#475569]">Yearly <span class="font-semibold text-[#10B981]">(Save 20%)</span></span>
       </div>
       <!-- Pricing Cards -->
-      <div class="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
+      <div class="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-2">
         <!-- Free Plan -->
-        <div class="group flex flex-col rounded-2xl border border-[#E2E8F0] bg-white/90 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-          <h3 class="text-lg font-semibold text-[#0A1E3D]">Free</h3>
-          <p class="mt-2 text-sm text-[#64748B]">For getting started.</p>
-          <div class="mt-6 flex items-baseline gap-1">
-            <span class="pricing-amount text-4xl font-bold text-[#0A1E3D]">$0</span>
-            <span class="text-[#475569]">/mo</span>
+        <div class="group flex flex-col rounded-2xl border border-[#E2E8F0] bg-white/90 p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
+              <i class="fas fa-chart-simple text-slate-600"></i>
+            </div>
+            <h3 class="text-xl font-bold text-[#0A1E3D]">Free</h3>
           </div>
-          <ul class="mt-6 space-y-2 text-sm text-[#475569]">
-            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>Basic charts</span></li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>Limited exports</span></li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>Community support</span></li>
-          </ul>
-          <a href="generator.html" class="mt-8 inline-flex h-11 items-center justify-center rounded-xl bg-[#2563EB] px-4 text-sm font-medium text-white shadow-[0_10px_20px_rgba(30,95,224,0.2)] transition hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#22D3EE]">Get Started</a>
+          <p class="mt-3 text-sm text-[#64748B]">Perfect for getting started with data visualization.</p>
+          <div class="mt-6 flex items-baseline gap-1">
+            <span class="pricing-amount text-5xl font-bold text-[#0A1E3D]">$0</span>
+            <span class="text-[#475569]">/forever</span>
+          </div>
+          
+          <div class="mt-8 space-y-4">
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">What's included:</p>
+            <ul class="space-y-3 text-sm text-[#475569]">
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check mt-0.5 text-[#10B981]"></i>
+                <span><strong class="text-slate-700">ALL 18 chart types</strong> — Bar, Line, Pie, Radar, Scatter, Sankey, Treemap, Gauge & more</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check mt-0.5 text-[#10B981]"></i>
+                <span><strong class="text-slate-700">5 basic templates</strong> — Get started quickly</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check mt-0.5 text-[#10B981]"></i>
+                <span><strong class="text-slate-700">AI chart generation</strong> — 5 generations per day</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check mt-0.5 text-[#10B981]"></i>
+                <span><strong class="text-slate-700">PNG export</strong> — With Vizom watermark</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-check mt-0.5 text-[#10B981]"></i>
+                <span><strong class="text-slate-700">3 saved charts</strong> — Local storage</span>
+              </li>
+            </ul>
+          </div>
+          
+          <a href="generator.html" class="mt-8 inline-flex h-12 items-center justify-center rounded-xl bg-slate-900 px-6 text-sm font-semibold text-white shadow-lg transition hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500">
+            <i class="fas fa-rocket mr-2"></i>
+            Start Free
+          </a>
         </div>
 
         <!-- Pro Plan -->
-        <div class="group relative flex flex-col rounded-2xl border border-transparent bg-white p-6 shadow-xl ring-2 ring-[#2563EB]/30 transition hover:-translate-y-1">
-          <div class="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-[#2563EB] to-[#22D3EE] px-4 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-lg">Most Popular</div>
-          <h3 class="mt-4 text-lg font-semibold text-[#0A1E3D]">Pro</h3>
-          <p class="mt-2 text-sm text-[#64748B]">For teams and power users.</p>
+        <div class="group relative flex flex-col rounded-2xl border-2 border-[#2563EB] bg-white p-8 shadow-2xl transition hover:-translate-y-1">
+          <div class="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-white shadow-lg">
+            <i class="fas fa-crown mr-1"></i> Most Popular
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500">
+              <i class="fas fa-gem text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold text-[#0A1E3D]">Pro</h3>
+          </div>
+          <p class="mt-3 text-sm text-[#64748B]">Unlock premium templates and unlimited power.</p>
           <div class="mt-6 flex items-baseline gap-1">
-            <span class="pricing-amount text-4xl font-bold text-[#0A1E3D]">$2.99</span>
+            <span class="pricing-amount text-5xl font-bold text-[#0A1E3D]" id="pro-price">$2.99</span>
             <span class="text-[#475569]">/mo</span>
           </div>
-          <ul class="mt-6 space-y-2 text-sm text-[#475569]">
-            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>All chart types</span></li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>Unlimited exports</span></li>
-            <li class="flex items-center gap-2"><i class="fas fa-check text-[#10B981]"></i><span>Priority support</span></li>
-          </ul>
-          <a href="generator.html" class="mt-8 inline-flex h-11 items-center justify-center rounded-xl bg-gradient-to-r from-[#2563EB] to-[#22D3EE] px-4 text-sm font-semibold text-[#0A1E3D] shadow-[0_15px_30px_rgba(34,211,238,0.25)] transition hover:from-[#1E5FE0] hover:to-[#06B6D4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A1E3D] focus-visible:ring-offset-2" data-action="upgrade-pro">Upgrade to Pro</a>
+          <p class="mt-1 text-xs text-emerald-600 font-medium" id="pro-savings">or $2.39/mo billed yearly (save 20%)</p>
+          
+          <div class="mt-8 space-y-4">
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Everything in Free, plus:</p>
+            <ul class="space-y-3 text-sm text-[#475569]">
+              <li class="flex items-start gap-3">
+                <i class="fas fa-crown mt-0.5 text-amber-500"></i>
+                <span><strong class="text-slate-700">30+ premium templates</strong> — ECharts, ApexCharts, stunning designs</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-infinity mt-0.5 text-blue-500"></i>
+                <span><strong class="text-slate-700">Unlimited AI generations</strong> — No daily limits</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-file-export mt-0.5 text-purple-500"></i>
+                <span><strong class="text-slate-700">PNG, SVG, PDF export</strong> — No watermark</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-cloud mt-0.5 text-cyan-500"></i>
+                <span><strong class="text-slate-700">Unlimited cloud storage</strong> — Access anywhere</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fas fa-headset mt-0.5 text-green-500"></i>
+                <span><strong class="text-slate-700">Priority support</strong> — Fast response times</span>
+              </li>
+            </ul>
+          </div>
+          
+          <button id="upgrade-pro-btn" class="mt-8 inline-flex h-12 items-center justify-center rounded-xl bg-gradient-to-r from-[#2563EB] to-[#06B6D4] px-6 text-sm font-semibold text-white shadow-[0_15px_30px_rgba(34,211,238,0.3)] transition hover:from-[#1E5FE0] hover:to-[#0891B2] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] focus-visible:ring-offset-2">
+            <i class="fas fa-bolt mr-2"></i>
+            Upgrade to Pro
+          </button>
+          <p class="mt-3 text-center text-xs text-slate-400">
+            <i class="fas fa-lock mr-1"></i> Secure payment via Stripe • Cancel anytime
+          </p>
+        </div>
+      </div>
+      
+      <!-- Feature Comparison -->
+      <div class="mx-auto mt-16 max-w-3xl">
+        <h3 class="text-center text-lg font-semibold text-slate-700 mb-6">Feature Comparison</h3>
+        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <table class="w-full text-sm">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="px-6 py-4 text-left font-semibold text-slate-700">Feature</th>
+                <th class="px-6 py-4 text-center font-semibold text-slate-700">Free</th>
+                <th class="px-6 py-4 text-center font-semibold text-blue-600">Pro</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="px-6 py-3 text-slate-600">Chart Types</td>
+                <td class="px-6 py-3 text-center"><span class="text-emerald-600 font-medium">All 18 types</span></td>
+                <td class="px-6 py-3 text-center"><span class="text-emerald-600 font-medium">All 18 types</span></td>
+              </tr>
+              <tr class="bg-slate-50/50">
+                <td class="px-6 py-3 text-slate-600">Templates</td>
+                <td class="px-6 py-3 text-center">5 basic</td>
+                <td class="px-6 py-3 text-center"><span class="text-blue-600 font-medium">30+ premium</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-3 text-slate-600">AI Generations</td>
+                <td class="px-6 py-3 text-center">5/day</td>
+                <td class="px-6 py-3 text-center"><span class="text-blue-600 font-medium">Unlimited</span></td>
+              </tr>
+              <tr class="bg-slate-50/50">
+                <td class="px-6 py-3 text-slate-600">Export Formats</td>
+                <td class="px-6 py-3 text-center">PNG only</td>
+                <td class="px-6 py-3 text-center"><span class="text-blue-600 font-medium">PNG, SVG, PDF</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-3 text-slate-600">Watermark</td>
+                <td class="px-6 py-3 text-center"><i class="fas fa-check text-slate-400"></i></td>
+                <td class="px-6 py-3 text-center"><i class="fas fa-times text-emerald-500"></i> None</td>
+              </tr>
+              <tr class="bg-slate-50/50">
+                <td class="px-6 py-3 text-slate-600">Saved Charts</td>
+                <td class="px-6 py-3 text-center">3 max</td>
+                <td class="px-6 py-3 text-center"><span class="text-blue-600 font-medium">Unlimited</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-3 text-slate-600">Support</td>
+                <td class="px-6 py-3 text-center">Community</td>
+                <td class="px-6 py-3 text-center"><span class="text-blue-600 font-medium">Priority</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -589,15 +756,41 @@
       const successToast = document.getElementById('copy-success-toast');
       const upgradeButtons = document.querySelectorAll('[data-action="upgrade-pro"]');
       const billingToggle = document.getElementById('billing-toggle');
+      const upgradeProBtn = document.getElementById('upgrade-pro-btn');
+      const proPriceEl = document.getElementById('pro-price');
+      const proSavingsEl = document.getElementById('pro-savings');
 
-      // Initial validation of displayed prices and on billing toggle changes
-      validateUsdPrices();
+      let isYearlyBilling = false;
+
+      // Billing toggle handler
       if (billingToggle) {
         billingToggle.addEventListener('click', () => {
-          // Defer so the existing toggle script can update prices first
+          isYearlyBilling = !isYearlyBilling;
+          const knob = billingToggle.querySelector('span');
+          
+          if (isYearlyBilling) {
+            billingToggle.classList.remove('bg-[#CBD5E1]');
+            billingToggle.classList.add('bg-[#2563EB]');
+            billingToggle.setAttribute('aria-checked', 'true');
+            if (knob) knob.style.transform = 'translateX(1.5rem)';
+            if (proPriceEl) proPriceEl.textContent = '$2.39';
+            if (proSavingsEl) proSavingsEl.textContent = '$28.68/year billed annually';
+          } else {
+            billingToggle.classList.add('bg-[#CBD5E1]');
+            billingToggle.classList.remove('bg-[#2563EB]');
+            billingToggle.setAttribute('aria-checked', 'false');
+            if (knob) knob.style.transform = 'translateX(0.25rem)';
+            if (proPriceEl) proPriceEl.textContent = '$2.99';
+            if (proSavingsEl) proSavingsEl.textContent = 'or $2.39/mo billed yearly (save 20%)';
+          }
+          
+          // Defer validation
           setTimeout(() => validateUsdPrices(), 0);
         });
       }
+
+      // Initial validation of displayed prices
+      validateUsdPrices();
 
       // Stripe Checkout binding for Upgrade buttons
       upgradeButtons.forEach((btn) => {
@@ -633,6 +826,32 @@
         }, { capture: true });
       });
 
+      // Upgrade Pro button (new styled button)
+      if (upgradeProBtn) {
+        upgradeProBtn.addEventListener('click', async (event) => {
+          event.preventDefault();
+          
+          if (!validateUsdPrices()) return;
+
+          const priceText = proPriceEl?.textContent || '$2.99';
+
+          try {
+            feedback.showLoading('Redirecting to secure Stripe Checkout…', 'Upgrade to Pro');
+
+            trackEvent('upgrade_clicked', {
+              plan: 'pro',
+              source: 'pricing_card',
+              billing_interval: isYearlyBilling ? 'yearly' : 'monthly',
+              price_usd: priceText,
+            });
+
+            await startCheckout(isYearlyBilling ? 'pro_yearly' : 'pro');
+          } finally {
+            feedback.hideLoading();
+          }
+        });
+      }
+
       // Keep email copy modal as a fallback/help utility (not primary upgrade path)
       if (upgradeModal && closeUpgradeModalBtn && copyEmailBtn && successToast) {
         const hideModal = () => {
@@ -653,6 +872,33 @@
           }).catch(() => {
             feedback.showToast('Failed to copy email. Please try again.', 'error');
           });
+        });
+      }
+
+      // User dropdown toggle
+      const userAvatarBtn = document.getElementById('user-avatar-btn');
+      const userMenu = document.getElementById('user-menu');
+      const signOutBtn = document.getElementById('sign-out-btn');
+
+      if (userAvatarBtn && userMenu) {
+        userAvatarBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          userMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!userMenu.contains(e.target) && !userAvatarBtn.contains(e.target)) {
+            userMenu.classList.add('hidden');
+          }
+        });
+      }
+
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          if (window.authService) {
+            await window.authService.signOut();
+          }
         });
       }
     });

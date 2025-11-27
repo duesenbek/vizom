@@ -2,6 +2,187 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.2] - 2025-11-26
+
+### Added
+- **Pricing Page Overhaul:** Complete redesign with detailed Free vs Pro comparison table
+- **Template Gallery Badges:** Library badges (Chart.js, ECharts, ApexCharts) on template cards
+- **Validation Checklist Test:** `ValidationChecklist.runAll()` for testing all features
+
+### Changed
+- **Pricing Page:** Clear feature matrix showing ALL chart types are FREE
+- **Billing Toggle:** Working monthly/yearly toggle with price updates ($2.99 vs $2.39/mo)
+- **Template Cards:** Show FREE/PRO badges, library badges, and lock icons
+
+### Feature Matrix (Final)
+**FREE Tier:**
+- ✅ ALL 18 chart types (Bar, Line, Pie, Radar, Scatter, Sankey, Treemap, Gauge, etc.)
+- ✅ 5 basic templates
+- ✅ AI chart generation (5/day)
+- ✅ PNG export (with watermark)
+- ✅ 3 saved charts
+
+**PRO Tier ($2.39/mo yearly):**
+- ✅ ALL 18 chart types (same as Free)
+- ✅ 30+ premium templates (ECharts, ApexCharts designs)
+- ✅ Unlimited AI generations
+- ✅ PNG/SVG/PDF export (no watermark)
+- ✅ Unlimited cloud storage
+- ✅ Priority support
+
+## [2.1.1] - 2025-11-26
+
+### Changed
+- **ALL Chart Types are FREE:** Removed Pro gating from chart types - Bar, Line, Pie, Radar, Scatter, Sankey, Treemap, etc. all available to free users
+- **Pro = Premium Templates Only:** Pro subscription now focuses on 30+ premium templates, not chart types
+- **Added Premium Chart Libraries:** ECharts 5.4.3 and ApexCharts 3.44.0 for stunning visualizations
+
+### Feature Matrix (Updated)
+**FREE Tier:**
+- ✅ ALL 18 chart types (Bar, Line, Pie, Radar, Scatter, Sankey, Treemap, Gauge, etc.)
+- 5 basic templates
+- PNG export only
+- 5 AI generations/day
+- 3 saved charts max
+
+**PRO Tier ($2.99/mo):**
+- ✅ ALL 18 chart types (same as free)
+- 30+ premium templates
+- PNG, SVG, PDF, JSON export
+- Unlimited AI generations
+- Unlimited saved charts
+- No watermark
+
+## [2.1.0] - 2025-11-26
+
+### Added
+- **Pro Subscription System:** Complete Free vs Pro feature gating
+- **30 Chart Templates:** 5 free + 25 premium templates across 6 categories
+- **Feature Gating Service:** `src/services/featureGating.js` with console logging
+- **Upgrade Modal:** Beautiful modal with pricing toggle ($2.99/mo or $2.39/mo yearly)
+- **Pro Badges:** Visual indicators on locked templates and export formats
+- **Subscription Config:** `src/config/subscription.js` with all tier limits
+
+### Changed
+- **Stripe Checkout:** Updated to support monthly/yearly billing periods
+- **Success URL:** Redirects to generator.html with payment=success param
+
+### Technical
+- `src/config/subscription.js` - Tier definitions and limits
+- `src/services/featureGating.js` - Access control with logging
+- `src/data/templates.js` - 30 templates database
+- `src/components/UpgradeModal.js` - Upgrade prompt UI
+- `src/integration/proFeatures.js` - UI integration
+- `styles/components/pro-features.css` - Pro badge styling
+- `tests/pro-features.test.js` - Test suite
+
+## [2.0.8] - 2025-11-26
+
+### Fixed
+- **Auth UI State:** Fixed UI not updating after successful Google OAuth sign-in
+- **User Dropdown:** Added user dropdown with avatar, name, email, and sign out button to all pages
+- **Auth State Listener:** Enhanced `onAuthStateChange` listener to properly update all UI elements
+- **Static Button Updates:** `updateStaticAuthButtons()` now updates all auth buttons across pages
+
+### Added
+- **User Dropdown HTML:** Added user dropdown component to index.html, generator.html, templates.html, pricing.html
+- **User Menu Toggle:** Added click handlers for user avatar dropdown toggle
+- **Sign Out Handler:** Added sign out button functionality in user dropdown
+- **Auth State Event:** Dispatches `auth:stateChanged` custom event for other components
+
+### Changed
+- **AuthService:** Refactored `updateAuthUI()` to handle both static HTML and UnifiedHeader
+- **User Info Display:** Shows user initials, name, and email in dropdown after sign-in
+
+### Why
+- After OAuth completion, Sign In button remained visible and user data wasn't shown
+- Auth state wasn't being reflected in the UI across all pages
+
+### Impact
+- After sign-in: Sign In/Get Started buttons hide, user avatar dropdown appears
+- User can see their name/email and sign out from any page
+- Auth state persists and syncs across page navigation
+
+## [2.0.7] - 2025-11-26
+
+### Fixed
+- **Sign In Button:** Fixed Sign In button not responding due to missing auth service initialization
+- **Supabase Auth:** Connected `src/supabase-auth.js` AuthService to all HTML pages
+- **OAuth Redirect:** Fixed Google OAuth redirect URL to use `/auth-callback.html`
+- **Auth Callback:** Updated auth-callback.html to properly handle Supabase OAuth session
+
+### Added
+- **Auth Script Loading:** Added `<script type="module" src="src/supabase-auth.js">` to index.html, generator.html, templates.html, pricing.html
+- **Auth Translation Keys:** Added `auth.title`, `auth.description`, `auth.continueWithGoogle` keys for EN and RU
+
+### Why
+- Sign In button didn't respond because Supabase AuthService wasn't being loaded
+- OAuth flow was broken due to incorrect redirect URL configuration
+
+### Impact
+- Clicking "Sign In" now opens the auth modal with Google OAuth button
+- Google OAuth flow redirects to auth-callback.html and back to the original page
+- Auth state persists across page loads via Supabase session
+
+## [2.0.6] - 2025-11-26
+
+### Fixed
+- **Language Switcher:** Fixed language selector not updating UI text when clicking language options
+- **i18n Integration:** Connected `UnifiedHeader.selectLanguage()` to `VIZOM_I18N.set()` to apply translations
+- **Language Persistence:** Language button now initializes with saved preference on page load
+
+### Added
+- **Comprehensive i18n Attributes:** Added `data-i18n` attributes to all translatable text across pages:
+  - Navigation links (Home, Generator, Templates)
+  - Auth buttons (Sign In, Get Started)
+  - Hero section (title, subtitle, buttons, badges)
+  - Features section (titles, descriptions, buttons)
+  - Examples section (title, subtitle)
+  - Generator page (chart type labels, section titles)
+  - Templates page (header title)
+- **i18n Attribute Types:** Support for `data-i18n`, `data-i18n-placeholder`, `data-i18n-title`, `data-i18n-aria`
+- **New Translation Keys:** Added 40+ new translation keys for auth, hero, features, examples, and common strings
+
+### Changed
+- **Russian Translations:** Updated all Russian translations from English placeholders to proper Russian text
+- **i18n Script Loading:** Added `i18n.js` script to `index.html`, `generator.html`, `templates.html`, and `pricing.html`
+- **applyTranslations():** Enhanced to handle title/tooltip and aria-label translations
+
+### Why
+- Language selector UI existed but clicking it did nothing (no text changes, no locale update)
+- The i18n system was not connected to the language selector component
+- HTML elements lacked `data-i18n` attributes for the translation system to work
+
+### Impact
+- Clicking a language option now updates all UI text with `data-i18n` attributes
+- Language preference is persisted across page loads
+- Full page translation support for EN, RU, KK languages
+
+## [2.0.5] - 2025-11-26
+
+### Added
+- **MiniChartPreview System:** New `src/components/MiniChartPreview.js` with lazy-loading chart previews
+- **Real Demo Datasets:** 12 real-world datasets for bar, line, pie, doughnut, area, scatter, bubble, radar, polar, force, treemap, and sankey charts
+- **Home Page Chart Gallery:** New "See what you can create" section with 8 live chart examples
+- **URL Parameter Support:** Generator accepts `?example=` and `?prompt=` URL parameters for instant chart loading
+
+### Changed
+- **Generator Quick Prompts:** All 8 quick prompt cards now render live mini-charts instead of icons
+- **Chart Type Picker:** All 12 chart type buttons show real chart previews with actual data
+- **Templates Gallery:** Template cards now display live chart previews instead of static thumbnails
+- **Click-to-Generate:** Clicking any example card instantly populates prompt and triggers generation
+
+### Why
+- Users can see exactly what each chart type looks like before selecting
+- Real data previews (Cities, Sales, Temperature, Skills, etc.) instead of placeholder icons
+- Seamless flow from home page examples to generator with pre-filled data
+
+### Impact
+- All demo charts render real Chart.js/D3 visualizations
+- Lazy loading via IntersectionObserver for performance optimization
+- SVG fallback when Chart.js is not yet loaded
+- 12 chart types × real datasets = complete visual preview coverage
+
 ## [2.0.4] - 2025-11-26
 
 ### Changed

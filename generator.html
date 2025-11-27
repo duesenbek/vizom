@@ -28,9 +28,8 @@
     <meta name="twitter:image" content="https://vizom.app/images/og-image.png">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/vizom-icon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/vizom-icon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/vizom-icon.png">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2563EB">
     
@@ -154,9 +153,27 @@
     
     <!-- Shared vendor bundle: Chart.js, D3, Supabase auth/stripe -->
     <script type="module" src="src/app/vendor-loader.js"></script>
+    
+    <!-- Premium Chart Libraries for stunning visualizations -->
+    <!-- Apache ECharts - Advanced charts (Sankey, Treemap, Gauge, etc.) -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <!-- ApexCharts - Beautiful interactive charts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.44.0/dist/apexcharts.min.js"></script>
 
     <!-- Header/auth integration for unified header & ModalSystem -->
     <script type="module" src="src/components/HeaderIntegration.js"></script>
+    
+    <!-- Internationalization (i18n) -->
+    <script src="src/lib/i18n.js"></script>
+    
+    <!-- Supabase Auth Service -->
+    <script type="module" src="src/supabase-auth.js"></script>
+    
+    <!-- Pro Features & Feature Gating -->
+    <script type="module" src="src/services/featureGating.js"></script>
+    <script type="module" src="src/components/UpgradeModal.js"></script>
+    <script type="module" src="src/integration/proFeatures.js"></script>
+    <link rel="stylesheet" href="styles/components/pro-features.css">
 
     <!-- DeepSeek AI Client -->
     <script src="https://cdn.jsdelivr.net/npm/deepseek-ai@0.0.3/dist/deepseek-ai.min.js"></script>
@@ -172,12 +189,55 @@
                 </a>
                 <!-- Desktop Navigation -->
                 <div class="hidden items-center gap-8 md:flex">
-                    <a href="index.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Home">Home</a>
-                    <a href="generator.html" aria-current="page" class="text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="You are viewing the Generator page">Generator</a>
-                    <a href="templates.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Templates">Templates</a>
+                    <a href="index.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Home" data-i18n="nav.home">Home</a>
+                    <a href="generator.html" aria-current="page" class="text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="You are viewing the Generator page" data-i18n="nav.generator">Generator</a>
+                    <a href="templates.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Templates" data-i18n="nav.templates">Templates</a>
                     <a href="pricing.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Pricing">Pricing</a>
-                    <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin" type="button" aria-label="Open sign-in dialog">Sign In</button>
-                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" aria-label="Get started with Vizom">Get Started</a>
+                    <!-- Language Selector -->
+                    <div class="relative" id="language-selector">
+                        <button class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition" id="language-toggle" aria-label="Select language">
+                            <span id="language-flag" class="text-lg">🇺🇸</span>
+                            <i class="fas fa-chevron-down text-xs text-slate-400"></i>
+                        </button>
+                        <div class="hidden absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50" id="language-menu">
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="en"><span class="text-lg">🇺🇸</span><span>English</span></button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="ru"><span class="text-lg">🇷🇺</span><span>Русский</span></button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="kk"><span class="text-lg">🇰🇿</span><span>Қазақша</span></button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="tr"><span class="text-lg">🇹🇷</span><span>Türkçe</span></button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="pt"><span class="text-lg">🇧🇷</span><span>Português</span></button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="es"><span class="text-lg">🇪🇸</span><span>Español</span></button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="fr"><span class="text-lg">🇫🇷</span><span>Français</span></button>
+                            <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="pl"><span class="text-lg">🇵🇱</span><span>Polski</span></button>
+                        </div>
+                    </div>
+                    <!-- Auth Section (shown when not logged in) -->
+                    <div id="auth-section" class="flex items-center gap-3">
+                        <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin" type="button" aria-label="Open sign-in dialog" data-i18n="auth.signIn">Sign In</button>
+                        <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" aria-label="Get started with Vizom" data-i18n="auth.getStarted">Get Started</a>
+                    </div>
+                    
+                    <!-- User Dropdown (shown when logged in) -->
+                    <div id="user-dropdown" class="hidden relative">
+                        <button id="user-avatar-btn" class="flex items-center gap-2 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 h-10 w-10 items-center justify-center text-white font-semibold text-sm hover:from-blue-600 hover:to-blue-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            <span id="user-initials">U</span>
+                        </button>
+                        <div id="user-menu" class="absolute right-0 top-12 w-64 bg-white rounded-xl shadow-lg border border-slate-200 py-2 hidden z-50">
+                            <div class="px-4 py-3 border-b border-slate-100">
+                                <p id="user-name" class="text-sm font-semibold text-slate-900">User Name</p>
+                                <p id="user-email" class="text-xs text-slate-500">user@example.com</p>
+                            </div>
+                            <a href="generator.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                                <i class="fas fa-chart-line w-4 text-slate-400"></i>
+                                <span>My Charts</span>
+                            </a>
+                            <div class="border-t border-slate-100 mt-1 pt-1">
+                                <button id="sign-out-btn" class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left">
+                                    <i class="fas fa-sign-out-alt w-4"></i>
+                                    <span>Sign Out</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Mobile Menu Toggle -->
                 <button class="group inline-flex h-10 w-10 items-center justify-center rounded-xl md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" id="mobile-menu-toggle" aria-label="Toggle mobile navigation" aria-controls="mobile-menu" aria-expanded="false">
@@ -187,12 +247,12 @@
             <!-- Mobile Navigation -->
             <div class="hidden md:hidden -translate-y-2 transition-all duration-200 ease-[cubic-bezier(0.18,0.89,0.32,1.28)] data-[state=open]:translate-y-0 data-[state=closed]:-translate-y-2" id="mobile-menu" data-state="closed">
                 <div class="space-y-2 py-4">
-                    <a href="index.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Home">Home</a>
-                    <a href="generator.html" aria-current="page" class="block py-2 text-base font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="You are viewing the Generator page">Generator</a>
-                    <a href="templates.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Templates">Templates</a>
+                    <a href="index.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Home" data-i18n="nav.home">Home</a>
+                    <a href="generator.html" aria-current="page" class="block py-2 text-base font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="You are viewing the Generator page" data-i18n="nav.generator">Generator</a>
+                    <a href="templates.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Templates" data-i18n="nav.templates">Templates</a>
                     <a href="pricing.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Pricing">Pricing</a>
-                    <button class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-slate-100 px-5 text-sm font-medium text-slate-700 transition-all hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin-mobile" type="button" aria-label="Open sign-in dialog">Sign In</button>
-                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" aria-label="Get started with Vizom">Get Started</a>
+                    <button class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-slate-100 px-5 text-sm font-medium text-slate-700 transition-all hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin-mobile" type="button" aria-label="Open sign-in dialog" data-i18n="auth.signIn">Sign In</button>
+                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" aria-label="Get started with Vizom" data-i18n="auth.getStarted">Get Started</a>
                 </div>
             </div>
         </div>
@@ -203,14 +263,14 @@
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
             <!-- Left: Chart Picker -->
             <aside class="lg:col-span-3 p-6 space-y-6">
-                <h3 class="text-sm font-semibold text-slate-900 tracking-wide">Chart Type</h3>
+                <h3 class="text-sm font-semibold text-slate-900 tracking-wide" data-i18n="generator.chartSection.title">Chart Type</h3>
                 <div class="grid grid-cols-2 gap-4" role="list" aria-labelledby="chart-type-label">
                     <button class="chart-option selected flex flex-col gap-2 overflow-hidden rounded-xl border bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="bar" aria-pressed="true" aria-label="Bar chart">
                         <div class="chart-preview-container h-24 bg-slate-50 p-2" data-chart-type="bar" data-example-id="bar-quarterly-sales">
                             <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
-                            <h4 class="font-semibold text-sm line-clamp-1">Bar Chart</h4>
+                            <h4 class="font-semibold text-sm line-clamp-1" data-i18n="generator.chartTypes.bar">Bar Chart</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="line" aria-pressed="false" aria-label="Line chart">
@@ -218,7 +278,7 @@
                             <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
-                            <h4 class="font-semibold text-sm line-clamp-1">Line Chart</h4>
+                            <h4 class="font-semibold text-sm line-clamp-1" data-i18n="generator.chartTypes.line">Line Chart</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="pie" aria-pressed="false" aria-label="Pie chart">
@@ -226,7 +286,7 @@
                             <canvas class="chart-preview-canvas w-full h-full"></canvas>
                         </div>
                         <div class="p-4">
-                            <h4 class="font-semibold text-sm line-clamp-1">Pie Chart</h4>
+                            <h4 class="font-semibold text-sm line-clamp-1" data-i18n="generator.chartTypes.pie">Pie Chart</h4>
                         </div>
                     </button>
                     <button class="chart-option flex flex-col gap-2 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition hover:shadow-sm hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-type="doughnut" aria-pressed="false" aria-label="Doughnut chart">
@@ -603,6 +663,7 @@
       import { ProjectManager as ProjectManagerModule } from './scripts/pages/generator/project-manager.js';
       import { UIController as UIControllerModule } from './scripts/pages/generator/ui-controller.js';
     </script>
+    <script>
         function ensureScriptOnce(src, globalVar) {
             if (__loadedScripts.has(src)) return __loadedScripts.get(src);
             const p = new Promise((resolve, reject) => {
@@ -673,10 +734,80 @@
             }
         }
 
+        // DeepSeek AI Client for chart generation
+        class DeepSeekClient {
+            constructor() {
+                this.endpoint = '/.netlify/functions/deepseek-proxy';
+            }
+
+            async generateChart(prompt, chartType = 'bar') {
+                try {
+                    const response = await fetch(this.endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt, chartType })
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json().catch(() => ({}));
+                        throw new Error(error.error || 'AI generation failed');
+                    }
+
+                    const data = await response.json();
+                    
+                    // Parse the chart config from AI response
+                    let chartConfig;
+                    try {
+                        const configStr = data.chartConfig || data.config || '';
+                        // Extract JSON from markdown code blocks if present
+                        const jsonMatch = configStr.match(/```(?:json)?\s*([\s\S]*?)```/) || [null, configStr];
+                        chartConfig = JSON.parse(jsonMatch[1].trim());
+                    } catch (parseError) {
+                        // Fallback: generate simple chart from prompt
+                        chartConfig = this.generateFallbackConfig(prompt, chartType);
+                    }
+
+                    return chartConfig;
+                } catch (error) {
+                    console.warn('AI generation failed, using fallback:', error);
+                    return this.generateFallbackConfig(prompt, chartType);
+                }
+            }
+
+            generateFallbackConfig(prompt, chartType) {
+                // Extract numbers from prompt
+                const numbers = prompt.match(/\d+/g)?.map(Number) || [10, 20, 30, 40, 50];
+                const words = prompt.match(/[A-Za-z]+/g) || ['A', 'B', 'C', 'D', 'E'];
+                const labels = words.slice(0, numbers.length);
+
+                return {
+                    type: chartType,
+                    data: {
+                        labels: labels.length >= numbers.length ? labels : labels.concat(['Item ' + (labels.length + 1)]),
+                        datasets: [{
+                            label: 'Data',
+                            data: numbers,
+                            backgroundColor: COLOR_PALETTES.default,
+                            borderColor: COLOR_PALETTES.default,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true },
+                            title: { display: false }
+                        }
+                    }
+                };
+            }
+        }
+
         // Chart Generator Class
         class ChartGenerator {
             constructor() {
-                this.aiClient = new window.Deepseek.AIClient(); // Initialize DeepSeek AI client
+                this.aiClient = new DeepSeekClient();
                 this.ensureDependencies();
                 this.currentChart = null;
                 this.currentChartType = 'bar';
@@ -2181,5 +2312,143 @@
   </script>
 
   <script type="module" src="/src/components/mobile-menu.js"></script>
+  
+  <!-- Mini Chart Previews for Demo Cards -->
+  <script type="module">
+    import { initMiniChartPreviews, MiniChartPreview, DEMO_DATASETS } from '/src/components/MiniChartPreview.js';
+    
+    // Initialize mini chart previews when DOM is ready
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Wait a bit for vendor-loader to complete
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Initialize mini chart previews with lazy loading
+      const previewSystem = initMiniChartPreviews();
+      
+      // Handle URL parameters for loading examples (from home page clicks)
+      const urlParams = new URLSearchParams(window.location.search);
+      const exampleId = urlParams.get('example');
+      const promptParam = urlParams.get('prompt');
+      
+      if (exampleId && DEMO_DATASETS[exampleId]) {
+        const dataset = DEMO_DATASETS[exampleId];
+        
+        // Update prompt input with the dataset's prompt
+        const promptInput = document.getElementById('prompt-input');
+        if (promptInput) {
+          promptInput.value = dataset.prompt;
+          promptInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        
+        // Select the corresponding chart type
+        const chartType = dataset.type === 'polarArea' ? 'polar' : dataset.type;
+        const chartOption = document.querySelector(`.chart-option[data-type="${chartType}"]`);
+        if (chartOption) {
+          document.querySelectorAll('.chart-option').forEach(opt => {
+            opt.classList.remove('selected');
+            opt.setAttribute('aria-pressed', 'false');
+          });
+          chartOption.classList.add('selected');
+          chartOption.setAttribute('aria-pressed', 'true');
+        }
+        
+        // Auto-trigger chart generation after a short delay
+        setTimeout(() => {
+          const generateBtn = document.getElementById('generate-chart');
+          if (generateBtn) {
+            generateBtn.click();
+          }
+        }, 800);
+        
+        // Clean URL without reloading
+        window.history.replaceState({}, '', window.location.pathname);
+      } else if (promptParam) {
+        // Handle prompt parameter from home page hero form
+        const promptInput = document.getElementById('prompt-input');
+        if (promptInput) {
+          promptInput.value = decodeURIComponent(promptParam);
+          promptInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      }
+      
+      // Handle quick prompt card clicks - instantly generate chart with real data
+      document.querySelectorAll('.quick-prompt-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const exampleId = card.dataset.exampleId;
+          const chartType = card.dataset.type;
+          const dataset = DEMO_DATASETS[exampleId];
+          
+          if (!dataset) return;
+          
+          // Update prompt input with the dataset's prompt
+          const promptInput = document.getElementById('prompt-input');
+          if (promptInput) {
+            promptInput.value = dataset.prompt;
+            promptInput.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          
+          // Select the corresponding chart type
+          const chartOption = document.querySelector(`.chart-option[data-type="${chartType}"]`);
+          if (chartOption) {
+            // Remove selected from all
+            document.querySelectorAll('.chart-option').forEach(opt => {
+              opt.classList.remove('selected');
+              opt.setAttribute('aria-pressed', 'false');
+            });
+            // Add selected to clicked
+            chartOption.classList.add('selected');
+            chartOption.setAttribute('aria-pressed', 'true');
+          }
+          
+          // Trigger chart generation
+          const generateBtn = document.getElementById('generate-chart');
+          if (generateBtn) {
+            generateBtn.click();
+          }
+        });
+      });
+      
+      // Handle chart type option clicks - also trigger preview rendering
+      document.querySelectorAll('.chart-option').forEach(option => {
+        option.addEventListener('click', () => {
+          // Remove selected from all
+          document.querySelectorAll('.chart-option').forEach(opt => {
+            opt.classList.remove('selected');
+            opt.setAttribute('aria-pressed', 'false');
+          });
+          // Add selected to clicked
+          option.classList.add('selected');
+          option.setAttribute('aria-pressed', 'true');
+        });
+      });
+    });
+
+    // User dropdown toggle
+    const userAvatarBtn = document.getElementById('user-avatar-btn');
+    const userMenu = document.getElementById('user-menu');
+    const signOutBtn = document.getElementById('sign-out-btn');
+
+    if (userAvatarBtn && userMenu) {
+      userAvatarBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!userMenu.contains(e.target) && !userAvatarBtn.contains(e.target)) {
+          userMenu.classList.add('hidden');
+        }
+      });
+    }
+
+    if (signOutBtn) {
+      signOutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        if (window.authService) {
+          await window.authService.signOut();
+        }
+      });
+    }
+  </script>
 </body>
 </html>

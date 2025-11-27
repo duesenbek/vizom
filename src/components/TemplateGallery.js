@@ -1,11 +1,35 @@
 /**
  * @file src/components/TemplateGallery.js
- * @description UI component to render the template gallery.
- * @version 1.0.0
- * @date 2025-11-14
+ * @description UI component to render the template gallery with Pro badges and library indicators.
+ * @version 2.0.0
+ * @date 2025-11-26
  */
 
 import { trackEvent } from '../tracking/analytics.js';
+import { TEMPLATES, getTemplatesByTier, getTemplatesByCategory } from '../data/templates.js';
+import featureGating from '../services/featureGating.js';
+import { showUpgradeModal } from './UpgradeModal.js';
+
+// Library badge configurations
+const LIBRARY_BADGES = {
+  chartjs: { name: 'Chart.js', color: 'bg-pink-100 text-pink-700', icon: 'fa-chart-simple' },
+  echarts: { name: 'ECharts', color: 'bg-blue-100 text-blue-700', icon: 'fa-chart-area' },
+  apexcharts: { name: 'ApexCharts', color: 'bg-purple-100 text-purple-700', icon: 'fa-chart-line' },
+  d3: { name: 'D3.js', color: 'bg-orange-100 text-orange-700', icon: 'fa-circle-nodes' }
+};
+
+// Lazy import MiniChartPreview to avoid blocking initialization
+let MiniChartPreviewModule = null;
+const loadMiniChartPreview = async () => {
+  if (!MiniChartPreviewModule) {
+    try {
+      MiniChartPreviewModule = await import('./MiniChartPreview.js');
+    } catch (e) {
+      console.warn('[TemplateGallery] MiniChartPreview not available:', e);
+    }
+  }
+  return MiniChartPreviewModule;
+};
 
 /**
  * A class to manage the rendering of the template gallery.
@@ -84,58 +108,46 @@ export class TemplateGallery {
   }
 
   /**
-   * Load gallery templates. In a real application, this would fetch from an API.
+   * Load gallery templates from the templates database.
    *
    * @returns {Promise<void>}
    */
   async loadTemplates() {
-    /** @type {TemplateGalleryItem[]} */
-    this.templates = [
-      {
-        id: 1,
-        name: 'Sales Dashboard',
-        category: 'business',
-        chartType: 'bar',
-        thumbnail: 'assets/images/screenshots/sales-dashboard.png',
-        free: true,
-        description: 'Track monthly revenue, pipeline, and team performance in a single view.',
-        useCases: [
-          'Monthly business reviews',
-          'Executive reporting',
-          'Sales team performance tracking',
-        ],
-      },
-      {
-        id: 2,
-        name: 'Monthly Website Traffic',
-        category: 'marketing',
-        chartType: 'line',
-        thumbnail: 'assets/images/screenshots/monthly-traffic.png',
-        free: true,
-        description: 'Monitor visits, sources, and conversions across your digital channels.',
-        useCases: ['Marketing performance reviews', 'Campaign reporting', 'SEO monitoring'],
-      },
-      {
-        id: 3,
-        name: 'User Demographics',
-        category: 'business',
-        chartType: 'pie',
-        thumbnail: 'assets/images/screenshots/user-demographics.png',
-        free: true,
-        description: 'Understand your audience by age, location, and device type.',
-        useCases: ['Audience analysis', 'Product strategy', 'Targeting optimization'],
-      },
-      {
-        id: 4,
-        name: 'Social Media Analytics',
-        category: 'marketing',
-        chartType: 'line',
-        thumbnail: 'assets/images/screenshots/social-media.png',
-        free: false,
-        description: 'Compare engagement and growth across social channels.',
-        useCases: ['Social media reporting', 'Content performance', 'Brand tracking'],
-      },
-    ];
+    // Load templates from the centralized templates database
+    this.templates = TEMPLATES.map((t, index) => ({
+      id: t.id || index + 1,
+      name: t.title,
+      category: t.category,
+      chartType: t.chartType,
+      library: t.library || 'chartjs',
+      thumbnail: t.thumbnail || `assets/images/templates/${t.id}.png`,
+      free: !t.isPro,
+      isPro: t.isPro,
+      description: t.description,
+      prompt: t.prompt,
+      config: t.config,
+      echartsConfig: t.echartsConfig,
+      useCases: this.generateUseCases(t)
+    }));
+    
+    console.log(`[TemplateGallery] Loaded ${this.templates.length} templates (${this.templates.filter(t => t.free).length} free, ${this.templates.filter(t => !t.free).length} pro)`);
+  }
+
+  /**
+   * Generate use cases based on template category
+   * @param {Object} template
+   * @returns {string[]}
+   */
+  generateUseCases(template) {
+    const useCasesByCategory = {
+      business: ['Executive dashboards', 'Team presentations', 'Performance tracking'],
+      finance: ['Financial reporting', 'Investment analysis', 'Budget planning'],
+      marketing: ['Campaign analysis', 'ROI tracking', 'Audience insights'],
+      science: ['Research visualization', 'Data analysis', 'Academic papers'],
+      education: ['Student progress', 'Course analytics', 'Learning metrics'],
+      health: ['Health tracking', 'Medical data', 'Wellness monitoring']
+    };
+    return useCasesByCategory[template.category] || ['Data visualization', 'Reports', 'Presentations'];
   }
 
   /**
@@ -263,10 +275,19 @@ export class TemplateGallery {
       const card = this.createTemplateCard(template);
       this.container.appendChild(card);
     });
+
+    // Initialize mini chart previews for the newly rendered cards
+    setTimeout(async () => {
+      const module = await loadMiniChartPreview();
+      if (module?.initMiniChartPreviews) {
+        module.initMiniChartPreviews();
+      }
+    }, 100);
   }
 
   /**
    * Creates a single template card element with Tailwind CSS classes.
+   * Includes Pro badge, library badge, and feature gating.
    *
    * @param {TemplateGalleryItem} template - The template data.
    * @returns {HTMLElement} - The card element.
@@ -274,54 +295,118 @@ export class TemplateGallery {
    */
   createTemplateCard(template) {
     const card = document.createElement('article');
-    card.className =
-      'group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg cursor-pointer';
+    const isPro = template.isPro || !template.free;
+    const isLocked = isPro && !featureGating.isPro();
+    
+    card.className = `group flex flex-col overflow-hidden rounded-xl border bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg cursor-pointer ${isLocked ? 'border-amber-200' : 'border-slate-200'}`;
     card.dataset.templateId = String(template.id);
     card.dataset.category = template.category;
     card.dataset.chartType = template.chartType;
+    card.dataset.isPro = String(isPro);
 
-    const badgeText = template.free ? 'Free' : 'Premium';
-    const badgeClass = template.free
-      ? 'bg-emerald-50 text-emerald-700'
-      : 'bg-amber-50 text-amber-700';
+    // Tier badge (Free/Pro)
+    const tierBadge = isPro
+      ? `<span class="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-2.5 py-1 text-[10px] font-bold text-white shadow-sm">
+          <i class="fas fa-crown"></i> PRO
+        </span>`
+      : `<span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-bold text-emerald-700">
+          FREE
+        </span>`;
+
+    // Library badge
+    const library = template.library || 'chartjs';
+    const libConfig = LIBRARY_BADGES[library] || LIBRARY_BADGES.chartjs;
+    const libraryBadge = `
+      <span class="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full ${libConfig.color} px-2 py-0.5 text-[9px] font-semibold">
+        <i class="fas ${libConfig.icon}"></i> ${libConfig.name}
+      </span>`;
+
+    // Chart type icon mapping
+    const chartIcons = {
+      bar: 'fa-chart-bar',
+      line: 'fa-chart-line',
+      pie: 'fa-chart-pie',
+      doughnut: 'fa-circle-notch',
+      radar: 'fa-spider',
+      scatter: 'fa-braille',
+      polarArea: 'fa-compass',
+      bubble: 'fa-circle',
+      area: 'fa-mountain',
+      mixed: 'fa-layer-group',
+      treemap: 'fa-th-large',
+      sankey: 'fa-stream',
+      funnel: 'fa-filter',
+      gauge: 'fa-tachometer-alt',
+      heatmap: 'fa-th',
+      candlestick: 'fa-chart-candlestick',
+      map: 'fa-globe'
+    };
+    const chartIcon = chartIcons[template.chartType] || 'fa-chart-simple';
+
+    // Preview placeholder with chart icon
+    const previewHTML = `
+      <div class="h-full w-full flex items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100">
+        <div class="text-center">
+          <i class="fas ${chartIcon} text-4xl text-blue-400/60 mb-2"></i>
+          <p class="text-[10px] text-slate-400 uppercase tracking-wide">${template.chartType}</p>
+        </div>
+        ${isLocked ? '<div class="absolute inset-0 bg-black/20 backdrop-blur-[1px]"></div>' : ''}
+      </div>`;
+
+    // Button text based on lock state
+    const buttonHTML = isLocked
+      ? `<button class="use-template-btn mt-auto inline-flex items-center justify-center rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:from-amber-600 hover:to-orange-600" data-action="unlock-template" data-template-id="${template.id}">
+          <i class="fas fa-lock mr-1.5 text-[0.7rem]"></i> Unlock with Pro
+        </button>`
+      : `<button class="use-template-btn mt-auto inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-blue-700" data-action="use-template" data-template-id="${template.id}">
+          <i class="fas fa-bolt mr-1.5 text-[0.7rem]"></i> Use Template
+        </button>`;
 
     card.innerHTML = `
-      <div class="relative h-40 w-full overflow-hidden bg-slate-100">
-        <img src="${template.thumbnail}" alt="${template.name}" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">
-        <span class="absolute left-3 top-3 inline-flex items-center rounded-full ${badgeClass} px-2.5 py-0.5 text-xs font-semibold">
-          ${badgeText}
-        </span>
+      <div class="relative h-44 w-full overflow-hidden">
+        ${previewHTML}
+        ${tierBadge}
+        ${libraryBadge}
       </div>
       <div class="flex flex-1 flex-col p-4">
         <h3 class="line-clamp-2 text-sm font-semibold text-slate-900">${template.name}</h3>
-        <p class="mt-1 text-xs text-slate-500">
-          <span class="capitalize">${template.category}</span> · <span class="uppercase">${template.chartType}</span>
-        </p>
-        <p class="mt-2 line-clamp-3 text-xs text-slate-500">${template.description || ''}</p>
-        <button
-          class="use-template-btn mt-4 inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-medium text-white shadow-sm transition hover:bg-blue-700"
-          data-action="use-template"
-          data-template-id="${template.id}"
-        >
-          <i class="fas fa-bolt mr-1.5 text-[0.7rem]"></i>
-          Use Template
-        </button>
+        <div class="mt-1 flex items-center gap-2 text-xs text-slate-500">
+          <span class="capitalize">${template.category}</span>
+          <span class="text-slate-300">•</span>
+          <span class="flex items-center gap-1">
+            <i class="fas ${chartIcon} text-[10px]"></i>
+            <span class="capitalize">${template.chartType}</span>
+          </span>
+        </div>
+        <p class="mt-2 line-clamp-2 flex-1 text-xs text-slate-500">${template.description || ''}</p>
+        ${buttonHTML}
       </div>
     `;
 
-    const useButton = /** @type {HTMLButtonElement | null} */ (
-      card.querySelector('[data-action="use-template"]')
-    );
+    // Event handlers
+    const useButton = card.querySelector('[data-action="use-template"]');
+    const unlockButton = card.querySelector('[data-action="unlock-template"]');
+    
     if (useButton) {
       useButton.addEventListener('click', (event) => {
         event.stopPropagation();
-        const id = Number(useButton.dataset.templateId);
-        this.useTemplate(id);
+        this.useTemplate(template.id);
+      });
+    }
+    
+    if (unlockButton) {
+      unlockButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        showUpgradeModal('template');
       });
     }
 
     card.addEventListener('click', () => {
-      this.showTemplateModal(template);
+      if (isLocked) {
+        showUpgradeModal('template');
+      } else {
+        this.showTemplateModal(template);
+      }
     });
 
     return card;
@@ -435,19 +520,40 @@ export class TemplateGallery {
   /**
    * Handler for using a template. Navigates to the generator page.
    *
-   * @param {number} templateId Selected template identifier.
+   * @param {string|number} templateId Selected template identifier.
    */
   useTemplate(templateId) {
-    const template = this.templates.find((t) => t.id === templateId);
-    if (!template) return;
+    const template = this.templates.find((t) => t.id === templateId || t.id === String(templateId));
+    if (!template) {
+      console.warn('[TemplateGallery] Template not found:', templateId);
+      return;
+    }
 
-    console.log('[TemplateGallery] Using template:', template);
+    // Check if template is Pro and user doesn't have access
+    if (template.isPro && !featureGating.isPro()) {
+      showUpgradeModal('template');
+      return;
+    }
+
+    console.log('[TemplateGallery] Using template:', template.name);
     try {
-      trackEvent('template_used', { templateId: template.id, templateName: template.name });
+      trackEvent('template_used', { templateId: template.id, templateName: template.name, library: template.library });
     } catch (_) {
       // Analytics is optional; ignore errors.
     }
-    window.location.href = `generator.html?template=${encodeURIComponent(templateId)}`;
+    
+    // Store template config in sessionStorage for generator to use
+    sessionStorage.setItem('vizom_selected_template', JSON.stringify({
+      id: template.id,
+      name: template.name,
+      chartType: template.chartType,
+      library: template.library,
+      config: template.config,
+      echartsConfig: template.echartsConfig,
+      prompt: template.prompt
+    }));
+    
+    window.location.href = `generator.html?template=${encodeURIComponent(template.id)}`;
   }
 
   /**
@@ -556,13 +662,19 @@ export class TemplateGallery {
 
 /**
  * @typedef {Object} TemplateGalleryItem
- * @property {number} id
+ * @property {string|number} id
  * @property {string} name
  * @property {string} category
  * @property {string} chartType
+ * @property {string} [library] - Chart library: 'chartjs', 'echarts', 'apexcharts', 'd3'
+ * @property {string} [exampleId] - Reference to DEMO_DATASETS for live chart preview
  * @property {string} thumbnail
  * @property {boolean} free
+ * @property {boolean} [isPro]
  * @property {string} [description]
+ * @property {string} [prompt]
+ * @property {Object} [config] - Chart.js config
+ * @property {Object} [echartsConfig] - ECharts config
  * @property {string[]} [useCases]
  */
 

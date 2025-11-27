@@ -155,86 +155,77 @@ class VizomApp {
     
     // Initialize analytics
         if (this.config.analytics.enabled && Analytics) {
-      const analytics = new Analytics();
-      await analytics.init(this.config.analytics);
-      this.modules.set('analytics', analytics);
-            console.log('[Init] Analytics initialized');
+      try {
+        const analytics = new Analytics();
+        this.modules.set('analytics', analytics);
+        console.log('[Init] Analytics initialized');
+      } catch (e) {
+        console.warn('[Init] Analytics initialization failed:', e);
+      }
     }
     
     // Initialize chart engine
     if (ChartEngine) {
-      const chartEngine = new ChartEngine(this.config.apiBaseUrl);
-      await chartEngine.init();
-      this.modules.set('chartEngine', chartEngine);
-            console.log('[Init] Chart engine initialized');
+      try {
+        const chartEngine = new ChartEngine(this.config.apiBaseUrl);
+        this.modules.set('chartEngine', chartEngine);
+        console.log('[Init] Chart engine initialized');
+      } catch (e) {
+        console.warn('[Init] Chart engine initialization failed:', e);
+      }
     }
   }
 
   async initComponents() {
         console.log('[Init] Initializing components...');
     
+    // Helper to safely initialize a component
+    const safeInit = (name, ComponentClass, initFn) => {
+      try {
+        if (ComponentClass) {
+          const instance = initFn ? initFn() : new ComponentClass();
+          this.modules.set(name, instance);
+          console.log(`[Init] ${name} initialized`);
+          return instance;
+        }
+      } catch (e) {
+        console.warn(`[Init] ${name} initialization failed:`, e);
+      }
+      return null;
+    };
+
     // Initialize modal system
-    if (ModalSystem) {
-      const modalSystem = new ModalSystem();
-      this.modules.set('modalSystem', modalSystem);
-      window.modalSystem = modalSystem; // Expose to global scope
-            console.log('[Init] Modal system initialized');
-    }
+    const modalSystem = safeInit('modalSystem', ModalSystem);
+    if (modalSystem) window.modalSystem = modalSystem;
     
     // Initialize loading states
-    if (LoadingStates) {
-      const loadingStates = new LoadingStates();
-      this.modules.set('loadingStates', loadingStates);
-            console.log('[Init] Loading states initialized');
-    }
+    safeInit('loadingStates', LoadingStates);
     
     // Initialize mobile navigation
-    if (this.config.features.mobileNavigation && MobileNavigation) {
-      const mobileNavigation = new MobileNavigation();
-      this.modules.set('mobileNavigation', mobileNavigation);
-            console.log('[Init] Mobile navigation initialized');
+    if (this.config.features.mobileNavigation) {
+      safeInit('mobileNavigation', MobileNavigation);
     }
     
     // Initialize header
-    if (UnifiedHeader) {
-      const header = new UnifiedHeader();
-      this.modules.set('header', header);
-            console.log('[Init] Global error handlers initialized');
-    }
+    safeInit('header', UnifiedHeader);
     
     // Initialize footer
-    if (UnifiedFooter) {
-      const footer = new UnifiedFooter();
-      this.modules.set('footer', footer);
-      console.log('[Init] Footer initialized');
-    }
+    safeInit('footer', UnifiedFooter);
 
     // Initialize header integration
-    if (HeaderIntegration) {
-      const headerIntegration = new HeaderIntegration();
-      this.modules.set('headerIntegration', headerIntegration);
-      console.log('[Init] Header integration initialized');
-    }
+    safeInit('headerIntegration', HeaderIntegration);
 
     // Initialize coming soon modal
-    if (ComingSoonModal) {
-      const comingSoonModal = new ComingSoonModal();
-      this.modules.set('comingSoonModal', comingSoonModal);
-            console.log('[Init] Coming soon modal initialized');
-    }
+    safeInit('comingSoonModal', ComingSoonModal);
     
     // Initialize template gallery (if on templates page)
-    if (this.isTemplatesPage() && TemplateGallery) {
-      const templateGallery = new TemplateGallery();
-      this.modules.set('templateGallery', templateGallery);
-            console.log('[Init] Template gallery initialized');
+    if (this.isTemplatesPage()) {
+      safeInit('templateGallery', TemplateGallery);
     }
     
     // Initialize generator layout (if on generator page)
-    if (this.isGeneratorPage() && GeneratorLayout) {
-      const generatorLayout = new GeneratorLayout();
-      this.modules.set('generatorLayout', generatorLayout);
-            console.log('[Init] Generator layout initialized');
+    if (this.isGeneratorPage()) {
+      safeInit('generatorLayout', GeneratorLayout);
     }
     
     // Initialize mobile-specific components
@@ -248,16 +239,24 @@ class VizomApp {
     
     // Initialize mobile generator
     if (this.isGeneratorPage() && MobileGenerator) {
-      const mobileGenerator = new MobileGenerator();
-      this.modules.set('mobileGenerator', mobileGenerator);
-            console.log('[Init] Mobile generator initialized');
+      try {
+        const mobileGenerator = new MobileGenerator();
+        this.modules.set('mobileGenerator', mobileGenerator);
+        console.log('[Init] Mobile generator initialized');
+      } catch (e) {
+        console.warn('[Init] Mobile generator initialization failed:', e);
+      }
     }
     
     // Initialize mobile templates
     if (this.isTemplatesPage() && MobileTemplates) {
-      const mobileTemplates = new MobileTemplates();
-      this.modules.set('mobileTemplates', mobileTemplates);
-            console.log('[Init] Mobile templates initialized');
+      try {
+        const mobileTemplates = new MobileTemplates();
+        this.modules.set('mobileTemplates', mobileTemplates);
+        console.log('[Init] Mobile templates initialized');
+      } catch (e) {
+        console.warn('[Init] Mobile templates initialization failed:', e);
+      }
     }
   }
 

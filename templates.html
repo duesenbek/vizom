@@ -9,8 +9,8 @@
     <title>VIZOM - Chart Templates | Professional Chart Gallery</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/images/vizom-icon.png">
-    <link rel="apple-touch-icon" href="/images/vizom-icon.png">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
 
     <!-- Inter font for unified typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,6 +54,12 @@
     
     <!-- Shared vendor bundle: Chart.js, D3, Supabase auth/stripe -->
     <script type="module" src="src/app/vendor-loader.js"></script>
+    
+    <!-- Internationalization (i18n) -->
+    <script src="src/lib/i18n.js"></script>
+    
+    <!-- Supabase Auth Service -->
+    <script type="module" src="src/supabase-auth.js"></script>
 </head>
 <body class="bg-[#F8FAFC] font-sans text-[#0F172A] antialiased">
   <script type="module" src="scripts/main.js"></script>
@@ -68,12 +74,55 @@
         </a>
         <!-- Desktop Navigation -->
         <div class="hidden items-center gap-8 md:flex">
-          <a href="index.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Home</a>
-          <a href="generator.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Generator</a>
-          <a href="templates.html" aria-current="page" class="text-sm font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]">Templates</a>
+          <a href="index.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.home">Home</a>
+          <a href="generator.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.generator">Generator</a>
+          <a href="templates.html" aria-current="page" class="text-sm font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]" data-i18n="nav.templates">Templates</a>
           <a href="pricing.html" class="text-sm font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Pricing</a>
-          <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin" type="button">Sign In</button>
-          <a href="generator.html" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+          <!-- Language Selector -->
+          <div class="relative" id="language-selector">
+            <button class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition" id="language-toggle" aria-label="Select language">
+              <span id="language-flag" class="text-lg">🇺🇸</span>
+              <i class="fas fa-chevron-down text-xs text-slate-400"></i>
+            </button>
+            <div class="hidden absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-50" id="language-menu">
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="en"><span class="text-lg">🇺🇸</span><span>English</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="ru"><span class="text-lg">🇷🇺</span><span>Русский</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="kk"><span class="text-lg">🇰🇿</span><span>Қазақша</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="tr"><span class="text-lg">🇹🇷</span><span>Türkçe</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="pt"><span class="text-lg">🇧🇷</span><span>Português</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="es"><span class="text-lg">🇪🇸</span><span>Español</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="fr"><span class="text-lg">🇫🇷</span><span>Français</span></button>
+              <button class="language-option flex items-center gap-3 w-full px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition" data-lang="pl"><span class="text-lg">🇵🇱</span><span>Polski</span></button>
+            </div>
+          </div>
+          <!-- Auth Section (shown when not logged in) -->
+          <div id="auth-section" class="flex items-center gap-3">
+            <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#EFF6FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin" type="button" data-i18n="auth.signIn">Sign In</button>
+            <a href="generator.html" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-5 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" data-i18n="auth.getStarted">Get Started</a>
+          </div>
+          
+          <!-- User Dropdown (shown when logged in) -->
+          <div id="user-dropdown" class="hidden relative">
+            <button id="user-avatar-btn" class="flex items-center gap-2 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 h-10 w-10 items-center justify-center text-white font-semibold text-sm hover:from-blue-600 hover:to-blue-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              <span id="user-initials">U</span>
+            </button>
+            <div id="user-menu" class="absolute right-0 top-12 w-64 bg-white rounded-xl shadow-lg border border-slate-200 py-2 hidden z-50">
+              <div class="px-4 py-3 border-b border-slate-100">
+                <p id="user-name" class="text-sm font-semibold text-slate-900">User Name</p>
+                <p id="user-email" class="text-xs text-slate-500">user@example.com</p>
+              </div>
+              <a href="generator.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                <i class="fas fa-chart-line w-4 text-slate-400"></i>
+                <span>My Charts</span>
+              </a>
+              <div class="border-t border-slate-100 mt-1 pt-1">
+                <button id="sign-out-btn" class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left">
+                  <i class="fas fa-sign-out-alt w-4"></i>
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- Mobile Menu Toggle -->
         <button class="inline-flex h-10 w-10 items-center justify-center rounded-xl md:hidden" id="mobile-menu-toggle" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
@@ -83,12 +132,12 @@
       <!-- Mobile Navigation -->
       <div class="hidden md:hidden" id="mobile-menu">
         <div class="space-y-2 py-4">
-          <a href="index.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Home</a>
-          <a href="generator.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Generator</a>
-          <a href="templates.html" aria-current="page" class="block py-2 text-base font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]">Templates</a>
+          <a href="index.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.home">Home</a>
+          <a href="generator.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]" data-i18n="nav.generator">Generator</a>
+          <a href="templates.html" aria-current="page" class="block py-2 text-base font-medium text-[#1E5FE0] transition-colors duration-200 hover:text-[#22D3EE]" data-i18n="nav.templates">Templates</a>
           <a href="pricing.html" class="block py-2 text-base font-medium text-[#64748B] transition-colors duration-200 hover:text-[#1E5FE0]">Pricing</a>
-          <button class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#EFF6FF] px-6 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#E2E8F0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin-mobile" type="button">Sign In</button>
-          <a href="generator.html" class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-6 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started">Get Started</a>
+          <button class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#EFF6FF] px-6 text-sm font-medium text-[#0F172A] transition-all hover:bg-[#E2E8F0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] disabled:opacity-50" id="auth-signin-mobile" type="button" data-i18n="auth.signIn">Sign In</button>
+          <a href="generator.html" class="inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-xl bg-[#2563EB] px-6 text-sm font-medium text-white shadow-[0_12px_24px_rgba(30,95,224,0.25)] transition-all hover:bg-[#1E5FE0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E5FE0] focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" data-i18n="auth.getStarted">Get Started</a>
         </div>
       </div>
     </div>
@@ -105,7 +154,7 @@
             <i class="fas fa-layer-group text-[#06B6D4]"></i>
             Professional Template Gallery
           </span>
-          <h1 class="text-4xl font-bold tracking-tight text-[#0A1E3D] sm:text-5xl lg:text-6xl">Professional Templates</h1>
+          <h1 class="text-4xl font-bold tracking-tight text-[#0A1E3D] sm:text-5xl lg:text-6xl" data-i18n="templates.header.title">Professional Templates</h1>
           <p class="text-lg leading-8 text-[#64748B]">
             Jumpstart your data visualization with expert-designed templates. Save hours of work with pre-built charts, dashboards, and reports that are fully customizable and ready to use.
           </p>
@@ -485,6 +534,33 @@
         }
       }
     });
+
+    // User dropdown toggle
+    const userAvatarBtn = document.getElementById('user-avatar-btn');
+    const userMenu = document.getElementById('user-menu');
+    const signOutBtn = document.getElementById('sign-out-btn');
+
+    if (userAvatarBtn && userMenu) {
+      userAvatarBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!userMenu.contains(e.target) && !userAvatarBtn.contains(e.target)) {
+          userMenu.classList.add('hidden');
+        }
+      });
+    }
+
+    if (signOutBtn) {
+      signOutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        if (window.authService) {
+          await window.authService.signOut();
+        }
+      });
+    }
   </script>
   
   <script type="module" src="/src/components/mobile-menu.js"></script>
