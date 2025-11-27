@@ -14,7 +14,19 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.tailwindcss.com", "https://esm.sh", "https://cdn.jsdelivr.net", "https://plausible.io", "https://analytics.umami.is", "https://www.googletagmanager.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdn.tailwindcss.com", "https://cdnjs.cloudflare.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "https://api.deepseek.com", "https://*.supabase.co", "wss://*.supabase.co", "https://esm.sh", "https://plausible.io", "https://analytics.umami.is"],
+      frameAncestors: ["'none'"]
+    }
+  }
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static('.'));
 app.use(cors({
@@ -31,10 +43,9 @@ const limiter = rateLimit({
 
 app.use('/api/', limiter);
 
-// Validate API key exists
+// Validate API key exists (warn but don't exit for development/testing)
 if (!process.env.DEEPSEEK_API_KEY) {
-  console.error('ERROR: DEEPSEEK_API_KEY not set in environment variables');
-  process.exit(1);
+  console.warn('WARNING: DEEPSEEK_API_KEY not set. AI generation will not work.');
 }
 
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';

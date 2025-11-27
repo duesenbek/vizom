@@ -1,0 +1,156 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Vizom home" [ref=e5] [cursor=pointer]:
+          - /url: index.html
+          - img "VIZOM" [ref=e7]
+          - img "Vizom logo" [ref=e8]
+          - generic [ref=e9]: VIZOM
+        - text: 
+      - navigation [ref=e10]:
+        - link " Home" [ref=e11] [cursor=pointer]:
+          - /url: index.html
+          - generic [ref=e12]: 
+          - generic [ref=e13]: Home
+        - link " Generator" [ref=e14] [cursor=pointer]:
+          - /url: generator.html
+          - generic [ref=e15]: 
+          - generic [ref=e16]: Generator
+        - link " Templates" [ref=e17] [cursor=pointer]:
+          - /url: templates.html
+          - generic [ref=e18]: 
+          - generic [ref=e19]: Templates
+        - link " Pricing" [ref=e20] [cursor=pointer]:
+          - /url: pricing.html
+          - generic [ref=e21]: 
+          - generic [ref=e22]: Pricing
+      - generic [ref=e23]:
+        - button "🌐 EN " [ref=e25] [cursor=pointer]:
+          - generic [ref=e26]: 🌐
+          - generic [ref=e27]: EN
+          - generic [ref=e28]: 
+        - generic [ref=e29]:
+          - link " Sign In" [ref=e30] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e31]: 
+            - generic [ref=e32]: Sign In
+          - link " Get Started" [ref=e33] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e34]: 
+            - generic [ref=e35]: Get Started
+  - generic [ref=e37]:
+    - complementary [ref=e38]:
+      - heading "Select Chart Type" [level=3] [ref=e39]
+      - list [ref=e40]:
+        - button "Bar chart" [pressed] [ref=e41] [cursor=pointer]:
+          - heading "Bar Chart" [level=4] [ref=e45]
+        - button "Line chart" [active] [ref=e46] [cursor=pointer]:
+          - heading "Line Chart" [level=4] [ref=e50]
+        - button "Pie chart" [ref=e51] [cursor=pointer]:
+          - heading "Pie Chart" [level=4] [ref=e55]
+        - button "Doughnut chart" [ref=e56] [cursor=pointer]:
+          - heading "Doughnut" [level=4] [ref=e60]
+        - button "Area chart" [ref=e61] [cursor=pointer]:
+          - heading "Area Chart" [level=4] [ref=e65]
+        - button "Scatter plot" [ref=e66] [cursor=pointer]:
+          - heading "Scatter Plot" [level=4] [ref=e70]
+        - button "Bubble chart" [ref=e71] [cursor=pointer]:
+          - heading "Bubble Chart" [level=4] [ref=e75]
+        - button "Radar chart" [ref=e76] [cursor=pointer]:
+          - heading "Radar Chart" [level=4] [ref=e80]
+        - button "Polar area chart" [ref=e81] [cursor=pointer]:
+          - heading "Polar Area" [level=4] [ref=e85]
+        - button "Force graph" [ref=e86] [cursor=pointer]:
+          - heading "Force Graph" [level=4] [ref=e89]
+        - button "Treemap" [ref=e90] [cursor=pointer]:
+          - heading "TreeMap" [level=4] [ref=e93]
+        - button "Sankey diagram" [ref=e94] [cursor=pointer]:
+          - heading "Sankey" [level=4] [ref=e97]
+    - main [ref=e98]:
+      - generic [ref=e99]:
+        - heading "Describe Your Chart" [level=2] [ref=e100]
+        - paragraph [ref=e101]: Tell our AI what kind of chart you want to create.
+      - generic [ref=e102]:
+        - generic [ref=e103]:
+          - text: Chart Description
+          - textbox "Chart Description" [ref=e104]:
+            - /placeholder: "Example: Create a bar chart showing monthly sales data for Q1 2024 with products A, B, and C. Use blue colors and add a trend line."
+          - paragraph [ref=e105]: Describe your chart in plain English. The more detail, the better.
+        - button "Generate chart from description" [ref=e106] [cursor=pointer]:
+          - generic [ref=e107]: 
+          - generic [ref=e108]: Generate Chart
+        - generic [ref=e109]:
+          - generic [ref=e110]:
+            - heading "Quick Examples" [level=4] [ref=e111]
+            - generic [ref=e112]: Click to try with real data
+          - generic [ref=e113]:
+            - button "Market Share" [ref=e114] [cursor=pointer]:
+              - generic [ref=e117]: Market Share
+            - button "Temperature" [ref=e118] [cursor=pointer]:
+              - generic [ref=e121]: Temperature
+            - button "Quarterly Sales" [ref=e122] [cursor=pointer]:
+              - generic [ref=e125]: Quarterly Sales
+            - button "Budget" [ref=e126] [cursor=pointer]:
+              - generic [ref=e129]: Budget
+            - button "Skills" [ref=e130] [cursor=pointer]:
+              - generic [ref=e133]: Skills
+            - button "Revenue" [ref=e134] [cursor=pointer]:
+              - generic [ref=e137]: Revenue
+            - button "Age vs Income" [ref=e138] [cursor=pointer]:
+              - generic [ref=e141]: Age vs Income
+            - button "Daily Activity" [ref=e142] [cursor=pointer]:
+              - generic [ref=e145]: Daily Activity
+    - complementary [ref=e146]:
+      - generic [ref=e147]:
+        - heading "Live Preview" [level=2] [ref=e148]
+        - generic [ref=e149]:
+          - button "Refresh preview area" [ref=e150] [cursor=pointer]:
+            - generic [ref=e151]: 
+          - button "Enter fullscreen mode" [ref=e152] [cursor=pointer]:
+            - generic [ref=e153]: 
+      - generic [ref=e154]:
+        - generic [ref=e157]:
+          - generic [ref=e158]: 
+          - paragraph [ref=e159]: Your chart will appear here
+          - paragraph [ref=e160]: Describe your chart and click Generate
+        - generic [ref=e161]:
+          - heading "Export Options" [level=4] [ref=e162]
+          - generic [ref=e163]:
+            - button "Open export options" [ref=e164] [cursor=pointer]:
+              - generic [ref=e165]: 
+              - generic [ref=e166]: Export
+              - generic [ref=e167]: 
+            - text:   
+        - generic [ref=e168]:
+          - heading "Projects" [level=4] [ref=e169]
+          - generic [ref=e170]:
+            - button "Save current project" [ref=e171] [cursor=pointer]:
+              - generic [ref=e172]: 
+              - generic [ref=e173]: Save Project
+            - button "Load saved projects" [ref=e174] [cursor=pointer]:
+              - generic [ref=e175]: 
+              - generic [ref=e176]: Load Project
+  - contentinfo
+  - generic "Notifications"
+  - text:          
+  - img
+  - navigation "Main navigation" [ref=e177]:
+    - generic [ref=e178]:
+      - tab "Home" [ref=e179] [cursor=pointer]:
+        - generic [ref=e181]: 
+        - text: Home
+      - tab "Generator" [selected] [ref=e182] [cursor=pointer]:
+        - generic [ref=e184]: 
+        - text: Generator
+      - tab "Templates" [ref=e185] [cursor=pointer]:
+        - generic [ref=e187]: 
+        - text: Templates
+      - tab "Profile" [ref=e188] [cursor=pointer]:
+        - generic [ref=e190]: 
+        - text: Profile
+  - button "Open menu"
+```

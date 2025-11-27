@@ -21,8 +21,9 @@ test.describe('Auth Modal on All Pages', () => {
   for (const pageInfo of PAGES) {
     test.describe(`${pageInfo.name} Page`, () => {
       test.beforeEach(async ({ page }) => {
-        await page.goto(`${BASE_URL}${pageInfo.path}`);
-        await page.waitForLoadState('networkidle');
+        await page.goto(`${BASE_URL}${pageInfo.path}`, { waitUntil: 'domcontentloaded' });
+        // Wait for page to be interactive instead of networkidle (Supabase keeps connections open)
+        await page.waitForTimeout(1000);
       });
 
       test('Desktop Sign In button opens auth modal', async ({ page }) => {

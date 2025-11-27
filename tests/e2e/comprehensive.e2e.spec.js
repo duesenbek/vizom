@@ -153,6 +153,61 @@ test.describe('🎨 Generator Page Tests', () => {
     const count = await proBadges.count();
     expect(count).toBe(0);
   });
+
+  test('should generate chart for a simple prompt without console errors', async ({ page }) => {
+    const errorMessages = [];
+
+    page.on('console', msg => {
+      if (msg.type() === 'error') {
+        const text = msg.text();
+        errorMessages.push(text);
+      }
+    });
+
+    await page.goto(`${BASE_URL}/generator.html`);
+    await page.waitForLoadState('networkidle');
+
+    const promptInput = page.locator('#prompt-input');
+    await expect(promptInput).toBeVisible();
+    await promptInput.fill('Create a bar chart for quarterly revenue: Q1 10, Q2 20, Q3 30, Q4 40');
+
+    const generateBtn = page.locator('#generate-chart');
+    await expect(generateBtn).toBeEnabled();
+    await generateBtn.click();
+
+    const chartCanvas = page.locator('#chart-container canvas');
+    await expect(chartCanvas).toBeVisible({ timeout: 20000 });
+
+    const joined = errorMessages.join('\n');
+    expect(joined).not.toMatch(/Canvas is already in use/i);
+    expect(joined).not.toMatch(/NaN/);
+  });
+
+  test('quick example should prefill prompt and render chart', async ({ page }) => {
+    await page.goto(`${BASE_URL}/generator.html`);
+    await page.waitForLoadState('networkidle');
+
+    const quickCard = page.locator('#quick-prompts .quick-prompt-card').first();
+    await expect(quickCard).toBeVisible();
+
+    const dataPrompt = await quickCard.getAttribute('data-prompt');
+
+    await quickCard.click();
+    const promptInput = page.locator('#prompt-input');
+    await expect(promptInput).toBeVisible();
+
+    const value = await promptInput.inputValue();
+    if (dataPrompt) {
+      expect(value.length).toBeGreaterThan(0);
+    }
+
+    const generateBtn = page.locator('#generate-chart');
+    await expect(generateBtn).toBeEnabled();
+    await generateBtn.click();
+
+    const chartCanvas = page.locator('#chart-container canvas');
+    await expect(chartCanvas).toBeVisible({ timeout: 20000 });
+  });
 });
 
 test.describe('📋 Templates Page Tests', () => {
@@ -280,6 +335,29 @@ test.describe('💰 Pricing Page Tests', () => {
     const allTypesText = page.locator(':text("ALL"), :text("All 18"), :text("all chart")');
     const count = await allTypesText.count();
     expect(count).toBeGreaterThan(0);
+  });
+
+  test('upgrade flow should attempt to start checkout without hard failure', async ({ page }) => {
+    const errorMessages = [];
+
+    page.on('console', msg => {
+      if (msg.type() === 'error') {
+        errorMessages.push(msg.text());
+      }
+    });
+
+    await page.goto(`${BASE_URL}/pricing.html`);
+    await page.waitForLoadState('networkidle');
+
+    const upgradeBtn = page.locator('#upgrade-pro-btn, button:has-text("Upgrade"), a:has-text("Upgrade")').first();
+    await expect(upgradeBtn).toBeVisible();
+    await upgradeBtn.click();
+
+    await page.waitForTimeout(2000);
+
+    const joined = errorMessages.join('\n');
+    expect(joined).not.toMatch(/Unable to start checkout/i);
+    expect(joined).not.toMatch(/stripe is not works/i);
   });
 });
 

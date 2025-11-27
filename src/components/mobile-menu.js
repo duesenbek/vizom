@@ -334,17 +334,22 @@ function ensureStylesInjected() {
     }
     .${OVERLAY_BASE_CLASS} {
       position: fixed;
-      inset: 0;
+      top: 64px;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background: rgba(15, 23, 42, 0.45);
       backdrop-filter: blur(2px);
       opacity: 0;
       visibility: hidden;
+      pointer-events: none;
       transition: opacity 0.2s ease, visibility 0.2s ease;
-      z-index: 40;
+      z-index: 45;
     }
     .${OVERLAY_VISIBLE_CLASS} {
       opacity: 1;
       visibility: visible;
+      pointer-events: auto;
     }
     body.${DEFAULT_CONFIG.bodyLockClass} {
       touch-action: none;

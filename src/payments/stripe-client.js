@@ -102,8 +102,8 @@ async function getAccessToken() {
 // 4. Replace the URLs below with your actual payment links
 const PAYMENT_LINKS = {
   // TODO: Replace with your actual Stripe Payment Links
-  pro: process.env.STRIPE_PAYMENT_LINK_MONTHLY || 'https://buy.stripe.com/test_placeholder',
-  pro_yearly: process.env.STRIPE_PAYMENT_LINK_YEARLY || 'https://buy.stripe.com/test_placeholder',
+  pro: (typeof process !== 'undefined' && process.env?.STRIPE_PAYMENT_LINK_MONTHLY) || 'https://buy.stripe.com/test_placeholder',
+  pro_yearly: (typeof process !== 'undefined' && process.env?.STRIPE_PAYMENT_LINK_YEARLY) || 'https://buy.stripe.com/test_placeholder',
 };
 
 // Check if payment links are configured

@@ -17,6 +17,7 @@ export class ChartGenerator {
 
       this.ensureDependencies();
       this.aiRecommendations = new AIRecommendations(this);
+      this.setupProjectActions();
    }
 
    ensureDependencies() {
@@ -199,6 +200,57 @@ export class ChartGenerator {
       promptInput.classList.add('prompt-error-shake');
       setTimeout(() => promptInput.classList.remove('prompt-error-shake'), 400);
       promptInput.focus();
+   }
+
+   openModal(modal) {
+      if (modal) modal.classList.remove('hidden');
+   }
+
+   closeModal(modal) {
+      if (modal) modal.classList.add('hidden');
+   }
+
+   setupProjectActions() {
+      const setup = () => {
+         const saveBtn = document.getElementById('save-project');
+         const loadBtn = document.getElementById('load-projects');
+         const saveModal = document.getElementById('save-project-modal');
+         const projectsModal = document.getElementById('projects-modal');
+
+         if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+               if (!this.lastChartPayload) {
+                  this.highlightPromptInput();
+                  return;
+               }
+               this.openModal(saveModal);
+            });
+         }
+
+         if (loadBtn) {
+            loadBtn.addEventListener('click', () => {
+               this.openModal(projectsModal);
+            });
+         }
+
+         document.getElementById('close-save-modal')?.addEventListener('click', () => this.closeModal(saveModal));
+         document.getElementById('close-projects-modal')?.addEventListener('click', () => this.closeModal(projectsModal));
+
+         saveModal?.addEventListener('click', (e) => {
+            if (e.target === saveModal) this.closeModal(saveModal);
+         });
+
+         projectsModal?.addEventListener('click', (e) => {
+            if (e.target === projectsModal) this.closeModal(projectsModal);
+         });
+      };
+
+      // Run setup now if DOM is ready, otherwise wait for DOMContentLoaded
+      if (document.readyState === 'loading') {
+         document.addEventListener('DOMContentLoaded', setup);
+      } else {
+         setup();
+      }
    }
 }
 

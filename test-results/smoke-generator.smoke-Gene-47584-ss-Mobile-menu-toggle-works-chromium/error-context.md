@@ -1,0 +1,171 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Vizom home" [ref=e5] [cursor=pointer]:
+          - /url: index.html
+          - img "VIZOM" [ref=e7]
+          - img "Vizom logo" [ref=e8]
+          - generic [ref=e9]: VIZOM
+        - button "Toggle menu" [active] [ref=e10] [cursor=pointer]:
+          - generic [ref=e11]: 
+      - text:    
+      - generic:
+        - text: 
+        - generic:  
+  - generic [ref=e13]:
+    - complementary [ref=e14]:
+      - heading "Select Chart Type" [level=3] [ref=e15]
+      - list [ref=e16]:
+        - button "Bar chart" [pressed] [ref=e17] [cursor=pointer]:
+          - heading "Bar Chart" [level=4] [ref=e21]
+        - button "Line chart" [ref=e22] [cursor=pointer]:
+          - heading "Line Chart" [level=4] [ref=e26]
+        - button "Pie chart" [ref=e27] [cursor=pointer]:
+          - heading "Pie Chart" [level=4] [ref=e31]
+        - button "Doughnut chart" [ref=e32] [cursor=pointer]:
+          - heading "Doughnut" [level=4] [ref=e36]
+        - button "Area chart" [ref=e37] [cursor=pointer]:
+          - heading "Area Chart" [level=4] [ref=e41]
+        - button "Scatter plot" [ref=e42] [cursor=pointer]:
+          - heading "Scatter Plot" [level=4] [ref=e46]
+        - button "Bubble chart" [ref=e47] [cursor=pointer]:
+          - heading "Bubble Chart" [level=4] [ref=e51]
+        - button "Radar chart" [ref=e52] [cursor=pointer]:
+          - heading "Radar Chart" [level=4] [ref=e56]
+        - button "Polar area chart" [ref=e57] [cursor=pointer]:
+          - heading "Polar Area" [level=4] [ref=e61]
+        - button "Force graph" [ref=e62] [cursor=pointer]:
+          - heading "Force Graph" [level=4] [ref=e65]
+        - button "Treemap" [ref=e66] [cursor=pointer]:
+          - heading "TreeMap" [level=4] [ref=e69]
+        - button "Sankey diagram" [ref=e70] [cursor=pointer]:
+          - heading "Sankey" [level=4] [ref=e73]
+    - main [ref=e74]:
+      - generic [ref=e75]:
+        - heading "Describe Your Chart" [level=2] [ref=e76]
+        - paragraph [ref=e77]: Tell our AI what kind of chart you want to create.
+      - generic [ref=e78]:
+        - generic [ref=e79]:
+          - text: Chart Description
+          - textbox "Chart Description" [ref=e80]:
+            - /placeholder: "Example: Create a bar chart showing monthly sales data for Q1 2024 with products A, B, and C. Use blue colors and add a trend line."
+          - paragraph [ref=e81]: Describe your chart in plain English. The more detail, the better.
+        - button "Generate chart from description" [ref=e82] [cursor=pointer]:
+          - generic [ref=e83]: 
+          - generic [ref=e84]: Generate Chart
+        - generic [ref=e85]:
+          - generic [ref=e86]:
+            - heading "Quick Examples" [level=4] [ref=e87]
+            - generic [ref=e88]: Click to try with real data
+          - generic [ref=e89]:
+            - button "Market Share" [ref=e90] [cursor=pointer]:
+              - generic [ref=e93]: Market Share
+            - button "Temperature" [ref=e94] [cursor=pointer]:
+              - generic [ref=e97]: Temperature
+            - button "Quarterly Sales" [ref=e98] [cursor=pointer]:
+              - generic [ref=e101]: Quarterly Sales
+            - button "Budget" [ref=e102] [cursor=pointer]:
+              - generic [ref=e105]: Budget
+            - button "Skills" [ref=e106] [cursor=pointer]:
+              - generic [ref=e109]: Skills
+            - button "Revenue" [ref=e110] [cursor=pointer]:
+              - generic [ref=e113]: Revenue
+            - button "Age vs Income" [ref=e114] [cursor=pointer]:
+              - generic [ref=e117]: Age vs Income
+            - button "Daily Activity" [ref=e118] [cursor=pointer]:
+              - generic [ref=e121]: Daily Activity
+    - complementary [ref=e122]:
+      - generic [ref=e123]:
+        - heading "Live Preview" [level=2] [ref=e124]
+        - generic [ref=e125]:
+          - button "Refresh preview area" [ref=e126] [cursor=pointer]:
+            - generic [ref=e127]: 
+          - button "Enter fullscreen mode" [ref=e128] [cursor=pointer]:
+            - generic [ref=e129]: 
+      - generic [ref=e130]:
+        - generic [ref=e133]:
+          - generic [ref=e134]: 
+          - paragraph [ref=e135]: Your chart will appear here
+          - paragraph [ref=e136]: Describe your chart and click Generate
+        - generic [ref=e137]:
+          - heading "Export Options" [level=4] [ref=e138]
+          - generic [ref=e139]:
+            - button "Open export options" [ref=e140] [cursor=pointer]:
+              - generic [ref=e141]: 
+              - generic [ref=e142]: Export
+              - generic [ref=e143]: 
+            - text:   
+        - generic [ref=e144]:
+          - heading "Projects" [level=4] [ref=e145]
+          - generic [ref=e146]:
+            - button "Save current project" [ref=e147] [cursor=pointer]:
+              - generic [ref=e148]: 
+              - generic [ref=e149]: Save Project
+            - button "Load saved projects" [ref=e150] [cursor=pointer]:
+              - generic [ref=e151]: 
+              - generic [ref=e152]: Load Project
+  - contentinfo
+  - generic "Notifications"
+  - text:          
+  - img
+  - navigation "Main navigation" [ref=e153]:
+    - generic [ref=e154]:
+      - tab "Home" [ref=e155] [cursor=pointer]:
+        - generic [ref=e157]: 
+        - text: Home
+      - tab "Generator" [selected] [ref=e158] [cursor=pointer]:
+        - generic [ref=e160]: 
+        - text: Generator
+      - tab "Templates" [ref=e161] [cursor=pointer]:
+        - generic [ref=e163]: 
+        - text: Templates
+      - tab "Profile" [ref=e164] [cursor=pointer]:
+        - generic [ref=e166]: 
+        - text: Profile
+  - button "Open menu"
+  - generic [ref=e167]:
+    - button "Generate chart" [ref=e168] [cursor=pointer]:
+      - generic [ref=e169]: 
+    - button "Chart settings" [ref=e170] [cursor=pointer]:
+      - generic [ref=e171]: 
+  - generic [ref=e172]:
+    - generic [ref=e173]:
+      - heading "Filter Templates" [level=3] [ref=e174]
+      - button "Close filters" [ref=e175] [cursor=pointer]:
+        - generic [ref=e176]: 
+    - generic [ref=e177]:
+      - generic [ref=e178]:
+        - heading "Category" [level=4] [ref=e179]
+        - generic [ref=e180]:
+          - button "All Templates" [ref=e181] [cursor=pointer]
+          - button "Business" [ref=e182] [cursor=pointer]
+          - button "Marketing" [ref=e183] [cursor=pointer]
+          - button "Academic" [ref=e184] [cursor=pointer]
+          - button "Finance" [ref=e185] [cursor=pointer]
+      - generic [ref=e186]:
+        - heading "Type" [level=4] [ref=e187]
+        - generic [ref=e188]:
+          - generic [ref=e189]:
+            - checkbox "Free Templates" [checked] [ref=e190]
+            - text: Free Templates
+          - generic [ref=e191]:
+            - checkbox "Premium Templates" [checked] [ref=e192]
+            - text: Premium Templates
+      - generic [ref=e193]:
+        - heading "Sort By" [level=4] [ref=e194]
+        - combobox [ref=e195]:
+          - option "Most Popular" [selected]
+          - option "Newest First"
+          - option "Alphabetical"
+          - option "Highest Rated"
+      - button "Apply Filters" [ref=e196] [cursor=pointer]
+  - generic [ref=e197]:
+    - button "Generate chart" [ref=e198] [cursor=pointer]:
+      - generic [ref=e199]: 
+    - button "Chart settings" [ref=e200] [cursor=pointer]:
+      - generic [ref=e201]: 
+```
