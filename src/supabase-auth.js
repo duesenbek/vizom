@@ -102,23 +102,56 @@ class AuthService {
   async signInWithGoogle() {
     try {
       // Store current page for redirect after auth
-      sessionStorage.setItem('vizom_post_login_redirect', window.location.pathname);
+      const currentPath = window.location.pathname;
+      sessionStorage.setItem('vizom_post_login_redirect', currentPath);
+      
+      console.log('[AuthService] Starting Google sign-in...');
+      console.log('[AuthService] Redirect URL:', `${window.location.origin}/auth-callback.html`);
+      
+      // Show loading state on button
+      if (this.googleSigninBtn) {
+        this.googleSigninBtn.disabled = true;
+        this.googleSigninBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Connecting...';
+      }
       
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/auth-callback.html`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
         },
       });
       
       if (error) {
-        console.error('Error signing in with Google:', error);
+        console.error('[AuthService] Google sign-in error:', error);
+        
+        // Reset button
+        if (this.googleSigninBtn) {
+          this.googleSigninBtn.disabled = false;
+          this.googleSigninBtn.innerHTML = '<i class="fab fa-google mr-2"></i> Continue with Google';
+        }
+        
+        // Show error
+        alert('Google sign-in failed: ' + error.message);
         if (window.uiFeedback?.showToast) {
           window.uiFeedback.showToast('Google sign-in failed. Please try again.', 'error');
         }
+      } else {
+        console.log('[AuthService] OAuth initiated, redirecting to Google...');
       }
     } catch (err) {
-      console.error('Unexpected error:', err);
+      console.error('[AuthService] Unexpected error:', err);
+      
+      // Reset button
+      if (this.googleSigninBtn) {
+        this.googleSigninBtn.disabled = false;
+        this.googleSigninBtn.innerHTML = '<i class="fab fa-google mr-2"></i> Continue with Google';
+      }
+      
+      alert('An error occurred: ' + err.message);
       if (window.uiFeedback?.showToast) {
         window.uiFeedback.showToast('An error occurred. Please try again.', 'error');
       }
@@ -136,12 +169,33 @@ class AuthService {
 
   async checkAuthState() {
     try {
+      console.log('[AuthService] Checking auth state...');
+      
+      // First try to get session (includes token refresh)
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      
+      if (sessionError) {
+        console.error('[AuthService] Session error:', sessionError);
+      }
+      
+      if (session?.user) {
+        console.log('[AuthService] Found session for:', session.user.email);
+        this.updateAuthUI(session.user);
+        return;
+      }
+      
+      // Fallback to getUser
       const { data: { user }, error } = await supabase.auth.getUser();
-      if (!error) {
+      if (!error && user) {
+        console.log('[AuthService] Found user:', user.email);
         this.updateAuthUI(user);
+      } else {
+        console.log('[AuthService] No user found');
+        this.updateAuthUI(null);
       }
     } catch (err) {
-      console.error('Error checking auth state:', err);
+      console.error('[AuthService] Error checking auth state:', err);
+      this.updateAuthUI(null);
     }
   }
 

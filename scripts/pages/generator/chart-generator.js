@@ -80,10 +80,13 @@ export class ChartGenerator {
    }
 
    async generateChart() {
+      console.log('[ChartGenerator] generateChart called');
       const promptInput = document.getElementById('prompt-input');
       const prompt = promptInput?.value?.trim() || '';
+      console.log('[ChartGenerator] prompt:', prompt);
 
       if (!prompt) {
+         console.log('[ChartGenerator] No prompt, highlighting input');
          this.highlightPromptInput();
          return;
       }
@@ -91,7 +94,9 @@ export class ChartGenerator {
       this.clearError();
 
       try {
+         console.log('[ChartGenerator] Parsing prompt...');
          const parsed = simpleParse(prompt);
+         console.log('[ChartGenerator] Parsed result:', parsed);
          if (!parsed?.labels?.length || !parsed?.data?.length) {
             throw new Error('Could not parse data from your prompt.');
          }

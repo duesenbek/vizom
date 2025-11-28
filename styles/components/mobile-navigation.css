@@ -2,19 +2,13 @@
 /* Comprehensive mobile navigation with bottom nav and hamburger menu */
 
 /* =================================== */
-/* BOTTOM NAVIGATION BAR */
+/* BOTTOM NAVIGATION BAR - DISABLED */
 /* =================================== */
+/* Bottom nav is disabled site-wide. To re-enable, remove !important rules below */
 .mobile-bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
-  display: none; /* Hidden by default, shown on mobile */
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 .bottom-nav-container {

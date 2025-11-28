@@ -10,14 +10,6 @@ import { TEMPLATES, getTemplatesByTier, getTemplatesByCategory } from '../data/t
 import featureGating from '../services/featureGating.js';
 import { showUpgradeModal } from './UpgradeModal.js';
 
-// Library badge configurations
-const LIBRARY_BADGES = {
-  chartjs: { name: 'Chart.js', color: 'bg-pink-100 text-pink-700', icon: 'fa-chart-simple' },
-  echarts: { name: 'ECharts', color: 'bg-blue-100 text-blue-700', icon: 'fa-chart-area' },
-  apexcharts: { name: 'ApexCharts', color: 'bg-purple-100 text-purple-700', icon: 'fa-chart-line' },
-  d3: { name: 'D3.js', color: 'bg-orange-100 text-orange-700', icon: 'fa-circle-nodes' }
-};
-
 // Lazy import MiniChartPreview to avoid blocking initialization
 let MiniChartPreviewModule = null;
 const loadMiniChartPreview = async () => {
@@ -75,6 +67,12 @@ export class TemplateGallery {
     this.showPremiumOnly = false;
     /** @type {boolean} */
     this.showFree = true;
+    /** @type {number} */
+    this.pageSize = 12;
+    /** @type {number} */
+    this.visibleCount = this.pageSize;
+    /** @type {TemplateGalleryItem[]} */
+    this.filteredTemplates = [];
 
     this.init();
   }
@@ -96,7 +94,7 @@ export class TemplateGallery {
     try {
       await this.loadTemplates();
       this.attachEventListeners();
-      this.applyFiltersAndRender();
+      this.applyFiltersAndRender(true);
     } catch (error) {
       console.error('[TemplateGallery] Failed to initialize.', error);
       const message =
@@ -165,12 +163,17 @@ export class TemplateGallery {
   /**
    * Apply current filters and render resulting templates.
    */
-  applyFiltersAndRender() {
+  applyFiltersAndRender(resetVisible = false) {
     if (!Array.isArray(this.templates) || this.templates.length === 0) {
       this.setState('empty');
-      this.updateResultsCount(0);
+      this.updateResultsCount(0, 0);
+      this.updateLoadMoreState(0);
       this.renderEmpty();
       return;
+    }
+
+    if (resetVisible) {
+      this.visibleCount = this.pageSize;
     }
 
     let filtered = [...this.templates];
@@ -199,14 +202,20 @@ export class TemplateGallery {
 
     if (!filtered.length) {
       this.setState('empty');
-      this.updateResultsCount(0);
+      this.filteredTemplates = [];
+      this.updateResultsCount(0, 0);
+      this.updateLoadMoreState(0);
       this.renderEmpty();
       return;
     }
 
     this.setState('success');
-    this.updateResultsCount(filtered.length);
-    this.render(filtered);
+    this.filteredTemplates = filtered;
+    this.visibleCount = Math.min(this.visibleCount, filtered.length);
+    const templatesToRender = filtered.slice(0, this.visibleCount);
+    this.updateResultsCount(templatesToRender.length, filtered.length);
+    this.render(templatesToRender);
+    this.updateLoadMoreState(filtered.length);
   }
 
   /**
@@ -287,7 +296,7 @@ export class TemplateGallery {
 
   /**
    * Creates a single template card element with Tailwind CSS classes.
-   * Includes Pro badge, library badge, and feature gating.
+   * Includes tier badge and feature gating.
    *
    * @param {TemplateGalleryItem} template - The template data.
    * @returns {HTMLElement} - The card element.
@@ -312,14 +321,6 @@ export class TemplateGallery {
       : `<span class="absolute left-3 top-3 inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-bold text-emerald-700">
           FREE
         </span>`;
-
-    // Library badge
-    const library = template.library || 'chartjs';
-    const libConfig = LIBRARY_BADGES[library] || LIBRARY_BADGES.chartjs;
-    const libraryBadge = `
-      <span class="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full ${libConfig.color} px-2 py-0.5 text-[9px] font-semibold">
-        <i class="fas ${libConfig.icon}"></i> ${libConfig.name}
-      </span>`;
 
     // Chart type icon mapping
     const chartIcons = {
@@ -366,7 +367,6 @@ export class TemplateGallery {
       <div class="relative h-44 w-full overflow-hidden">
         ${previewHTML}
         ${tierBadge}
-        ${libraryBadge}
       </div>
       <div class="flex flex-1 flex-col p-4">
         <h3 class="line-clamp-2 text-sm font-semibold text-slate-900">${template.name}</h3>
@@ -436,7 +436,7 @@ export class TemplateGallery {
         this.showPremiumOnly = this.showPremiumCheckbox
           ? this.showPremiumCheckbox.checked
           : false;
-        this.applyFiltersAndRender();
+        this.applyFiltersAndRender(true);
       });
     }
 
@@ -444,17 +444,13 @@ export class TemplateGallery {
       this.showFree = !!this.showFreeCheckbox.checked;
       this.showFreeCheckbox.addEventListener('change', () => {
         this.showFree = this.showFreeCheckbox ? this.showFreeCheckbox.checked : false;
-        this.applyFiltersAndRender();
+        this.applyFiltersAndRender(true);
       });
     }
 
     if (this.loadMoreButton) {
       this.loadMoreButton.addEventListener('click', () => {
-        if (window.uiFeedback?.showToast) {
-          window.uiFeedback.showToast('No more templates to load.', 'info');
-        } else {
-          console.info('[templates] No more templates to load.');
-        }
+        this.handleLoadMore();
       });
     }
   }
@@ -483,7 +479,7 @@ export class TemplateGallery {
    */
   filterByCategory(category) {
     this.activeCategory = category || 'all';
-    this.applyFiltersAndRender();
+    this.applyFiltersAndRender(true);
     try {
       trackEvent('template_category_filtered', { category: this.activeCategory });
     } catch (_) {
@@ -498,7 +494,7 @@ export class TemplateGallery {
    */
   filterBySearch(query) {
     this.searchQuery = (query || '').toLowerCase();
-    this.applyFiltersAndRender();
+    this.applyFiltersAndRender(true);
     try {
       trackEvent('template_searched', { query: this.searchQuery });
     } catch (_) {
@@ -511,10 +507,16 @@ export class TemplateGallery {
    *
    * @param {number} count
    */
-  updateResultsCount(count) {
-    if (this.resultsCountEl) {
-      this.resultsCountEl.textContent = String(count);
+  updateResultsCount(visibleCount, totalCount) {
+    if (!this.resultsCountEl) return;
+    if (totalCount <= 0) {
+      this.resultsCountEl.textContent = '0';
+      return;
     }
+    const label = visibleCount >= totalCount
+      ? `${totalCount}`
+      : `${visibleCount} of ${totalCount}`;
+    this.resultsCountEl.textContent = label;
   }
 
   /**
@@ -657,6 +659,41 @@ export class TemplateGallery {
   handleThemeChange(theme) {
     if (!this.container) return;
     this.container.setAttribute('data-theme', theme);
+  }
+
+  /**
+   * Handle clicking the Load More button.
+   */
+  handleLoadMore() {
+    const total = this.filteredTemplates.length;
+    if (!total) {
+      this.updateLoadMoreState(0);
+      return;
+    }
+
+    if (this.visibleCount >= total) {
+      this.updateLoadMoreState(total);
+      return;
+    }
+
+    this.visibleCount = Math.min(this.visibleCount + this.pageSize, total);
+    const templatesToRender = this.filteredTemplates.slice(0, this.visibleCount);
+    this.render(templatesToRender);
+    this.updateResultsCount(templatesToRender.length, total);
+    this.updateLoadMoreState(total);
+  }
+
+  /**
+   * Update Load More button text/disabled state.
+   * @param {number} totalFiltered
+   */
+  updateLoadMoreState(totalFiltered) {
+    if (!this.loadMoreButton) return;
+    const isDisabled = totalFiltered === 0 || this.visibleCount >= totalFiltered;
+    this.loadMoreButton.disabled = isDisabled;
+    this.loadMoreButton.textContent = isDisabled ? 'All templates loaded' : 'Load More Templates';
+    this.loadMoreButton.classList.toggle('opacity-50', isDisabled);
+    this.loadMoreButton.classList.toggle('cursor-not-allowed', isDisabled);
   }
 }
 

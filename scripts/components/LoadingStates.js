@@ -1096,6 +1096,38 @@ class LoadingStates {
     }
   }
 
+  createProgressiveLoading() {
+    // Return a simple progressive loading template
+    return `
+      <div class="progressive-loading" role="status" aria-live="polite">
+        <div class="progress-header">
+          <h3>Loading Content</h3>
+          <div class="progress-percentage">0%</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  createAIGeneration() {
+    // Return a simple AI generation template
+    return `
+      <div class="ai-generation-container" role="status" aria-live="polite">
+        <div class="generation-header">
+          <div class="generation-title">
+            <i class="fas fa-magic"></i>
+            <span>AI is Creating Your Chart</span>
+          </div>
+        </div>
+        <div class="generation-progress">
+          <div class="loading-spinner"><div class="spinner"></div></div>
+        </div>
+      </div>
+    `;
+  }
+
   createLoadingTemplates() {
     // Pre-create loading templates for better performance
     this.loadingTemplates = {

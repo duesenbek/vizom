@@ -222,12 +222,20 @@ document.addEventListener('DOMContentLoaded', () => {
  * Initialize DOM element references
  */
 function initializeElements() {
-  generateBtn = document.getElementById('generate-btn');
-  downloadBtn = document.getElementById('download-btn');
-  textarea = document.getElementById('prompt-input');
-  previewContainer = document.getElementById('preview');
-  loadingIndicator = document.getElementById('loading');
-  formatButtons = document.querySelectorAll('.format-btn');
+  // Try multiple possible IDs for each element
+  generateBtn = document.getElementById('generate-chart') || document.getElementById('generate-btn');
+  downloadBtn = document.getElementById('download-btn') || document.getElementById('download-chart');
+  textarea = document.getElementById('prompt-input') || document.getElementById('data-input');
+  previewContainer = document.getElementById('chart-container') || document.getElementById('preview') || document.getElementById('chart-preview');
+  loadingIndicator = document.getElementById('loading') || document.getElementById('loading-indicator');
+  formatButtons = document.querySelectorAll('.format-btn, [data-format]');
+  
+  console.log('[app.js] Elements initialized:', {
+    generateBtn: !!generateBtn,
+    downloadBtn: !!downloadBtn,
+    textarea: !!textarea,
+    previewContainer: !!previewContainer
+  });
 }
 
 /**

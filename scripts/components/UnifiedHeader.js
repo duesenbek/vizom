@@ -607,10 +607,8 @@ class UnifiedHeader {
         <div class="header-container">
           <!-- Logo Section -->
           <div class="logo-section">
-            <a href="index.html" class="logo-link">
-              <div class="logo-icon">
-                <img src="/public/images/vizom-icon.png" alt="VIZOM" style="width: 100%; height: 100%; object-fit: contain;">
-              </div>
+            <a href="index.html" class="logo-link" aria-label="Vizom home">
+              <img src="/favicon.png" alt="Vizom logo" class="logo-favicon">
               <span class="logo-text">VIZOM</span>
             </a>
             <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
@@ -643,8 +641,8 @@ class UnifiedHeader {
             <!-- Language Selector -->
             <div class="language-selector">
               <button class="language-button" id="language-button">
-                <span class="language-flag">🌐</span>
-                <span class="language-text">EN</span>
+                <span class="language-flag" id="current-lang-flag">🇺🇸</span>
+                <span class="language-text" id="current-lang-text">EN</span>
                 <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
               </button>
               <div class="language-dropdown" id="language-dropdown">
@@ -656,9 +654,29 @@ class UnifiedHeader {
                   <span class="language-flag">🇷🇺</span>
                   <span>Русский</span>
                 </div>
-                <div class="language-option" data-lang="de">
-                  <span class="language-flag">🇩🇪</span>
-                  <span>Deutsch</span>
+                <div class="language-option" data-lang="kk">
+                  <span class="language-flag">🇰🇿</span>
+                  <span>Қазақша</span>
+                </div>
+                <div class="language-option" data-lang="tr">
+                  <span class="language-flag">🇹🇷</span>
+                  <span>Türkçe</span>
+                </div>
+                <div class="language-option" data-lang="es">
+                  <span class="language-flag">🇪🇸</span>
+                  <span>Español</span>
+                </div>
+                <div class="language-option" data-lang="pt">
+                  <span class="language-flag">🇧🇷</span>
+                  <span>Português</span>
+                </div>
+                <div class="language-option" data-lang="fr">
+                  <span class="language-flag">🇫🇷</span>
+                  <span>Français</span>
+                </div>
+                <div class="language-option" data-lang="pl">
+                  <span class="language-flag">🇵🇱</span>
+                  <span>Polski</span>
                 </div>
               </div>
             </div>
@@ -910,22 +928,34 @@ class UnifiedHeader {
       }
     });
 
-    // Update button text
-    const langNames = { en: 'EN', ru: 'RU', de: 'DE' };
+    // Update button text and flag
+    const langNames = { en: 'EN', ru: 'RU', kk: 'KK', tr: 'TR', es: 'ES', pt: 'PT', fr: 'FR', pl: 'PL' };
+    const langFlags = { en: '🇺🇸', ru: '🇷🇺', kk: '🇰🇿', tr: '🇹🇷', es: '🇪🇸', pt: '🇧🇷', fr: '🇫🇷', pl: '🇵🇱' };
     if (button) {
-      button.querySelector('.language-text').textContent = langNames[lang];
+      const textEl = button.querySelector('.language-text');
+      const flagEl = button.querySelector('.language-flag');
+      if (textEl) textEl.textContent = langNames[lang] || lang.toUpperCase();
+      if (flagEl) flagEl.textContent = langFlags[lang] || '🇺🇸';
     }
 
     // Close dropdown
     dropdown?.classList.remove('show');
 
-    // Store preference
+    // Store preference (both keys for compatibility)
     localStorage.setItem('preferred-language', lang);
+    localStorage.setItem('vizom_lang', lang);
+
+    // Apply translations using i18n system
+    if (window.VIZOM_I18N?.set) {
+      window.VIZOM_I18N.set(lang);
+    }
 
     // Emit language change event
     document.dispatchEvent(new CustomEvent('language:change', {
       detail: { language: lang }
     }));
+    
+    console.log('[UnifiedHeader] Language changed to:', lang);
   }
 
   // Toggle user menu

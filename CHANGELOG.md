@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.3] - 2025-11-27
+
+### Security Audit & Fixes
+- **CSP Updated:** Added `cdnjs.cloudflare.com` to Content-Security-Policy for jspdf loading
+- **XSS Protection:** Verified HTMLSanitizer properly sanitizes all user input
+- **Input Validation:** Validator class checks for SQL injection patterns, XSS attempts
+- **Rate Limiting:** Server has 100 req/15min limit on API endpoints
+- **Secure Headers:** Helmet middleware with X-Frame-Options, X-Content-Type-Options, Referrer-Policy
+
+### Bug Fixes
+- **LoadingStates:** Added missing `createProgressiveLoading()` and `createAIGeneration()` methods
+- **MobileNavigation:** Added missing `initializeHamburgerMenuController()` method
+- **UnifiedFooter:** Added missing `renderFooterLink()` method
+- **Generator:** Added missing `loadProjectsFromStorage()`, `renderProjectsList()`, project management methods
+- **Vite Config:** Fixed duplicate chunk assignment for chart.js
+
+### Testing
+- **31 input validation tests:** All passing (XSS, SQL injection, edge cases)
+- **Smoke tests:** 8/9 passing on chromium
+- **E2E tests:** Core functionality verified
+
+### Why
+- Pre-release security hardening
+- Fix runtime errors from missing methods
+- Ensure regression-free deployment
+
+### Impact
+- More stable application
+- Better security posture
+- Cleaner console (fewer errors)
+
 ## [2.1.2] - 2025-11-26
 
 ### Added

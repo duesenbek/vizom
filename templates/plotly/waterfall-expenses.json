@@ -1,0 +1,108 @@
+{
+  "id": "waterfall-expenses",
+  "name": "Expense Breakdown",
+  "description": "Waterfall chart showing cumulative expense breakdown",
+  "library": "plotly",
+  "chartType": "waterfall",
+  "tier": "pro",
+  "thumbnail": "/assets/templates/waterfall-expenses.png",
+  "sampleData": {
+    "labels": ["Starting", "Salaries", "Marketing", "Operations", "R&D", "Taxes", "Net Profit"],
+    "data": [500000, -150000, -80000, -60000, -40000, -50000, 120000],
+    "title": "Annual Expense Breakdown"
+  },
+  "config": {
+    "data": [
+      {
+        "type": "waterfall",
+        "orientation": "v",
+        "measure": ["absolute", "relative", "relative", "relative", "relative", "relative", "total"],
+        "textposition": "outside",
+        "text": ["$500K", "-$150K", "-$80K", "-$60K", "-$40K", "-$50K", "$120K"],
+        "textfont": {
+          "family": "Inter, sans-serif",
+          "size": 12,
+          "color": "#64748B"
+        },
+        "connector": {
+          "line": {
+            "color": "#94A3B8",
+            "width": 2,
+            "dash": "dot"
+          }
+        },
+        "increasing": {
+          "marker": {
+            "color": "#10B981",
+            "line": {
+              "color": "#059669",
+              "width": 1
+            }
+          }
+        },
+        "decreasing": {
+          "marker": {
+            "color": "#EF4444",
+            "line": {
+              "color": "#DC2626",
+              "width": 1
+            }
+          }
+        },
+        "totals": {
+          "marker": {
+            "color": "#3B82F6",
+            "line": {
+              "color": "#2563EB",
+              "width": 1
+            }
+          }
+        }
+      }
+    ],
+    "layout": {
+      "title": {
+        "text": "Annual Expense Breakdown",
+        "font": {
+          "family": "Inter, sans-serif",
+          "size": 18,
+          "color": "#1E293B"
+        }
+      },
+      "font": {
+        "family": "Inter, sans-serif"
+      },
+      "xaxis": {
+        "tickfont": {
+          "size": 12,
+          "color": "#64748B"
+        },
+        "showgrid": false
+      },
+      "yaxis": {
+        "title": {
+          "text": "Amount ($)",
+          "font": {
+            "size": 12,
+            "color": "#64748B"
+          }
+        },
+        "tickfont": {
+          "size": 12,
+          "color": "#64748B"
+        },
+        "gridcolor": "#E2E8F0",
+        "tickformat": "$,.0f"
+      },
+      "paper_bgcolor": "transparent",
+      "plot_bgcolor": "transparent",
+      "margin": {
+        "t": 80,
+        "r": 40,
+        "b": 60,
+        "l": 80
+      },
+      "showlegend": false
+    }
+  }
+}

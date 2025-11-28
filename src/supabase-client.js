@@ -26,5 +26,14 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
+    storageKey: 'vizom-auth',
+    storage: window.localStorage,
+    detectSessionInUrl: true,
+    flowType: 'pkce',
   },
+});
+
+// Debug: log auth state
+supabase.auth.onAuthStateChange((event, session) => {
+  console.log('[Supabase] Auth state changed:', event, session?.user?.email || 'no user');
 });

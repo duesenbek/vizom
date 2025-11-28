@@ -33,17 +33,18 @@
       'nav.generator': 'Generator',
       'nav.templates': 'Templates',
       'nav.docs': 'Docs',
+      'nav.pricing': 'Pricing',
       'nav.startShort': 'Start',
-      'hero.title': 'Build beautiful charts, tables, and dashboards in seconds',
-      'hero.subtitle': 'VIZOM turns your ideas into production-ready visuals instantly. Describe what you want and get pixel-perfect results.',
+      'hero.title': 'Design premium dashboards with natural language',
+      'hero.subtitle': 'Describe your data vision and Vizom crafts a production-ready visualization with advanced layouts, premium styling, and export-ready assets in seconds.',
       'hero.primaryButton': 'Start Building Free',
       'hero.secondaryButton': 'Explore Features',
       'hero.tiles.responsive': 'Responsive charts',
       'hero.tiles.tables': 'Tables and CSV export',
       'hero.tiles.dashboards': 'Dashboards in minutes',
-      'quickStart.placeholder': 'For example: Create a monthly sales bar chart...',
+      'quickStart.placeholder': 'Try: Compare 2023 vs 2024 revenue with growth delta and trendline',
       'quickStart.button': 'Create',
-      'quickStart.hint': 'Supports text, CSV, and lists. We automatically detect the data type.',
+      'quickStart.hint': 'Instant AI charts. No onboarding, no credit card.',
       'how.title': 'How it works',
       'how.subtitle': '4 simple steps to your finished visualization',
       'how.step1.title': 'Describe your data',
@@ -144,17 +145,18 @@
       'nav.generator': 'Генератор',
       'nav.templates': 'Шаблоны',
       'nav.docs': 'Документация',
-      'nav.startShort': 'Начать',
-      'hero.title': 'Создавайте красивые диаграммы, таблицы и дашборды за секунды',
-      'hero.subtitle': 'VIZOM мгновенно превращает ваши идеи в готовые визуализации. Опишите, что вам нужно, и получите точный результат.',
+      'nav.pricing': 'Цены',
+      'nav.startShort': 'Старт',
+      'hero.title': 'Создавайте премиум-дашборды на естественном языке',
+      'hero.subtitle': 'Опишите свою идею — Vizom создаст готовую визуализацию с продвинутыми макетами, премиальным стилем и экспортом за секунды.',
       'hero.primaryButton': 'Начать бесплатно',
       'hero.secondaryButton': 'Возможности',
       'hero.tiles.responsive': 'Адаптивные диаграммы',
       'hero.tiles.tables': 'Таблицы и CSV экспорт',
       'hero.tiles.dashboards': 'Дашборды за минуты',
-      'quickStart.placeholder': 'Например: Создай столбчатую диаграмму продаж по месяцам...',
+      'quickStart.placeholder': 'Попробуйте: Сравни выручку 2023 и 2024 с дельтой роста и трендом',
       'quickStart.button': 'Создать',
-      'quickStart.hint': 'Поддерживаются текст, CSV и списки. Тип данных определяется автоматически.',
+      'quickStart.hint': 'Мгновенные AI-графики. Без регистрации, без карты.',
       'how.title': 'Как это работает',
       'how.subtitle': '4 простых шага к вашей визуализации',
       'how.step1.title': 'Опишите данные',
@@ -253,17 +255,18 @@
       'nav.generator': 'Генератор',
       'nav.templates': 'Үлгілер',
       'nav.docs': 'Құжаттама',
+      'nav.pricing': 'Бағалар',
       'nav.startShort': 'Бастау',
-      'hero.title': 'Көркем диаграммалар, кестелер және дэшбордтарды секундтарда жасаңыз',
-      'hero.subtitle': 'VIZOM идеяңызды дайын визуализацияға тез айналдырады. Не керегін сипаттаңыз – нәтижені бірден алыңыз.',
+      'hero.title': 'Табиғи тілде премиум дэшбордтар жасаңыз',
+      'hero.subtitle': 'Идеяңызды сипаттаңыз — Vizom дайын визуализацияны жетілдірілген макеттермен, премиум стильмен және экспортпен секундтарда жасайды.',
       'hero.primaryButton': 'Тегін бастау',
       'hero.secondaryButton': 'Мүмкіндіктер',
       'hero.tiles.responsive': 'Бейімделгіш диаграммалар',
       'hero.tiles.tables': 'Кестелер және CSV экспорт',
       'hero.tiles.dashboards': 'Дэшбордтар минуттарда',
-      'quickStart.placeholder': 'Мысалы: Айлық сатылымдарға бағанды диаграмма құр...',
+      'quickStart.placeholder': 'Көріңіз: 2023 пен 2024 табысын өсу дельтасы мен трендпен салыстыр',
       'quickStart.button': 'Жасау',
-      'quickStart.hint': 'Мәтін, CSV және тізімдер қолдау табады. Дерек түрі автоматты анықталады.',
+      'quickStart.hint': 'Лезде AI-графиктер. Тіркелусіз, картасыз.',
       'how.title': 'Қалай жұмыс істейді',
       'how.subtitle': '4 қарапайым қадам',
       'how.step1.title': 'Деректерді сипаттаңыз',
@@ -716,12 +719,33 @@
       const key = node.getAttribute('data-i18n');
       const val = t(key, current);
       if (!val) return;
+      
+      // If no child elements, just set text
       if (node.childElementCount === 0) {
         node.textContent = val;
       } else {
+        // Look for explicit text target first
         const textTarget = node.querySelector('[data-i18n-text]');
         if (textTarget) {
           textTarget.textContent = val;
+        } else {
+          // Find first text node and update it, preserving child elements
+          const childNodes = Array.from(node.childNodes);
+          let textNodeFound = false;
+          for (const child of childNodes) {
+            if (child.nodeType === Node.TEXT_NODE && child.textContent.trim()) {
+              child.textContent = val;
+              textNodeFound = true;
+              break;
+            }
+          }
+          // If no text node found, look for span without data-i18n
+          if (!textNodeFound) {
+            const span = node.querySelector('span:not([data-i18n])');
+            if (span && span.childElementCount === 0) {
+              span.textContent = val;
+            }
+          }
         }
       }
     });
@@ -760,11 +784,15 @@
     const menu = document.getElementById('language-menu');
     if (!toggle || !menu) return;
 
-    // Initialize buttons to use flag-icons instead of emoji
+    // Mark current language as active
+    const currentLang = getLang();
     document.querySelectorAll('.language-option').forEach((btn) => {
       const lang = btn.getAttribute('data-lang');
-      const code = FLAG_CODE[lang] || FLAG_CODE[DEFAULT_LANG];
-      btn.innerHTML = `<span class="fi fis fi-${code}"></span>`;
+      if (lang === currentLang) {
+        btn.classList.add('is-active', 'bg-blue-50');
+      } else {
+        btn.classList.remove('is-active', 'bg-blue-50');
+      }
     });
 
     toggle.addEventListener('click', () => {
@@ -774,7 +802,6 @@
     document.querySelectorAll('.language-option').forEach((btn) => {
       btn.addEventListener('click', () => {
         const lang = btn.getAttribute('data-lang');
-        // Allow choosing any, but fallback will show EN content
         setLang(lang);
         menu.classList.add('hidden');
       });

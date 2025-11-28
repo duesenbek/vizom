@@ -25,13 +25,12 @@ class UnifiedFooter {
           { name: 'Pricing', href: 'pricing.html', icon: 'fas fa-tag' }
         ]
       },
-      company: {
-        title: 'Company',
+      creator: {
+        title: 'Creator',
         links: [
-          { name: 'About', href: '#about', icon: 'fas fa-building' },
-          { name: 'Blog', href: '#blog', icon: 'fas fa-blog' },
-          { name: 'Careers', href: '#careers', icon: 'fas fa-briefcase' },
-          { name: 'Contact', href: '#contact', icon: 'fas fa-envelope' }
+          { name: 'About me', href: 'about.html', icon: 'fas fa-user' },
+          { name: 'Benchmark gallery', href: 'about.html#benchmarks', icon: 'fas fa-images' },
+          { name: 'Contact', href: 'contact.html', icon: 'fas fa-envelope' }
         ]
       },
       resources: {
@@ -54,10 +53,9 @@ class UnifiedFooter {
       social: {
         title: 'Connect',
         platforms: [
-          { name: 'Twitter', href: '#twitter', icon: 'fab fa-twitter' },
-          { name: 'LinkedIn', href: '#linkedin', icon: 'fab fa-linkedin' },
-          { name: 'GitHub', href: '#github', icon: 'fab fa-github' },
-          { name: 'YouTube', href: '#youtube', icon: 'fab fa-youtube' }
+          { name: 'X', href: 'https://twitter.com/duesenbek', icon: 'fab fa-x-twitter' },
+          { name: 'LinkedIn', href: 'https://linkedin.com/in/duesenbek', icon: 'fab fa-linkedin' },
+          { name: 'GitHub', href: 'https://github.com/duesenbek', icon: 'fab fa-github' }
         ]
       },
       apps: {
@@ -78,7 +76,7 @@ class UnifiedFooter {
   }
 
   generateFooterHTML() {
-    const { product, company, resources, legal, social, apps } = this.footerData;
+    const { product, creator, resources, legal, social, apps } = this.footerData;
 
     return `
       <!-- Main Footer Content -->
@@ -152,14 +150,14 @@ class UnifiedFooter {
               </ul>
             </div>
 
-            <!-- Company Section -->
+            <!-- Creator Section -->
             <div class="link-section">
               <h3 class="section-title">
-                <i class="fas fa-building"></i>
-                ${company.title}
+                <i class="fas fa-user"></i>
+                ${creator.title}
               </h3>
               <ul class="link-list">
-                ${company.links.map(link => `
+                ${creator.links.map(link => `
                   <li>
                     <a href="${link.href}" class="footer-link">
                       <i class="${link.icon}"></i>
@@ -483,14 +481,6 @@ class UnifiedFooter {
   }
 }
 
-// Initialize the unified footer
-document.addEventListener('DOMContentLoaded', () => {
-  // Wait for footer element to be available
-  const footerElement = document.getElementById('unified-footer');
-  if (footerElement) {
-    window.unifiedFooter = new UnifiedFooter();
-  }
-});
-
 // Export for use in other modules
+// NOTE: Auto-initialization removed. Use main.js feature flag to enable.
 export { UnifiedFooter };

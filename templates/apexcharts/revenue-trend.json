@@ -1,0 +1,87 @@
+{
+  "id": "revenue-trend",
+  "name": "Revenue Trend",
+  "description": "Animated line chart showing revenue growth over time",
+  "library": "apexcharts",
+  "chartType": "apexLine",
+  "tier": "pro",
+  "thumbnail": "/assets/templates/revenue-trend.png",
+  "sampleData": {
+    "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "data": [31000, 40000, 28000, 51000, 42000, 109000, 100000, 91000, 148000, 160000, 145000, 180000],
+    "title": "Monthly Revenue 2024"
+  },
+  "config": {
+    "chart": {
+      "type": "area",
+      "height": "100%",
+      "animations": {
+        "enabled": true,
+        "easing": "easeinout",
+        "speed": 800,
+        "animateGradually": {
+          "enabled": true,
+          "delay": 150
+        }
+      },
+      "toolbar": {
+        "show": true,
+        "tools": {
+          "download": true,
+          "zoom": true
+        }
+      },
+      "dropShadow": {
+        "enabled": true,
+        "top": 3,
+        "left": 0,
+        "blur": 4,
+        "opacity": 0.1
+      }
+    },
+    "colors": ["#3B82F6"],
+    "stroke": {
+      "curve": "smooth",
+      "width": 3
+    },
+    "fill": {
+      "type": "gradient",
+      "gradient": {
+        "shadeIntensity": 1,
+        "opacityFrom": 0.45,
+        "opacityTo": 0.05,
+        "stops": [0, 100]
+      }
+    },
+    "dataLabels": {
+      "enabled": false
+    },
+    "xaxis": {
+      "labels": {
+        "style": {
+          "colors": "#64748B",
+          "fontSize": "12px"
+        }
+      }
+    },
+    "yaxis": {
+      "labels": {
+        "formatter": "function(val) { return '$' + (val/1000).toFixed(0) + 'K'; }",
+        "style": {
+          "colors": "#64748B",
+          "fontSize": "12px"
+        }
+      }
+    },
+    "grid": {
+      "borderColor": "#E2E8F0",
+      "strokeDashArray": 4
+    },
+    "tooltip": {
+      "theme": "dark",
+      "y": {
+        "formatter": "function(val) { return '$' + val.toLocaleString(); }"
+      }
+    }
+  }
+}

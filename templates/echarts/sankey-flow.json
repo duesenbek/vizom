@@ -1,0 +1,91 @@
+{
+  "id": "sankey-flow",
+  "name": "Revenue Flow",
+  "description": "Sankey diagram showing revenue flow from sources to destinations",
+  "library": "echarts",
+  "chartType": "sankey",
+  "tier": "pro",
+  "thumbnail": "/assets/templates/sankey-flow.png",
+  "sampleData": {
+    "nodes": [
+      {"name": "Organic Search"},
+      {"name": "Paid Ads"},
+      {"name": "Social Media"},
+      {"name": "Direct"},
+      {"name": "Website"},
+      {"name": "Product A"},
+      {"name": "Product B"},
+      {"name": "Product C"},
+      {"name": "Revenue"}
+    ],
+    "links": [
+      {"source": "Organic Search", "target": "Website", "value": 40000},
+      {"source": "Paid Ads", "target": "Website", "value": 30000},
+      {"source": "Social Media", "target": "Website", "value": 20000},
+      {"source": "Direct", "target": "Website", "value": 10000},
+      {"source": "Website", "target": "Product A", "value": 45000},
+      {"source": "Website", "target": "Product B", "value": 35000},
+      {"source": "Website", "target": "Product C", "value": 20000},
+      {"source": "Product A", "target": "Revenue", "value": 45000},
+      {"source": "Product B", "target": "Revenue", "value": 35000},
+      {"source": "Product C", "target": "Revenue", "value": 20000}
+    ],
+    "title": "Revenue Flow Analysis"
+  },
+  "config": {
+    "title": {
+      "text": "Revenue Flow Analysis",
+      "left": "center",
+      "textStyle": {
+        "fontSize": 18,
+        "fontWeight": 600,
+        "color": "#1E293B"
+      }
+    },
+    "tooltip": {
+      "trigger": "item",
+      "triggerOn": "mousemove",
+      "backgroundColor": "rgba(15, 23, 42, 0.9)",
+      "textStyle": {
+        "color": "#fff"
+      },
+      "formatter": "{b}: ${c}"
+    },
+    "color": ["#3B82F6", "#8B5CF6", "#EC4899", "#F59E0B", "#10B981", "#F97316", "#6366F1", "#14B8A6", "#22C55E"],
+    "series": [
+      {
+        "type": "sankey",
+        "layout": "none",
+        "left": 50,
+        "right": 150,
+        "top": 60,
+        "bottom": 40,
+        "emphasis": {
+          "focus": "adjacency"
+        },
+        "nodeAlign": "left",
+        "nodeGap": 12,
+        "nodeWidth": 20,
+        "lineStyle": {
+          "color": "gradient",
+          "curveness": 0.5,
+          "opacity": 0.6
+        },
+        "itemStyle": {
+          "borderWidth": 1,
+          "borderColor": "#fff"
+        },
+        "label": {
+          "show": true,
+          "position": "right",
+          "fontSize": 12,
+          "color": "#64748B"
+        }
+      }
+    ],
+    "animationDuration": 1500,
+    "animationEasing": "cubicInOut"
+  },
+  "dataFormat": "nodes-links",
+  "parseHint": "Input format: 'Source→Target:Value' or 'A to B: 100'"
+}

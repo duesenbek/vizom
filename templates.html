@@ -269,23 +269,16 @@
       </div>
     </section>
 
-    <!-- CTA SECTION -->
-    <section class="bg-gradient-to-br from-[#0A1E3D] via-[#0F2744] to-[#1E5FE0] py-20 sm:py-24">
-      <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">Can't find the perfect template?</h2>
-        <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#C7D7F5]">
-          Our AI generator can create custom visualizations tailored to your specific needs and brand guidelines.
-        </p>
-        <div class="mt-10 flex items-center justify-center gap-4">
-          <a href="generator.html" class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#22D3EE] px-6 text-sm font-semibold text-[#0A1E3D] shadow-[0_12px_24px_rgba(34,211,238,0.25)] transition-all hover:bg-[#06B6D4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A1E3D]">
-            <i class="fas fa-bolt text-[#0A1E3D]"></i>
-            Create Custom Template
-          </a>
-          <button id="download-all-templates" class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-white/90 px-6 text-sm font-semibold text-[#0F172A] shadow-sm ring-1 ring-inset ring-white/20 transition-all hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
-            <i class="fas fa-download text-[#2563EB]"></i>
-            Download All Templates
-          </button>
-        </div>
+    <!-- TEMPLATE DETAIL MODAL -->
+    <div id="template-modal" class="fixed inset-0 z-50 bg-[#0A1E3D]/70 flex items-center justify-center p-4 hidden">
+      <div class="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
+        <div class="flex flex-col lg:flex-row h-full">
+          <!-- Preview Section -->
+          <div class="lg:w-3/5 p-6 border-b lg:border-b-0 lg:border-r border-[#E2E8F0]">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-xl font-semibold text-[#0A1E3D]">Template Preview</h3>
+              <button id="close-template-modal" class="text-[#94A3B8] hover:text-[#0F172A] transition">
+                <i class="fas fa-times text-xl"></i>
       </div>
     </section>
   </main>
@@ -455,25 +448,18 @@
             <li><a href="pricing.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Pricing</a></li>
           </ul>
         </div>
+        
         <div>
-          <h4 class="text-sm font-semibold text-white uppercase tracking-wide">Resources</h4>
+          <h4 class="text-sm font-semibold text-white uppercase tracking-wide">Creator</h4>
           <ul class="mt-4 space-y-3">
-            <li><a href="docs.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Documentation</a></li>
-            <li><a href="docs.html#api" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">API Reference</a></li>
-            <li><a href="blog.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Blog</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-sm font-semibold text-white uppercase tracking-wide">Company</h4>
-          <ul class="mt-4 space-y-3">
-            <li><a href="about.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">About</a></li>
-            <li><a href="about.html#careers" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Careers</a></li>
+            <li><a href="about.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">About me</a></li>
+            <li><a href="about.html#benchmarks" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Benchmark gallery</a></li>
             <li><a href="contact.html" class="text-sm text-[#A5B8DD] transition-colors hover:text-white">Contact</a></li>
           </ul>
         </div>
       </div>
       <div class="mt-10 border-t border-white/10 pt-8 text-center">
-        <p class="text-sm text-[#94A3B8]">&copy; 2024 VIZOM. All rights reserved.</p>
+        <p class="text-sm text-[#94A3B8]">&copy; 2025 VIZOM. All rights reserved.</p>
       </div>
     </div>
   </footer>

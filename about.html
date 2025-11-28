@@ -6,6 +6,20 @@
   <title>About Vizom</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    .benchmark-card {
+      transition: transform 450ms cubic-bezier(0.19, 1, 0.22, 1), box-shadow 450ms ease, border-color 450ms ease;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(4, 13, 33, 0.55);
+      backdrop-filter: blur(6px);
+    }
+
+    .benchmark-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 25px 45px -25px rgba(15, 23, 42, 0.75);
+      border-color: rgba(125, 211, 252, 0.4);
+    }
+  </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-[#040d21] via-[#071633] to-[#0A1E3D] text-[#C7D7F5] flex flex-col">
   <header class="border-b border-white/10 bg-[#040d21]/85 backdrop-blur">
@@ -23,48 +37,95 @@
 
   <main class="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-12 px-6 py-16">
     <section>
-      <p class="text-xs uppercase tracking-[0.3em] text-[#22D3EE]">About</p>
-      <h1 class="mt-4 text-4xl font-bold text-white">We turn raw data into visual stories.</h1>
+      <p class="text-xs uppercase tracking-[0.3em] text-[#22D3EE]">About me</p>
+      <h1 class="mt-4 text-4xl font-bold text-white">My personal story</h1>
       <p class="mt-4 text-lg text-[#A5B8DD]">
-        Vizom is an AI-native visualization studio helping operators ship dashboards, briefs, and investor-facing charts in minutes. 
-        We obsess over clarity, automation, and team velocity so you can focus on decisions instead of slide decks.
+        As a software engineering student, my DAA (Design and Analysis of Algorithms) labs demanded that I compare multiple graph algorithms and defend the results visually. Making charts with generic tools took hours, and the CSVs my scripts produced felt impossible to explain. I built Vizom so I could turn those raw files into publish-ready visuals within minutes—and now I share the same workflow with anyone facing the same grind.
       </p>
     </section>
 
     <section class="grid gap-6 rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur sm:grid-cols-2">
       <div>
-        <h2 class="text-2xl font-semibold text-white">What we ship</h2>
-        <p class="mt-3 text-[#C7D7F5]">AI prompt-to-chart, real-time collaboration, and premium exports that fit right into your workflow.</p>
+        <h2 class="text-2xl font-semibold text-white">What I ship</h2>
+        <p class="mt-3 text-[#C7D7F5]">I obsess over AI prompt-to-chart accuracy, collaborative editing, and exports that survive professors, investors, and teammates without extra tweaking.</p>
       </div>
       <div>
-        <h2 class="text-2xl font-semibold text-white">Who we build for</h2>
-        <p class="mt-3 text-[#C7D7F5]">Data teams, operators, and agencies that need investor-ready visuals without design debt.</p>
+        <h2 class="text-2xl font-semibold text-white">Who I build for</h2>
+        <p class="mt-3 text-[#C7D7F5]">Data teams, scrappy operators, and especially students like me who need to explain algorithms fast without battling slide decks.</p>
       </div>
     </section>
 
-    <section id="careers" class="rounded-2xl border border-[#22D3EE]/30 bg-[#0d2535] p-8">
-      <h2 class="text-3xl font-semibold text-white">Careers</h2>
-      <p class="mt-3 text-lg text-[#C7F9FF]">We are assembling a remote-first team of builders, designers, and storytellers.</p>
-      <ul class="mt-6 space-y-3 text-[#A5F3FC]">
-        <li class="flex items-start gap-3">
-          <span class="text-[#22D3EE]">•</span>
-          Senior Frontend Engineer (React + D3)
-        </li>
-        <li class="flex items-start gap-3">
-          <span class="text-[#22D3EE]">•</span>
-          Product Designer — Data UX
-        </li>
-        <li class="flex items-start gap-3">
-          <span class="text-[#22D3EE]">•</span>
-          Technical Writer — Docs & Tutorials
-        </li>
-      </ul>
-      <p class="mt-6 text-sm text-[#A5F3FC]">Sound like you? Email <a href="mailto:careers@vizom.com" class="text-white underline">careers@vizom.com</a> with your work.</p>
+    <section id="benchmarks" class="space-y-6 rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur">
+      <div class="flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-[#22D3EE]">Real screenshots</p>
+          <h2 class="mt-3 text-3xl font-semibold text-white">My benchmark gallery</h2>
+          <p class="mt-2 text-[#C7D7F5]">These PNGs live in <code>assets/images/screenshots</code> and come straight from my DAA runs. I use them to prove claims during demos and link them to quick prompts on the generator page.</p>
+        </div>
+        <a href="#" class="inline-flex items-center gap-2 rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white/80 hover:text-white hover:border-white/40 transition">
+          <i class="fas fa-copy"></i>
+          Copy prompt templates
+        </a>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2">
+        <article class="benchmark-card rounded-2xl overflow-hidden">
+          <img src="assets/images/screenshots/algorithm-execution.png" alt="Execution time analysis" class="h-56 w-full object-cover" loading="lazy" width="768" height="613">
+          <div class="space-y-2 px-6 py-5">
+            <h3 class="text-xl font-semibold text-white">Execution Time Analysis</h3>
+            <p class="text-sm text-[#C7D7F5]">Bar + line comparison that tracks processing time against scaled operations for every dataset size I tested.</p>
+          </div>
+        </article>
+        <article class="benchmark-card rounded-2xl overflow-hidden">
+          <img src="assets/images/screenshots/critical-path.png" alt="Critical path performance" class="h-56 w-full object-cover" loading="lazy" width="784" height="616">
+          <div class="space-y-2 px-6 py-5">
+            <h3 class="text-xl font-semibold text-white">Critical Path Performance</h3>
+            <p class="text-sm text-[#C7D7F5]">Proof that my pruning heuristic flattens spikes in dense DAGs while the vertex count keeps going up.</p>
+          </div>
+        </article>
+        <article class="benchmark-card rounded-2xl overflow-hidden">
+          <img src="assets/images/screenshots/algorithm-scalability.png" alt="Algorithm scalability" class="h-56 w-full object-cover" loading="lazy" width="799" height="615">
+          <div class="space-y-2 px-6 py-5">
+            <h3 class="text-xl font-semibold text-white">Algorithm Scalability</h3>
+            <p class="text-sm text-[#C7D7F5]">Bubble plot mapping vertices to total operations, segmented per dataset family so I can defend the complexity numbers.</p>
+          </div>
+        </article>
+        <article class="benchmark-card rounded-2xl overflow-hidden">
+          <img src="assets/images/screenshots/performance-metrics.png" alt="Performance metrics table" class="h-56 w-full object-cover" loading="lazy" width="1024" height="693">
+          <div class="space-y-2 px-6 py-5">
+            <h3 class="text-xl font-semibold text-white">Detailed Performance Matrix</h3>
+            <p class="text-sm text-[#C7D7F5]">The raw CSV I shared with the class: SCC counts, compression ratio, efficiency score, ops per vertex.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="grid gap-6 rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur">
+      <div>
+        <h2 class="text-2xl font-semibold text-white mb-6">Connect with me</h2>
+        <div class="flex flex-wrap gap-4">
+          <a href="https://github.com/duesenbek" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2563EB] text-white hover:bg-[#1E5FE0] transition">
+            <i class="fab fa-github"></i>
+            GitHub
+          </a>
+          <a href="https://instagram/duesenbek.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2563EB] text-white hover:bg-[#1E5FE0] transition">
+            <i class="fab fa-instagram"></i>
+            Instagram
+          </a>
+          <a href="https://linkedin/duesenbek.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2563EB] text-white hover:bg-[#1E5FE0] transition">
+            <i class="fab fa-linkedin"></i>
+            LinkedIn
+          </a>
+          <a href="https://twitter.com/duesenbek" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#2563EB] text-white hover:bg-[#1E5FE0] transition">
+            <i class="fab fa-x-twitter"></i>
+            X
+          </a>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer class="border-t border-white/10 bg-[#040d21]/80 py-6 text-center text-sm text-[#94A3B8]">
-    © 2024 Vizom. Building the future of visual intelligence.
+    2025 Vizom. Building the future of visual intelligence.
   </footer>
 </body>
 </html>

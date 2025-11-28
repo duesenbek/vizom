@@ -76,7 +76,9 @@ class VizomApp {
       aiGeneration: true,
       templates: true,
       export: true,
-      mobileNavigation: true,
+      mobileNavigation: false,
+      unifiedHeader: false, // Disabled: pages have their own headers in HTML
+      unifiedFooter: false, // Disabled: pages have their own footers in HTML
       darkMode: true,
       analytics: true,
       offlineMode: false,
@@ -206,11 +208,15 @@ class VizomApp {
       safeInit('mobileNavigation', MobileNavigation);
     }
     
-    // Initialize header
-    safeInit('header', UnifiedHeader);
+    // Initialize header (disabled by default - pages have static headers)
+    if (this.config.features.unifiedHeader) {
+      safeInit('header', UnifiedHeader);
+    }
     
     // Initialize footer
-    safeInit('footer', UnifiedFooter);
+    if (this.config.features.unifiedFooter) {
+      safeInit('footer', UnifiedFooter);
+    }
 
     // Initialize header integration
     safeInit('headerIntegration', HeaderIntegration);

@@ -143,10 +143,50 @@
             outline: 2px solid var(--color-primary-600, #0F6BFF);
             outline-offset: 3px;
         }
+
+        .preview-frame {
+            transition: all 200ms ease;
+            background: #f8fafc;
+        }
+
+        .preview-frame.fullscreen-active {
+            border: none !important;
+            border-radius: 0;
+            box-shadow: none;
+            background: #fff;
+        }
+
+        body.fullscreen-mode {
+            background: #f8fafc;
+            overflow: hidden;
+        }
+
+        #chart-container.fullscreen-active {
+            width: 100vw;
+            height: 100vh;
+            padding: clamp(16px, 3vw, 48px);
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #chart-container.fullscreen-active canvas,
+        #chart-container.fullscreen-active svg {
+            width: 100% !important;
+            height: calc(100vh - clamp(96px, 15vh, 160px)) !important;
+        }
+
+        #chart-container.fullscreen-active .success-message,
+        #chart-container.fullscreen-active .error-message {
+            max-width: min(640px, 90vw);
+        }
     </style>
     
     <!-- UI Polish Styles -->
     <link rel="stylesheet" href="styles/components/ui-polish.css">
+    <!-- Shared footer styles -->
+    <link rel="stylesheet" href="src/styles/components/footer.css">
     
     <!-- Unified Toast System -->
     <script type="module" src="src/components/ToastSystem.js"></script>
@@ -175,8 +215,8 @@
     <script type="module" src="src/integration/proFeatures.js"></script>
     <link rel="stylesheet" href="styles/components/pro-features.css">
 
-    <!-- DeepSeek AI Client -->
-    <script src="https://cdn.jsdelivr.net/npm/deepseek-ai@0.0.3/dist/deepseek-ai.min.js"></script>
+    <!-- DeepSeek AI Client - disabled, using local smart parser instead -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/deepseek-ai@0.0.3/dist/deepseek-ai.min.js"></script> -->
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased">
     <!-- Header -->
@@ -192,7 +232,7 @@
                     <a href="index.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Home" data-i18n="nav.home">Home</a>
                     <a href="generator.html" aria-current="page" class="text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="You are viewing the Generator page" data-i18n="nav.generator">Generator</a>
                     <a href="templates.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Templates" data-i18n="nav.templates">Templates</a>
-                    <a href="pricing.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Pricing">Pricing</a>
+                    <a href="pricing.html" class="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Pricing" data-i18n="nav.pricing">Pricing</a>
                     <!-- Language Selector -->
                     <div class="relative" id="language-selector">
                         <button class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition" id="language-toggle" aria-label="Select language">
@@ -211,9 +251,15 @@
                         </div>
                     </div>
                     <!-- Auth Section (shown when not logged in) -->
-                    <div id="auth-section" class="flex items-center gap-3">
-                        <button class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl px-5 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin" type="button" aria-label="Open sign-in dialog" data-i18n="auth.signIn">Sign In</button>
-                        <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" aria-label="Get started with Vizom" data-i18n="auth.getStarted">Get Started</a>
+                    <div id="auth-section" class="flex items-center gap-4">
+                        <button class="group inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" id="auth-signin" type="button" aria-label="Open sign-in dialog">
+                            <i class="fas fa-arrow-right-to-bracket text-slate-400 group-hover:text-blue-500 transition-colors"></i>
+                            <span data-i18n="auth.signIn">Sign In</span>
+                        </button>
+                        <a href="generator.html" class="group inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-7 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-200 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-action="get-started" aria-label="Get started with Vizom">
+                            <span data-i18n="nav.startShort">Start</span>
+                            <i class="fas fa-arrow-right text-white/80 group-hover:translate-x-0.5 transition-transform"></i>
+                        </a>
                     </div>
                     
                     <!-- User Dropdown (shown when logged in) -->
@@ -226,10 +272,10 @@
                                 <p id="user-name" class="text-sm font-semibold text-slate-900">User Name</p>
                                 <p id="user-email" class="text-xs text-slate-500">user@example.com</p>
                             </div>
-                            <a href="generator.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
-                                <i class="fas fa-chart-line w-4 text-slate-400"></i>
-                                <span>My Charts</span>
-                            </a>
+                            <button id="open-projects-btn" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors w-full text-left">
+                                <i class="fas fa-folder w-4 text-slate-400"></i>
+                                <span>My Projects</span>
+                            </button>
                             <div class="border-t border-slate-100 mt-1 pt-1">
                                 <button id="sign-out-btn" class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors w-full text-left">
                                     <i class="fas fa-sign-out-alt w-4"></i>
@@ -250,9 +296,9 @@
                     <a href="index.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Home" data-i18n="nav.home">Home</a>
                     <a href="generator.html" aria-current="page" class="block py-2 text-base font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="You are viewing the Generator page" data-i18n="nav.generator">Generator</a>
                     <a href="templates.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Templates" data-i18n="nav.templates">Templates</a>
-                    <a href="pricing.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Pricing">Pricing</a>
+                    <a href="pricing.html" class="block py-2 text-base font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500" aria-label="Navigate to Pricing" data-i18n="nav.pricing">Pricing</a>
                     <button class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-slate-100 px-5 text-sm font-medium text-slate-700 transition-all hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" id="auth-signin-mobile" type="button" aria-label="Open sign-in dialog" data-i18n="auth.signIn" data-mobile-menu-keep-open>Sign In</button>
-                    <a href="generator.html" data-component="PrimaryButton" class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" aria-label="Get started with Vizom" data-i18n="auth.getStarted">Get Started</a>
+                    <a href="generator.html" class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-xl bg-blue-600 px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:opacity-50" data-action="get-started" aria-label="Get started with Vizom" data-i18n="nav.startShort">Start</a>
                 </div>
             </div>
         </div>
@@ -368,7 +414,7 @@
             <main class="lg:col-span-6 p-6 space-y-6">
                 <div class="space-y-2">
                     <h2 class="text-2xl font-bold text-slate-900">Describe Your Chart</h2>
-                    <p class="text-slate-600">Tell our AI what kind of chart you want to create.</p>
+                    <p class="text-slate-600">Explain the dataset (e.g., “compare merge sort vs quicksort runtime on 10k inputs”) and we’ll build it.</p>
                 </div>
 
                 <div class="space-y-6">
@@ -380,17 +426,349 @@
                             data-testid="prompt-input"
                             aria-describedby="prompt-helper"
                             class="h-48 w-full resize-none rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-                            placeholder="Example: Create a bar chart showing monthly sales data for Q1 2024 with products A, B, and C. Use blue colors and add a trend line."
+                            placeholder="Describe your chart..."
                         ></textarea>
-                        <p id="prompt-helper" class="text-xs text-slate-500" data-default-text="Describe your chart in plain English. The more detail, the better.">Describe your chart in plain English. The more detail, the better.</p>
+                        <p id="prompt-helper" class="text-xs text-slate-500" data-default-text="Describe your chart idea—data source, timeframe, metrics. The more detail, the better.">Describe your chart idea—data source, timeframe, metrics. The more detail, the better.</p>
                     </div>
 
 
-                    <!-- Generate Button -->
-                    <button id="generate-chart" class="group inline-flex w-full h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-testid="generate-button" aria-label="Generate chart from description">
-                        <i class="fas fa-magic"></i>
-                        <span>Generate Chart</span>
-                    </button>
+                    <!-- Action Buttons -->
+                    <div class="flex gap-2">
+                        <button id="generate-chart" onclick="handleGenerateClick()" class="group flex-1 inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-blue-600 px-6 text-sm font-medium text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" data-testid="generate-button" aria-label="Generate chart from description">
+                            <i class="fas fa-magic"></i>
+                            <span>Generate</span>
+                        </button>
+                        <button id="save-project-btn" onclick="saveCurrentProject()" class="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition" title="Save Project">
+                            <i class="fas fa-save"></i>
+                        </button>
+                        <button id="load-projects-btn" onclick="openProjectsPanel()" class="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition" title="My Projects">
+                            <i class="fas fa-folder-open"></i>
+                        </button>
+                    </div>
+                    <script>
+                      // Check for pending prompt from home page
+                      (function() {
+                        const pendingPrompt = sessionStorage.getItem('vizom_pending_prompt');
+                        if (pendingPrompt) {
+                          sessionStorage.removeItem('vizom_pending_prompt');
+                          const promptInput = document.getElementById('prompt-input');
+                          if (promptInput) {
+                            promptInput.value = pendingPrompt;
+                            // Auto-generate after page loads
+                            setTimeout(() => {
+                              if (typeof smartGenerateChart === 'function') {
+                                smartGenerateChart(pendingPrompt);
+                              }
+                            }, 1000);
+                          }
+                        }
+                      })();
+                      
+                      function handleGenerateClick() {
+                        console.log('[onclick] Generate button clicked');
+                        const prompt = document.getElementById('prompt-input')?.value?.trim();
+                        if (!prompt) {
+                          alert('Please enter chart description or data');
+                          document.getElementById('prompt-input')?.focus();
+                          return;
+                        }
+                        smartGenerateChart(prompt);
+                      }
+                      
+                      // Smart parser - понимает любой формат данных
+                      function smartParseData(text) {
+                        let labels = [];
+                        let data = [];
+                        let title = 'Chart';
+                        
+                        // 1. Try JSON format: {"labels":[], "data":[]} or [{"label":"X","value":1}]
+                        try {
+                          if (text.trim().startsWith('{') || text.trim().startsWith('[')) {
+                            const json = JSON.parse(text);
+                            if (Array.isArray(json)) {
+                              // [{label, value}] format
+                              if (json[0]?.label !== undefined) {
+                                labels = json.map(i => i.label || i.name || i.category);
+                                data = json.map(i => Number(i.value || i.amount || i.count || i.percent || 0));
+                                return { labels, data, title };
+                              }
+                              // [[labels], [values]] format
+                              if (Array.isArray(json[0]) && Array.isArray(json[1])) {
+                                labels = json[0].map(String);
+                                data = json[1].map(Number);
+                                return { labels, data, title };
+                              }
+                            } else if (json.labels && json.data) {
+                              labels = json.labels.map(String);
+                              data = json.data.map(Number);
+                              title = json.title || title;
+                              return { labels, data, title };
+                            }
+                          }
+                        } catch(e) {}
+                        
+                        // 2. Try "Label: Value" format (e.g., "JavaScript: 0%, Python: 75%")
+                        const colonPairs = text.match(/([A-Za-zА-Яа-яёЁ\s]+):\s*([\d.]+)%?/g);
+                        if (colonPairs && colonPairs.length >= 2) {
+                          colonPairs.forEach(pair => {
+                            const match = pair.match(/([A-Za-zА-Яа-яёЁ\s]+):\s*([\d.]+)/);
+                            if (match) {
+                              labels.push(match[1].trim());
+                              data.push(parseFloat(match[2]));
+                            }
+                          });
+                          if (labels.length >= 2) return { labels, data, title };
+                        }
+                        
+                        // 3. Try "Label Value" pairs (e.g., "Apple 100 Google 200")
+                        const wordNumPairs = text.match(/([A-Za-zА-Яа-яёЁ]+)\s+([\d.]+)/g);
+                        if (wordNumPairs && wordNumPairs.length >= 2) {
+                          wordNumPairs.forEach(pair => {
+                            const match = pair.match(/([A-Za-zА-Яа-яёЁ]+)\s+([\d.]+)/);
+                            if (match) {
+                              labels.push(match[1]);
+                              data.push(parseFloat(match[2]));
+                            }
+                          });
+                          if (labels.length >= 2) return { labels, data, title };
+                        }
+                        
+                        // 4. Try CSV format: "Label,Value\nApple,100"
+                        const lines = text.split(/[\n;]+/).filter(l => l.trim());
+                        if (lines.length >= 2) {
+                          const parsed = lines.map(line => {
+                            const parts = line.split(/[,\t]+/).map(p => p.trim());
+                            if (parts.length >= 2) {
+                              const num = parseFloat(parts[parts.length - 1].replace(/[^0-9.-]/g, ''));
+                              if (!isNaN(num)) {
+                                return { label: parts.slice(0, -1).join(' '), value: num };
+                              }
+                            }
+                            return null;
+                          }).filter(Boolean);
+                          
+                          if (parsed.length >= 2) {
+                            labels = parsed.map(p => p.label);
+                            data = parsed.map(p => p.value);
+                            return { labels, data, title };
+                          }
+                        }
+                        
+                        // 5. Extract any numbers and create labels from context
+                        const allNumbers = text.match(/[\d.]+/g)?.map(Number).filter(n => !isNaN(n) && n > 0) || [];
+                        const allWords = text.match(/[A-Za-zА-Яа-яёЁ]{2,}/g) || [];
+                        
+                        if (allNumbers.length >= 2) {
+                          data = allNumbers.slice(0, 8);
+                          // Try to use words as labels
+                          if (allWords.length >= data.length) {
+                            labels = allWords.slice(0, data.length);
+                          } else {
+                            // Generate smart labels based on context
+                            const contextWords = ['Sales', 'Revenue', 'Users', 'Growth', 'Q1', 'Q2', 'Q3', 'Q4', 'Jan', 'Feb', 'Mar', 'Apr'];
+                            labels = data.map((_, i) => contextWords[i] || `Category ${i+1}`);
+                          }
+                          return { labels, data, title };
+                        }
+                        
+                        // 6. Fallback - generate sample data
+                        return {
+                          labels: ['Category A', 'Category B', 'Category C', 'Category D'],
+                          data: [25, 35, 20, 20],
+                          title: 'Sample Chart'
+                        };
+                      }
+                      
+                      // Premium color palettes
+                      const COLORS = {
+                        primary: ['#3B82F6','#8B5CF6','#EC4899','#F59E0B','#10B981','#F97316','#6366F1','#14B8A6'],
+                        gradient: (color) => {
+                          const alpha = '33'; // 20% opacity
+                          return color + alpha;
+                        }
+                      };
+                      
+                      // Number formatting (1000 → 1K)
+                      function formatNumber(num) {
+                        if (typeof num !== 'number' || isNaN(num)) return num;
+                        if (Math.abs(num) >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+                        if (Math.abs(num) >= 1000) return (num / 1000).toFixed(1) + 'K';
+                        return num % 1 === 0 ? num : num.toFixed(2);
+                      }
+                      
+                      // Generate smart title
+                      function generateTitle(labels, chartType) {
+                        const timePatterns = ['jan', 'feb', 'mar', 'q1', 'q2', 'mon', '2023', '2024'];
+                        const isTime = labels.some(l => timePatterns.some(p => l.toLowerCase().includes(p)));
+                        
+                        if (isTime) return chartType === 'line' ? 'Trend Over Time' : 'Performance by Period';
+                        if (['pie', 'doughnut'].includes(chartType)) return 'Distribution Breakdown';
+                        return 'Data Comparison';
+                      }
+                      
+                      function smartGenerateChart(prompt) {
+                        const container = document.getElementById('chart-container');
+                        if (!container) return;
+                        
+                        // Show loading
+                        container.innerHTML = '<div class="flex items-center justify-center h-full"><i class="fas fa-spinner fa-spin text-4xl text-blue-500"></i><span class="ml-3 text-slate-600">Generating chart...</span></div>';
+                        
+                        // Parse data
+                        const parsed = smartParseData(prompt);
+                        let { labels, data, title } = parsed;
+                        console.log('[smartGenerate] Parsed:', { labels, data, title });
+                        
+                        // Normalize labels (capitalize, trim)
+                        labels = labels.map(l => {
+                          const s = String(l).trim();
+                          return s.charAt(0).toUpperCase() + s.slice(1);
+                        });
+                        
+                        // Detect chart type from selected option
+                        let chartType = 'bar';
+                        const selectedOption = document.querySelector('.chart-option.selected, .chart-option[aria-pressed="true"]');
+                        if (selectedOption?.dataset?.type) {
+                          chartType = selectedOption.dataset.type;
+                        }
+                        
+                        // Map types
+                        const typeMap = { 'area': 'line', 'donut': 'doughnut', 'horizontal-bar': 'bar' };
+                        chartType = typeMap[chartType] || chartType;
+                        
+                        // Auto-suggest chart type if none selected
+                        if (!selectedOption) {
+                          const sum = data.reduce((a, b) => a + b, 0);
+                          const isPercent = Math.abs(sum - 100) < 5;
+                          if (isPercent && data.length <= 6) chartType = 'doughnut';
+                        }
+                        
+                        // Generate smart title
+                        title = title || generateTitle(labels, chartType);
+                        
+                        // Find max value for annotation
+                        const maxVal = Math.max(...data);
+                        const maxIdx = data.indexOf(maxVal);
+                        
+                        // Wait for Chart.js
+                        const waitForChart = setInterval(() => {
+                          const C = window.Chart;
+                          if (C) {
+                            clearInterval(waitForChart);
+                            
+                            container.innerHTML = '<canvas id="main-chart" style="width:100%;height:100%"></canvas>';
+                            const canvas = document.getElementById('main-chart');
+                            
+                            const isCircular = ['pie', 'doughnut', 'polarArea'].includes(chartType);
+                            const isLine = chartType === 'line';
+                            const colors = COLORS.primary;
+                            
+                            // Build enhanced config
+                            const config = {
+                              type: chartType,
+                              data: {
+                                labels: labels,
+                                datasets: [{
+                                  label: title,
+                                  data: data,
+                                  backgroundColor: isLine 
+                                    ? COLORS.gradient(colors[0])
+                                    : isCircular 
+                                      ? colors.slice(0, data.length)
+                                      : colors[0],
+                                  borderColor: isCircular ? '#ffffff' : colors[0],
+                                  borderWidth: isCircular ? 2 : (isLine ? 3 : 0),
+                                  borderRadius: chartType === 'bar' ? 6 : 0,
+                                  tension: 0.4,
+                                  fill: isLine,
+                                  pointRadius: isLine ? 4 : 0,
+                                  pointHoverRadius: isLine ? 6 : 0,
+                                  pointBackgroundColor: '#ffffff',
+                                  pointBorderColor: colors[0],
+                                  pointBorderWidth: 2
+                                }]
+                              },
+                              options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                layout: { padding: { top: 10, right: 20, bottom: 10, left: 10 } },
+                                plugins: {
+                                  legend: { 
+                                    display: isCircular,
+                                    position: 'right',
+                                    labels: {
+                                      usePointStyle: true,
+                                      pointStyle: 'circle',
+                                      padding: 15,
+                                      font: { size: 12, family: "'Inter', sans-serif" },
+                                      color: '#64748B'
+                                    }
+                                  },
+                                  title: { 
+                                    display: true, 
+                                    text: title, 
+                                    font: { size: 16, weight: '600', family: "'Inter', sans-serif" },
+                                    color: '#1E293B',
+                                    padding: { top: 10, bottom: 20 }
+                                  },
+                                  tooltip: {
+                                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                                    titleColor: '#ffffff',
+                                    bodyColor: '#CBD5E1',
+                                    cornerRadius: 8,
+                                    padding: 12,
+                                    displayColors: true,
+                                    callbacks: {
+                                      label: function(ctx) {
+                                        const val = ctx.parsed.y ?? ctx.parsed ?? ctx.raw;
+                                        return ` ${ctx.dataset.label}: ${formatNumber(val)}`;
+                                      }
+                                    }
+                                  }
+                                },
+                                scales: isCircular ? {} : {
+                                  x: {
+                                    grid: { display: false },
+                                    ticks: { 
+                                      color: '#64748B', 
+                                      font: { size: 11 },
+                                      maxRotation: 45
+                                    },
+                                    border: { display: false }
+                                  },
+                                  y: {
+                                    beginAtZero: true,
+                                    grid: { color: 'rgba(0,0,0,0.05)' },
+                                    ticks: { 
+                                      color: '#64748B', 
+                                      font: { size: 11 },
+                                      callback: (v) => formatNumber(v)
+                                    },
+                                    border: { display: false }
+                                  }
+                                },
+                                animation: { duration: 750, easing: 'easeOutQuart' }
+                              }
+                            };
+                            
+                            // Doughnut specific
+                            if (chartType === 'doughnut') {
+                              config.options.cutout = '60%';
+                            }
+                            
+                            // Store for export
+                            window.lastChartConfig = config;
+                            window.lastChartData = { labels, data };
+                            
+                            const chart = new C(canvas, config);
+                            window.currentChart = chart;
+                            
+                            console.log('[smartGenerate] Enhanced chart created:', chartType);
+                          }
+                        }, 100);
+                        
+                        setTimeout(() => clearInterval(waitForChart), 10000);
+                      }
+                    </script>
 
                     <!-- Quick Prompts with Real Chart Previews -->
                     <div class="space-y-3">
@@ -509,12 +887,12 @@
 
                 <div class="space-y-6">
                     <!-- Chart Display -->
-                    <div class="aspect-[16/10] bg-slate-50 rounded-xl border-2 border-dashed border-slate-200 flex items-center justify-center">
+                    <div class="preview-frame aspect-[16/10] bg-slate-50 rounded-xl border-2 border-dashed border-slate-200 flex items-center justify-center">
                         <div id="chart-container" class="w-full h-full" data-testid="chart-container">
                             <div class="flex flex-col items-center justify-center h-full text-slate-500">
                                 <i class="fas fa-chart-line text-4xl mb-4"></i>
-                                <p class="font-medium">Your chart will appear here</p>
-                                <p class="text-sm">Describe your chart and click Generate</p>
+                                <p class="font-medium">Benchmark example ready</p>
+                                <p class="text-sm">Try “Plot bubble sort vs merge sort runtime for 1k–50k items” and hit Generate.</p>
                             </div>
                         </div>
                         <div id="generation-error" data-testid="error-message" class="hidden text-red-600 text-sm mt-2" role="alert" aria-live="assertive"></div>
@@ -587,20 +965,157 @@
     <!-- Main Scripts -->
     <script type="module" src="scripts/main.js"></script>
 
-    <script type="module">
-      import { ChartGenerator } from './scripts/pages/generator/chart-generator.js';
-      import { ExportHandler } from './scripts/pages/generator/export-handler.js';
-      import { ProjectManager } from './scripts/pages/generator/project-manager.js';
-      import { UIController } from './scripts/pages/generator/ui-controller.js';
+    <!-- Fallback Generate Button Handler -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const generateBtn = document.getElementById('generate-chart');
+        if (generateBtn) {
+          generateBtn.addEventListener('click', function() {
+            console.log('[fallback] Generate button clicked');
+            
+            // If chartGenerator is available, use it
+            if (window.chartGenerator && typeof window.chartGenerator.generateChart === 'function') {
+              console.log('[fallback] Using chartGenerator.generateChart()');
+              window.chartGenerator.generateChart();
+              return;
+            }
+            
+            // Fallback: simple chart generation
+            console.log('[fallback] Using fallback chart generation');
+            const promptInput = document.getElementById('prompt-input');
+            const prompt = promptInput?.value?.trim() || '';
+            
+            if (!prompt) {
+              promptInput?.focus();
+              promptInput?.classList.add('ring-2', 'ring-red-500');
+              setTimeout(() => promptInput?.classList.remove('ring-2', 'ring-red-500'), 2000);
+              return;
+            }
+            
+            // Try to parse and render
+            fallbackGenerateChart(prompt);
+          });
+        }
+      });
       
-      // Initialize generator page modules after the layout and core app are ready.
-      // The script tag is already at the end of <body>, so DOM is available here.
-      console.log('[generator-init] Bootstrapping generator modules');
-      const generatorInstance = new ChartGenerator();
-      new ExportHandler(generatorInstance);
-      new ProjectManager(generatorInstance);
-      new UIController(generatorInstance);
-      window.chartGenerator = generatorInstance;
+      async function fallbackGenerateChart(prompt) {
+        const container = document.getElementById('chart-container');
+        if (!container) return;
+        
+        // Show loading
+        container.innerHTML = '<div class="flex items-center justify-center h-full"><i class="fas fa-spinner fa-spin text-4xl text-blue-500"></i></div>';
+        
+        // Wait for Chart.js if not loaded
+        let attempts = 0;
+        while (typeof Chart === 'undefined' && window.Chart === undefined && attempts < 50) {
+          await new Promise(r => setTimeout(r, 100));
+          attempts++;
+        }
+        
+        const ChartJS = window.Chart || (typeof Chart !== 'undefined' ? Chart : null);
+        
+        // Simple parsing
+        let labels = ['A', 'B', 'C', 'D'];
+        let data = [12, 19, 3, 5];
+        let chartType = 'bar';
+        
+        // Try to extract numbers from prompt
+        const numbers = prompt.match(/\d+/g);
+        if (numbers && numbers.length >= 2) {
+          data = numbers.slice(0, 8).map(n => parseInt(n, 10));
+          labels = data.map((_, i) => `Item ${i + 1}`);
+        }
+        
+        // Try JSON format
+        try {
+          if (prompt.trim().startsWith('[') || prompt.trim().startsWith('{')) {
+            const parsed = JSON.parse(prompt);
+            if (Array.isArray(parsed)) {
+              if (parsed.every(item => typeof item === 'object' && 'label' in item && 'value' in item)) {
+                labels = parsed.map(item => item.label);
+                data = parsed.map(item => Number(item.value));
+              } else if (parsed.length === 2 && Array.isArray(parsed[0]) && Array.isArray(parsed[1])) {
+                labels = parsed[0];
+                data = parsed[1].map(n => Number(n));
+              }
+            } else if (parsed.labels && parsed.data) {
+              labels = parsed.labels;
+              data = parsed.data.map(n => Number(n));
+            }
+          }
+        } catch (e) {
+          console.log('[fallback] Not JSON, using extracted numbers');
+        }
+        
+        // Detect chart type from selected option
+        const selectedOption = document.querySelector('.chart-option.selected, .chart-option[aria-pressed="true"]');
+        if (selectedOption?.dataset?.type) {
+          chartType = selectedOption.dataset.type;
+        }
+        
+        // Map to Chart.js types
+        const typeMap = { 'area': 'line', 'donut': 'doughnut', 'horizontal-bar': 'bar' };
+        chartType = typeMap[chartType] || chartType;
+        
+        // Render chart
+        container.innerHTML = '<canvas id="fallback-chart" style="width:100%;height:100%;"></canvas>';
+        const canvas = document.getElementById('fallback-chart');
+        const ctx = canvas.getContext('2d');
+        
+        if (ChartJS) {
+          const colors = ['#3B82F6', '#8B5CF6', '#EC4899', '#F59E0B', '#10B981', '#F97316', '#6366F1', '#14B8A6'];
+          const config = {
+            type: chartType,
+            data: {
+              labels: labels,
+              datasets: [{
+                label: 'Data',
+                data: data,
+                backgroundColor: chartType === 'line' ? 'rgba(59, 130, 246, 0.2)' : colors.slice(0, data.length),
+                borderColor: chartType === 'line' ? '#3B82F6' : colors.slice(0, data.length),
+                borderWidth: chartType === 'line' ? 3 : 1,
+                borderRadius: chartType === 'bar' ? 8 : 0,
+                tension: 0.4,
+                fill: chartType === 'line'
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: chartType === 'pie' || chartType === 'doughnut' }
+              },
+              indexAxis: chartType === 'horizontal-bar' ? 'y' : 'x'
+            }
+          };
+          
+          new ChartJS(ctx, config);
+          console.log('[fallback] Chart rendered successfully:', chartType);
+        } else {
+          container.innerHTML = '<div class="flex flex-col items-center justify-center h-full text-slate-500 p-8"><i class="fas fa-exclamation-triangle text-4xl mb-4 text-amber-500"></i><p class="font-medium">Chart.js is loading...</p><p class="text-sm">Please try again in a moment.</p></div>';
+        }
+      }
+    </script>
+
+    <script type="module">
+      try {
+        const { ChartGenerator } = await import('./scripts/pages/generator/chart-generator.js');
+        const { ExportHandler } = await import('./scripts/pages/generator/export-handler.js');
+        const { ProjectManager } = await import('./scripts/pages/generator/project-manager.js');
+        const { UIController } = await import('./scripts/pages/generator/ui-controller.js');
+        
+        // Initialize generator page modules after the layout and core app are ready.
+        console.log('[generator-init] Bootstrapping generator modules');
+        const generatorInstance = new ChartGenerator();
+        new ExportHandler(generatorInstance);
+        new ProjectManager(generatorInstance);
+        new UIController(generatorInstance);
+        window.chartGenerator = generatorInstance;
+        console.log('[generator-init] All modules initialized successfully');
+      } catch (error) {
+        console.error('[generator-init] Failed to initialize modules:', error);
+        console.log('[generator-init] Fallback handler will be used');
+      }
     </script>
 
     <!-- Chart Preview Renderer for real chart previews in demo cards -->
@@ -912,6 +1427,7 @@
                 });
 
                 this.setupExportMenu();
+                this.setupFullscreenListeners();
                 // Restrict export quality for non-pro
                 const qSel = document.getElementById('pdf-quality');
                 if (qSel && !this.isPro) {
@@ -1107,6 +1623,96 @@
                     }
                 });
 
+                this.renderProjectsList();
+            }
+
+            loadProjectsFromStorage() {
+                try {
+                    const stored = localStorage.getItem(this.projectsKey);
+                    return stored ? JSON.parse(stored) : [];
+                } catch (e) {
+                    console.warn('Failed to load projects from storage:', e);
+                    return [];
+                }
+            }
+
+            saveProjectsToStorage() {
+                try {
+                    localStorage.setItem(this.projectsKey, JSON.stringify(this.projectsCache));
+                } catch (e) {
+                    console.warn('Failed to save projects to storage:', e);
+                }
+            }
+
+            renderProjectsList() {
+                const container = document.getElementById('projects-list');
+                if (!container) return;
+
+                if (!this.projectsCache || this.projectsCache.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-8 text-slate-500">
+                            <i class="fas fa-folder-open text-4xl mb-4 opacity-50"></i>
+                            <p>No saved projects yet</p>
+                            <p class="text-sm mt-2">Generate a chart and save it to see it here</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.projectsCache.map((project, index) => `
+                    <div class="project-item p-4 border rounded-lg hover:bg-slate-50 cursor-pointer" data-index="${index}">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium text-slate-900">${project.title || 'Untitled Project'}</h4>
+                                <p class="text-sm text-slate-500 mt-1">${project.chartType || 'Chart'} • ${new Date(project.createdAt).toLocaleDateString()}</p>
+                            </div>
+                            <button class="delete-project text-slate-400 hover:text-red-500" data-index="${index}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Add click handlers
+                container.querySelectorAll('.project-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        if (!e.target.closest('.delete-project')) {
+                            this.loadProject(parseInt(item.dataset.index));
+                        }
+                    });
+                });
+
+                container.querySelectorAll('.delete-project').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.deleteProject(parseInt(btn.dataset.index));
+                    });
+                });
+            }
+
+            loadProject(index) {
+                const project = this.projectsCache[index];
+                if (!project) return;
+
+                const promptInput = document.getElementById('prompt-input');
+                if (promptInput && project.prompt) {
+                    promptInput.value = project.prompt;
+                }
+
+                if (project.chartType) {
+                    this.selectChartType(project.chartType);
+                }
+
+                if (project.config) {
+                    this.renderChart(project.config);
+                }
+
+                this.closeModal(document.getElementById('projects-modal'));
+            }
+
+            deleteProject(index) {
+                this.projectsCache.splice(index, 1);
+                this.saveProjectsToStorage();
                 this.renderProjectsList();
             }
 
@@ -1790,11 +2396,73 @@
 
             toggleFullscreen() {
                 const container = document.getElementById('chart-container');
+                if (!container) return;
                 if (!document.fullscreenElement) {
-                    container.requestFullscreen();
-                } else {
+                    container.requestFullscreen().catch(err => {
+                        if (window.feedback?.showToast) {
+                            window.feedback.showToast(`Fullscreen not available: ${err.message}`, 'error');
+                        } else {
+                            console.warn('Fullscreen request failed', err);
+                        }
+                    });
+                } else if (document.fullscreenElement === container) {
                     document.exitFullscreen();
+                } else {
+                    document.exitFullscreen().then(() => container.requestFullscreen());
                 }
+            }
+
+            setupFullscreenListeners() {
+                if (this.fullscreenListenerAttached) return;
+                const container = document.getElementById('chart-container');
+                if (!container) return;
+                this.fullscreenListenerAttached = true;
+                document.addEventListener('fullscreenchange', () => {
+                    const isFullscreen = document.fullscreenElement === container;
+                    this.handleFullscreenState(isFullscreen);
+                });
+            }
+
+            handleFullscreenState(isFullscreen) {
+                const container = document.getElementById('chart-container');
+                if (!container) return;
+                const previewFrame = container.closest('.preview-frame');
+                document.body.classList.toggle('fullscreen-mode', isFullscreen);
+                container.classList.toggle('fullscreen-active', isFullscreen);
+                previewFrame?.classList.toggle('fullscreen-active', isFullscreen);
+                if (isFullscreen) {
+                    container.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                this.adjustChartForFullscreen(isFullscreen);
+                if (this.currentChart?.resize) {
+                    setTimeout(() => this.currentChart?.resize(), 120);
+                }
+            }
+
+            adjustChartForFullscreen(isFullscreen) {
+                const chart = this.currentChart;
+                if (!chart || !chart.options) return;
+                const title = chart.options.plugins?.title;
+                if (title) {
+                    title.font = title.font || {};
+                    title.font.size = isFullscreen ? 22 : 16;
+                }
+                const legendLabels = chart.options.plugins?.legend?.labels;
+                if (legendLabels) {
+                    legendLabels.font = legendLabels.font || {};
+                    legendLabels.font.size = isFullscreen ? 16 : 12;
+                }
+                const xTicks = chart.options.scales?.x?.ticks;
+                if (xTicks) {
+                    xTicks.font = xTicks.font || {};
+                    xTicks.font.size = isFullscreen ? 14 : 11;
+                }
+                const yTicks = chart.options.scales?.y?.ticks;
+                if (yTicks) {
+                    yTicks.font = yTicks.font || {};
+                    yTicks.font.size = isFullscreen ? 14 : 11;
+                }
+                chart.update('none');
             }
 
             showLoading() {
@@ -2025,7 +2693,25 @@
 
                 // Initial state
                 updateButtonState();
-            } catch {}
+                
+                // Fallback: ensure generate button has a working handler
+                if (generateBtn && !generateBtn._vizomHandlerAttached) {
+                    generateBtn._vizomHandlerAttached = true;
+                    generateBtn.addEventListener('click', () => {
+                        console.log('[Fallback] Generate button clicked');
+                        if (window.chartGenerator && typeof window.chartGenerator.generateChart === 'function') {
+                            console.log('[Fallback] Calling chartGenerator.generateChart()');
+                            window.chartGenerator.generateChart();
+                        } else {
+                            console.error('[Fallback] chartGenerator not available or generateChart not a function');
+                            console.log('[Fallback] window.chartGenerator:', window.chartGenerator);
+                        }
+                    });
+                    console.log('[Fallback] Generate button handler attached');
+                }
+            } catch (e) {
+                console.error('[Validation] Error in DOMContentLoaded:', e);
+            }
         });
 
         function showTooltip() {
@@ -2458,6 +3144,143 @@
         }
       });
     }
+
+    // Open projects from user dropdown
+    const openProjectsBtn = document.getElementById('open-projects-btn');
+    if (openProjectsBtn) {
+      openProjectsBtn.addEventListener('click', () => {
+        openProjectsPanel();
+        document.getElementById('user-menu')?.classList.add('hidden');
+      });
+    }
+  </script>
+
+  <!-- Projects Panel -->
+  <script type="module">
+    import { projectsPanel } from './src/components/ProjectsPanel.js';
+    
+    // Initialize projects panel
+    projectsPanel.init((project) => {
+      // Callback when project is loaded
+      console.log('[Projects] Loading project:', project.title);
+      
+      // Fill prompt input
+      const promptInput = document.getElementById('prompt-input');
+      if (promptInput && project.prompt) {
+        promptInput.value = project.prompt;
+      }
+      
+      // Select chart type
+      if (project.chartType) {
+        const chartOption = document.querySelector(`.chart-option[data-type="${project.chartType}"]`);
+        if (chartOption) {
+          document.querySelectorAll('.chart-option').forEach(o => {
+            o.classList.remove('selected');
+            o.setAttribute('aria-pressed', 'false');
+          });
+          chartOption.classList.add('selected');
+          chartOption.setAttribute('aria-pressed', 'true');
+        }
+      }
+      
+      // Re-generate chart
+      if (project.prompt) {
+        smartGenerateChart(project.prompt);
+      }
+    });
+    
+    // Expose functions globally
+    window.openProjectsPanel = () => projectsPanel.open();
+    window.saveCurrentProject = () => {
+      const title = prompt('Project name:', 'My Chart');
+      if (title) {
+        projectsPanel.saveCurrentChart(title);
+      }
+    };
+  </script>
+
+  <!-- Chart Pipeline Integration -->
+  <script type="module">
+    import { ChartPipeline } from './src/charts/ChartPipeline.js';
+    
+    // Initialize pipeline with AI support
+    const pipeline = new ChartPipeline({
+      useAI: true, // Enable DeepSeek AI
+      timeout: 15000,
+      onProgress: ({ step, message }) => {
+        console.log(`[Pipeline:${step}] ${message}`);
+        // Update loading UI
+        const container = document.getElementById('chart-container');
+        if (container && step !== 'rendering') {
+          const loadingEl = container.querySelector('.loading-message');
+          if (loadingEl) loadingEl.textContent = message;
+        }
+      }
+    });
+    
+    // Expose pipeline globally
+    window.chartPipeline = pipeline;
+    
+    // Enhanced generate function using pipeline
+    window.generateWithPipeline = async function(useAI = true) {
+      const userInput = document.getElementById('prompt-input')?.value?.trim();
+      if (!userInput) {
+        alert('Please enter chart description or data');
+        return;
+      }
+      
+      const container = document.getElementById('chart-container');
+      const selectedType = document.querySelector('.chart-option.selected, .chart-option[aria-pressed="true"]')?.dataset?.type;
+      
+      // Show loading
+      container.innerHTML = `
+        <div class="flex flex-col items-center justify-center h-full">
+          <i class="fas fa-spinner fa-spin text-4xl text-blue-500 mb-3"></i>
+          <span class="loading-message text-slate-600">Analyzing your data...</span>
+        </div>
+      `;
+      
+      try {
+        const result = await pipeline.process(userInput, {
+          chartType: selectedType,
+          container: container,
+          skipAI: !useAI
+        });
+        
+        if (result.success) {
+          console.log('[Pipeline] Chart created:', result.chartType);
+          console.log('[Pipeline] Parsed data:', result.parsedData);
+          
+          // Store for export
+          window.lastChartConfig = result.config;
+          window.lastChartData = result.parsedData;
+        } else {
+          container.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-full text-red-500">
+              <i class="fas fa-exclamation-triangle text-4xl mb-3"></i>
+              <span>${result.error || 'Failed to generate chart'}</span>
+            </div>
+          `;
+        }
+      } catch (e) {
+        console.error('[Pipeline] Error:', e);
+        // Fallback to local generation
+        smartGenerateChart(userInput);
+      }
+    };
+    
+    // Quick preview (no AI, instant)
+    window.quickPreview = function() {
+      const userInput = document.getElementById('prompt-input')?.value?.trim();
+      if (!userInput) return;
+      
+      const parsed = pipeline.quickParse(userInput);
+      console.log('[QuickPreview] Parsed:', parsed);
+      
+      // Show detection info
+      const detection = pipeline.detectFormat(userInput);
+      console.log('[QuickPreview] Detected format:', detection);
+    };
   </script>
 </body>
 </html>

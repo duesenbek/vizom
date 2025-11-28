@@ -150,30 +150,15 @@ class MobileNavigation {
   }
 
   createMobileNavigation() {
-    this.createBottomNavigation();
+    // Bottom navigation is disabled site-wide
+    // this.createBottomNavigation();
     this.createHamburgerMenu();
   }
 
   createBottomNavigation() {
-    // Check if bottom navigation already exists
-    if (document.getElementById('mobile-bottom-nav')) {
-      return;
-    }
-
-    const bottomNav = document.createElement('nav');
-    bottomNav.id = 'mobile-bottom-nav';
-    bottomNav.className = 'mobile-bottom-nav';
-    bottomNav.setAttribute('role', 'navigation');
-    bottomNav.setAttribute('aria-label', 'Main navigation');
-
-    bottomNav.innerHTML = `
-      <div class="bottom-nav-container">
-        ${this.bottomNavItems.map(item => this.createBottomNavItem(item)).join('')}
-      </div>
-      <div class="bottom-nav-indicator"></div>
-    `;
-
-    document.body.appendChild(bottomNav);
+    // DISABLED: Bottom navigation is no longer used
+    // To re-enable, uncomment the call in createMobileNavigation()
+    return;
   }
 
   createBottomNavItem(item) {
@@ -319,17 +304,14 @@ class MobileNavigation {
         <!-- Menu Footer -->
         <div class="menu-footer">
           <div class="social-links">
-            <a href="#twitter" class="social-link" aria-label="Twitter">
-              <i class="fab fa-twitter"></i>
+            <a href="https://twitter.com/duesenbek" class="social-link" aria-label="X" target="_blank" rel="noopener">
+              <i class="fab fa-x-twitter"></i>
             </a>
-            <a href="#linkedin" class="social-link" aria-label="LinkedIn">
+            <a href="https://linkedin.com/in/duesenbek" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener">
               <i class="fab fa-linkedin"></i>
             </a>
-            <a href="#github" class="social-link" aria-label="GitHub">
+            <a href="https://github.com/duesenbek" class="social-link" aria-label="GitHub" target="_blank" rel="noopener">
               <i class="fab fa-github"></i>
-            </a>
-            <a href="#youtube" class="social-link" aria-label="YouTube">
-              <i class="fab fa-youtube"></i>
             </a>
           </div>
           <div class="footer-links">
@@ -828,10 +810,6 @@ class MobileNavigation {
   }
 }
 
-// Initialize mobile navigation
-document.addEventListener('DOMContentLoaded', () => {
-  window.mobileNavigation = new MobileNavigation();
-});
-
 // Export for use in other modules
+// NOTE: Auto-initialization removed. Use main.js feature flag to enable.
 export { MobileNavigation };

@@ -159,18 +159,14 @@ export default defineConfig(({ command, mode }) => {
         output: {
           manualChunks: isProduction ? {
             'vendor-core': ['chart.js'],
-            'chart-libs': ['chart.js', 'echarts', 'apexcharts', 'plotly.js-dist'],
+            'chart-libs': ['echarts', 'apexcharts', 'plotly.js-dist'],
             'export-tools': ['html2canvas'],
             'auth': ['@supabase/supabase-js'],
-            'chart-engine': ['./src/chart-engine.js'],
-            'analytics': ['./src/analytics.js'],
           } : {
             'vendor-core': ['chart.js'],
-            'chart-libs': ['chart.js', 'echarts', 'apexcharts', 'plotly.js-dist'],
+            'chart-libs': ['echarts', 'apexcharts', 'plotly.js-dist'],
             'export-tools': ['html2canvas'],
             'auth': ['@supabase/supabase-js'],
-            'chart-engine': ['./src/chart-engine.js'],
-            'analytics': ['./src/analytics.js'],
           },
           chunkFileNames: (chunkInfo) => {
             const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';

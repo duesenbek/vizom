@@ -17,8 +17,8 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   
-  /* Opt out of parallel tests on CI */
-  workers: process.env.CI ? 1 : undefined,
+  /* Limit parallel workers to avoid server overload */
+  workers: process.env.CI ? 1 : 4,
   
   /* Reporter to use */
   reporter: [
@@ -43,15 +43,45 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // Desktop Browsers
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    // Mobile Chrome disabled temporarily - page load issues on mobile viewport
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'edge',
+      use: { ...devices['Desktop Edge'] },
+    },
+    
+    // Mobile Devices
+    {
+      name: 'mobile-chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'mobile-safari',
+      use: { ...devices['iPhone 13'] },
+    },
+    
+    // Tablets
+    {
+      name: 'tablet-ipad',
+      use: { ...devices['iPad (gen 7)'] },
+    },
+    {
+      name: 'tablet-android',
+      use: { 
+        ...devices['Galaxy Tab S4'],
+      },
+    },
   ],
 
   /* Run your local dev server before starting the tests */

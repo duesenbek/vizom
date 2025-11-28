@@ -16,38 +16,97 @@
   </style>
 </head>
 <body class="bg-white">
-  <div class="surface p-6 rounded-lg text-center">
-    <div class="mb-2 text-sm text-muted">Completing sign-in…</div>
-    <div class="w-6 h-6 mx-auto rounded-full border-2 border-slate-300 border-t-slate-900 animate-spin"></div>
+  <div class="surface p-6 rounded-lg text-center" id="auth-status">
+    <div class="mb-2 text-sm text-muted" id="status-text">Completing sign-in…</div>
+    <div class="w-6 h-6 mx-auto rounded-full border-2 border-slate-300 border-t-slate-900 animate-spin" id="spinner"></div>
   </div>
+  
+  <!-- Timeout fallback -->
+  <script>
+    // If page hangs for more than 10 seconds, show error and redirect
+    setTimeout(() => {
+      const statusText = document.getElementById('status-text');
+      const spinner = document.getElementById('spinner');
+      if (statusText && spinner) {
+        statusText.textContent = 'Taking too long... Redirecting home.';
+        spinner.style.display = 'none';
+        setTimeout(() => {
+          location.replace('/index.html');
+        }, 1500);
+      }
+    }, 10000);
+  </script>
   <script type="module">
     import { supabase } from './src/supabase-client.js';
 
     (async () => {
       try {
-        // Get the session from the URL hash (Supabase OAuth callback)
-        const { data, error } = await supabase.auth.getSession();
+        console.log('[Auth Callback] Processing OAuth callback...');
+        console.log('[Auth Callback] URL:', window.location.href);
         
-        if (error) {
-          console.error('[Auth Callback] Session error:', error);
-          throw error;
+        // Check for error in URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        
+        const errorParam = urlParams.get('error') || hashParams.get('error');
+        const errorDesc = urlParams.get('error_description') || hashParams.get('error_description');
+        
+        if (errorParam) {
+          console.error('[Auth Callback] OAuth error:', errorParam, errorDesc);
+          alert('Sign-in failed: ' + (errorDesc || errorParam));
+          location.replace('/index.html');
+          return;
         }
         
-        if (data?.session) {
-          console.log('[Auth Callback] Session established');
+        // Check for authorization code (PKCE flow)
+        const code = urlParams.get('code');
+        if (code) {
+          console.log('[Auth Callback] Exchanging code for session...');
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+          if (error) {
+            console.error('[Auth Callback] Code exchange error:', error);
+            throw error;
+          }
+          console.log('[Auth Callback] Session established via code exchange');
+        } else {
+          // Implicit flow - tokens in hash
+          console.log('[Auth Callback] Checking for session in hash...');
+          
+          // Wait for Supabase to process the hash automatically
+          await new Promise(resolve => setTimeout(resolve, 500));
+          
+          const { data, error } = await supabase.auth.getSession();
+          if (error) {
+            console.error('[Auth Callback] Session error:', error);
+            throw error;
+          }
+          
+          if (data?.session) {
+            console.log('[Auth Callback] Session found:', data.session.user?.email);
+          } else {
+            console.log('[Auth Callback] No session found, checking auth state...');
+            // Try refreshing
+            const { data: userData } = await supabase.auth.getUser();
+            if (userData?.user) {
+              console.log('[Auth Callback] User found:', userData.user.email);
+            }
+          }
         }
         
         // Redirect to the stored page or home
         const redirect = sessionStorage.getItem('vizom_post_login_redirect') || '/index.html';
         sessionStorage.removeItem('vizom_post_login_redirect');
         
+        console.log('[Auth Callback] Redirecting to:', redirect);
+        
         // Small delay to ensure session is persisted
         setTimeout(() => {
           location.replace(redirect);
-        }, 100);
+        }, 300);
       } catch (e) {
         console.error('[Auth Callback] Error:', e);
-        // Redirect to home even on error
+        alert('Authentication error. Please try again.');
+        // Redirect to home on error
         setTimeout(() => {
           location.replace('/index.html');
         }, 1000);

@@ -1,0 +1,99 @@
+{
+  "id": "network-graph",
+  "name": "Network Relationships",
+  "description": "Interactive network graph showing connections between entities",
+  "library": "echarts",
+  "chartType": "graph",
+  "tier": "pro",
+  "thumbnail": "/assets/templates/network-graph.png",
+  "sampleData": {
+    "nodes": [
+      {"name": "CEO", "symbolSize": 60, "category": 0},
+      {"name": "CTO", "symbolSize": 50, "category": 1},
+      {"name": "CFO", "symbolSize": 50, "category": 1},
+      {"name": "CMO", "symbolSize": 50, "category": 1},
+      {"name": "Dev Team", "symbolSize": 40, "category": 2},
+      {"name": "Finance", "symbolSize": 35, "category": 2},
+      {"name": "Marketing", "symbolSize": 35, "category": 2},
+      {"name": "Sales", "symbolSize": 35, "category": 2}
+    ],
+    "links": [
+      {"source": "CEO", "target": "CTO", "value": 10},
+      {"source": "CEO", "target": "CFO", "value": 10},
+      {"source": "CEO", "target": "CMO", "value": 10},
+      {"source": "CTO", "target": "Dev Team", "value": 8},
+      {"source": "CFO", "target": "Finance", "value": 8},
+      {"source": "CMO", "target": "Marketing", "value": 8},
+      {"source": "CMO", "target": "Sales", "value": 6},
+      {"source": "Dev Team", "target": "Marketing", "value": 3}
+    ],
+    "categories": [
+      {"name": "Executive"},
+      {"name": "C-Level"},
+      {"name": "Department"}
+    ],
+    "title": "Organization Network"
+  },
+  "config": {
+    "title": {
+      "text": "Organization Network",
+      "left": "center",
+      "textStyle": {
+        "fontSize": 18,
+        "fontWeight": 600,
+        "color": "#1E293B"
+      }
+    },
+    "tooltip": {
+      "backgroundColor": "rgba(15, 23, 42, 0.9)",
+      "textStyle": {
+        "color": "#fff"
+      }
+    },
+    "legend": {
+      "orient": "vertical",
+      "left": "left",
+      "top": "middle",
+      "textStyle": {
+        "color": "#64748B"
+      }
+    },
+    "color": ["#3B82F6", "#8B5CF6", "#10B981"],
+    "series": [
+      {
+        "type": "graph",
+        "layout": "force",
+        "roam": true,
+        "draggable": true,
+        "label": {
+          "show": true,
+          "position": "right",
+          "fontSize": 12,
+          "color": "#1E293B"
+        },
+        "force": {
+          "repulsion": 200,
+          "edgeLength": [100, 200],
+          "gravity": 0.1
+        },
+        "lineStyle": {
+          "color": "#94A3B8",
+          "curveness": 0.3,
+          "width": 2
+        },
+        "emphasis": {
+          "focus": "adjacency",
+          "lineStyle": {
+            "width": 4
+          }
+        },
+        "edgeSymbol": ["circle", "arrow"],
+        "edgeSymbolSize": [4, 10]
+      }
+    ],
+    "animationDuration": 1500,
+    "animationEasingUpdate": "quinticInOut"
+  },
+  "dataFormat": "nodes-links",
+  "parseHint": "Input format: 'Node1 connects to Node2' or 'A→B'"
+}

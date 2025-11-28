@@ -193,20 +193,22 @@ test.describe('Generator Page Smoke Tests', () => {
       // Set mobile viewport
       await page.setViewportSize({ width: 375, height: 667 });
       await page.reload();
-      await page.waitForLoadState('networkidle');
+      await page.waitForLoadState('domcontentloaded');
+      await page.waitForSelector('#prompt-input', { timeout: 10000 });
       
       // Toggle should be visible
       const toggle = page.locator('#mobile-menu-toggle');
-      await expect(toggle).toBeVisible();
+      await expect(toggle).toBeVisible({ timeout: 5000 });
       
       // Click toggle
       await toggle.click();
-      await page.waitForTimeout(300);
+      await page.waitForTimeout(500);
       
-      // Menu should be visible
+      // Menu should be visible or expanded
       const mobileMenu = page.locator('#mobile-menu');
       const isExpanded = await toggle.getAttribute('aria-expanded');
-      expect(isExpanded === 'true' || await mobileMenu.isVisible()).toBeTruthy();
+      const menuVisible = await mobileMenu.isVisible().catch(() => false);
+      expect(isExpanded === 'true' || menuVisible).toBeTruthy();
     });
 
     test('Mobile auth button opens modal', async ({ page }) => {

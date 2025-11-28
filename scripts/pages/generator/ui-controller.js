@@ -9,8 +9,14 @@ export class UIController {
 
    bindCoreUI() {
       const generateBtn = document.getElementById('generate-chart');
+      console.log('[UIController] bindCoreUI called, generateBtn:', generateBtn);
       if (generateBtn) {
-         generateBtn.addEventListener('click', () => this.chartGenerator.generateChart());
+         generateBtn.addEventListener('click', () => {
+            console.log('[UIController] Generate button clicked');
+            this.chartGenerator.generateChart();
+         });
+      } else {
+         console.error('[UIController] Generate button #generate-chart not found!');
       }
 
       document.querySelectorAll('.chart-option').forEach(option => {
