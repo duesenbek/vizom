@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vizom Docs — Build with the AI Visual Engine</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 1.25rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 25px 70px rgba(2, 6, 23, 0.65);
+    }
+    .section-pill {
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="border-b border-white/10 bg-slate-950/80 py-4 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6">
+      <a href="index.html" class="flex items-center gap-3 text-lg font-semibold text-white">
+        <img src="assets/images/logos/vizom-icon.png" class="h-9 w-9" alt="Vizom logo">
+        Vizom Docs
+      </a>
+      <nav class="hidden gap-6 text-sm text-slate-300 sm:flex">
+        <a href="generator.html" class="hover:text-white transition">Generator</a>
+        <a href="about.html" class="hover:text-white transition">About</a>
+        <a href="blog.html" class="hover:text-white transition">Blog</a>
+        <a href="contact.html" class="hover:text-white transition">Contact</a>
+      </nav>
+      <a href="generator.html" class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-500">
+        Open Generator
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </header>
+
+  <main class="mx-auto w-full max-w-6xl flex-1 px-6 py-16 space-y-12">
+    <section class="glass-card p-8">
+      <div class="section-pill text-sky-200/80">Overview</div>
+      <h1 class="mt-4 text-4xl font-bold text-white">Build & ship charts without wrestling with boilerplate</h1>
+      <p class="mt-4 text-slate-300 text-lg">
+        Vizom pairs natural-language prompts with a production-ready Chart.js pipeline. Use this guide to plug
+        Vizom into your workflow, share prompts with teammates, and export visual assets to your stack.
+      </p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+          <p class="text-xs uppercase tracking-widest text-slate-400">Start here</p>
+          <h3 class="mt-2 text-xl font-semibold text-white">1. Open generator</h3>
+          <p class="text-slate-300 text-sm">Visit <strong>generator.html</strong>, drop a CSV or paste a prompt, and preview instantly.</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+          <p class="text-xs uppercase tracking-widest text-slate-400">Share</p>
+          <h3 class="mt-2 text-xl font-semibold text-white">2. Save quick prompts</h3>
+          <p class="text-slate-300 text-sm">Use the quick prompt menu to capture your best visual recipes for the team.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid gap-6 lg:grid-cols-3">
+      <article class="glass-card p-6">
+        <p class="section-pill bg-white/5 text-slate-300">API ready</p>
+        <h3 class="mt-4 text-2xl font-semibold text-white">Embed anywhere</h3>
+        <p class="mt-3 text-sm text-slate-300">Copy the generated config into any Chart.js surface or use the SVG/PNG download for decks.</p>
+      </article>
+      <article class="glass-card p-6">
+        <p class="section-pill bg-white/5 text-slate-300">Source control</p>
+        <h3 class="mt-4 text-2xl font-semibold text-white">Version your prompts</h3>
+        <p class="mt-3 text-sm text-slate-300">Store prompts alongside product docs so future runs recreate the exact same visuals.</p>
+      </article>
+      <article class="glass-card p-6">
+        <p class="section-pill bg-white/5 text-slate-300">Team ready</p>
+        <h3 class="mt-4 text-2xl font-semibold text-white">Share via quick links</h3>
+        <p class="mt-3 text-sm text-slate-300">Each saved project exposes a shareable URL that pre-fills the generator for your teammates.</p>
+      </article>
+    </section>
+
+    <section class="glass-card p-8">
+      <div class="section-pill bg-white/5 text-slate-300">FAQ</div>
+      <div class="mt-6 space-y-6">
+        <div>
+          <h4 class="text-xl font-semibold text-white">How do I send prompts from the landing page?</h4>
+          <p class="mt-2 text-slate-300 text-sm">Use the hero input on <code>index.html</code>. We store the prompt in sessionStorage and open <code>generator.html</code> with the same text.</p>
+        </div>
+        <div>
+          <h4 class="text-xl font-semibold text-white">Where do I report issues?</h4>
+          <p class="mt-2 text-slate-300 text-sm">Head to <a href="contact.html" class="text-sky-300 underline-offset-4 hover:underline">contact.html</a> and drop us a note.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-slate-950/80 py-6 text-center text-sm text-slate-500">
+    Built with Vizom · <a href="generator.html" class="text-sky-300 underline-offset-4 hover:underline">Launch generator</a>
+  </footer>
+</body>
+</html>

@@ -15,6 +15,9 @@ class AuthService {
     this.mobileSignInBtn = null;
     this.mobileGetStartedBtn = null;
     this.signInTriggerNodes = [];
+    this.isModalOpen = false;
+    this.modalHideTimer = null;
+    this.handleEscapeKey = this.handleEscapeKey.bind(this);
     this.readyPromise = this.init();
   }
 
@@ -97,6 +100,12 @@ class AuthService {
     document.addEventListener('auth:signIn', () => this.showAuthModal());
     document.addEventListener('auth:getStarted', () => this.showAuthModal());
     document.addEventListener('auth:signOut', () => this.signOut());
+  }
+
+  handleEscapeKey(event) {
+    if (event.key === 'Escape' && this.isModalOpen) {
+      this.hideAuthModal();
+    }
   }
 
   async signInWithGoogle() {
@@ -329,10 +338,19 @@ class AuthService {
     ensureAuthModal()
       .then(() => {
         this.cacheModalElements();
-        if (this.authModal) {
-          this.authModal.classList.remove('hidden');
-          document.body.style.overflow = 'hidden';
+        if (!this.authModal) return;
+        const modalBody = this.authModal.querySelector('[data-modal-body]');
+        if (this.modalHideTimer) {
+          clearTimeout(this.modalHideTimer);
+          this.modalHideTimer = null;
         }
+        this.authModal.classList.remove('hidden');
+        this.authModal.dataset.state = 'open';
+        this.authModal.setAttribute('aria-hidden', 'false');
+        modalBody?.setAttribute('data-state', 'open');
+        document.body.style.overflow = 'hidden';
+        this.isModalOpen = true;
+        document.addEventListener('keydown', this.handleEscapeKey);
       })
       .catch((error) => {
         console.error('[AuthService] Unable to show auth modal', error);
@@ -340,10 +358,21 @@ class AuthService {
   }
 
   hideAuthModal() {
-    if (this.authModal) {
-      this.authModal.classList.add('hidden');
-      document.body.style.overflow = '';
+    if (!this.authModal) return;
+    const modalBody = this.authModal.querySelector('[data-modal-body]');
+    modalBody?.setAttribute('data-state', 'closed');
+    this.authModal.dataset.state = 'closed';
+    this.authModal.setAttribute('aria-hidden', 'true');
+    document.removeEventListener('keydown', this.handleEscapeKey);
+    document.body.style.overflow = '';
+    this.isModalOpen = false;
+    if (this.modalHideTimer) {
+      clearTimeout(this.modalHideTimer);
     }
+    this.modalHideTimer = setTimeout(() => {
+      this.authModal?.classList.add('hidden');
+      this.modalHideTimer = null;
+    }, 220);
   }
 
   getCurrentUser() {
@@ -360,6 +389,10 @@ class AuthService {
 let authServiceInstance = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (!supabase) {
+    console.warn('[AuthService] Supabase client unavailable; authentication disabled.');
+    return;
+  }
   authServiceInstance = new AuthService();
   window.authService = authServiceInstance;
 });

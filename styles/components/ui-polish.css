@@ -177,6 +177,16 @@ button[class*="h-10"][class*="w-10"] {
     background-color var(--polish-duration-fast) ease;
 }
 
+/* Mobile auth buttons tap target */
+#auth-signin-mobile,
+#mobile-sign-in-btn,
+#mobile-get-started-btn,
+#mobile-get-started-btn,
+.mobile-auth-button {
+  min-height: 48px;
+  min-width: 48px;
+}
+
 .btn-icon:hover,
 button[class*="h-10"][class*="w-10"]:hover {
   transform: translateY(-2px) rotate(3deg);

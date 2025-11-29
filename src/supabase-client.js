@@ -1,7 +1,10 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-const FALLBACK_URL = 'https://poptvesywntelmtbrige.supabase.co';
-const FALLBACK_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvcHR2ZXN5d250ZWxtdGJyaWdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyNTU3NDEsImV4cCI6MjA3NzgzMTc0MX0.ZxFabOvBxy6l2CoGXcuxZeoZzge_BYw7V33mlbpKp2U';
+const warnMissingConfig = () => {
+  if (typeof console !== 'undefined') {
+    console.warn('[Supabase] Missing SUPABASE_URL/SUPABASE_ANON_KEY. Auth features are disabled.');
+  }
+};
 
 const resolveConfig = () => {
   if (typeof window !== 'undefined' && window.__VIZOM_ENV__) {
@@ -14,26 +17,31 @@ const resolveConfig = () => {
   const envUrl = typeof process !== 'undefined' ? process.env?.SUPABASE_URL : undefined;
   const envKey = typeof process !== 'undefined' ? process.env?.SUPABASE_ANON_KEY : undefined;
 
-  return {
-    url: envUrl || FALLBACK_URL,
-    key: envKey || FALLBACK_KEY,
-  };
+  if (envUrl && envKey) {
+    return { url: envUrl, key: envKey };
+  }
+
+  warnMissingConfig();
+  return null;
 };
 
-const { url: supabaseUrl, key: supabaseKey } = resolveConfig();
+const config = resolveConfig();
 
-export const supabase = createClient(supabaseUrl, supabaseKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    storageKey: 'vizom-auth',
-    storage: window.localStorage,
-    detectSessionInUrl: true,
-    flowType: 'pkce',
-  },
-});
+export const supabase = config
+  ? createClient(config.url, config.key, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        storageKey: 'vizom-auth',
+        storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+        detectSessionInUrl: true,
+        flowType: 'pkce',
+      },
+    })
+  : null;
 
-// Debug: log auth state
-supabase.auth.onAuthStateChange((event, session) => {
-  console.log('[Supabase] Auth state changed:', event, session?.user?.email || 'no user');
-});
+if (supabase) {
+  supabase.auth.onAuthStateChange((event, session) => {
+    console.log('[Supabase] Auth state changed:', event, session?.user?.email || 'no user');
+  });
+}
